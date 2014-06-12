@@ -1,13 +1,18 @@
 package com.numberquarto;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -23,10 +28,65 @@ public class SettingsScreen implements Screen {
 	private ImageButton easyButton;
 	private ImageButton mediumButton;
 	private ImageButton hardButton;
+	private RatingGroup difficultyGroup;
 
 	private static final int CHECKBOX_LENGTH = 84;
 	private static final int STAR_WIDTH = 78;
 	private static final int STAR_HEIGHT = 75;
+
+	class RatingGroup {
+		private ArrayList<Button> list = new ArrayList<Button>();
+		private boolean isDisabled;
+		private int rating;
+
+		public boolean isDisabled() {
+			return isDisabled;
+		}
+
+		public void setDisabled(boolean isDisabled) {
+			this.isDisabled = isDisabled;
+			for (Button button : list) {
+				button.setDisabled(isDisabled);
+			}
+		}
+
+		public void add(Button button) {
+			list.add(button);
+		}
+
+		public int getRating() {
+			return rating;
+		}
+
+		public void setRating(int rating) {
+			this.rating = rating;
+			for (int i = 0; i < rating; i++) {
+				list.get(i).setChecked(true);
+			}
+			for (int j = rating; j < list.size(); j++) {
+				list.get(j).setChecked(false);
+			}
+		}
+
+		public int getButtonCount() {
+			return list.size();
+		}
+	}
+
+	class DifficultyGroupListener extends ClickListener {
+		public void clicked(InputEvent event, float x, float y) {
+			if (difficultyGroup.isDisabled())
+				return;
+
+			int buttonCount = difficultyGroup.getButtonCount();
+			int checkedButtonCount = difficultyGroup.getRating();
+			if (checkedButtonCount == buttonCount) {
+				difficultyGroup.setRating(1);
+			} else {
+				difficultyGroup.setRating(checkedButtonCount + 1);
+			}
+		}
+	}
 
 	@Override
 	public void render(float delta) {
@@ -70,46 +130,25 @@ public class SettingsScreen implements Screen {
 		easyButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		easyButton.setBounds(351, Launch.SCREEN_HEIGHT - 721, STAR_WIDTH,
 				STAR_HEIGHT);
+		easyButton.removeListener(easyButton.getClickListener());
+		easyButton.addListener(new DifficultyGroupListener());
 		mediumButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		mediumButton.setBounds(351 + 105, Launch.SCREEN_HEIGHT - 721,
 				STAR_WIDTH, STAR_HEIGHT);
+		mediumButton.removeListener(mediumButton.getClickListener());
+		mediumButton.addListener(new DifficultyGroupListener());
+
 		hardButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		hardButton.setBounds(351 + (105 * 2), Launch.SCREEN_HEIGHT - 721,
 				STAR_WIDTH, STAR_HEIGHT);
+		hardButton.removeListener(hardButton.getClickListener());
+		hardButton.addListener(new DifficultyGroupListener());
 
-		easyButton.setChecked(true);
-		mediumButton.setChecked(true);
-
-		ButtonGroup difficultyGroup = new ButtonGroup() {
-			protected boolean canCheck(Button button, boolean newState) {
-				if (button.isChecked() == newState)
-					return false;
-
-				Array<Button> buttons = this.getButtons();
-				Array<Button> checkedButtons = this.getAllChecked();
-				int buttonCount = buttons.size;
-				int checkedButtonCount = checkedButtons.size;
-				for (int i = 0, n = buttons.size; i < n; i++) {
-					Button currentButton = buttons.get(i);
-					currentButton.setChecked(false);
-				}
-				if (checkedButtonCount == buttonCount) {
-					Button currentButton = buttons.get(0);
-					currentButton.setChecked(true);
-					checkedButtons.add(currentButton);
-				} else {
-					for (int i = 0; i <= checkedButtonCount; i++) {
-						Button currentButton = buttons.get(i);
-						currentButton.setChecked(true);
-						checkedButtons.add(currentButton);
-					}
-				}
-				return true;
-			}
-		};
+		difficultyGroup = new RatingGroup();
 		difficultyGroup.add(easyButton);
 		difficultyGroup.add(mediumButton);
 		difficultyGroup.add(hardButton);
+		difficultyGroup.setRating(2);
 
 		musicCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
 				checkedCheckbox);
