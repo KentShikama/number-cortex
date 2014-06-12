@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -48,7 +45,7 @@ public class TitleScreen implements Screen {
 	}
 
 	private void buildStage() {
-		stage = new Stage(new FitViewport(640, 1136));
+		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
 	}
 
@@ -86,7 +83,7 @@ public class TitleScreen implements Screen {
 
 		TitleScreenButton(String buttonName, int index, ClickListener listener) {
 			buttonTexture = skin.getRegion(buttonName);
-			this.setBounds(175, 1136 - (739 + index * 63),
+			this.setBounds(175, Launch.SCREEN_HEIGHT - (739 + index * 63),
 					buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
 			this.addListener(listener);
