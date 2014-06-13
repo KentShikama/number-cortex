@@ -2,6 +2,7 @@ package com.numberquarto;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class SettingsScreen implements Screen {
-	
+
 	private static final String TAG = SettingsScreen.class.getCanonicalName();
 
 	private Stage stage;
@@ -38,18 +39,26 @@ public class SettingsScreen implements Screen {
 
 	private ImageButton exitButton;
 
+	private Game game;
+
 	private static final int CHECKBOX_LENGTH = 84;
 	private static final int STAR_WIDTH = 78;
 	private static final int STAR_HEIGHT = 75;
-	
-	private static final TextureRegion PLAY_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("play_button");
-	private static final int RIGHT_BUTTON_WIDTH = PLAY_BUTTON_TEXTURE.getRegionWidth();
-	private static final int RIGHT_BUTTON_HEIGHT = PLAY_BUTTON_TEXTURE.getRegionHeight();
-	
-	private static final TextureRegion EXIT_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("exit_button");
-	private static final int LEFT_BUTTON_WIDTH = EXIT_BUTTON_TEXTURE.getRegionWidth();
-	private static final int LEFT_BUTTON_HEIGHT = EXIT_BUTTON_TEXTURE.getRegionHeight();
-	
+
+	private static final TextureRegion PLAY_BUTTON_TEXTURE = Assets.settingsSkin
+			.getRegion("play_button");
+	private static final int RIGHT_BUTTON_WIDTH = PLAY_BUTTON_TEXTURE
+			.getRegionWidth();
+	private static final int RIGHT_BUTTON_HEIGHT = PLAY_BUTTON_TEXTURE
+			.getRegionHeight();
+
+	private static final TextureRegion EXIT_BUTTON_TEXTURE = Assets.settingsSkin
+			.getRegion("exit_button");
+	private static final int LEFT_BUTTON_WIDTH = EXIT_BUTTON_TEXTURE
+			.getRegionWidth();
+	private static final int LEFT_BUTTON_HEIGHT = EXIT_BUTTON_TEXTURE
+			.getRegionHeight();
+
 	private static final String SETTINGS_BACKGROUND = "settings_background";
 	private static final String SETTINGS_TITLE = "settings_title";
 	private static final String MENU_BODY = "menu_body";
@@ -58,7 +67,7 @@ public class SettingsScreen implements Screen {
 		private ArrayList<Button> list = new ArrayList<Button>();
 		private boolean isDisabled;
 		private int rating;
-		
+
 		public boolean isDisabled() {
 			return isDisabled;
 		}
@@ -73,7 +82,7 @@ public class SettingsScreen implements Screen {
 		public void add(Button button) {
 			list.add(button);
 		}
-		
+
 		public void toggleRating() {
 			if (list.size() < rating) {
 				Gdx.app.log(TAG, "Some buttons are missing...");
@@ -94,7 +103,7 @@ public class SettingsScreen implements Screen {
 		public void addToContentsToStage(Stage stage) {
 			stage.addActor(easyButton);
 			stage.addActor(mediumButton);
-			stage.addActor(hardButton);			
+			stage.addActor(hardButton);
 		}
 	}
 
@@ -105,7 +114,7 @@ public class SettingsScreen implements Screen {
 			difficultyGroup.toggleRating();
 		}
 	}
-	
+
 	class TitleBackground extends Actor {
 		private TextureRegion backgroundTexture;
 
@@ -118,7 +127,7 @@ public class SettingsScreen implements Screen {
 			batch.draw(backgroundTexture, 0, 0);
 		}
 	}
-	
+
 	class SettingsTitle extends Actor {
 		private TextureRegion settingsTitle;
 
@@ -134,21 +143,24 @@ public class SettingsScreen implements Screen {
 			batch.draw(settingsTitle, this.getX(), this.getY());
 		}
 	}
-	
+
 	class MenuBody extends Actor {
 		private TextureRegion menuBody;
 
 		MenuBody() {
 			menuBody = skin.getRegion(MENU_BODY);
 			this.setBounds(0, Launch.SCREEN_HEIGHT - 875,
-					menuBody.getRegionWidth(),
-					menuBody.getRegionHeight());
+					menuBody.getRegionWidth(), menuBody.getRegionHeight());
 		}
 
 		@Override
 		public void draw(Batch batch, float alpha) {
 			batch.draw(menuBody, this.getX(), this.getY());
 		}
+	}
+
+	public SettingsScreen(Game game) {
+		this.game = game;
 	}
 
 	@Override
@@ -168,10 +180,10 @@ public class SettingsScreen implements Screen {
 		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH,
 				Launch.SCREEN_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
-		
+
 		TitleBackground background = new TitleBackground();
 		stage.addActor(background);
-		
+
 		SettingsTitle title = new SettingsTitle();
 		stage.addActor(title);
 
@@ -229,18 +241,28 @@ public class SettingsScreen implements Screen {
 		musicCheckbox.setChecked(true);
 		musicCheckbox.left();
 		musicCheckbox.bottom();
-		
+
 		Drawable playButtonSkin = skin.getDrawable("play_button");
 		Drawable resumeButtonSkin = skin.getDrawable("resume_button");
 		Drawable exitButtonSkin = skin.getDrawable("exit_button");
-		
+
 		playButton = new ImageButton(playButtonSkin);
-		playButton.setBounds(311, Launch.SCREEN_HEIGHT - 1083, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
+		playButton.setBounds(311, Launch.SCREEN_HEIGHT - 1083,
+				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		resumeButton = new ImageButton(resumeButtonSkin);
-		playButton.setBounds(311, Launch.SCREEN_HEIGHT - 1083, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
+		playButton.setBounds(311, Launch.SCREEN_HEIGHT - 1083,
+				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		exitButton = new ImageButton(exitButtonSkin);
-		exitButton.setBounds(50, Launch.SCREEN_HEIGHT - 1068, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
-		
+		exitButton.setBounds(50, Launch.SCREEN_HEIGHT - 1068,
+				LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
+		exitButton.addListener(new ClickListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				game.setScreen(new TitleScreen(game));
+				return true;
+			}
+		});
+
 		addButtonsToStage();
 	}
 

@@ -1,5 +1,6 @@
 package com.numberquarto;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -24,6 +25,12 @@ public class TitleScreen implements Screen {
 	private Skin skin = Assets.homeSkin;
 
 	private Stage stage;
+	
+	private Game game;
+	
+	TitleScreen(Game game) {
+		this.game = game;
+	}
 
 	@Override
 	public void render(float delta) {
@@ -102,6 +109,7 @@ public class TitleScreen implements Screen {
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
 					Gdx.app.log(TAG, PLAY_BUTTON + " Touch Down");
+					game.setScreen(new SettingsScreen(game));
 					return true;
 				}
 			});
