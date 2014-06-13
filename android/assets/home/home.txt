@@ -4,23 +4,23 @@ filter: Linear,Linear
 repeat: none
 pass_and_play
   rotate: false
-  xy: 298, 1205
-  size: 294, 63
-  orig: 294, 63
+  xy: 304, 1225
+  size: 300, 83
+  orig: 300, 83
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 2, 1140
-  size: 294, 66
-  orig: 294, 66
+  xy: 304, 1140
+  size: 300, 83
+  orig: 300, 83
   offset: 0, 0
   index: -1
 play_online
   rotate: false
-  xy: 298, 1140
-  size: 294, 63
-  orig: 294, 63
+  xy: 2, 1225
+  size: 300, 83
+  orig: 300, 83
   offset: 0, 0
   index: -1
 title_background
@@ -32,8 +32,8 @@ title_background
   index: -1
 tutorial
   rotate: false
-  xy: 2, 1208
-  size: 294, 63
-  orig: 294, 63
+  xy: 2, 1140
+  size: 300, 83
+  orig: 300, 83
   offset: 0, 0
   index: -1

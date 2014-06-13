@@ -83,7 +83,7 @@ public class TitleScreen implements Screen {
 
 		TitleScreenButton(String buttonName, int index, ClickListener listener) {
 			buttonTexture = skin.getRegion(buttonName);
-			this.setBounds(175, Launch.SCREEN_HEIGHT - (739 + index * 63),
+			this.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80),
 					buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
 			this.addListener(listener);
