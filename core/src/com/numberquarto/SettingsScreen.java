@@ -177,8 +177,7 @@ public class SettingsScreen implements Screen {
 
 	@Override
 	public void show() {
-		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH,
-				Launch.SCREEN_HEIGHT));
+		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
 
 		TitleBackground background = new TitleBackground();
@@ -247,13 +246,13 @@ public class SettingsScreen implements Screen {
 		Drawable exitButtonSkin = skin.getDrawable("exit_button");
 
 		playButton = new ImageButton(playButtonSkin);
-		playButton.setBounds(311, Launch.SCREEN_HEIGHT - 1083,
+		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		resumeButton = new ImageButton(resumeButtonSkin);
-		playButton.setBounds(311, Launch.SCREEN_HEIGHT - 1083,
+		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		exitButton = new ImageButton(exitButtonSkin);
-		exitButton.setBounds(50, Launch.SCREEN_HEIGHT - 1068,
+		exitButton.setBounds(40, Launch.SCREEN_HEIGHT - 1085,
 				LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
