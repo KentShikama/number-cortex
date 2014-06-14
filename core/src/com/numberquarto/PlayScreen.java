@@ -90,26 +90,47 @@ public class PlayScreen implements Screen {
 			style = new ScrollPane.ScrollPaneStyle();
 			style.background = skin.getDrawable("scroller_rectangle");
 			numberScroller = new ScrollPane(numberTable, style);
-			numberScroller.setBounds(0, Launch.SCREEN_HEIGHT - 1013, 460, 100);
+			int SCROLLER_RECTANGLE_WIDTH = skin.getRegion("scroller_rectangle").getRegionWidth();
+			int SCROLLER_RECTANGLE_HEIGHT = skin.getRegion("scroller_rectangle").getRegionHeight();
+			numberScroller.setBounds(100, Launch.SCREEN_HEIGHT - 1013, SCROLLER_RECTANGLE_WIDTH + 2, SCROLLER_RECTANGLE_HEIGHT);
+			numberScroller.setOverscroll(true, false);
+			numberTable.debug();
 			
-			float scale = 0.08f;
+			TextureRegion scrollerRectangle = skin.getRegion("scroller_rectangle");
+			int scrollerRectangleHeight = scrollerRectangle.getRegionHeight();
+			int fontHeight = (int) (scrollerRectangleHeight * 0.85);
+			
 			generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Tahoma.ttf"));
-			int fontSize = (int) (scale * Gdx.graphics.getHeight());
-			System.out.println("screen height: " + Gdx.graphics.getHeight());
-			System.out.println("font size: " + fontSize);
-			font = generator.generateFont(fontSize);
+			font = generator.generateFont(fontHeight);
 			font.setColor(255, 255, 0, 1);
 			font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			generator.dispose();
 			
-			buttonStyle = new TextButton.TextButtonStyle(null, null, null, font);
+			Drawable numberRectangle = skin.getDrawable("number_rectangle_background");
+			
+			buttonStyle = new TextButton.TextButtonStyle();
+			buttonStyle.font = font;
+			buttonStyle.up = numberRectangle;
 			stage.addActor(numberScroller);
+			
+			Drawable leftArrowRectangleSkin = skin.getDrawable("left_arrow");
+			Drawable rightArrowRectangleSkin = skin.getDrawable("right_arrow");
+			
+			int arrowRectangleTextureWidth = skin.getRegion("left_arrow").getRegionWidth();
+			int arrowRectangleTextureHeight = skin.getRegion("left_arrow").getRegionHeight();
 
+			ImageButton leftArrowRectangle = new ImageButton(leftArrowRectangleSkin);
+			leftArrowRectangle.setBounds(0, Launch.SCREEN_HEIGHT - 1013, arrowRectangleTextureWidth, arrowRectangleTextureHeight);
+			ImageButton rightArrowRectangle = new ImageButton(rightArrowRectangleSkin);
+			rightArrowRectangle.setBounds(539, Launch.SCREEN_HEIGHT - 1013, arrowRectangleTextureWidth, arrowRectangleTextureHeight);
+			stage.addActor(leftArrowRectangle);
+			stage.addActor(rightArrowRectangle);
 		}
 		
 		public void update (ArrayList<Integer> numberList) {
 			for (Integer number : numberList) {
-				numberTable.add(new TextButton(number.toString(), buttonStyle));
+				TextButton button = new TextButton(number.toString(), buttonStyle);
+				numberTable.add(button);
 			}
 		}
 	}

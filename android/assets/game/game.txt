@@ -11,16 +11,16 @@ blue_background
   index: -1
 help
   rotate: false
-  xy: 439, 1243
+  xy: 1006, 1140
   size: 86, 84
   orig: 86, 84
   offset: 0, 0
   index: -1
 left_arrow
   rotate: false
-  xy: 248, 1243
-  size: 101, 101
-  orig: 101, 101
+  xy: 815, 1140
+  size: 101, 102
+  orig: 101, 102
   offset: 0, 0
   index: -1
 next_number
@@ -28,6 +28,13 @@ next_number
   xy: 2, 1140
   size: 141, 141
   orig: 141, 141
+  offset: 0, 0
+  index: -1
+number_rectangle_background
+  rotate: false
+  xy: 585, 1140
+  size: 125, 102
+  orig: 125, 102
   offset: 0, 0
   index: -1
 red_background
@@ -39,21 +46,21 @@ red_background
   index: -1
 right_arrow
   rotate: false
-  xy: 145, 1243
-  size: 101, 101
-  orig: 101, 101
+  xy: 712, 1140
+  size: 101, 102
+  orig: 101, 102
   offset: 0, 0
   index: -1
 scroller_rectangle
   rotate: false
   xy: 145, 1140
-  size: 934, 101
-  orig: 934, 101
+  size: 438, 102
+  orig: 438, 102
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 351, 1243
+  xy: 918, 1140
   size: 86, 84
   orig: 86, 84
   offset: 0, 0
