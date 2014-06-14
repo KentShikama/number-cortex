@@ -25,19 +25,7 @@ public class SettingsScreen implements Screen {
 	private Stage stage;
 	private Skin skin = Assets.settingsSkin;
 
-	private ImageButton diagonalsCheckbox;
-	private ImageButton fourSquareCheckbox;
-	private ImageButton musicCheckbox;
-	private ImageButton easyButton;
-	private ImageButton mediumButton;
-	private ImageButton hardButton;
 	private RatingGroup difficultyGroup;
-
-	private ImageButton playButton;
-
-	private ImageButton resumeButton;
-
-	private ImageButton exitButton;
 
 	private Game game;
 
@@ -101,9 +89,9 @@ public class SettingsScreen implements Screen {
 		}
 
 		public void addToContentsToStage(Stage stage) {
-			stage.addActor(easyButton);
-			stage.addActor(mediumButton);
-			stage.addActor(hardButton);
+			for (Button button : list) {
+				stage.addActor(button);
+			}
 		}
 	}
 
@@ -185,89 +173,94 @@ public class SettingsScreen implements Screen {
 		Drawable emptyStar = skin.getDrawable("empty_star");
 		Drawable fullStar = skin.getDrawable("full_star");
 
-		buildEasyButton(emptyStar, fullStar);
-		buildMediumButton(emptyStar, fullStar);
-		buildHardButton(emptyStar, fullStar);
+		ImageButton easyButton = buildEasyButton(emptyStar, fullStar);
+		ImageButton mediumButton = buildMediumButton(emptyStar, fullStar);
+		ImageButton hardButton = buildHardButton(emptyStar, fullStar);
 		
-		buildDifficultyGroup();
+		buildDifficultyGroup(easyButton, mediumButton, hardButton);
 
 		buildMusicCheckbox(emptyCheckbox, checkedCheckbox);
 
 		buildPlayButton();
 		buildResumeButton();
 		buildExitButton();
-
-		addButtonsToStage();
 	}
 
 	private void buildDiagonalsCheckbox(Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		diagonalsCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
+		ImageButton diagonalsCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
 				checkedCheckbox);
 		diagonalsCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 488,
 				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
 		diagonalsCheckbox.setChecked(true);
 		diagonalsCheckbox.left();
 		diagonalsCheckbox.bottom();
-	}
-
-	private void buildDifficultyGroup() {
-		difficultyGroup = new RatingGroup();
-		difficultyGroup.add(easyButton);
-		difficultyGroup.add(mediumButton);
-		difficultyGroup.add(hardButton);
-		difficultyGroup.toggleRating();
-		difficultyGroup.toggleRating();
+		stage.addActor(diagonalsCheckbox);
 	}
 
 	private void buildFourSquareCheckbox(Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		fourSquareCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
+		ImageButton fourSquareCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
 				checkedCheckbox);
 		fourSquareCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 593,
 				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
 		fourSquareCheckbox.left();
 		fourSquareCheckbox.bottom();
+		stage.addActor(fourSquareCheckbox);
 	}
 
-	private void buildEasyButton(Drawable emptyStar, Drawable fullStar) {
-		easyButton = new ImageButton(emptyStar, emptyStar, fullStar);
+	private ImageButton buildEasyButton(Drawable emptyStar, Drawable fullStar) {
+		ImageButton easyButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		easyButton.setBounds(351, Launch.SCREEN_HEIGHT - 721, STAR_WIDTH,
 				STAR_HEIGHT);
 		easyButton.removeListener(easyButton.getClickListener());
 		easyButton.addListener(new DifficultyGroupListener());
+		return easyButton;
 	}
 
-	private void buildMediumButton(Drawable emptyStar, Drawable fullStar) {
-		mediumButton = new ImageButton(emptyStar, emptyStar, fullStar);
+	private ImageButton buildMediumButton(Drawable emptyStar, Drawable fullStar) {
+		ImageButton mediumButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		mediumButton.setBounds(351 + 91, Launch.SCREEN_HEIGHT - 721,
 				STAR_WIDTH, STAR_HEIGHT);
 		mediumButton.removeListener(mediumButton.getClickListener());
 		mediumButton.addListener(new DifficultyGroupListener());
+		return mediumButton;
 	}
 
-	private void buildHardButton(Drawable emptyStar, Drawable fullStar) {
-		hardButton = new ImageButton(emptyStar, emptyStar, fullStar);
+	private ImageButton buildHardButton(Drawable emptyStar, Drawable fullStar) {
+		ImageButton hardButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		hardButton.setBounds(351 + (91 * 2), Launch.SCREEN_HEIGHT - 721,
 				STAR_WIDTH, STAR_HEIGHT);
 		hardButton.removeListener(hardButton.getClickListener());
 		hardButton.addListener(new DifficultyGroupListener());
+		return hardButton;
+	}
+	
+	private void buildDifficultyGroup(ImageButton...buttons) {
+		difficultyGroup = new RatingGroup();
+		for (int i = 0; i < buttons.length; i++) {
+			difficultyGroup.add(buttons[i]);
+		}
+		difficultyGroup.toggleRating();
+		difficultyGroup.toggleRating();
+		difficultyGroup.addToContentsToStage(stage);
 	}
 
 	private void buildMusicCheckbox(Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		musicCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
+		ImageButton musicCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
 				checkedCheckbox);
 		musicCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 844,
 				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
 		musicCheckbox.setChecked(true);
 		musicCheckbox.left();
 		musicCheckbox.bottom();
+		stage.addActor(musicCheckbox);
 	}
 
 	private void buildPlayButton() {
 		Drawable playButtonSkin = skin.getDrawable("play_button");
-		playButton = new ImageButton(playButtonSkin);
+		ImageButton playButton = new ImageButton(playButtonSkin);
 		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		playButton.addListener(new ClickListener() {
@@ -276,18 +269,20 @@ public class SettingsScreen implements Screen {
 				return true;
 			}
 		});
+		stage.addActor(playButton);
 	}
 
 	private void buildResumeButton() {
 		Drawable resumeButtonSkin = skin.getDrawable("resume_button");
-		resumeButton = new ImageButton(resumeButtonSkin);
+		ImageButton resumeButton = new ImageButton(resumeButtonSkin);
 		resumeButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
+//		stage.addActor(resumeButton);
 	}
 
 	private void buildExitButton() {
 		Drawable exitButtonSkin = skin.getDrawable("exit_button");
-		exitButton = new ImageButton(exitButtonSkin);
+		ImageButton exitButton = new ImageButton(exitButtonSkin);
 		exitButton.setBounds(40, Launch.SCREEN_HEIGHT - 1085,
 				LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
@@ -297,15 +292,8 @@ public class SettingsScreen implements Screen {
 				return true;
 			}
 		});
-	}
-
-	private void addButtonsToStage() {
-		stage.addActor(diagonalsCheckbox);
-		stage.addActor(fourSquareCheckbox);
-		difficultyGroup.addToContentsToStage(stage);
-		stage.addActor(musicCheckbox);
-		stage.addActor(playButton);
 		stage.addActor(exitButton);
+
 	}
 
 	@Override
