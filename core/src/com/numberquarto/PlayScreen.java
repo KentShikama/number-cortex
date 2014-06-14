@@ -110,6 +110,7 @@ public class PlayScreen implements Screen {
 			
 			buttonStyle = new TextButton.TextButtonStyle();
 			buttonStyle.font = font;
+			buttonStyle.fontColor = new Color(250f/255f, 235f/255f, 102f/255f, 1);
 			buttonStyle.up = numberRectangle;
 			stage.addActor(numberScroller);
 			
