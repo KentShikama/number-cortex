@@ -260,13 +260,12 @@ public class SettingsScreen implements Screen {
 
 	private void buildPlayButton() {
 		Drawable playButtonSkin = skin.getDrawable("play_button");
-		ImageButton playButton = new ImageButton(playButtonSkin);
+		final ImageButton playButton = new ImageButton(playButtonSkin);
 		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		playButton.addListener(new ClickListener() {
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new PlayScreen(game));
-				return true;
 			}
 		});
 		stage.addActor(playButton);
@@ -282,14 +281,12 @@ public class SettingsScreen implements Screen {
 
 	private void buildExitButton() {
 		Drawable exitButtonSkin = skin.getDrawable("exit_button");
-		ImageButton exitButton = new ImageButton(exitButtonSkin);
+		final ImageButton exitButton = new ImageButton(exitButtonSkin);
 		exitButton.setBounds(40, Launch.SCREEN_HEIGHT - 1085,
 				LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
+			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new TitleScreen(game));
-				return true;
 			}
 		});
 		stage.addActor(exitButton);

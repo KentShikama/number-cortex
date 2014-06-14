@@ -145,14 +145,13 @@ public class PlayScreen implements Screen {
 	}
 
 	private void buildSettingsButton(Drawable settingsRectangleSkin) {
-		ImageButton settingsButton = new ImageButton(settingsRectangleSkin, settingsRectangleSkin,
+		final ImageButton settingsButton = new ImageButton(settingsRectangleSkin, settingsRectangleSkin,
 				settingsRectangleSkin);
 		settingsButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136,
 				BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		settingsButton.addListener(new ClickListener() {
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new SettingsScreen(game));
-				return true;
 			}
 		});
 		stage.addActor(settingsButton);

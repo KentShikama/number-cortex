@@ -93,11 +93,8 @@ public class TitleScreen implements Screen {
 		PlayButton() {
 			super(PLAY_BUTTON, 0, new ClickListener() {
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					Gdx.app.log(TAG, PLAY_BUTTON + " Touch Down");
+				public void clicked(InputEvent event, float x, float y) {
 					game.setScreen(new SettingsScreen(game));
-					return true;
 				}
 			});
 		}
@@ -107,10 +104,8 @@ public class TitleScreen implements Screen {
 		PassAndPlayButton() {
 			super(PASS_AND_PLAY_BUTTON, 1, new ClickListener() {
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					Gdx.app.log(TAG, PASS_AND_PLAY_BUTTON + " Touch Down");
-					return true;
+				public void clicked(InputEvent event, float x, float y) {
+					Gdx.app.log(TAG, PASS_AND_PLAY_BUTTON + " has been clicked");
 				}
 			});
 		}
@@ -120,10 +115,8 @@ public class TitleScreen implements Screen {
 		PlayOnlineButton() {
 			super(PLAY_ONLINE, 2, new ClickListener() {
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					Gdx.app.log(TAG, PLAY_ONLINE + " Touch Down");
-					return true;
+				public void clicked(InputEvent event, float x, float y) {
+					Gdx.app.log(TAG, PLAY_ONLINE + " has been clicked");
 				}
 			});
 		}
@@ -133,10 +126,8 @@ public class TitleScreen implements Screen {
 		TutorialButton() {
 			super(TUTORIAL, 3, new ClickListener() {
 				@Override
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					Gdx.app.log(TAG, TUTORIAL + " Touch Down");
-					return true;
+				public void clicked(InputEvent event, float x, float y) {
+					Gdx.app.log(TAG, TUTORIAL + " has been clicked");
 				}
 			});
 		}
