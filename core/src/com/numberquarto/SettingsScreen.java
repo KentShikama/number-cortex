@@ -115,19 +115,6 @@ public class SettingsScreen implements Screen {
 		}
 	}
 
-	class TitleBackground extends Actor {
-		private TextureRegion backgroundTexture;
-
-		TitleBackground() {
-			backgroundTexture = skin.getRegion(SETTINGS_BACKGROUND);
-		}
-
-		@Override
-		public void draw(Batch batch, float alpha) {
-			batch.draw(backgroundTexture, 0, 0);
-		}
-	}
-
 	class SettingsTitle extends Actor {
 		private TextureRegion settingsTitle;
 
@@ -180,7 +167,7 @@ public class SettingsScreen implements Screen {
 		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
 
-		TitleBackground background = new TitleBackground();
+		ScreenBackground background = new ScreenBackground(skin, SETTINGS_BACKGROUND);
 		stage.addActor(background);
 
 		SettingsTitle title = new SettingsTitle();
@@ -248,8 +235,14 @@ public class SettingsScreen implements Screen {
 		playButton = new ImageButton(playButtonSkin);
 		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
+		playButton.addListener(new ClickListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				game.setScreen(new PlayScreen(game));
+				return true;
+			}
+		});
 		resumeButton = new ImageButton(resumeButtonSkin);
-		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
+		resumeButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		exitButton = new ImageButton(exitButtonSkin);
 		exitButton.setBounds(40, Launch.SCREEN_HEIGHT - 1085,

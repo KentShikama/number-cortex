@@ -57,7 +57,7 @@ public class TitleScreen implements Screen {
 	}
 
 	private void buildBackground() {
-		TitleBackground background = new TitleBackground();
+		ScreenBackground background = new ScreenBackground(skin, TITLE_BACKGROUND);
 		stage.addActor(background);
 	}
 
@@ -70,19 +70,6 @@ public class TitleScreen implements Screen {
 		stage.addActor(passAndPlayButton);
 		stage.addActor(playOnlineButton);
 		stage.addActor(tutorialButton);
-	}
-
-	class TitleBackground extends Actor {
-		private TextureRegion backgroundTexture;
-
-		TitleBackground() {
-			backgroundTexture = skin.getRegion(TITLE_BACKGROUND);
-		}
-
-		@Override
-		public void draw(Batch batch, float alpha) {
-			batch.draw(backgroundTexture, 0, 0);
-		}
 	}
 
 	abstract class TitleScreenButton extends Actor {
