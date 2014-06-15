@@ -70,74 +70,8 @@ public class PlayScreen implements Screen {
 		buildHelpButton(helpRectangleSkin);
 	}
 	
-	class NumberScroller {
-		Stage stage;
-		ScrollPane numberScroller;
-		ScrollPane.ScrollPaneStyle style;
-		Table numberTable;
-		
-		TextButton.TextButtonStyle buttonStyle;
-		
-		FreeTypeFontGenerator generator;
-		BitmapFont font;
-		public static final String FONT_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;,{}\"´`'<>";
-
-		NumberScroller (Stage stage) {
-			this.stage = stage;
-			
-			numberTable = new Table();
-			
-			style = new ScrollPane.ScrollPaneStyle();
-			style.background = skin.getDrawable("scroller_rectangle");
-			numberScroller = new ScrollPane(numberTable, style);
-			int SCROLLER_RECTANGLE_WIDTH = skin.getRegion("scroller_rectangle").getRegionWidth();
-			int SCROLLER_RECTANGLE_HEIGHT = skin.getRegion("scroller_rectangle").getRegionHeight();
-			numberScroller.setBounds(100, Launch.SCREEN_HEIGHT - 1013, SCROLLER_RECTANGLE_WIDTH + 2, SCROLLER_RECTANGLE_HEIGHT);
-			numberScroller.setOverscroll(true, false);
-			numberTable.debug();
-			
-			TextureRegion scrollerRectangle = skin.getRegion("scroller_rectangle");
-			int scrollerRectangleHeight = scrollerRectangle.getRegionHeight();
-			int fontHeight = (int) (scrollerRectangleHeight * 0.85);
-			
-			generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Tahoma.ttf"));
-			font = generator.generateFont(fontHeight);
-			font.setColor(255, 255, 0, 1);
-			font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			generator.dispose();
-			
-			Drawable numberRectangle = skin.getDrawable("number_rectangle_background");
-			
-			buttonStyle = new TextButton.TextButtonStyle();
-			buttonStyle.font = font;
-			buttonStyle.fontColor = new Color(250f/255f, 235f/255f, 102f/255f, 1);
-			buttonStyle.up = numberRectangle;
-			stage.addActor(numberScroller);
-			
-			Drawable leftArrowRectangleSkin = skin.getDrawable("left_arrow");
-			Drawable rightArrowRectangleSkin = skin.getDrawable("right_arrow");
-			
-			int arrowRectangleTextureWidth = skin.getRegion("left_arrow").getRegionWidth();
-			int arrowRectangleTextureHeight = skin.getRegion("left_arrow").getRegionHeight();
-
-			ImageButton leftArrowRectangle = new ImageButton(leftArrowRectangleSkin);
-			leftArrowRectangle.setBounds(0, Launch.SCREEN_HEIGHT - 1013, arrowRectangleTextureWidth, arrowRectangleTextureHeight);
-			ImageButton rightArrowRectangle = new ImageButton(rightArrowRectangleSkin);
-			rightArrowRectangle.setBounds(539, Launch.SCREEN_HEIGHT - 1013, arrowRectangleTextureWidth, arrowRectangleTextureHeight);
-			stage.addActor(leftArrowRectangle);
-			stage.addActor(rightArrowRectangle);
-		}
-		
-		public void update (ArrayList<Integer> numberList) {
-			for (Integer number : numberList) {
-				TextButton button = new TextButton(number.toString(), buttonStyle);
-				numberTable.add(button);
-			}
-		}
-	}
-	
 	private void buildNumberScroller() {
-		NumberScroller numberScroller = new NumberScroller(stage);
+		NumberScroller numberScroller = new NumberScroller(stage, skin);
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < 100; i++) {
 			list.add(i);
