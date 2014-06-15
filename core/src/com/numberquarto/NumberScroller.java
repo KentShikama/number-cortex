@@ -2,12 +2,8 @@ package com.numberquarto;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -24,23 +20,20 @@ public class NumberScroller {
 	private static final String RIGHT_ARROW = "right_arrow";
 	private static final String LEFT_ARROW = "left_arrow";
 	private static final String NUMBER_RECTANGLE_BACKGROUND = "number_rectangle_background";
-	private static final String SCROLLER_RECTANGLE = "scroller_rectangle";
+	static final String SCROLLER_RECTANGLE = "scroller_rectangle";
 	
-	TextButton.TextButtonStyle buttonStyle;
-	private Skin skin;
+	private static TextButton.TextButtonStyle buttonStyle;
+	private static Skin skin = Assets.gameSkin;
 	
 	ScrollPane numberScroller;
 	
-	NumberScroller (Stage stage, Skin skin) {		
-		this.skin = skin;
-		
+	NumberScroller (Stage stage) {				
 		Table numberTable = new Table();	
 		ScrollPane.ScrollPaneStyle style = buildScrollPaneStyle();
 		numberScroller = buildNumberScroller(numberTable, style);
 		stage.addActor(numberScroller);
-
-		buildButtonStyle();
 		
+		buildButtonStyle();
 		buildArrows(stage);
 	}
 
@@ -63,29 +56,14 @@ public class NumberScroller {
 		return numberScroller;
 	}
 
-	private void buildButtonStyle() {
-		BitmapFont font = createFont();
+	private static TextButton.TextButtonStyle buildButtonStyle() {
+		BitmapFont font = FontGenerator.getNumberScrollFont();
 		Drawable numberRectangle = skin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
 		buttonStyle = new TextButton.TextButtonStyle();
 		buttonStyle.font = font;
 		buttonStyle.fontColor = new Color(250f/255f, 235f/255f, 102f/255f, 1);
 		buttonStyle.up = numberRectangle;
-	}
-
-	private BitmapFont createFont() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Tahoma.ttf"));
-		int fontSize = calculateFontSize();
-		BitmapFont font = generator.generateFont(fontSize);
-		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		generator.dispose();
-		return font;
-	}
-
-	private int calculateFontSize() {
-		TextureRegion scrollerRectangle = skin.getRegion(SCROLLER_RECTANGLE);
-		int scrollerRectangleHeight = scrollerRectangle.getRegionHeight();
-		int fontHeight = (int) (scrollerRectangleHeight * 0.85);
-		return fontHeight;
+		return buttonStyle;
 	}
 	
 	private void buildArrows(Stage stage) {

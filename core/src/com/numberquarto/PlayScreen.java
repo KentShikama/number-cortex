@@ -80,53 +80,13 @@ public class PlayScreen implements Screen {
 			return RED_BACKGROUND;
 		}
 	}
-
-	class NumberQuartoBoard {
-
-		private static final int SQUARE_LENGTH = Launch.SCREEN_WIDTH/4;
-		private static final int NUMBER_OF_ROWS = 4;
-		
-		public NumberQuartoBoard(Stage stage) {
-			for (int i = 0; i < 16; i++) {
-				int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
-				int bottom = ((NUMBER_OF_ROWS - 1) - (int)(i/NUMBER_OF_ROWS)) * SQUARE_LENGTH;
-				Image rectangle;
-				if (isGreen(i)) {
-					Drawable greenRectangleSkin = skin.getDrawable("green_rectangle");
-					rectangle = new Image(greenRectangleSkin);
-				} else {
-					Drawable backgroundColorRectangleSkin;
-					if (isBlue) {
-						backgroundColorRectangleSkin = skin.getDrawable("blue_rectangle");
-					} else {
-						backgroundColorRectangleSkin = skin.getDrawable("red_rectangle");
-					}
-					rectangle = new Image(backgroundColorRectangleSkin);				
-				}
-				rectangle.setName(String.valueOf(i));
-				rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
-				stage.addActor(rectangle);
-			}
-		}
-
-		private boolean isGreen(int i) {
-			int[] greenList = {0, 2, 5, 7, 8, 10, 13, 15};
-			for (int green : greenList) {
-				if (green == i) {
-					return true;
-				}
-			}
-			return false;
-		}
-		
-	}
 	
 	private void buildBoard() {
-		NumberQuartoBoard board = new NumberQuartoBoard(stage);
+		NumberQuartoBoard board = new NumberQuartoBoard(stage, isBlue);
 	}
 	
 	private void buildNumberScroller() {
-		NumberScroller numberScroller = new NumberScroller(stage, skin);
+		NumberScroller numberScroller = new NumberScroller(stage);
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < 100; i++) {
 			list.add(i);

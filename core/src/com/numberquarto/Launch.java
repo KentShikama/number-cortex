@@ -14,6 +14,7 @@ public class Launch extends Game {
 	@Override
 	public void create() {
 		Assets.load();
+		FontGenerator.load();
 		setScreen(new TitleScreen(this));
 		fps = new FPSLogger();
 	}
