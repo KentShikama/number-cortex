@@ -1,5 +1,7 @@
 package com.numberquarto;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +19,8 @@ public class NumberQuartoBoard {
 	private TextButton.TextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
 	
 	private static Skin skin = Assets.gameSkin;
+	
+	private ArrayList<TextButton> cells = new ArrayList<TextButton>();
 
 	public NumberQuartoBoard(Stage stage, boolean isBlue) {
 		for (int i = 0; i < 16; i++) {
@@ -34,6 +38,7 @@ public class NumberQuartoBoard {
 			}
 			rectangle.setName(String.valueOf(i));
 			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
+			cells.add(rectangle);
 			stage.addActor(rectangle);
 		}
 	}
@@ -58,4 +63,13 @@ public class NumberQuartoBoard {
 		return false;
 	}
 	
+	public void updateCell (int number, int coordinate) {
+		TextButton cell = cells.get(coordinate);
+		cell.setText(String.valueOf(number));
+	}
+	
+	public void clearCell (int coordinate) {
+		TextButton cell = cells.get(coordinate);
+		cell.setText("");
+	}
 }

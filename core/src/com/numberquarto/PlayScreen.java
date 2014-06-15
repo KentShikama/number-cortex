@@ -39,7 +39,7 @@ public class PlayScreen implements Screen {
 	private static final int BOTTOM_RECTANGLE_HEIGHT = skin.getRegion("settings").getRegionHeight();
 	
 	private boolean isBlue = false;
-	
+		
 	PlayScreen(Game game) {
 		this.game = game;
 	}
@@ -83,6 +83,9 @@ public class PlayScreen implements Screen {
 	
 	private void buildBoard() {
 		NumberQuartoBoard board = new NumberQuartoBoard(stage, isBlue);
+		board.updateCell(2, 2);
+		board.updateCell(13, 13);
+		board.clearCell(2);
 	}
 	
 	private void buildNumberScroller() {
