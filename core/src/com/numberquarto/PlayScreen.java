@@ -83,6 +83,7 @@ public class PlayScreen implements Screen {
 	
 	private void buildBoard() {
 		NumberQuartoBoard board = new NumberQuartoBoard(stage, isBlue);
+		DragAndDropHandler.getInstance().notifyBoardConstruction(board);
 		board.updateCell(2, 2);
 		board.updateCell(13, 13);
 		board.clearCell(2);

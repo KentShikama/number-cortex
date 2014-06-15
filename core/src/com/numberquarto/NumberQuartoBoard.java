@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -42,10 +43,14 @@ public class NumberQuartoBoard {
 			}
 			rectangle.getLabel().setName(String.valueOf(i));
 			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
-			rectangle.addListener(listener);
+//			rectangle.addListener(listener);
 			cells.add(rectangle);
 			stage.addActor(rectangle);
 		}
+	}
+	
+	public ArrayList<TextButton> getBoardCells() {
+		return cells;
 	}
 	
 	private TextButton.TextButtonStyle buildButtonStyle(String textureName) {
@@ -71,12 +76,15 @@ public class NumberQuartoBoard {
 	class NumberQuartoCellListener extends ClickListener {
 		@Override
 		public void clicked (InputEvent event, float x, float y) {
-			int coordinate = getClickedCoordinate(event);
-			System.out.println("The coordinate " + coordinate + " was clicked.");
+			Actor actor = event.getTarget();
+			if (actor instanceof Label) {
+				Label label = (Label) actor;
+				int coordinate = getClickedCoordinate(label);
+				System.out.println("The coordinate " + coordinate + " was clicked.");
+			}
 		}
 
-		private int getClickedCoordinate(InputEvent event) {
-			Label label = (Label) event.getTarget();
+		private int getClickedCoordinate(Label label) {
 			String coordinateString = label.getName().toString();
 			int coordinate = Integer.valueOf(coordinateString);
 			return coordinate;
