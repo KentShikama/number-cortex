@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class NumberQuartoBoard {
@@ -23,6 +26,7 @@ public class NumberQuartoBoard {
 	private ArrayList<TextButton> cells = new ArrayList<TextButton>();
 
 	public NumberQuartoBoard(Stage stage, boolean isBlue) {
+		NumberQuartoCellListener listener = new NumberQuartoCellListener();
 		for (int i = 0; i < 16; i++) {
 			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
 			int bottom = ((NUMBER_OF_ROWS - 1) - (int)(i/NUMBER_OF_ROWS)) * SQUARE_LENGTH;
@@ -36,8 +40,9 @@ public class NumberQuartoBoard {
 					rectangle = new TextButton("", redRectangleStyle);				
 				}
 			}
-			rectangle.setName(String.valueOf(i));
+			rectangle.getLabel().setName(String.valueOf(i));
 			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
+			rectangle.addListener(listener);
 			cells.add(rectangle);
 			stage.addActor(rectangle);
 		}
@@ -61,6 +66,21 @@ public class NumberQuartoBoard {
 			}
 		}
 		return false;
+	}
+	
+	class NumberQuartoCellListener extends ClickListener {
+		@Override
+		public void clicked (InputEvent event, float x, float y) {
+			int coordinate = getClickedCoordinate(event);
+			System.out.println("The coordinate " + coordinate + " was clicked.");
+		}
+
+		private int getClickedCoordinate(InputEvent event) {
+			Label label = (Label) event.getTarget();
+			String coordinateString = label.getName().toString();
+			int coordinate = Integer.valueOf(coordinateString);
+			return coordinate;
+		}
 	}
 	
 	public void updateCell (int number, int coordinate) {
