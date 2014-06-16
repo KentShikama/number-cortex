@@ -1,0 +1,39 @@
+home.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pass_and_play
+  rotate: false
+  xy: 304, 1225
+  size: 300, 83
+  orig: 300, 83
+  offset: 0, 0
+  index: -1
+play
+  rotate: false
+  xy: 304, 1140
+  size: 300, 83
+  orig: 300, 83
+  offset: 0, 0
+  index: -1
+play_online
+  rotate: false
+  xy: 2, 1225
+  size: 300, 83
+  orig: 300, 83
+  offset: 0, 0
+  index: -1
+title_background
+  rotate: false
+  xy: 2, 2
+  size: 640, 1136
+  orig: 640, 1136
+  offset: 0, 0
+  index: -1
+tutorial
+  rotate: false
+  xy: 2, 1140
+  size: 300, 83
+  orig: 300, 83
+  offset: 0, 0
+  index: -1

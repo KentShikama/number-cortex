@@ -1,0 +1,81 @@
+settings.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+checked_checkbox
+  rotate: false
+  xy: 2, 1906
+  size: 78, 66
+  orig: 78, 66
+  offset: 0, 0
+  index: -1
+empty_checkbox
+  rotate: false
+  xy: 82, 1906
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: -1
+empty_star
+  rotate: false
+  xy: 538, 1703
+  size: 78, 75
+  orig: 78, 75
+  offset: 0, 0
+  index: -1
+exit_button
+  rotate: false
+  xy: 308, 1744
+  size: 214, 124
+  orig: 214, 124
+  offset: 0, 0
+  index: -1
+full_star
+  rotate: false
+  xy: 538, 1626
+  size: 78, 75
+  orig: 78, 75
+  offset: 0, 0
+  index: -1
+menu_body
+  rotate: false
+  xy: 2, 2
+  size: 646, 484
+  orig: 646, 484
+  offset: 0, 0
+  index: -1
+play_button
+  rotate: false
+  xy: 308, 1870
+  size: 304, 124
+  orig: 304, 124
+  offset: 0, 0
+  index: -1
+question_mark
+  rotate: false
+  xy: 524, 1780
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+resume_button
+  rotate: false
+  xy: 2, 1780
+  size: 304, 124
+  orig: 304, 124
+  offset: 0, 0
+  index: -1
+settings_background
+  rotate: false
+  xy: 2, 488
+  size: 640, 1136
+  orig: 640, 1136
+  offset: 0, 0
+  index: -1
+settings_title
+  rotate: false
+  xy: 2, 1626
+  size: 534, 116
+  orig: 534, 116
+  offset: 0, 0
+  index: -1
