@@ -36,6 +36,7 @@ public class NumberTextButton extends Button {
 		setLabel(new Label(text, new LabelStyle(style.font, style.fontColor)));
 	}
 
+	@Override
 	public void setStyle (ButtonStyle style) {
 		if (style == null) {
 			throw new NullPointerException("style cannot be null");
@@ -52,23 +53,29 @@ public class NumberTextButton extends Button {
 		}
 	}
 
+	@Override
 	public NumberTextButtonStyle getStyle () {
 		return style;
 	}
 
+	@Override
 	public void draw (Batch batch, float parentAlpha) {
 		Color fontColor;
-		if (isDisabled() && style.disabledFontColor != null)
-			fontColor = style.disabledFontColor;
-		else if (isPressed() && style.downFontColor != null)
-			fontColor = style.downFontColor;
-		else if (isChecked() && style.checkedFontColor != null)
-			fontColor = (isOver() && style.checkedOverFontColor != null) ? style.checkedOverFontColor : style.checkedFontColor;
-		else if (isOver() && style.overFontColor != null)
-			fontColor = style.overFontColor;
-		else
-			fontColor = style.fontColor;
-		if (fontColor != null) label.getStyle().fontColor = fontColor;
+		if (label != null) {
+			if (isDisabled() && style.disabledFontColor != null)
+				fontColor = style.disabledFontColor;
+			else if (isPressed() && style.downFontColor != null)
+				fontColor = style.downFontColor;
+			else if (isChecked() && style.checkedFontColor != null)
+				fontColor = (isOver() && style.checkedOverFontColor != null) ? style.checkedOverFontColor
+						: style.checkedFontColor;
+			else if (isOver() && style.overFontColor != null)
+				fontColor = style.overFontColor;
+			else
+				fontColor = style.fontColor;
+			if (fontColor != null)
+				label.getStyle().fontColor = fontColor;
+		}
 		super.draw(batch, parentAlpha);
 	}
 	
@@ -82,6 +89,10 @@ public class NumberTextButton extends Button {
 
 	public Label getLabel () {
 		return label;
+	}
+	
+	public void removeLabel () {
+		label = null;
 	}
 
 	public Cell getLabelCell () {

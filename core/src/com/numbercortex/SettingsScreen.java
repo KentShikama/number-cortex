@@ -96,6 +96,7 @@ public class SettingsScreen implements Screen {
 	}
 
 	class DifficultyGroupListener extends ClickListener {
+		@Override
 		public void clicked(InputEvent event, float x, float y) {
 			if (difficultyGroup.isDisabled())
 				return;
@@ -264,6 +265,7 @@ public class SettingsScreen implements Screen {
 		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		playButton.addListener(new ClickListener() {
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new PlayScreen(game));
 			}
@@ -285,6 +287,7 @@ public class SettingsScreen implements Screen {
 		exitButton.setBounds(40, Launch.SCREEN_HEIGHT - 1085,
 				LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new TitleScreen(game));
 			}

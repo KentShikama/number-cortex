@@ -77,6 +77,7 @@ public class DragAndDropHandler {
 		public void dragStop(InputEvent event, float x, float y, int pointer,
 				Payload payload, Target target) {
 			Label label = (Label) payload.getObject();
+			sourceButton.removeLabel();
 			if (target != null && !droppedOnSameSpot(target)) {
 				NumberTextButton targetButton = (NumberTextButton) target
 						.getActor();
@@ -112,6 +113,10 @@ public class DragAndDropHandler {
 				int pointer) {
 
 		}
+		
+	    @Override
+	    public void reset(Source source, Payload payload) {
+	    }
 
 		public NumberTextButton getButton() {
 			return targetButton;

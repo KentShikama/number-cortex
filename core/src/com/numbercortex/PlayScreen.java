@@ -99,6 +99,7 @@ public class PlayScreen implements Screen {
 		settingsButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136,
 				BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		settingsButton.addListener(new ClickListener() {
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new SettingsScreen(game));
 			}
