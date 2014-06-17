@@ -40,11 +40,11 @@ public class SettingsScreen implements Screen {
 	private static final int RIGHT_BUTTON_HEIGHT = PLAY_BUTTON_TEXTURE
 			.getRegionHeight();
 
-	private static final TextureRegion EXIT_BUTTON_TEXTURE = Assets.settingsSkin
-			.getRegion("exit_button");
-	private static final int LEFT_BUTTON_WIDTH = EXIT_BUTTON_TEXTURE
+	private static final TextureRegion QUIT_BUTTON_TEXTURE = Assets.settingsSkin
+			.getRegion("quit_button");
+	private static final int LEFT_BUTTON_WIDTH = QUIT_BUTTON_TEXTURE
 			.getRegionWidth();
-	private static final int LEFT_BUTTON_HEIGHT = EXIT_BUTTON_TEXTURE
+	private static final int LEFT_BUTTON_HEIGHT = QUIT_BUTTON_TEXTURE
 			.getRegionHeight();
 
 	private static final String SETTINGS_BACKGROUND = "settings_background";
@@ -184,7 +184,7 @@ public class SettingsScreen implements Screen {
 
 		buildPlayButton();
 		buildResumeButton();
-		buildExitButton();
+		buildQuitButton();
 	}
 
 	private void buildDiagonalsCheckbox(Drawable emptyCheckbox,
@@ -262,7 +262,7 @@ public class SettingsScreen implements Screen {
 	private void buildPlayButton() {
 		Drawable playButtonSkin = skin.getDrawable("play_button");
 		final ImageButton playButton = new ImageButton(playButtonSkin);
-		playButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
+		playButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		playButton.addListener(new ClickListener() {
 			@Override
@@ -276,15 +276,15 @@ public class SettingsScreen implements Screen {
 	private void buildResumeButton() {
 		Drawable resumeButtonSkin = skin.getDrawable("resume_button");
 		ImageButton resumeButton = new ImageButton(resumeButtonSkin);
-		resumeButton.setBounds(296, Launch.SCREEN_HEIGHT - 1085,
+		resumeButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 //		stage.addActor(resumeButton);
 	}
 
-	private void buildExitButton() {
-		Drawable exitButtonSkin = skin.getDrawable("exit_button");
-		final ImageButton exitButton = new ImageButton(exitButtonSkin);
-		exitButton.setBounds(40, Launch.SCREEN_HEIGHT - 1085,
+	private void buildQuitButton() {
+		Drawable quitButtonSkin = skin.getDrawable("quit_button");
+		final ImageButton exitButton = new ImageButton(quitButtonSkin);
+		exitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045,
 				LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
 			@Override

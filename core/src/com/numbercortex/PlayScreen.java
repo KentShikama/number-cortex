@@ -27,7 +27,7 @@ public class PlayScreen implements Screen, CortexScreen {
 	private static final int BOTTOM_RECTANGLE_WIDTH = skin.getRegion("settings").getRegionWidth();
 	private static final int BOTTOM_RECTANGLE_HEIGHT = skin.getRegion("settings").getRegionHeight();
 	
-	private boolean isBlue = false;
+	private boolean isBlue = true;
 	private CortexModel model;
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
