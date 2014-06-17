@@ -48,7 +48,7 @@ public class DragAndDropHandler {
 		
 		// TODO
 		
-		return true;
+		return false;
 	}
 
 	class NumberSource extends Source {
