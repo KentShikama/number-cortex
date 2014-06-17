@@ -28,9 +28,9 @@ public class DragAndDropHandler {
 	}
 
 	private DragAndDrop handler = new DragAndDrop();
-	private NumberQuartoBoard board;
+	private NumberCortexBoard board;
 
-	public void notifyBoardConstruction(NumberQuartoBoard board) {
+	public void notifyBoardConstruction(NumberCortexBoard board) {
 		this.board = board;
 		ArrayList<NumberTextButton> cells = board.getBoardCells();
 		for (NumberTextButton button : cells) {

@@ -1,6 +1,7 @@
 package com.numbercortex;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class PlayScreen implements Screen {
+public class PlayScreen implements Screen, CortexScreen {
 	
 	private Game game;
 	private Stage stage;
@@ -27,6 +28,9 @@ public class PlayScreen implements Screen {
 	private static final int BOTTOM_RECTANGLE_HEIGHT = skin.getRegion("settings").getRegionHeight();
 	
 	private boolean isBlue = false;
+	private CortexModel model;
+	private NumberCortexBoard board;
+	private NumberScroller numberScroller;
 		
 	PlayScreen(Game game) {
 		this.game = game;
@@ -43,6 +47,29 @@ public class PlayScreen implements Screen {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
+	
+	public void updateState(CortexState state) {
+		/**
+		 * Update board map
+		 */
+		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
+		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
+			int coordinate = entry.getKey();
+			int number = entry.getValue();
+			if (number != -1) {
+				board.updateCell(coordinate, number);
+			}
+		}
+		/**
+		 * Update number scroller
+		 */
+		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+		numberScroller.update(availableNumbers);
+		/**
+		 * Update message area
+		 */
+		
+	}
 
 	@Override
 	public void show() {
@@ -53,6 +80,10 @@ public class PlayScreen implements Screen {
 		buildBoard();
 		buildNumberScroller();
 		buildBottomButtons();
+		
+		model = new DefaultCortexModel();
+		model.register(this);
+		model.startGame();
 	}
 
 	private void buildBackground() {
@@ -70,20 +101,12 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void buildBoard() {
-		NumberQuartoBoard board = new NumberQuartoBoard(stage, isBlue);
+		board = new NumberCortexBoard(stage, model, isBlue);
 		DragAndDropHandler.getInstance().notifyBoardConstruction(board);
-		board.updateCell(2, 2);
-		board.updateCell(5, 5);
-		board.updateCell(13, 13);
 	}
 	
 	private void buildNumberScroller() {
-		NumberScroller numberScroller = new NumberScroller(stage);
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		for (int i = 0; i < 100; i++) {
-			list.add(i);
-		}
-		numberScroller.update(list);
+		numberScroller = new NumberScroller(stage);
 	}
 	
 	private void buildBottomButtons() {

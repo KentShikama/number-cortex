@@ -8,22 +8,28 @@ public class CortexState implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private String message;
 	private ArrayList<String> players;
 	private String currentPlayer;
 	private int chosenNumber;
-	private Map<Integer, Integer> boardMap;
+	private Map<Integer, Integer> coordinateNumberMap;
 	private ArrayList<Integer> availableNumbers;
 	private String winner; // Optional
 	private int[] winningCoordinates; // Optional
 
 	private CortexState (CortexStateBuilder builder) {
+		this.message = builder.message;
 		this.players = builder.players;
 		this.currentPlayer = builder.currentPlayer;
 		this.chosenNumber = builder.chosenNumber;
-		this.boardMap = builder.boardMap;
+		this.coordinateNumberMap = builder.coordinateNumberMap;
 		this.availableNumbers = builder.availableNumbers;
 		this.winner = builder.winner;
 		this.winningCoordinates = builder.winningCoordinates;
+	}
+	
+	public String getMessage() {
+		return message;
 	}
 	
 	public ArrayList<String> getPlayers() {
@@ -38,8 +44,8 @@ public class CortexState implements Serializable {
 		return chosenNumber;
 	}
 
-	public Map<Integer, Integer> getBoardMap() {
-		return boardMap;
+	public Map<Integer, Integer> getCoordinateNumberMap() {
+		return coordinateNumberMap;
 	}
 	
 	public ArrayList<Integer> getAvailableNumbers() {
@@ -55,19 +61,25 @@ public class CortexState implements Serializable {
 	}
 
 	public static class CortexStateBuilder {
+		private final String message;
 		private final ArrayList<String> players;
 		private final String currentPlayer;
 		private final int chosenNumber;
-		private final Map<Integer, Integer> boardMap;
+		private final Map<Integer, Integer> coordinateNumberMap;
 		private final ArrayList<Integer> availableNumbers;
 		private String winner; // Optional
 		private int[] winningCoordinates; // Optional
 		
-		public CortexStateBuilder(String currentPlayer, ArrayList<String> players, int chosenNumber, Map<Integer, Integer> boardMap, ArrayList<Integer> availableNumbers) {
+		public CortexStateBuilder(Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> availableNumbers) {
+			this(null, null, null, 0, coordinateNumberMap, availableNumbers);
+		}
+		
+		public CortexStateBuilder(String message, String currentPlayer, ArrayList<String> players, int chosenNumber, Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> availableNumbers) {
+			this.message = message;
 			this.currentPlayer = currentPlayer;
 			this.players = players;
 			this.chosenNumber = chosenNumber;
-			this.boardMap = boardMap;
+			this.coordinateNumberMap = coordinateNumberMap;
 			this.availableNumbers = availableNumbers;
 		}
 		

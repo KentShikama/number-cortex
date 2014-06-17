@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-public class NumberQuartoBoard {
+public class NumberCortexBoard {
 
 	private static final int SQUARE_LENGTH = Launch.SCREEN_WIDTH/4;
 	private static final int NUMBER_OF_ROWS = 4;
@@ -20,8 +20,10 @@ public class NumberQuartoBoard {
 	private static Skin skin = Assets.gameSkin;
 	
 	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
+	private CortexModel model;
 
-	public NumberQuartoBoard(Stage stage, boolean isBlue) {
+	public NumberCortexBoard(Stage stage, CortexModel model, boolean isBlue) {
+		this.model = model;
 		for (int i = 0; i < 16; i++) {
 			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
 			int bottom = ((NUMBER_OF_ROWS - 1) - i/NUMBER_OF_ROWS) * SQUARE_LENGTH;
@@ -66,7 +68,7 @@ public class NumberQuartoBoard {
 		return false;
 	}
 	
-	public void updateCell (int number, int coordinate) {
+	public void updateCell (int coordinate, int number) {
 		NumberTextButton cell = cells.get(coordinate);
 		cell.setText(String.valueOf(number));
 	}
