@@ -35,7 +35,7 @@ public class NumberQuartoBoard {
 					rectangle = new NumberTextButton("", redRectangleStyle);				
 				}
 			}
-			rectangle.getLabel().setName(String.valueOf(i));
+			rectangle.setName(String.valueOf(i));
 			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
 			cells.add(rectangle);
 			stage.addActor(rectangle);

@@ -18,6 +18,7 @@ import com.esotericsoftware.tablelayout.Cell;
 public class NumberTextButton extends Button {
 	private Label label;
 	private NumberTextButtonStyle style;
+	private String name;
 
 	public NumberTextButton (String text, Skin skin) {
 		this(text, skin.get(NumberTextButtonStyle.class));
@@ -91,12 +92,22 @@ public class NumberTextButton extends Button {
 		return label;
 	}
 	
-	public void removeLabel () {
-		label = null;
+	public void clearLabel () {
+		label = new Label("", new LabelStyle(style.font, style.fontColor));
 	}
 
 	public Cell getLabelCell () {
 		return getCell(label);
+	}
+	
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	public void setText (String text) {

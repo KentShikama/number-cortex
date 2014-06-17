@@ -10,7 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 
 /**
- * Differentiate next_number rectangle and board rectangles by name
+ * Differentiate next_number rectangle and board rectangles by name?
+ * 
+ * Allow for some processing to be done here to save bandwidth.
+ * The results will still be doubled checked by the model.
  */
 public class DragAndDropHandler {
 	private static class Singleton {
@@ -35,16 +38,17 @@ public class DragAndDropHandler {
 			handler.addTarget(new NumberTarget(button));
 		}
 	}
-
-	private int getClickedCoordinate(NumberTextButton button) {
-		Label label = button.getLabel();
-		if (label != null) {
-			String coordinateString = label.getName().toString();
-			int coordinate = Integer.valueOf(coordinateString);
-			return coordinate;
-		} else {
-			return -1;
-		}
+	
+	private boolean isButtonEmpty(NumberTextButton button) {
+		return button.getLabel().getText().toString().isEmpty();
+	}
+	
+	private boolean isButtonStatic(NumberTextButton button) {
+		int coordinate = Integer.valueOf(button.getName());
+		
+		// TODO
+		
+		return true;
 	}
 
 	class NumberSource extends Source {
@@ -58,8 +62,7 @@ public class DragAndDropHandler {
 
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-			if (sourceButton.getLabel() == null
-					|| sourceButton.getLabel().getText().toString().isEmpty()) {
+			if (isButtonEmpty(sourceButton) || isButtonStatic(sourceButton)) {
 				return null;
 			}
 			Payload payload = new Payload();
@@ -70,14 +73,15 @@ public class DragAndDropHandler {
 			payload.setValidDragActor(buttonLabel);
 			handler.setDragActorPosition(-(buttonLabel.getWidth() / 2),
 					buttonLabel.getHeight() / 2);
+			sourceButton.clearLabel();
 			return payload;
+			
 		}
 
 		@Override
 		public void dragStop(InputEvent event, float x, float y, int pointer,
 				Payload payload, Target target) {
 			Label label = (Label) payload.getObject();
-			sourceButton.removeLabel();
 			if (target != null && !droppedOnSameSpot(target)) {
 				NumberTextButton targetButton = (NumberTextButton) target
 						.getActor();
@@ -105,7 +109,11 @@ public class DragAndDropHandler {
 		@Override
 		public boolean drag(Source source, Payload payload, float x, float y,
 				int pointer) {
-			return true;
+			if (isButtonEmpty(targetButton)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		@Override
