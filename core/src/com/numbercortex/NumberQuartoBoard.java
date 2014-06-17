@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -18,27 +17,27 @@ public class NumberQuartoBoard {
 	private static final int SQUARE_LENGTH = Launch.SCREEN_WIDTH/4;
 	private static final int NUMBER_OF_ROWS = 4;
 	
-	private TextButton.TextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
-	private TextButton.TextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
-	private TextButton.TextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
+	private NumberTextButton.NumberTextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
+	private NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
+	private NumberTextButton.NumberTextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
 	
 	private static Skin skin = Assets.gameSkin;
 	
-	private ArrayList<TextButton> cells = new ArrayList<TextButton>();
+	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
 
 	public NumberQuartoBoard(Stage stage, boolean isBlue) {
 		NumberQuartoCellListener listener = new NumberQuartoCellListener();
 		for (int i = 0; i < 16; i++) {
 			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
 			int bottom = ((NUMBER_OF_ROWS - 1) - (int)(i/NUMBER_OF_ROWS)) * SQUARE_LENGTH;
-			TextButton rectangle;
+			NumberTextButton rectangle;
 			if (isGreen(i)) {
-				rectangle = new TextButton("", greenRectangleStyle);
+				rectangle = new NumberTextButton("", greenRectangleStyle);
 			} else {
 				if (isBlue) {
-					rectangle = new TextButton("", blueRectangleStyle);				
+					rectangle = new NumberTextButton("", blueRectangleStyle);				
 				} else {
-					rectangle = new TextButton("", redRectangleStyle);				
+					rectangle = new NumberTextButton("", redRectangleStyle);				
 				}
 			}
 			rectangle.getLabel().setName(String.valueOf(i));
@@ -49,14 +48,14 @@ public class NumberQuartoBoard {
 		}
 	}
 	
-	public ArrayList<TextButton> getBoardCells() {
+	public ArrayList<NumberTextButton> getBoardCells() {
 		return cells;
 	}
 	
-	private TextButton.TextButtonStyle buildButtonStyle(String textureName) {
+	private NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Drawable numberRectangle = skin.getDrawable(textureName);
-		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
 		buttonStyle.fontColor = new Color(250f/255f, 235f/255f, 102f/255f, 1);
 		buttonStyle.up = numberRectangle;
@@ -92,12 +91,12 @@ public class NumberQuartoBoard {
 	}
 	
 	public void updateCell (int number, int coordinate) {
-		TextButton cell = cells.get(coordinate);
+		NumberTextButton cell = cells.get(coordinate);
 		cell.setText(String.valueOf(number));
 	}
 	
 	public void clearCell (int coordinate) {
-		TextButton cell = cells.get(coordinate);
+		NumberTextButton cell = cells.get(coordinate);
 		cell.setText("");
 	}
 }

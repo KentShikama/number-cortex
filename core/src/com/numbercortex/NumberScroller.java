@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -22,7 +21,7 @@ public class NumberScroller {
 	private static final String NUMBER_RECTANGLE_BACKGROUND = "number_rectangle_background";
 	static final String SCROLLER_RECTANGLE = "scroller_rectangle";
 	
-	private static TextButton.TextButtonStyle buttonStyle;
+	private static NumberTextButton.NumberTextButtonStyle buttonStyle;
 	private static Skin skin = Assets.gameSkin;
 	
 	ScrollPane numberScroller;
@@ -56,10 +55,10 @@ public class NumberScroller {
 		return numberScroller;
 	}
 
-	private static TextButton.TextButtonStyle buildButtonStyle() {
+	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle() {
 		BitmapFont font = FontGenerator.getNumberScrollFont();
 		Drawable numberRectangle = skin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
-		buttonStyle = new TextButton.TextButtonStyle();
+		buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
 		buttonStyle.fontColor = new Color(250f/255f, 235f/255f, 102f/255f, 1);
 		buttonStyle.up = numberRectangle;
@@ -102,7 +101,7 @@ public class NumberScroller {
 		numberTable.clearChildren();
 		NumberButtonListener listener = new NumberButtonListener();
 		for (Integer number : numberList) {
-			TextButton button = new TextButton(number.toString(), buttonStyle);
+			NumberTextButton button = new NumberTextButton(number.toString(), buttonStyle);
 			button.addListener(listener);
 			numberTable.add(button);
 		}

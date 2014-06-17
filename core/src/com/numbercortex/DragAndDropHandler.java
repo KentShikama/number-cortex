@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
@@ -31,8 +30,8 @@ public class DragAndDropHandler {
 
 	public void notifyBoardConstruction(NumberQuartoBoard board) {
 		this.board = board;
-		ArrayList<TextButton> cells = board.getBoardCells();
-		for (TextButton button : cells) {
+		ArrayList<NumberTextButton> cells = board.getBoardCells();
+		for (NumberTextButton button : cells) {
 			handler.addSource(new NumberSource(button));
 			handler.addTarget(new NumberTarget(button));
 		}
@@ -40,73 +39,70 @@ public class DragAndDropHandler {
 
 	class NumberSource extends Source {
 
-		private TextButton button;
+		private NumberTextButton sourceButton;
 
-		public NumberSource(TextButton button) {
+		public NumberSource(NumberTextButton button) {
 			super(button);
-			this.button = button;
+			this.sourceButton = button;
 		}
 
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-			if (button.getLabel() == null
-					|| button.getLabel().getText().toString().isEmpty()) {
+			if (sourceButton.getLabel() == null
+					|| sourceButton.getLabel().getText().toString().isEmpty()) {
 				return null;
 			}
 			Payload payload = new Payload();
-			Label buttonLabel = button.getLabel();
+			Label buttonLabel = sourceButton.getLabel();
 			payload.setObject(buttonLabel);
 			payload.setDragActor(buttonLabel);
 			payload.setInvalidDragActor(buttonLabel);
 			payload.setValidDragActor(buttonLabel);
+			handler.setDragActorPosition(-(buttonLabel.getWidth()/2), buttonLabel.getHeight()/2);
 			return payload;
 		}
 
 		@Override
 		public void dragStop(InputEvent event, float x, float y,
 				int pointer, Payload payload, Target target) {
-			if (target != null && target instanceof NumberTarget) {
-				System.out.println("Number target was found");
-				if (droppedOnSameSpot(target)) {
-					System.out.println("Source button was cleared");
-					button.setText("");
-				}
+			Label label = (Label) payload.getObject();
+			if (target != null && !droppedOnSameSpot(target)) {
+				NumberTextButton targetButton = (NumberTextButton) target.getActor();
+				targetButton.setLabel(label);
 			} else {
-				System.out.println("Number target not found");
-				button.add(payload.getDragActor());
+				sourceButton.setLabel(label);
 			}
 		}
 
 		private boolean droppedOnSameSpot(Target target) {
-			return target.getActor() != button;
+			return target.getActor() == sourceButton;
 		}
 
 	}
 
 	class NumberTarget extends Target {
 
-		private TextButton button;
+		private NumberTextButton targetButton;
 
-		public NumberTarget(TextButton button) {
+		public NumberTarget(NumberTextButton button) {
 			super(button);
-			this.button = button;
+			this.targetButton = button;
 		}
 
 		@Override
 		public boolean drag(Source source, Payload payload, float x, float y,
 				int pointer) {
-			return false;
+			return true;
 		}
 
 		@Override
 		public void drop(Source source, Payload payload, float x, float y,
 				int pointer) {
-			Label buttonLabel = (Label) payload.getObject();
-			button.setText(buttonLabel.getText().toString());
+
 		}
 		
-		public TextButton getButton() {
-			return button;
+		public NumberTextButton getButton() {
+			return targetButton;
 		}
 
 	}
