@@ -2,7 +2,6 @@ package com.numbercortex;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
@@ -37,6 +36,17 @@ public class DragAndDropHandler {
 		}
 	}
 
+	private int getClickedCoordinate(NumberTextButton button) {
+		Label label = button.getLabel();
+		if (label != null) {
+			String coordinateString = label.getName().toString();
+			int coordinate = Integer.valueOf(coordinateString);
+			return coordinate;
+		} else {
+			return -1;
+		}
+	}
+
 	class NumberSource extends Source {
 
 		private NumberTextButton sourceButton;
@@ -58,16 +68,18 @@ public class DragAndDropHandler {
 			payload.setDragActor(buttonLabel);
 			payload.setInvalidDragActor(buttonLabel);
 			payload.setValidDragActor(buttonLabel);
-			handler.setDragActorPosition(-(buttonLabel.getWidth()/2), buttonLabel.getHeight()/2);
+			handler.setDragActorPosition(-(buttonLabel.getWidth() / 2),
+					buttonLabel.getHeight() / 2);
 			return payload;
 		}
 
 		@Override
-		public void dragStop(InputEvent event, float x, float y,
-				int pointer, Payload payload, Target target) {
+		public void dragStop(InputEvent event, float x, float y, int pointer,
+				Payload payload, Target target) {
 			Label label = (Label) payload.getObject();
 			if (target != null && !droppedOnSameSpot(target)) {
-				NumberTextButton targetButton = (NumberTextButton) target.getActor();
+				NumberTextButton targetButton = (NumberTextButton) target
+						.getActor();
 				targetButton.setLabel(label);
 			} else {
 				sourceButton.setLabel(label);
@@ -100,7 +112,7 @@ public class DragAndDropHandler {
 				int pointer) {
 
 		}
-		
+
 		public NumberTextButton getButton() {
 			return targetButton;
 		}

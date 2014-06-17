@@ -26,7 +26,6 @@ public class NumberQuartoBoard {
 	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
 
 	public NumberQuartoBoard(Stage stage, boolean isBlue) {
-		NumberQuartoCellListener listener = new NumberQuartoCellListener();
 		for (int i = 0; i < 16; i++) {
 			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
 			int bottom = ((NUMBER_OF_ROWS - 1) - (int)(i/NUMBER_OF_ROWS)) * SQUARE_LENGTH;
@@ -42,7 +41,6 @@ public class NumberQuartoBoard {
 			}
 			rectangle.getLabel().setName(String.valueOf(i));
 			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
-//			rectangle.addListener(listener);
 			cells.add(rectangle);
 			stage.addActor(rectangle);
 		}
@@ -70,24 +68,6 @@ public class NumberQuartoBoard {
 			}
 		}
 		return false;
-	}
-	
-	class NumberQuartoCellListener extends ClickListener {
-		@Override
-		public void clicked (InputEvent event, float x, float y) {
-			Actor actor = event.getTarget();
-			if (actor instanceof Label) {
-				Label label = (Label) actor;
-				int coordinate = getClickedCoordinate(label);
-				System.out.println("The coordinate " + coordinate + " was clicked.");
-			}
-		}
-
-		private int getClickedCoordinate(Label label) {
-			String coordinateString = label.getName().toString();
-			int coordinate = Integer.valueOf(coordinateString);
-			return coordinate;
-		}
 	}
 	
 	public void updateCell (int number, int coordinate) {
