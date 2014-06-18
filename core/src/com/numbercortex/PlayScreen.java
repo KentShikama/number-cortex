@@ -31,7 +31,7 @@ public class PlayScreen implements Screen, CortexScreen {
 	private CortexModel model;
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
-		
+			
 	PlayScreen(Game game) {
 		this.game = game;
 	}
@@ -75,33 +75,35 @@ public class PlayScreen implements Screen, CortexScreen {
 	public void show() {
 		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
+		
+		CortexPreferences preferences = CortexPreferences.getInstance();
 
-		buildBackground();
-		buildBoard();
+		buildBackground(preferences);
+		buildBoard(preferences);
 		buildNumberScroller();
 		buildBottomButtons();
 		
-		model = new DefaultCortexModel();
+		model = new DefaultCortexModel(preferences);
 		model.register(this);
 		model.startGame();
 	}
 
-	private void buildBackground() {
-		String backgroundProperty = getBackgroundProperty();
+	private void buildBackground(CortexPreferences preferences) {
+		String backgroundProperty = getBackgroundProperty(preferences);
 		ScreenBackground background = new ScreenBackground(skin, backgroundProperty);
 		stage.addActor(background);
 	}
 	
-	private String getBackgroundProperty() {
-		if (isBlue) {
+	private String getBackgroundProperty(CortexPreferences preferences) {
+		if (preferences.isBlue()) {
 			return BLUE_BACKGROUND;
 		} else {
 			return RED_BACKGROUND;
 		}
 	}
 	
-	private void buildBoard() {
-		board = new NumberCortexBoard(stage, model, isBlue);
+	private void buildBoard(CortexPreferences preferences) {
+		board = new NumberCortexBoard(stage, model, preferences);
 		DragAndDropHandler.getInstance().notifyBoardConstruction(board);
 	}
 	

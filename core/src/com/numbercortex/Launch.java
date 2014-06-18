@@ -15,6 +15,7 @@ public class Launch extends Game {
 	public void create() {
 		Assets.load();
 		FontGenerator.load();
+		CortexPreferences.getInstance().load();
 		setScreen(new TitleScreen(this));
 		fps = new FPSLogger();
 	}

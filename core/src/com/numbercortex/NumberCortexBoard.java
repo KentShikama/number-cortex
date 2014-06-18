@@ -22,7 +22,7 @@ public class NumberCortexBoard {
 	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
 	private CortexModel model;
 
-	public NumberCortexBoard(Stage stage, CortexModel model, boolean isBlue) {
+	public NumberCortexBoard(Stage stage, CortexModel model, CortexPreferences preferences) {
 		this.model = model;
 		for (int i = 0; i < 16; i++) {
 			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
@@ -31,7 +31,7 @@ public class NumberCortexBoard {
 			if (isGreen(i)) {
 				rectangle = new NumberTextButton("", greenRectangleStyle);
 			} else {
-				if (isBlue) {
+				if (preferences.isBlue()) {
 					rectangle = new NumberTextButton("", blueRectangleStyle);				
 				} else {
 					rectangle = new NumberTextButton("", redRectangleStyle);				

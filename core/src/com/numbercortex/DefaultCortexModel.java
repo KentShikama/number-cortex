@@ -12,7 +12,12 @@ public class DefaultCortexModel implements CortexModel {
 	private static final int BOARD_SIZE = 16;
 	
 	private CortexScreen screen;
+	private CortexPreferences preferences;
 	
+	public DefaultCortexModel(CortexPreferences preferences) {
+		this.preferences = preferences;
+	}
+
 	public void register(CortexScreen screen) {
 		this.screen = screen;
 	}
