@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -93,14 +94,25 @@ public class SettingsScreen implements Screen {
 				stage.addActor(button);
 			}
 		}
+		
+		public int getRating() {
+			return rating;
+		}
 	}
 
 	class DifficultyGroupListener extends ClickListener {
+		private RatingGroup group;
+		private CortexPreferences preferences;
+		DifficultyGroupListener(RatingGroup group, CortexPreferences preferences) {
+			this.group = group;
+			this.preferences = preferences;
+		}
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
-			if (difficultyGroup.isDisabled())
+			if (group.isDisabled())
 				return;
-			difficultyGroup.toggleRating();
+			group.toggleRating();
+			preferences.setDifficulty(group.getRating());
 		}
 	}
 
@@ -155,6 +167,8 @@ public class SettingsScreen implements Screen {
 	public void show() {
 		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
+		
+		CortexPreferences preferences = CortexPreferences.getInstance();
 
 		ScreenBackground background = new ScreenBackground(skin, SETTINGS_BACKGROUND);
 		stage.addActor(background);
@@ -168,94 +182,113 @@ public class SettingsScreen implements Screen {
 		Drawable emptyCheckbox = skin.getDrawable("empty_checkbox");
 		Drawable checkedCheckbox = skin.getDrawable("checked_checkbox");
 
-		buildDiagonalsCheckbox(emptyCheckbox, checkedCheckbox);
-		buildFourSquareCheckbox(emptyCheckbox, checkedCheckbox);
+		buildDiagonalsCheckbox(preferences, emptyCheckbox, checkedCheckbox);
+		buildFourSquareCheckbox(preferences, emptyCheckbox, checkedCheckbox);
 
 		Drawable emptyStar = skin.getDrawable("empty_star");
 		Drawable fullStar = skin.getDrawable("full_star");
 
-		ImageButton easyButton = buildEasyButton(emptyStar, fullStar);
-		ImageButton mediumButton = buildMediumButton(emptyStar, fullStar);
-		ImageButton hardButton = buildHardButton(emptyStar, fullStar);
+		ImageButton easyButton = buildEasyButton(preferences, emptyStar, fullStar);
+		ImageButton mediumButton = buildMediumButton(preferences, emptyStar, fullStar);
+		ImageButton hardButton = buildHardButton(preferences, emptyStar, fullStar);
 		
-		buildDifficultyGroup(easyButton, mediumButton, hardButton);
+		buildDifficultyGroup(preferences, easyButton, mediumButton, hardButton);
 
-		buildMusicCheckbox(emptyCheckbox, checkedCheckbox);
+		buildMusicCheckbox(preferences, emptyCheckbox, checkedCheckbox);
 
 		buildPlayButton();
 		buildResumeButton();
 		buildQuitButton();
 	}
 
-	private void buildDiagonalsCheckbox(Drawable emptyCheckbox,
+	private void buildDiagonalsCheckbox(final CortexPreferences preferences, Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		ImageButton diagonalsCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
+		final ImageButton diagonalsCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
 				checkedCheckbox);
 		diagonalsCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 488,
 				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
-		diagonalsCheckbox.setChecked(true);
+		diagonalsCheckbox.setChecked(preferences.isDiagonalsEnabled());
 		diagonalsCheckbox.left();
 		diagonalsCheckbox.bottom();
+		diagonalsCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				preferences.setDiagonalsEnabled(diagonalsCheckbox.isChecked());
+			}
+		});
 		stage.addActor(diagonalsCheckbox);
 	}
 
-	private void buildFourSquareCheckbox(Drawable emptyCheckbox,
+	private void buildFourSquareCheckbox(final CortexPreferences preferences, Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		ImageButton fourSquareCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
+		final ImageButton fourSquareCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
 				checkedCheckbox);
 		fourSquareCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 593,
 				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
+		fourSquareCheckbox.setChecked(preferences.isFourSquareEnabled());
 		fourSquareCheckbox.left();
 		fourSquareCheckbox.bottom();
+		fourSquareCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				preferences.setFourSquareEnabled(fourSquareCheckbox.isChecked());
+			}
+		});
 		stage.addActor(fourSquareCheckbox);
 	}
 
-	private ImageButton buildEasyButton(Drawable emptyStar, Drawable fullStar) {
+	private ImageButton buildEasyButton(CortexPreferences preferences, Drawable emptyStar, Drawable fullStar) {
 		ImageButton easyButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		easyButton.setBounds(351, Launch.SCREEN_HEIGHT - 721, STAR_WIDTH,
 				STAR_HEIGHT);
 		easyButton.removeListener(easyButton.getClickListener());
-		easyButton.addListener(new DifficultyGroupListener());
 		return easyButton;
 	}
 
-	private ImageButton buildMediumButton(Drawable emptyStar, Drawable fullStar) {
+	private ImageButton buildMediumButton(CortexPreferences preferences, Drawable emptyStar, Drawable fullStar) {
 		ImageButton mediumButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		mediumButton.setBounds(351 + 91, Launch.SCREEN_HEIGHT - 721,
 				STAR_WIDTH, STAR_HEIGHT);
 		mediumButton.removeListener(mediumButton.getClickListener());
-		mediumButton.addListener(new DifficultyGroupListener());
 		return mediumButton;
 	}
 
-	private ImageButton buildHardButton(Drawable emptyStar, Drawable fullStar) {
+	private ImageButton buildHardButton(CortexPreferences preferences, Drawable emptyStar, Drawable fullStar) {
 		ImageButton hardButton = new ImageButton(emptyStar, emptyStar, fullStar);
 		hardButton.setBounds(351 + (91 * 2), Launch.SCREEN_HEIGHT - 721,
 				STAR_WIDTH, STAR_HEIGHT);
 		hardButton.removeListener(hardButton.getClickListener());
-		hardButton.addListener(new DifficultyGroupListener());
 		return hardButton;
 	}
 	
-	private void buildDifficultyGroup(ImageButton...buttons) {
+	private void buildDifficultyGroup(CortexPreferences preferences, ImageButton...buttons) {
 		difficultyGroup = new RatingGroup();
+		DifficultyGroupListener listener = new DifficultyGroupListener(difficultyGroup, preferences);
 		for (int i = 0; i < buttons.length; i++) {
 			difficultyGroup.add(buttons[i]);
+			buttons[i].addListener(listener);
 		}
-		difficultyGroup.toggleRating();
-		difficultyGroup.toggleRating();
+		for (int i = 0; i < preferences.getDifficulty(); i++) {
+			difficultyGroup.toggleRating();
+		}
 		difficultyGroup.addToContentsToStage(stage);
 	}
 
-	private void buildMusicCheckbox(Drawable emptyCheckbox,
+	private void buildMusicCheckbox(final CortexPreferences preferences, Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		ImageButton musicCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
+		final ImageButton musicCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
 				checkedCheckbox);
 		musicCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 844,
 				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
-		musicCheckbox.setChecked(true);
+		musicCheckbox.setChecked(preferences.isMusicEnabled());
 		musicCheckbox.left();
 		musicCheckbox.bottom();
+		musicCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				preferences.setMusicEnabled(musicCheckbox.isChecked());
+			}
+		});
 		stage.addActor(musicCheckbox);
 	}
 
@@ -298,8 +331,7 @@ public class SettingsScreen implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
+		CortexPreferences.getInstance().save();
 	}
 
 	@Override
