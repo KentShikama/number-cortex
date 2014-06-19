@@ -75,6 +75,7 @@ public class PlayScreen implements Screen {
 		CortexModel model = new DefaultCortexModel();
 		local = new Local(model);
 
+		handler.setExchangeable(local);
 		buildBackground(preferences);
 		buildMessageArea();
 		buildBoard(preferences);

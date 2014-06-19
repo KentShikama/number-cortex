@@ -71,13 +71,48 @@ public class DefaultCortexModel implements CortexModel {
 	}
 
 	@Override
-	public void placeNumber(String playerName, int number, int coordinate) {
-		chosenNumber = -1;
+	public void placeNumber(String playerName, int coordinate, int number) {
+		if (isNumberPlacementValid(playerName, coordinate, number)) {
+			for (Map.Entry<Integer, Integer> entry: coordinateNumberMap.entrySet()) {
+				if (entry.getValue() == number) {
+					coordinateNumberMap.put(entry.getKey(), -1);
+				}
+			}
+			coordinateNumberMap.put(coordinate, number);
+			chosenNumber = -1;
+			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+			listener.update(state);
+		}
+	}
+
+	private boolean isNumberPlacementValid(String playerName, int coordinate,
+			int number) {
+		return playerName == currentPlayer && coordinateNumberMap.get(coordinate) == -1;
 	}
 
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
-		System.out.println("hi");
+		if (isChosenNumberValid(playerName, nextNumber)) {
+			chosenNumber = nextNumber;
+			availableNumbers.remove(Integer.valueOf(nextNumber));
+			currentPlayer = (currentPlayer == playerNames.get(0) ? playerNames.get(1) : playerNames.get(0));
+			message = currentPlayer;
+			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+			listener.update(state);
+		}
+	}
+
+	private boolean isChosenNumberValid(String playerName, int nextNumber) {
+		return playerName == currentPlayer && chosenNumber == -1 && isAvailable(nextNumber);
+	}
+
+	private boolean isAvailable(int nextNumber) {
+		for (Integer number : availableNumbers) {
+			if (nextNumber == number) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

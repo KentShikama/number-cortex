@@ -4,5 +4,5 @@ public interface Exchangeable {
 	public void update(CortexState state);
 	public void register(Player player);
 	void chooseNumber(int nextNumber);
-	void placeNumber(int number, int coordinate);
+	void placeNumber(int coordinate, int number);
 }

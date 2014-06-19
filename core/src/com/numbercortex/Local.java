@@ -20,6 +20,7 @@ public class Local implements Exchangeable {
 
 	@Override
 	public void update (CortexState state) {
+		currentPlayer = state.getCurrentPlayer();
 		for (Player player : players) {
 			if (player.getName().equals(state.getCurrentPlayer())) {
 				player.updateState(state);
@@ -28,8 +29,8 @@ public class Local implements Exchangeable {
 	}
 	
 	@Override
-	public void placeNumber(int number, int coordinate) {
-		model.placeNumber(currentPlayer, number, coordinate);
+	public void placeNumber(int coordinate, int number) {
+		model.placeNumber(currentPlayer, coordinate, number);
 	}
 	
 	@Override
