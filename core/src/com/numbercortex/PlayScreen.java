@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class PlayScreen implements Screen, CortexScreen {
+public class PlayScreen implements Screen {
 	
 	private Game game;
 	private Stage stage;
@@ -27,14 +27,29 @@ public class PlayScreen implements Screen, CortexScreen {
 	private static final int BOTTOM_RECTANGLE_WIDTH = skin.getRegion("settings").getRegionWidth();
 	private static final int BOTTOM_RECTANGLE_HEIGHT = skin.getRegion("settings").getRegionHeight();
 	
-	private boolean isBlue = true;
-	private CortexModel model;
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
-	private MessageArea message;
-			
+	private MessageArea messageArea;
+	private DragAndDropHandler handler = DragAndDropHandler.getInstance();
+	
 	PlayScreen(Game game) {
 		this.game = game;
+	}
+	
+	public void updateMessageArea(String message, int chosenNumber) {
+		if (chosenNumber != -1) {
+			messageArea.updateMessageWithNextNumber(message, chosenNumber);
+		} else {
+			messageArea.updateMessage(message);
+		}	
+	}
+	
+	public void updateBoardCell(int coordinate, int number) {
+		board.updateCell(coordinate, number);
+	}
+	
+	public void updateNumberScroller(ArrayList<Integer> availableNumbers) {
+		numberScroller.update(availableNumbers);
 	}
 
 	@Override
@@ -47,37 +62,6 @@ public class PlayScreen implements Screen, CortexScreen {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
-	}
-	
-	public void updateState(CortexState state) {
-		updateMessageArea(state);
-		updateBoardMap(state);
-		updateNumberScroller(state);
-	}
-	
-	private void updateMessageArea(CortexState state) {
-		int chosenNumber = state.getChosenNumber();
-		if (chosenNumber != -1) {
-			message.updateMessageWithNextNumber(state.getCurrentPlayer(), chosenNumber);
-		} else {
-			message.updateMessage(state.getCurrentPlayer());
-		}
-	}
-	
-	private void updateBoardMap(CortexState state) {
-		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
-		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
-			int coordinate = entry.getKey();
-			int number = entry.getValue();
-			if (number != -1) {
-				board.updateCell(coordinate, number);
-			}
-		}
-	}
-
-	private void updateNumberScroller(CortexState state) {
-		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-		numberScroller.update(availableNumbers);
 	}
 
 	@Override
@@ -93,9 +77,12 @@ public class PlayScreen implements Screen, CortexScreen {
 		buildNumberScroller();
 		buildBottomButtons();
 		
-		model = new DefaultCortexModel(preferences);
-		model.register(this);
-		model.startGame();
+		Player player1 = new HumanPlayer(this, "Player 1");
+		Communication local1 = new Local(player1);
+		local1.startGame();
+		Player player2 = new HumanPlayer(this, "Player 2");
+		Communication local2 = new Local(player2);
+		local2.startGame();
 	}
 
 	private void buildBackground(CortexPreferences preferences) {
@@ -105,9 +92,10 @@ public class PlayScreen implements Screen, CortexScreen {
 	}
 	
 	private void buildMessageArea() {
-		message = new MessageArea(stage);
-		message.updateMessage("New message");
-		message.updateMessageWithNextNumber("Welcome to Number Quarto", 4);
+		messageArea = new MessageArea(stage);
+		messageArea.updateMessage("New message");
+		messageArea.updateMessageWithNextNumber("Welcome to Number Quarto", 4);
+		handler.notifyMessageAreaConstrucion(messageArea);
 	}
 	
 	private String getBackgroundProperty(CortexPreferences preferences) {
@@ -119,8 +107,8 @@ public class PlayScreen implements Screen, CortexScreen {
 	}
 	
 	private void buildBoard(CortexPreferences preferences) {
-		board = new NumberCortexBoard(stage, model, preferences);
-		DragAndDropHandler.getInstance().notifyBoardConstruction(board);
+		board = new NumberCortexBoard(stage, preferences);
+		handler.notifyBoardConstruction(board);
 	}
 	
 	private void buildNumberScroller() {

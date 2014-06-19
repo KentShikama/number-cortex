@@ -6,35 +6,54 @@ import java.util.Map;
 
 public class DefaultCortexModel implements CortexModel {
 	
-	private ArrayList<Integer> list =  new ArrayList<Integer>();
+	private String currentPlayer;
+	private ArrayList<Integer> availableNumbers =  new ArrayList<Integer>();
 	private Map<Integer, Integer> coordinateNumberMap = new HashMap<Integer, Integer>();
-	
+	private String message;
+	private int chosenNumber = -1;
+
+	private ArrayList<ModelListener> listeners = new ArrayList<ModelListener>();
+	private ArrayList<String> players = new ArrayList<String>();
+
 	private static final int BOARD_SIZE = 16;
 	
-	private CortexScreen screen;
-	private CortexPreferences preferences;
+	private String winner; // Optional
+	private int[] winningCoordinates; // Optional
 	
-	public DefaultCortexModel(CortexPreferences preferences) {
-		this.preferences = preferences;
+	public static class Singleton {
+		private static CortexModel INSTANCE = new DefaultCortexModel();
 	}
-
-	public void register(CortexScreen screen) {
-		this.screen = screen;
+	private DefaultCortexModel() {}
+	public static CortexModel getInstance() {
+		return Singleton.INSTANCE;
 	}
 
 	@Override
-	public void startGame() {
-		setInitialBoardState();
-		setInitialAvailableNumbers();
-		coordinateNumberMap.put(2, 2);
-		CortexState state = new CortexState.CortexStateBuilder(coordinateNumberMap, list).build();
-		if (screen == null) {
-			System.out.println("Please register a screen");
-		} else {
-			screen.updateState(state);
+	public void register(ModelListener listener) {
+		listeners.add(listener);
+		players.add(listener.getName());
+		if (listeners.size() == 2) {
+			startGame();
 		}
 	}
 
+	private void startGame() {
+		// clearVariables();
+		setInitialBoardState();
+		setInitialAvailableNumbers();
+		setFirstPlayer();
+		coordinateNumberMap.put(3, 3);
+		message = currentPlayer + " starts the game!";
+		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber, coordinateNumberMap, availableNumbers).build();
+		for (ModelListener listener: listeners) {
+			listener.update(state);
+		}
+	}
+
+	private void setFirstPlayer() {
+		// Math.random();
+		currentPlayer = players.get(0);
+	}
 	private void setInitialBoardState() {
 		coordinateNumberMap.clear();
 		for (int i = 0; i < BOARD_SIZE; i++) {
@@ -43,12 +62,12 @@ public class DefaultCortexModel implements CortexModel {
 	}
 
 	private void setInitialAvailableNumbers() {
-		list.clear();
+		availableNumbers.clear();
 		for (int i = 1; i < 18; i++) {
 			if (i == 9) {
 				continue;
 			}
-			list.add(i);
+			availableNumbers.add(i);
 		}
 	}
 

@@ -29,6 +29,7 @@ public class DragAndDropHandler {
 
 	private DragAndDrop handler = new DragAndDrop();
 	private NumberCortexBoard board;
+	private MessageArea messageArea;
 
 	public void notifyBoardConstruction(NumberCortexBoard board) {
 		this.board = board;
@@ -37,6 +38,10 @@ public class DragAndDropHandler {
 			handler.addSource(new NumberSource(button));
 			handler.addTarget(new NumberTarget(button));
 		}
+	}
+	
+	public void notifyMessageAreaConstrucion(MessageArea messageArea) {
+		this.messageArea = messageArea;
 	}
 	
 	private boolean isButtonEmpty(NumberTextButton button) {

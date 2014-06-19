@@ -1,5 +1,6 @@
 package com.numbercortex;
 
-public interface CortexScreen {
+public interface Player {
 	public void updateState(CortexState state);
+	public String getName();
 }
