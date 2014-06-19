@@ -5,9 +5,17 @@ import java.util.ArrayList;
 public class Local implements Exchangeable {
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private CortexModel model;
+	private String currentPlayer;
+
+	public Local(CortexModel model) {
+		this.model = model;
+		model.setExchangeable(this);
+	}
 
 	public void register(Player player) {
-		players.add(player);
+		players.add(player);	
+		model.register(player.getName());
 	}
 
 	@Override
@@ -19,13 +27,14 @@ public class Local implements Exchangeable {
 		}
 	}
 	
-	public ArrayList<String> getRegisteredPlayerNames() {
-		ArrayList<String> playerNames = new ArrayList<String>();
-		for (Player player : players) {
-			String playerName = player.getName();
-			playerNames.add(playerName);
-		}
-		return playerNames;
+	@Override
+	public void placeNumber(int number, int coordinate) {
+		model.placeNumber(currentPlayer, number, coordinate);
+	}
+	
+	@Override
+	public void chooseNumber(int nextNumber) {
+		model.chooseNumber(currentPlayer, nextNumber);
 	}
 
 }

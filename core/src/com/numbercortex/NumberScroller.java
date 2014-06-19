@@ -25,8 +25,11 @@ public class NumberScroller {
 	private static Skin skin = Assets.gameSkin;
 	
 	ScrollPane numberScroller;
+	private Exchangeable local;
 	
-	NumberScroller (Stage stage) {				
+	NumberScroller (Stage stage, Exchangeable local) {		
+		this.local = local;
+		
 		Table numberTable = new Table();	
 		ScrollPane.ScrollPaneStyle style = buildScrollPaneStyle();
 		numberScroller = buildNumberScroller(numberTable, style);
@@ -111,7 +114,7 @@ public class NumberScroller {
 		@Override
 		public void clicked (InputEvent event, float x, float y) {
 			int number = getClickedNumber(event);
-			System.out.println("The number " + number + " was clicked.");
+			local.chooseNumber(number);
 		}
 
 		private int getClickedNumber(InputEvent event) {

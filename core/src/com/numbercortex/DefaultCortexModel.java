@@ -21,14 +21,15 @@ public class DefaultCortexModel implements CortexModel {
 	
 	private Exchangeable listener;
 	
-	public DefaultCortexModel(Exchangeable listener) {
+	@Override
+	public void setExchangeable (Exchangeable listener) {
 		this.listener = listener;
 	}
 
 	@Override
-	public void register(Player player) {
-		listener.register(player);
-		if (listener.getRegisteredPlayerNames().size() == 2) {
+	public void register(String playerName) {
+		playerNames.add(playerName);
+		if (playerNames.size() == 2) {
 			startGame();
 		}
 	}
@@ -37,7 +38,6 @@ public class DefaultCortexModel implements CortexModel {
 		// clearVariables();
 		setInitialBoardState();
 		setInitialAvailableNumbers();
-		registerPlayers();
 		setFirstPlayer();
 		coordinateNumberMap.put(3, 3);
 		message = currentPlayer + " starts the game!";
@@ -61,10 +61,6 @@ public class DefaultCortexModel implements CortexModel {
 			availableNumbers.add(i);
 		}
 	}
-	
-	private void registerPlayers() {
-		playerNames = listener.getRegisteredPlayerNames();
-	}
 
 	private void setFirstPlayer() {
 		if (Math.random() > 0.5) {
@@ -75,15 +71,13 @@ public class DefaultCortexModel implements CortexModel {
 	}
 
 	@Override
-	public void placeNumber(int number, int coordinate) {
-		// TODO Auto-generated method stub
-		
+	public void placeNumber(String playerName, int number, int coordinate) {
+		chosenNumber = -1;
 	}
 
 	@Override
-	public void chooseNumber(int nextNumber) {
-		// TODO Auto-generated method stub
-		
+	public void chooseNumber(String playerName, int nextNumber) {
+		System.out.println("hi");
 	}
 
 }

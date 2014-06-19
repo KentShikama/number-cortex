@@ -31,6 +31,7 @@ public class PlayScreen implements Screen {
 	private NumberScroller numberScroller;
 	private MessageArea messageArea;
 	private DragAndDropHandler handler = DragAndDropHandler.getInstance();
+	private Local local;
 	
 	PlayScreen(Game game) {
 		this.game = game;
@@ -70,6 +71,9 @@ public class PlayScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 		
 		CortexPreferences preferences = CortexPreferences.getInstance();
+		
+		CortexModel model = new DefaultCortexModel();
+		local = new Local(model);
 
 		buildBackground(preferences);
 		buildMessageArea();
@@ -77,12 +81,10 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		
-		Exchangeable local = new Local();
-		CortexModel model = new DefaultCortexModel(local);
 		Player player1 = new HumanPlayer(this, "Player 1");
 		Player player2 = new HumanPlayer(this, "Player 2");
-		model.register(player1);
-		model.register(player2);
+		local.register(player1);
+		local.register(player2);
 	}
 
 	private void buildBackground(CortexPreferences preferences) {
@@ -112,7 +114,7 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void buildNumberScroller() {
-		numberScroller = new NumberScroller(stage);
+		numberScroller = new NumberScroller(stage, local);
 	}
 	
 	private void buildBottomButtons() {
