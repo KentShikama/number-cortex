@@ -31,6 +31,7 @@ public class PlayScreen implements Screen, CortexScreen {
 	private CortexModel model;
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
+	private MessageArea message;
 			
 	PlayScreen(Game game) {
 		this.game = game;
@@ -69,6 +70,7 @@ public class PlayScreen implements Screen, CortexScreen {
 		 * Update message area
 		 */
 		
+		
 	}
 
 	@Override
@@ -79,6 +81,7 @@ public class PlayScreen implements Screen, CortexScreen {
 		CortexPreferences preferences = CortexPreferences.getInstance();
 
 		buildBackground(preferences);
+		buildMessageArea();
 		buildBoard(preferences);
 		buildNumberScroller();
 		buildBottomButtons();
@@ -92,6 +95,12 @@ public class PlayScreen implements Screen, CortexScreen {
 		String backgroundProperty = getBackgroundProperty(preferences);
 		ScreenBackground background = new ScreenBackground(skin, backgroundProperty);
 		stage.addActor(background);
+	}
+	
+	private void buildMessageArea() {
+		message = new MessageArea(stage);
+		message.updateMessage("New message");
+		message.updateMessageWithNextNumber("Welcome to Number Quarto", 4);
 	}
 	
 	private String getBackgroundProperty(CortexPreferences preferences) {

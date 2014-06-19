@@ -11,23 +11,34 @@ public class FontGenerator {
 
 	private static BitmapFont numberScrollerFont;
 	private static BitmapFont boardNumberFont;
+	private static BitmapFont messageFont;
 
 	private static Skin skin = Assets.gameSkin;
 
 	private FontGenerator() {}
 	
 	public static void load() {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+		int numberScrollerFontSize = calculateNumberScrollerFontSize();
+		int boardNumberFontSize = calculateBoardNumberFontSize();
+		int messageFontSize = (int) (calculateBoardNumberFontSize() * 0.5);
+		FreeTypeFontGenerator tahomaGenerator = new FreeTypeFontGenerator(
 				Gdx.files.internal("fonts/Tahoma.ttf"));
-		numberScrollerFont = generator
-				.generateFont(calculateNumberScrollerFontSize());
-		boardNumberFont = generator
-				.generateFont(calculateBoardNumberFontSize());
+		numberScrollerFont = tahomaGenerator
+				.generateFont(numberScrollerFontSize);
+		boardNumberFont = tahomaGenerator
+				.generateFont(boardNumberFontSize);
 		numberScrollerFont.getRegion().getTexture()
 				.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		boardNumberFont.getRegion().getTexture()
 				.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		generator.dispose();	
+		tahomaGenerator.dispose();
+		FreeTypeFontGenerator timesGenerator = new FreeTypeFontGenerator(
+				Gdx.files.internal("fonts/Times.dfont"));
+		messageFont = timesGenerator.generateFont(messageFontSize);
+		messageFont.getRegion().getTexture()
+		.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		messageFont.getLineHeight();
+		timesGenerator.dispose();
 	}
 
 	private static int calculateNumberScrollerFontSize() {
@@ -51,6 +62,10 @@ public class FontGenerator {
 
 	public static BitmapFont getBoardNumberFont() {
 		return boardNumberFont;
+	}
+	
+	public static BitmapFont getMessageFont() {
+		return messageFont;
 	}
 
 }
