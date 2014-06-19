@@ -50,9 +50,21 @@ public class PlayScreen implements Screen, CortexScreen {
 	}
 	
 	public void updateState(CortexState state) {
-		/**
-		 * Update board map
-		 */
+		updateMessageArea(state);
+		updateBoardMap(state);
+		updateNumberScroller(state);
+	}
+	
+	private void updateMessageArea(CortexState state) {
+		int chosenNumber = state.getChosenNumber();
+		if (chosenNumber != -1) {
+			message.updateMessageWithNextNumber(state.getCurrentPlayer(), chosenNumber);
+		} else {
+			message.updateMessage(state.getCurrentPlayer());
+		}
+	}
+	
+	private void updateBoardMap(CortexState state) {
 		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
 		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
 			int coordinate = entry.getKey();
@@ -61,16 +73,11 @@ public class PlayScreen implements Screen, CortexScreen {
 				board.updateCell(coordinate, number);
 			}
 		}
-		/**
-		 * Update number scroller
-		 */
+	}
+
+	private void updateNumberScroller(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
-		/**
-		 * Update message area
-		 */
-		
-		
 	}
 
 	@Override
