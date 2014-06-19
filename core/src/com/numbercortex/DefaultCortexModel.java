@@ -12,27 +12,23 @@ public class DefaultCortexModel implements CortexModel {
 	private String message;
 	private int chosenNumber = -1;
 
-	private ArrayList<ModelListener> listeners = new ArrayList<ModelListener>();
-	private ArrayList<String> players = new ArrayList<String>();
+	private ArrayList<String> playerNames = new ArrayList<String>();
 
 	private static final int BOARD_SIZE = 16;
 	
 	private String winner; // Optional
 	private int[] winningCoordinates; // Optional
 	
-	public static class Singleton {
-		private static CortexModel INSTANCE = new DefaultCortexModel();
-	}
-	private DefaultCortexModel() {}
-	public static CortexModel getInstance() {
-		return Singleton.INSTANCE;
+	private Exchangeable listener;
+	
+	public DefaultCortexModel(Exchangeable listener) {
+		this.listener = listener;
 	}
 
 	@Override
-	public void register(ModelListener listener) {
-		listeners.add(listener);
-		players.add(listener.getName());
-		if (listeners.size() == 2) {
+	public void register(Player player) {
+		listener.register(player);
+		if (listener.getRegisteredPlayerNames().size() == 2) {
 			startGame();
 		}
 	}
@@ -41,19 +37,14 @@ public class DefaultCortexModel implements CortexModel {
 		// clearVariables();
 		setInitialBoardState();
 		setInitialAvailableNumbers();
+		registerPlayers();
 		setFirstPlayer();
 		coordinateNumberMap.put(3, 3);
 		message = currentPlayer + " starts the game!";
-		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber, coordinateNumberMap, availableNumbers).build();
-		for (ModelListener listener: listeners) {
-			listener.update(state);
-		}
+		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+		listener.update(state);
 	}
 
-	private void setFirstPlayer() {
-		// Math.random();
-		currentPlayer = players.get(0);
-	}
 	private void setInitialBoardState() {
 		coordinateNumberMap.clear();
 		for (int i = 0; i < BOARD_SIZE; i++) {
@@ -68,6 +59,18 @@ public class DefaultCortexModel implements CortexModel {
 				continue;
 			}
 			availableNumbers.add(i);
+		}
+	}
+	
+	private void registerPlayers() {
+		playerNames = listener.getRegisteredPlayerNames();
+	}
+
+	private void setFirstPlayer() {
+		if (Math.random() > 0.5) {
+			currentPlayer = playerNames.get(0);
+		} else {
+			currentPlayer = playerNames.get(1);
 		}
 	}
 

@@ -77,12 +77,12 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		
+		Exchangeable local = new Local();
+		CortexModel model = new DefaultCortexModel(local);
 		Player player1 = new HumanPlayer(this, "Player 1");
-		Communication local1 = new Local(player1);
-		local1.startGame();
 		Player player2 = new HumanPlayer(this, "Player 2");
-		Communication local2 = new Local(player2);
-		local2.startGame();
+		model.register(player1);
+		model.register(player2);
 	}
 
 	private void buildBackground(CortexPreferences preferences) {

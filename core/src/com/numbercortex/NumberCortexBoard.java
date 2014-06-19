@@ -20,10 +20,8 @@ public class NumberCortexBoard {
 	private static Skin skin = Assets.gameSkin;
 	
 	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
-	private CortexModel model;
 
-	public NumberCortexBoard(Stage stage, CortexModel model, CortexPreferences preferences) {
-		this.model = model;
+	public NumberCortexBoard(Stage stage, CortexPreferences preferences) {
 		for (int i = 0; i < 16; i++) {
 			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
 			int bottom = ((NUMBER_OF_ROWS - 1) - i/NUMBER_OF_ROWS) * SQUARE_LENGTH;
