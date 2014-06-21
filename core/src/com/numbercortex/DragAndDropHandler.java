@@ -96,14 +96,19 @@ public class DragAndDropHandler {
 		public void dragStop(InputEvent event, float x, float y, int pointer,
 				Payload payload, Target target) {
 			Label label = (Label) payload.getObject();
-			if (target != null && !droppedOnSameSpot(target)) {
-				NumberTextButton targetButton = (NumberTextButton) target
-						.getActor();
+			if (validDrop(target)) {
+				NumberTextButton targetButton = (NumberTextButton) target.getActor();
 				targetButton.setLabel(label);
-				local.placeNumber(Integer.valueOf(targetButton.getName()), Integer.valueOf(label.getText().toString()));
+				int targetCoordinate = Integer.valueOf(targetButton.getName());
+				int targetValue = Integer.valueOf(label.getText().toString());
+				local.placeNumber(targetCoordinate, targetValue);
 			} else {
 				sourceButton.setLabel(label);
 			}
+		}
+
+		private boolean validDrop(Target target) {
+			return target != null && !droppedOnSameSpot(target);
 		}
 
 		private boolean droppedOnSameSpot(Target target) {
@@ -136,10 +141,6 @@ public class DragAndDropHandler {
 				int pointer) {
 
 		}
-		
-	    @Override
-	    public void reset(Source source, Payload payload) {
-	    }
 
 		public NumberTextButton getButton() {
 			return targetButton;
