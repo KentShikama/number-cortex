@@ -18,6 +18,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class PlayScreen implements Screen {
 	
+	private static final String TAG = PlayScreen.class.getCanonicalName();
+
 	private Game game;
 	private Stage stage;
 	
@@ -36,10 +38,6 @@ public class PlayScreen implements Screen {
 	
 	PlayScreen(Game game) {
 		this.game = game;
-	}
-	
-	public ArrayList<Player> getPlayers() {
-		return players;
 	}
 	
 	public void updateState(CortexState state) {
@@ -63,6 +61,7 @@ public class PlayScreen implements Screen {
 				return player;
 			}
 		}
+		Gdx.app.log(TAG, "The player was not found.");
 		return null;
 	}
 	
@@ -117,14 +116,7 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		
-		Local local = new Local();
-		Player playerOne = new HumanPlayer("Player 1", this, local);
-		Player playerTwo = new HumanPlayer("Player 2", this, local);
-		players.add(playerOne);
-		players.add(playerTwo);
-		for (Player player : players) {
-			local.register(player);			
-		}
+		buildGame();
 	}
 
 	private void buildBackground(CortexPreferences preferences) {
@@ -184,6 +176,17 @@ public class PlayScreen implements Screen {
 		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136,
 				BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		stage.addActor(helpButton);
+	}
+	
+	private void buildGame() {
+		Local local = new Local();
+		Player playerOne = new HumanPlayer("Player 1", this, local);
+		Player playerTwo = new HumanPlayer("Player 2", this, local);
+		players.add(playerOne);
+		players.add(playerTwo);
+		for (Player player : players) {
+			local.register(player);			
+		}
 	}
 
 	@Override
