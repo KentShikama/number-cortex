@@ -15,21 +15,98 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class TitleScreen implements Screen {
 
+	class PassAndPlayButton extends TitleScreenButton {
+		PassAndPlayButton() {
+			super(PASS_AND_PLAY_BUTTON, 1, new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					Gdx.app.log(TAG, PASS_AND_PLAY_BUTTON + " has been clicked");
+				}
+			});
+		}
+	}
+	class PlayButton extends TitleScreenButton {
+		PlayButton() {
+			super(PLAY_BUTTON, 0, new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					game.setScreen(new SettingsScreen(game));
+				}
+			});
+		}
+	}
+	class PlayOnlineButton extends TitleScreenButton {
+		PlayOnlineButton() {
+			super(PLAY_ONLINE, 2, new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					Gdx.app.log(TAG, PLAY_ONLINE + " has been clicked");
+				}
+			});
+		}
+	}
+	abstract class TitleScreenButton extends Actor {
+		private TextureRegion buttonTexture;
+
+		TitleScreenButton(String buttonName, int index, ClickListener listener) {
+			buttonTexture = skin.getRegion(buttonName);
+			this.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80),
+					buttonTexture.getRegionWidth(),
+					buttonTexture.getRegionHeight());
+			this.addListener(listener);
+		}
+
+		@Override
+		public void draw(Batch batch, float alpha) {
+			batch.draw(buttonTexture, this.getX(), this.getY());
+		}
+	}
+	class TutorialButton extends TitleScreenButton {
+		TutorialButton() {
+			super(TUTORIAL, 3, new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					Gdx.app.log(TAG, TUTORIAL + " has been clicked");
+				}
+			});
+		}
+	}
 	private static final String TAG = TitleScreen.class.getName();
+
 	private static final String TITLE_BACKGROUND = "title_background";
+
 	private static final String PLAY_BUTTON = "play";
+	
 	private static final String PASS_AND_PLAY_BUTTON = "pass_and_play";
+	
 	private static final String PLAY_ONLINE = "play_online";
+
 	private static final String TUTORIAL = "tutorial";
 
 	private Skin skin = Assets.homeSkin;
 
 	private Stage stage;
-	
+
 	private Game game;
-	
+
 	TitleScreen(Game game) {
 		this.game = game;
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void hide() {
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -45,15 +122,16 @@ public class TitleScreen implements Screen {
 	}
 
 	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void show() {
 		buildStage();
 		buildBackground();
 		buildButtons();
-	}
-
-	private void buildStage() {
-		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
-		Gdx.input.setInputProcessor(stage);
 	}
 
 	private void buildBackground() {
@@ -72,87 +150,9 @@ public class TitleScreen implements Screen {
 		stage.addActor(tutorialButton);
 	}
 
-	abstract class TitleScreenButton extends Actor {
-		private TextureRegion buttonTexture;
-
-		TitleScreenButton(String buttonName, int index, ClickListener listener) {
-			buttonTexture = skin.getRegion(buttonName);
-			this.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80),
-					buttonTexture.getRegionWidth(),
-					buttonTexture.getRegionHeight());
-			this.addListener(listener);
-		}
-
-		@Override
-		public void draw(Batch batch, float alpha) {
-			batch.draw(buttonTexture, this.getX(), this.getY());
-		}
-	}
-
-	class PlayButton extends TitleScreenButton {
-		PlayButton() {
-			super(PLAY_BUTTON, 0, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					game.setScreen(new SettingsScreen(game));
-				}
-			});
-		}
-	}
-
-	class PassAndPlayButton extends TitleScreenButton {
-		PassAndPlayButton() {
-			super(PASS_AND_PLAY_BUTTON, 1, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					Gdx.app.log(TAG, PASS_AND_PLAY_BUTTON + " has been clicked");
-				}
-			});
-		}
-	}
-
-	class PlayOnlineButton extends TitleScreenButton {
-		PlayOnlineButton() {
-			super(PLAY_ONLINE, 2, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					Gdx.app.log(TAG, PLAY_ONLINE + " has been clicked");
-				}
-			});
-		}
-	}
-
-	class TutorialButton extends TitleScreenButton {
-		TutorialButton() {
-			super(TUTORIAL, 3, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					Gdx.app.log(TAG, TUTORIAL + " has been clicked");
-				}
-			});
-		}
-	}
-
-	@Override
-	public void hide() {
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
+	private void buildStage() {
+		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
+		Gdx.input.setInputProcessor(stage);
 	}
 
 }

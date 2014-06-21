@@ -21,15 +21,15 @@ public class Launch extends Game {
 	}
 	
 	@Override
-	public void render() {
-		super.render();
-//		fps.log();
-	}
-
-	@Override
 	public void dispose () {
 		super.dispose();
 		getScreen().dispose();
+	}
+
+	@Override
+	public void render() {
+		super.render();
+//		fps.log();
 	}
 	
 }

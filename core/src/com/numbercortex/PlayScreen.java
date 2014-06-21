@@ -39,64 +39,13 @@ public class PlayScreen implements Screen {
 		this.game = game;
 	}
 	
-	public void updateState(CortexState state) {
-		updateCurrentPlayer(state);
-		updateMessageArea(state);
-		updateBoardMap(state);
-		updateNumberScroller(state);
-	}
-
-	private void updateCurrentPlayer(CortexState state) {
-		String currentPlayerName = state.getCurrentPlayer();
-		Sendable currentPlayer = getCurrentPlayer(currentPlayerName);
-		numberScroller.setSendable(currentPlayer);
-		handler.setSendable(currentPlayer);
-	}
-	
-	private Sendable getCurrentPlayer(String currentPlayerName) {
-		for (Player player : players) {
-			String playerName = player.getName();
-			if (playerName.equals(currentPlayerName)) {
-				return player;
-			}
-		}
-		Gdx.app.log(TAG, "The player was not found.");
-		return null;
-	}
-	
-	private void updateMessageArea(CortexState state) {
-		String message = state.getMessage();
-		int chosenNumber = state.getChosenNumber();
-		if (chosenNumber != -1) {
-			messageArea.updateMessageWithNextNumber(message, chosenNumber);
-		} else {
-			messageArea.updateMessage(message);
-		}		
-	}
-	
-	private void updateBoardMap(CortexState state) {
-		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
-		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
-			int coordinate = entry.getKey();
-			int number = entry.getValue();
-			if (number != -1) {
-				board.updateCell(coordinate, number);
-			}
-		}
-	}
-
-	private void updateNumberScroller(CortexState state) {
-		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-		numberScroller.update(availableNumbers);
-	}
-
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();
 	}
-
+	
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
@@ -118,10 +67,48 @@ public class PlayScreen implements Screen {
 		buildGame();
 	}
 
+	public void updateState(CortexState state) {
+		updateCurrentPlayer(state);
+		updateMessageArea(state);
+		updateBoardMap(state);
+		updateNumberScroller(state);
+	}
+
 	private void buildBackground(CortexPreferences preferences) {
 		String backgroundProperty = getBackgroundProperty(preferences);
 		ScreenBackground background = new ScreenBackground(skin, backgroundProperty);
 		stage.addActor(background);
+	}
+
+	private void buildBoard(CortexPreferences preferences) {
+		board = new NumberCortexBoard(stage, preferences);
+		handler.notifyBoardConstruction(board);
+	}
+	
+	private void buildBottomButtons() {
+		Drawable settingsRectangleSkin = skin.getDrawable("settings");
+		Drawable helpRectangleSkin = skin.getDrawable("help");
+		buildSettingsButton(settingsRectangleSkin);	
+		buildHelpButton(helpRectangleSkin);
+	}
+	
+	private void buildGame() {
+		Local local = new Local();
+		Player playerOne = new HumanPlayer("Player 1", this, local);
+		Player playerTwo = new HumanPlayer("Player 2", this, local);
+		players.add(playerOne);
+		players.add(playerTwo);
+		for (Player player : players) {
+			local.register(player);			
+		}
+	}
+	
+	private void buildHelpButton(Drawable helpRectangleSkin) {
+		ImageButton helpButton = new ImageButton(helpRectangleSkin, helpRectangleSkin,
+				helpRectangleSkin);
+		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136,
+				BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
+		stage.addActor(helpButton);
 	}
 	
 	private void buildMessageArea() {
@@ -131,28 +118,8 @@ public class PlayScreen implements Screen {
 		handler.notifyMessageAreaConstrucion(messageArea);
 	}
 	
-	private String getBackgroundProperty(CortexPreferences preferences) {
-		if (preferences.isBlue()) {
-			return BLUE_BACKGROUND;
-		} else {
-			return RED_BACKGROUND;
-		}
-	}
-	
-	private void buildBoard(CortexPreferences preferences) {
-		board = new NumberCortexBoard(stage, preferences);
-		handler.notifyBoardConstruction(board);
-	}
-	
 	private void buildNumberScroller() {
 		numberScroller = new NumberScroller(stage);
-	}
-	
-	private void buildBottomButtons() {
-		Drawable settingsRectangleSkin = skin.getDrawable("settings");
-		Drawable helpRectangleSkin = skin.getDrawable("help");
-		buildSettingsButton(settingsRectangleSkin);	
-		buildHelpButton(helpRectangleSkin);
 	}
 
 	private void buildSettingsButton(Drawable settingsRectangleSkin) {
@@ -169,45 +136,68 @@ public class PlayScreen implements Screen {
 		stage.addActor(settingsButton);
 	}
 	
-	private void buildHelpButton(Drawable helpRectangleSkin) {
-		ImageButton helpButton = new ImageButton(helpRectangleSkin, helpRectangleSkin,
-				helpRectangleSkin);
-		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136,
-				BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
-		stage.addActor(helpButton);
+	private String getBackgroundProperty(CortexPreferences preferences) {
+		if (preferences.isBlue()) {
+			return BLUE_BACKGROUND;
+		} else {
+			return RED_BACKGROUND;
+		}
 	}
 	
-	private void buildGame() {
-		Local local = new Local();
-		Player playerOne = new HumanPlayer("Player 1", this, local);
-		Player playerTwo = new HumanPlayer("Player 2", this, local);
-		players.add(playerOne);
-		players.add(playerTwo);
+	private Sendable getCurrentPlayer(String currentPlayerName) {
 		for (Player player : players) {
-			local.register(player);			
+			String playerName = player.getName();
+			if (playerName.equals(currentPlayerName)) {
+				return player;
+			}
+		}
+		Gdx.app.log(TAG, "The player was not found.");
+		return null;
+	}
+
+	private void updateBoardMap(CortexState state) {
+		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
+		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
+			int coordinate = entry.getKey();
+			int number = entry.getValue();
+			if (number != -1) {
+				board.updateCell(coordinate, number);
+			}
 		}
 	}
 
-	@Override
-	public void hide() {
-		
+	private void updateCurrentPlayer(CortexState state) {
+		String currentPlayerName = state.getCurrentPlayer();
+		Sendable currentPlayer = getCurrentPlayer(currentPlayerName);
+		numberScroller.setSendable(currentPlayer);
+		handler.setSendable(currentPlayer);
 	}
 
-	@Override
-	public void pause() {
-		
+	private void updateMessageArea(CortexState state) {
+		String message = state.getMessage();
+		int chosenNumber = state.getChosenNumber();
+		if (chosenNumber != -1) {
+			messageArea.updateMessageWithNextNumber(message, chosenNumber);
+		} else {
+			messageArea.updateMessage(message);
+		}		
 	}
 
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
+	private void updateNumberScroller(CortexState state) {
+		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+		numberScroller.update(availableNumbers);
 	}
+	
+	@Override
+	public void dispose() {}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
+	public void hide() {}
+	
+	@Override
+	public void pause() {}
+	
+	@Override
+	public void resume() {}
 
 }

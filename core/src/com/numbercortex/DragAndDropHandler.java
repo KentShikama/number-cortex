@@ -20,47 +20,6 @@ public class DragAndDropHandler {
 		private static final DragAndDropHandler INSTANCE = new DragAndDropHandler();
 	}
 
-	private DragAndDropHandler() {
-	}
-
-	public static DragAndDropHandler getInstance() {
-		return Singleton.INSTANCE;
-	}
-
-	private DragAndDrop handler = new DragAndDrop();
-	private NumberTextButton nextNumber;
-	private Sendable messenger;
-	
-	public void setSendable(Sendable messenger) {
-		this.messenger = messenger;
-	}
-
-	public void notifyBoardConstruction(NumberCortexBoard board) {
-		ArrayList<NumberTextButton> cells = board.getBoardCells();
-		for (NumberTextButton button : cells) {
-			handler.addSource(new NumberSource(button));
-			handler.addTarget(new NumberTarget(button));
-		}
-	}
-	
-	public void notifyMessageAreaConstrucion(MessageArea messageArea) {
-		nextNumber = messageArea.getNextNumberSquare();
-		handler.addSource(new NumberSource(nextNumber));
-		handler.addTarget(new NumberTarget(nextNumber));
-	}
-	
-	private boolean isButtonEmpty(NumberTextButton button) {
-		return button.getLabel().getText().toString().isEmpty();
-	}
-	
-	private boolean isButtonStatic(NumberTextButton button) {
-		int coordinate = Integer.valueOf(button.getName());
-		
-		// TODO
-		
-		return false;
-	}
-
 	class NumberSource extends Source {
 
 		private NumberTextButton sourceButton;
@@ -103,12 +62,12 @@ public class DragAndDropHandler {
 			}
 		}
 
-		private boolean validDrop(Target target) {
-			return target != null && !droppedOnSameSpot(target);
-		}
-
 		private boolean droppedOnSameSpot(Target target) {
 			return target.getActor() == sourceButton;
+		}
+
+		private boolean validDrop(Target target) {
+			return target != null && !droppedOnSameSpot(target);
 		}
 
 	}
@@ -142,6 +101,47 @@ public class DragAndDropHandler {
 			return targetButton;
 		}
 
+	}
+
+	private DragAndDrop handler = new DragAndDrop();
+	private NumberTextButton nextNumber;
+	private Sendable messenger;
+	
+	private DragAndDropHandler() {
+	}
+
+	public static DragAndDropHandler getInstance() {
+		return Singleton.INSTANCE;
+	}
+	
+	public void notifyBoardConstruction(NumberCortexBoard board) {
+		ArrayList<NumberTextButton> cells = board.getBoardCells();
+		for (NumberTextButton button : cells) {
+			handler.addSource(new NumberSource(button));
+			handler.addTarget(new NumberTarget(button));
+		}
+	}
+	
+	public void notifyMessageAreaConstrucion(MessageArea messageArea) {
+		nextNumber = messageArea.getNextNumberSquare();
+		handler.addSource(new NumberSource(nextNumber));
+		handler.addTarget(new NumberTarget(nextNumber));
+	}
+	
+	public void setSendable(Sendable messenger) {
+		this.messenger = messenger;
+	}
+
+	private boolean isButtonEmpty(NumberTextButton button) {
+		return button.getLabel().getText().toString().isEmpty();
+	}
+
+	private boolean isButtonStatic(NumberTextButton button) {
+		int coordinate = Integer.valueOf(button.getName());
+		
+		// TODO
+		
+		return false;
 	}
 
 }

@@ -42,8 +42,18 @@ public class NumberCortexBoard {
 		}
 	}
 	
+	public void clearCell (int coordinate) {
+		NumberTextButton cell = cells.get(coordinate);
+		cell.setText("");
+	}
+	
 	public ArrayList<NumberTextButton> getBoardCells() {
 		return cells;
+	}
+
+	public void updateCell (int coordinate, int number) {
+		NumberTextButton cell = cells.get(coordinate);
+		cell.setText(String.valueOf(number));
 	}
 	
 	private NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
@@ -55,7 +65,7 @@ public class NumberCortexBoard {
 		buttonStyle.up = numberRectangle;
 		return buttonStyle;
 	}
-
+	
 	private boolean isGreen(int i) {
 		int[] greenList = {0, 2, 5, 7, 8, 10, 13, 15};
 		for (int green : greenList) {
@@ -64,15 +74,5 @@ public class NumberCortexBoard {
 			}
 		}
 		return false;
-	}
-	
-	public void updateCell (int coordinate, int number) {
-		NumberTextButton cell = cells.get(coordinate);
-		cell.setText(String.valueOf(number));
-	}
-	
-	public void clearCell (int coordinate) {
-		NumberTextButton cell = cells.get(coordinate);
-		cell.setText("");
 	}
 }

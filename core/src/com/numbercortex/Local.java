@@ -11,13 +11,23 @@ public class Local implements Exchangeable {
 	public Local() {}
 
 	@Override
+	public void chooseNumber(String playerName, int nextNumber) {
+		model.chooseNumber(currentPlayer, nextNumber);
+	}
+
+	@Override
+	public void placeNumber(String playerName, int coordinate, int number) {
+		model.placeNumber(currentPlayer, coordinate, number);
+	}
+	
+	@Override
 	public void register(Player... players) {
 		for (int i = 0; i < players.length; i++) {
 			this.players.add(players[i]);
 			model.register(players[i].getName());
 		}
 	}
-
+	
 	@Override
 	public void updateState (CortexState state) {
 		currentPlayer = state.getCurrentPlayer();
@@ -26,16 +36,6 @@ public class Local implements Exchangeable {
 				player.getScreen().updateState(state);
 			}
 		}
-	}
-	
-	@Override
-	public void placeNumber(String playerName, int coordinate, int number) {
-		model.placeNumber(currentPlayer, coordinate, number);
-	}
-	
-	@Override
-	public void chooseNumber(String playerName, int nextNumber) {
-		model.chooseNumber(currentPlayer, nextNumber);
 	}
 
 }

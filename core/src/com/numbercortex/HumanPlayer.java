@@ -13,6 +13,11 @@ class HumanPlayer implements Player {
 	}
 	
 	@Override
+	public void chooseNumber(int nextNumber) {
+		exchangeable.chooseNumber(name, nextNumber);
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -20,11 +25,6 @@ class HumanPlayer implements Player {
 	@Override
 	public PlayScreen getScreen() {
 		return screen;
-	}
-
-	@Override
-	public void chooseNumber(int nextNumber) {
-		exchangeable.chooseNumber(name, nextNumber);
 	}
 
 	@Override

@@ -26,45 +26,14 @@ public class DefaultCortexModel implements CortexModel {
 	}
 
 	@Override
-	public void register(String username) {
-		usernames.add(username);
-		if (usernames.size() == 2) {
-			startGame();
-		}
-	}
-
-	private void startGame() {
-		// clearVariables();
-		setInitialBoardState();
-		setInitialAvailableNumbers();
-		setFirstPlayer();
-		message = currentPlayer + " starts the game!";
-		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
-		listener.updateState(state);
-	}
-
-	private void setInitialBoardState() {
-		coordinateNumberMap.clear();
-		for (int i = 0; i < BOARD_SIZE; i++) {
-			coordinateNumberMap.put(i, -1);
-		}
-	}
-
-	private void setInitialAvailableNumbers() {
-		availableNumbers.clear();
-		for (int i = 1; i < 18; i++) {
-			if (i == 9) {
-				continue;
-			}
-			availableNumbers.add(i);
-		}
-	}
-
-	private void setFirstPlayer() {
-		if (Math.random() > 0.5) {
-			currentPlayer = usernames.get(0);
-		} else {
-			currentPlayer = usernames.get(1);
+	public void chooseNumber(String playerName, int nextNumber) {
+		if (isChosenNumberValid(playerName, nextNumber)) {
+			chosenNumber = nextNumber;
+			availableNumbers.remove(Integer.valueOf(nextNumber));
+			currentPlayer = (currentPlayer == usernames.get(0) ? usernames.get(1) : usernames.get(0));
+			message = currentPlayer;
+			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+			listener.updateState(state);
 		}
 	}
 
@@ -84,29 +53,16 @@ public class DefaultCortexModel implements CortexModel {
 		}
 	}
 
-	private void checkIfWinningBoard() {
-		
-	}
-
-	private boolean isNumberPlacementValid(String playerName, int coordinate,
-			int number) {
-		return playerName == currentPlayer && coordinateNumberMap.get(coordinate) == -1;
-	}
-
 	@Override
-	public void chooseNumber(String playerName, int nextNumber) {
-		if (isChosenNumberValid(playerName, nextNumber)) {
-			chosenNumber = nextNumber;
-			availableNumbers.remove(Integer.valueOf(nextNumber));
-			currentPlayer = (currentPlayer == usernames.get(0) ? usernames.get(1) : usernames.get(0));
-			message = currentPlayer;
-			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
-			listener.updateState(state);
+	public void register(String username) {
+		usernames.add(username);
+		if (usernames.size() == 2) {
+			startGame();
 		}
 	}
 
-	private boolean isChosenNumberValid(String playerName, int nextNumber) {
-		return playerName == currentPlayer && chosenNumber == -1 && isAvailable(nextNumber);
+	private void checkIfWinningBoard() {
+		
 	}
 
 	private boolean isAvailable(int nextNumber) {
@@ -116,6 +72,50 @@ public class DefaultCortexModel implements CortexModel {
 			}
 		}
 		return false;
+	}
+
+	private boolean isChosenNumberValid(String playerName, int nextNumber) {
+		return playerName == currentPlayer && chosenNumber == -1 && isAvailable(nextNumber);
+	}
+
+	private boolean isNumberPlacementValid(String playerName, int coordinate,
+			int number) {
+		return playerName == currentPlayer && coordinateNumberMap.get(coordinate) == -1;
+	}
+
+	private void setFirstPlayer() {
+		if (Math.random() > 0.5) {
+			currentPlayer = usernames.get(0);
+		} else {
+			currentPlayer = usernames.get(1);
+		}
+	}
+
+	private void setInitialAvailableNumbers() {
+		availableNumbers.clear();
+		for (int i = 1; i < 18; i++) {
+			if (i == 9) {
+				continue;
+			}
+			availableNumbers.add(i);
+		}
+	}
+
+	private void setInitialBoardState() {
+		coordinateNumberMap.clear();
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			coordinateNumberMap.put(i, -1);
+		}
+	}
+
+	private void startGame() {
+		// clearVariables();
+		setInitialBoardState();
+		setInitialAvailableNumbers();
+		setFirstPlayer();
+		message = currentPlayer + " starts the game!";
+		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+		listener.updateState(state);
 	}
 
 }

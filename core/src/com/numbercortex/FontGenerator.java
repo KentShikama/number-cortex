@@ -17,6 +17,18 @@ public class FontGenerator {
 
 	private FontGenerator() {}
 	
+	public static BitmapFont getBoardNumberFont() {
+		return boardNumberFont;
+	}
+
+	public static BitmapFont getMessageFont() {
+		return messageFont;
+	}
+
+	public static BitmapFont getNumberScrollFont() {
+		return numberScrollerFont;
+	}
+
 	public static void load() {
 		int numberScrollerFontSize = calculateNumberScrollerFontSize();
 		int boardNumberFontSize = calculateBoardNumberFontSize();
@@ -41,31 +53,19 @@ public class FontGenerator {
 		timesGenerator.dispose();
 	}
 
-	private static int calculateNumberScrollerFontSize() {
-		TextureRegion scrollerRectangle = skin
-				.getRegion(NumberScroller.SCROLLER_RECTANGLE);
-		int scrollerRectangleHeight = scrollerRectangle.getRegionHeight();
-		int fontHeight = (int) (scrollerRectangleHeight * 0.85);
-		return fontHeight;
-	}
-
 	private static int calculateBoardNumberFontSize() {
 		TextureRegion scrollerRectangle = skin.getRegion("red_rectangle");
 		int scrollerRectangleHeight = scrollerRectangle.getRegionHeight();
 		int fontSize = (int) (scrollerRectangleHeight * 0.7);
 		return fontSize;
 	}
-
-	public static BitmapFont getNumberScrollFont() {
-		return numberScrollerFont;
-	}
-
-	public static BitmapFont getBoardNumberFont() {
-		return boardNumberFont;
-	}
 	
-	public static BitmapFont getMessageFont() {
-		return messageFont;
+	private static int calculateNumberScrollerFontSize() {
+		TextureRegion scrollerRectangle = skin
+				.getRegion(NumberScroller.SCROLLER_RECTANGLE);
+		int scrollerRectangleHeight = scrollerRectangle.getRegionHeight();
+		int fontHeight = (int) (scrollerRectangleHeight * 0.85);
+		return fontHeight;
 	}
 
 }
