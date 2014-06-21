@@ -39,7 +39,6 @@ public class DefaultCortexModel implements CortexModel {
 		setInitialBoardState();
 		setInitialAvailableNumbers();
 		setFirstPlayer();
-		coordinateNumberMap.put(3, 3);
 		message = currentPlayer + " starts the game!";
 		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
 		listener.update(state);
@@ -80,9 +79,14 @@ public class DefaultCortexModel implements CortexModel {
 			}
 			coordinateNumberMap.put(coordinate, number);
 			chosenNumber = -1;
+			checkIfWinningBoard();
 			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
 			listener.update(state);
 		}
+	}
+
+	private void checkIfWinningBoard() {
+		
 	}
 
 	private boolean isNumberPlacementValid(String playerName, int coordinate,
