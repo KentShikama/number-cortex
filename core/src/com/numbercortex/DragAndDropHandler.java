@@ -24,6 +24,7 @@ public class DragAndDropHandler {
 	private DragAndDrop handler = new DragAndDrop();
 	private NumberTextButton nextNumber;
 	private Sendable messenger;
+	private int chosenNumber;
 	
 	private DragAndDropHandler() {}
 
@@ -48,17 +49,27 @@ public class DragAndDropHandler {
 	public void setSendable(Sendable messenger) {
 		this.messenger = messenger;
 	}
-
+	
+	public void setChosenNumber(int chosenNumber) {
+		this.chosenNumber = chosenNumber;
+	}
+	
 	private boolean isButtonEmpty(NumberTextButton button) {
 		return button.getLabel().getText().toString().isEmpty();
 	}
 
-	private boolean isButtonStatic(NumberTextButton button) {
-		int coordinate = Integer.valueOf(button.getName());
-		
-		// TODO
-		
-		return false;
+	private boolean isChosenNumber(NumberTextButton button) {
+		Label label = button.getLabel();
+		String labelText = label.getText().toString();
+		if (labelText.isEmpty()) {
+			return false;
+		}
+		int labelValue = Integer.valueOf(labelText);
+		if (labelValue == chosenNumber) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	class NumberSource extends Source {
@@ -72,20 +83,19 @@ public class DragAndDropHandler {
 
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-			if (isButtonEmpty(sourceButton) || isButtonStatic(sourceButton)) {
-				return null;
+			if (isChosenNumber(sourceButton)) {
+				Payload payload = new Payload();
+				Label buttonLabel = sourceButton.getLabel();
+				payload.setObject(buttonLabel);
+				payload.setDragActor(buttonLabel);
+				payload.setInvalidDragActor(buttonLabel);
+				payload.setValidDragActor(buttonLabel);
+				handler.setDragActorPosition(-(buttonLabel.getWidth() / 2),
+						buttonLabel.getHeight() / 2);
+				sourceButton.clearLabel();
+				return payload;
 			}
-			Payload payload = new Payload();
-			Label buttonLabel = sourceButton.getLabel();
-			payload.setObject(buttonLabel);
-			payload.setDragActor(buttonLabel);
-			payload.setInvalidDragActor(buttonLabel);
-			payload.setValidDragActor(buttonLabel);
-			handler.setDragActorPosition(-(buttonLabel.getWidth() / 2),
-					buttonLabel.getHeight() / 2);
-			sourceButton.clearLabel();
-			return payload;
-			
+			return null;
 		}
 
 		@Override

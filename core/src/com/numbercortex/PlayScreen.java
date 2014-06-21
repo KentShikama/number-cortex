@@ -69,9 +69,61 @@ public class PlayScreen implements Screen {
 
 	public void updateState(CortexState state) {
 		updateCurrentPlayer(state);
+		updateChosenNumber(state);
 		updateMessageArea(state);
 		updateBoardMap(state);
 		updateNumberScroller(state);
+	}
+
+	private void updateBoardMap(CortexState state) {
+		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
+		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
+			int coordinate = entry.getKey();
+			int number = entry.getValue();
+			if (number != -1) {
+				board.updateCell(coordinate, number);
+			}
+		}
+	}
+
+	private void updateCurrentPlayer(CortexState state) {
+		String currentPlayerName = state.getCurrentPlayer();
+		Sendable currentPlayer = getCurrentPlayer(currentPlayerName);
+		numberScroller.setSendable(currentPlayer);
+		handler.setSendable(currentPlayer);
+	}
+	
+	private Sendable getCurrentPlayer(String currentPlayerName) {
+		for (Player player : players) {
+			String playerName = player.getName();
+			if (playerName.equals(currentPlayerName)) {
+				return player;
+			}
+		}
+		Gdx.app.log(TAG, "The player was not found.");
+		return null;
+	}
+	
+	private void updateChosenNumber(CortexState state) {
+		int chosenNumber = state.getChosenNumber();
+		if (chosenNumber != -1 ) {
+			handler.setChosenNumber(chosenNumber);
+		}
+	}
+
+	private void updateMessageArea(CortexState state) {
+		String message = state.getMessage();
+		int chosenNumber = state.getChosenNumber();
+		if (chosenNumber != -1) {
+			messageArea.updateMessageWithNextNumber(message, chosenNumber);
+		} else {
+			messageArea.updateMessage(message);
+		}		
+	}
+
+	private void updateNumberScroller(CortexState state) {
+		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+		numberScroller.update(availableNumbers);
 	}
 
 	private void buildBackground(CortexPreferences preferences) {
@@ -142,50 +194,6 @@ public class PlayScreen implements Screen {
 		} else {
 			return RED_BACKGROUND;
 		}
-	}
-	
-	private Sendable getCurrentPlayer(String currentPlayerName) {
-		for (Player player : players) {
-			String playerName = player.getName();
-			if (playerName.equals(currentPlayerName)) {
-				return player;
-			}
-		}
-		Gdx.app.log(TAG, "The player was not found.");
-		return null;
-	}
-
-	private void updateBoardMap(CortexState state) {
-		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
-		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
-			int coordinate = entry.getKey();
-			int number = entry.getValue();
-			if (number != -1) {
-				board.updateCell(coordinate, number);
-			}
-		}
-	}
-
-	private void updateCurrentPlayer(CortexState state) {
-		String currentPlayerName = state.getCurrentPlayer();
-		Sendable currentPlayer = getCurrentPlayer(currentPlayerName);
-		numberScroller.setSendable(currentPlayer);
-		handler.setSendable(currentPlayer);
-	}
-
-	private void updateMessageArea(CortexState state) {
-		String message = state.getMessage();
-		int chosenNumber = state.getChosenNumber();
-		if (chosenNumber != -1) {
-			messageArea.updateMessageWithNextNumber(message, chosenNumber);
-		} else {
-			messageArea.updateMessage(message);
-		}		
-	}
-
-	private void updateNumberScroller(CortexState state) {
-		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-		numberScroller.update(availableNumbers);
 	}
 	
 	@Override
