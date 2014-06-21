@@ -12,7 +12,7 @@ public class DefaultCortexModel implements CortexModel {
 	private String message;
 	private int chosenNumber = -1;
 
-	private ArrayList<String> playerNames = new ArrayList<String>();
+	private ArrayList<String> usernames = new ArrayList<String>();
 
 	private static final int BOARD_SIZE = 16;
 	
@@ -21,15 +21,14 @@ public class DefaultCortexModel implements CortexModel {
 	
 	private Exchangeable listener;
 	
-	@Override
-	public void setExchangeable (Exchangeable listener) {
+	public DefaultCortexModel(Exchangeable listener) {
 		this.listener = listener;
 	}
 
 	@Override
-	public void register(String playerName) {
-		playerNames.add(playerName);
-		if (playerNames.size() == 2) {
+	public void register(String username) {
+		usernames.add(username);
+		if (usernames.size() == 2) {
 			startGame();
 		}
 	}
@@ -40,8 +39,8 @@ public class DefaultCortexModel implements CortexModel {
 		setInitialAvailableNumbers();
 		setFirstPlayer();
 		message = currentPlayer + " starts the game!";
-		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
-		listener.update(state);
+		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+		listener.updateState(state);
 	}
 
 	private void setInitialBoardState() {
@@ -63,9 +62,9 @@ public class DefaultCortexModel implements CortexModel {
 
 	private void setFirstPlayer() {
 		if (Math.random() > 0.5) {
-			currentPlayer = playerNames.get(0);
+			currentPlayer = usernames.get(0);
 		} else {
-			currentPlayer = playerNames.get(1);
+			currentPlayer = usernames.get(1);
 		}
 	}
 
@@ -80,8 +79,8 @@ public class DefaultCortexModel implements CortexModel {
 			coordinateNumberMap.put(coordinate, number);
 			chosenNumber = -1;
 			checkIfWinningBoard();
-			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
-			listener.update(state);
+			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+			listener.updateState(state);
 		}
 	}
 
@@ -99,10 +98,10 @@ public class DefaultCortexModel implements CortexModel {
 		if (isChosenNumberValid(playerName, nextNumber)) {
 			chosenNumber = nextNumber;
 			availableNumbers.remove(Integer.valueOf(nextNumber));
-			currentPlayer = (currentPlayer == playerNames.get(0) ? playerNames.get(1) : playerNames.get(0));
+			currentPlayer = (currentPlayer == usernames.get(0) ? usernames.get(1) : usernames.get(0));
 			message = currentPlayer;
-			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, playerNames, chosenNumber, coordinateNumberMap, availableNumbers).build();
-			listener.update(state);
+			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
+			listener.updateState(state);
 		}
 	}
 

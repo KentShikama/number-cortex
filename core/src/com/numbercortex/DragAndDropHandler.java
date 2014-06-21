@@ -28,13 +28,14 @@ public class DragAndDropHandler {
 	}
 
 	private DragAndDrop handler = new DragAndDrop();
-	private NumberCortexBoard board;
-	private MessageArea messageArea;
-	private Local local;
 	private NumberTextButton nextNumber;
+	private Sendable messenger;
+	
+	public void setSendable(Sendable messenger) {
+		this.messenger = messenger;
+	}
 
 	public void notifyBoardConstruction(NumberCortexBoard board) {
-		this.board = board;
 		ArrayList<NumberTextButton> cells = board.getBoardCells();
 		for (NumberTextButton button : cells) {
 			handler.addSource(new NumberSource(button));
@@ -43,14 +44,9 @@ public class DragAndDropHandler {
 	}
 	
 	public void notifyMessageAreaConstrucion(MessageArea messageArea) {
-		this.messageArea = messageArea;
 		nextNumber = messageArea.getNextNumberSquare();
 		handler.addSource(new NumberSource(nextNumber));
 		handler.addTarget(new NumberTarget(nextNumber));
-	}
-	
-	public void setExchangeable(Local local) {
-		this.local = local;
 	}
 	
 	private boolean isButtonEmpty(NumberTextButton button) {
@@ -101,7 +97,7 @@ public class DragAndDropHandler {
 				targetButton.setLabel(label);
 				int targetCoordinate = Integer.valueOf(targetButton.getName());
 				int targetValue = Integer.valueOf(label.getText().toString());
-				local.placeNumber(targetCoordinate, targetValue);
+				messenger.placeNumber(targetCoordinate, targetValue);
 			} else {
 				sourceButton.setLabel(label);
 			}

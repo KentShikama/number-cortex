@@ -1,6 +1,6 @@
 package com.numbercortex;
 
-public interface Player {
-	public void updateState(CortexState state);
-	public String getName();
+public interface Player extends Sendable {
+	public abstract String getName();
+	public abstract PlayScreen getScreen();
 }

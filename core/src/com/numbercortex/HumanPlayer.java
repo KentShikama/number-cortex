@@ -1,49 +1,36 @@
 package com.numbercortex;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 class HumanPlayer implements Player {
 	
 	private String name;
 	private PlayScreen screen;
+	private Exchangeable exchangeable;
 
-	HumanPlayer(PlayScreen screen, String name) {
+	HumanPlayer(Exchangeable exchangeable, PlayScreen screen, String name) {
+		this.exchangeable = exchangeable;
 		this.screen = screen;
 		this.name = name;
+		exchangeable.register(this);
 	}
 	
 	@Override
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
-	public void updateState(CortexState state) {
-		updateMessageArea(state);
-		updateBoardMap(state);
-		updateNumberScroller(state);
-	}
-	
-	private void updateMessageArea(CortexState state) {
-		String currentPlayer = state.getCurrentPlayer();
-		int chosenNumber = state.getChosenNumber();
-		screen.updateMessageArea(currentPlayer, chosenNumber);
-	}
-	
-	private void updateBoardMap(CortexState state) {
-		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
-		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
-			int coordinate = entry.getKey();
-			int number = entry.getValue();
-			if (number != -1) {
-				screen.updateBoardCell(coordinate, number);
-			}
-		}
+	public PlayScreen getScreen() {
+		return screen;
 	}
 
-	private void updateNumberScroller(CortexState state) {
-		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-		screen.updateNumberScroller(availableNumbers);
+	@Override
+	public void chooseNumber(int nextNumber) {
+		exchangeable.chooseNumber(name, nextNumber);
 	}
+
+	@Override
+	public void placeNumber(int coordinate, int number) {
+		exchangeable.placeNumber(name, coordinate, number);
+	}
+	
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -31,25 +32,59 @@ public class PlayScreen implements Screen {
 	private NumberScroller numberScroller;
 	private MessageArea messageArea;
 	private DragAndDropHandler handler = DragAndDropHandler.getInstance();
-	private Local local;
+	private ArrayList<Player> players = new ArrayList<Player>();
 	
 	PlayScreen(Game game) {
 		this.game = game;
 	}
 	
-	public void updateMessageArea(String message, int chosenNumber) {
+	public void updateState(CortexState state) {
+		updateCurrentPlayer(state);
+		updateMessageArea(state);
+		updateBoardMap(state);
+		updateNumberScroller(state);
+	}
+
+	private void updateCurrentPlayer(CortexState state) {
+		String currentPlayerName = state.getCurrentPlayer();
+		Sendable currentPlayer = getCurrentPlayer(currentPlayerName);
+		numberScroller.setSendable(currentPlayer);
+		handler.setSendable(currentPlayer);
+	}
+	
+	private Sendable getCurrentPlayer(String currentPlayerName) {
+		for (Player player : players) {
+			String playerName = player.getName();
+			if (playerName.equals(currentPlayerName)) {
+				return player;
+			}
+		}
+		return null;
+	}
+	
+	private void updateMessageArea(CortexState state) {
+		String currentPlayer = state.getCurrentPlayer();
+		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
-			messageArea.updateMessageWithNextNumber(message, chosenNumber);
+			messageArea.updateMessageWithNextNumber(currentPlayer, chosenNumber);
 		} else {
-			messageArea.updateMessage(message);
-		}	
+			messageArea.updateMessage(currentPlayer);
+		}		
 	}
 	
-	public void updateBoardCell(int coordinate, int number) {
-		board.updateCell(coordinate, number);
+	private void updateBoardMap(CortexState state) {
+		Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
+		for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
+			int coordinate = entry.getKey();
+			int number = entry.getValue();
+			if (number != -1) {
+				board.updateCell(coordinate, number);
+			}
+		}
 	}
-	
-	public void updateNumberScroller(ArrayList<Integer> availableNumbers) {
+
+	private void updateNumberScroller(CortexState state) {
+		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
 	}
 
@@ -72,20 +107,17 @@ public class PlayScreen implements Screen {
 		
 		CortexPreferences preferences = CortexPreferences.getInstance();
 		
-		CortexModel model = new DefaultCortexModel();
-		local = new Local(model);
-
-		handler.setExchangeable(local);
 		buildBackground(preferences);
 		buildMessageArea();
 		buildBoard(preferences);
 		buildNumberScroller();
 		buildBottomButtons();
 		
-		Player player1 = new HumanPlayer(this, "Player 1");
-		Player player2 = new HumanPlayer(this, "Player 2");
-		local.register(player1);
-		local.register(player2);
+		Local local = new Local();
+		Player player1 = new HumanPlayer(local, this, "Player 1");
+		Player player2 = new HumanPlayer(local, this, "Player 2");
+		players.add(player1);
+		players.add(player2);
 	}
 
 	private void buildBackground(CortexPreferences preferences) {
@@ -115,7 +147,7 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void buildNumberScroller() {
-		numberScroller = new NumberScroller(stage, local);
+		numberScroller = new NumberScroller(stage);
 	}
 	
 	private void buildBottomButtons() {

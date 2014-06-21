@@ -23,13 +23,11 @@ public class NumberScroller {
 	
 	private static NumberTextButton.NumberTextButtonStyle buttonStyle;
 	private static Skin skin = Assets.gameSkin;
+	private ScrollPane numberScroller;
 	
-	ScrollPane numberScroller;
-	private Exchangeable local;
+	private Sendable messenger;
 	
-	NumberScroller (Stage stage, Exchangeable local) {		
-		this.local = local;
-		
+	NumberScroller (Stage stage) {				
 		Table numberTable = new Table();	
 		ScrollPane.ScrollPaneStyle style = buildScrollPaneStyle();
 		numberScroller = buildNumberScroller(numberTable, style);
@@ -37,6 +35,21 @@ public class NumberScroller {
 		
 		buildButtonStyle();
 		buildArrows(stage);
+	}
+	
+	public void setSendable(Sendable messenger) {
+		this.messenger = messenger;
+	}
+	
+	public void update (ArrayList<Integer> numberList) {
+		Table numberTable = (Table) numberScroller.getChildren().get(0);
+		numberTable.clearChildren();
+		NumberButtonListener listener = new NumberButtonListener();
+		for (Integer number : numberList) {
+			NumberTextButton button = new NumberTextButton(number.toString(), buttonStyle);
+			button.addListener(listener);
+			numberTable.add(button);
+		}
 	}
 
 	private ScrollPane.ScrollPaneStyle buildScrollPaneStyle() {
@@ -98,23 +111,13 @@ public class NumberScroller {
 		stage.addActor(leftArrowButton);
 		stage.addActor(rightArrowButton);
 	}
-	
-	public void update (ArrayList<Integer> numberList) {
-		Table numberTable = (Table) numberScroller.getChildren().get(0);
-		numberTable.clearChildren();
-		NumberButtonListener listener = new NumberButtonListener();
-		for (Integer number : numberList) {
-			NumberTextButton button = new NumberTextButton(number.toString(), buttonStyle);
-			button.addListener(listener);
-			numberTable.add(button);
-		}
-	}
-	
-	class NumberButtonListener extends ClickListener {
+
+	private class NumberButtonListener extends ClickListener {
+		
 		@Override
 		public void clicked (InputEvent event, float x, float y) {
 			int number = getClickedNumber(event);
-			local.chooseNumber(number);
+			messenger.chooseNumber(number);
 		}
 
 		private int getClickedNumber(InputEvent event) {
