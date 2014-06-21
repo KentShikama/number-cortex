@@ -20,6 +20,47 @@ public class DragAndDropHandler {
 		private static final DragAndDropHandler INSTANCE = new DragAndDropHandler();
 	}
 
+
+	private DragAndDrop handler = new DragAndDrop();
+	private NumberTextButton nextNumber;
+	private Sendable messenger;
+	
+	private DragAndDropHandler() {}
+
+	public static DragAndDropHandler getInstance() {
+		return Singleton.INSTANCE;
+	}
+	
+	public void notifyBoardConstruction(NumberCortexBoard board) {
+		ArrayList<NumberTextButton> cells = board.getBoardCells();
+		for (NumberTextButton button : cells) {
+			handler.addSource(new NumberSource(button));
+			handler.addTarget(new NumberTarget(button));
+		}
+	}
+	
+	public void notifyMessageAreaConstrucion(MessageArea messageArea) {
+		nextNumber = messageArea.getNextNumberSquare();
+		handler.addSource(new NumberSource(nextNumber));
+		handler.addTarget(new NumberTarget(nextNumber));
+	}
+	
+	public void setSendable(Sendable messenger) {
+		this.messenger = messenger;
+	}
+
+	private boolean isButtonEmpty(NumberTextButton button) {
+		return button.getLabel().getText().toString().isEmpty();
+	}
+
+	private boolean isButtonStatic(NumberTextButton button) {
+		int coordinate = Integer.valueOf(button.getName());
+		
+		// TODO
+		
+		return false;
+	}
+	
 	class NumberSource extends Source {
 
 		private NumberTextButton sourceButton;
@@ -101,47 +142,6 @@ public class DragAndDropHandler {
 			return targetButton;
 		}
 
-	}
-
-	private DragAndDrop handler = new DragAndDrop();
-	private NumberTextButton nextNumber;
-	private Sendable messenger;
-	
-	private DragAndDropHandler() {
-	}
-
-	public static DragAndDropHandler getInstance() {
-		return Singleton.INSTANCE;
-	}
-	
-	public void notifyBoardConstruction(NumberCortexBoard board) {
-		ArrayList<NumberTextButton> cells = board.getBoardCells();
-		for (NumberTextButton button : cells) {
-			handler.addSource(new NumberSource(button));
-			handler.addTarget(new NumberTarget(button));
-		}
-	}
-	
-	public void notifyMessageAreaConstrucion(MessageArea messageArea) {
-		nextNumber = messageArea.getNextNumberSquare();
-		handler.addSource(new NumberSource(nextNumber));
-		handler.addTarget(new NumberTarget(nextNumber));
-	}
-	
-	public void setSendable(Sendable messenger) {
-		this.messenger = messenger;
-	}
-
-	private boolean isButtonEmpty(NumberTextButton button) {
-		return button.getLabel().getText().toString().isEmpty();
-	}
-
-	private boolean isButtonStatic(NumberTextButton button) {
-		int coordinate = Integer.valueOf(button.getName());
-		
-		// TODO
-		
-		return false;
 	}
 
 }
