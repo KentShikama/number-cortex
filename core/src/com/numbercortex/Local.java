@@ -10,9 +10,11 @@ public class Local implements Exchangeable {
 
 	public Local() {}
 
-	public void register(Player player) {
-		players.add(player);
-		model.register(player.getName());
+	public void register(Player... players) {
+		for (int i = 0; i < players.length; i++) {
+			this.players.add(players[i]);
+			model.register(players[i].getName());
+		}
 	}
 
 	@Override

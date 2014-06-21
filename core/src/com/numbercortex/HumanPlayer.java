@@ -6,11 +6,10 @@ class HumanPlayer implements Player {
 	private PlayScreen screen;
 	private Exchangeable exchangeable;
 
-	HumanPlayer(Exchangeable exchangeable, PlayScreen screen, String name) {
+	public HumanPlayer(String name, PlayScreen screen, Exchangeable exchangeable) {
 		this.exchangeable = exchangeable;
 		this.screen = screen;
 		this.name = name;
-		exchangeable.register(this);
 	}
 	
 	@Override

@@ -38,6 +38,10 @@ public class PlayScreen implements Screen {
 		this.game = game;
 	}
 	
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+	
 	public void updateState(CortexState state) {
 		updateCurrentPlayer(state);
 		updateMessageArea(state);
@@ -63,12 +67,12 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void updateMessageArea(CortexState state) {
-		String currentPlayer = state.getCurrentPlayer();
+		String message = state.getMessage();
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
-			messageArea.updateMessageWithNextNumber(currentPlayer, chosenNumber);
+			messageArea.updateMessageWithNextNumber(message, chosenNumber);
 		} else {
-			messageArea.updateMessage(currentPlayer);
+			messageArea.updateMessage(message);
 		}		
 	}
 	
@@ -114,10 +118,13 @@ public class PlayScreen implements Screen {
 		buildBottomButtons();
 		
 		Local local = new Local();
-		Player player1 = new HumanPlayer(local, this, "Player 1");
-		Player player2 = new HumanPlayer(local, this, "Player 2");
-		players.add(player1);
-		players.add(player2);
+		Player playerOne = new HumanPlayer("Player 1", this, local);
+		Player playerTwo = new HumanPlayer("Player 2", this, local);
+		players.add(playerOne);
+		players.add(playerTwo);
+		for (Player player : players) {
+			local.register(player);			
+		}
 	}
 
 	private void buildBackground(CortexPreferences preferences) {
