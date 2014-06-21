@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 
 /**
- * Differentiate next_number rectangle and board rectangles by name?
- * 
  * Allow for some processing to be done here to save bandwidth.
  * The results will still be doubled checked by the model.
  */
