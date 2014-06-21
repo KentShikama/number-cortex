@@ -10,6 +10,7 @@ public class Local implements Exchangeable {
 
 	public Local() {}
 
+	@Override
 	public void register(Player... players) {
 		for (int i = 0; i < players.length; i++) {
 			this.players.add(players[i]);
