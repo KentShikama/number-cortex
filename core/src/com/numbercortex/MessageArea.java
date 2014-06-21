@@ -73,21 +73,26 @@ public class MessageArea {
 		messageLabelLong.setText(message);
 		messageLabelShort.remove();
 		nextNumberSquare.remove();
+		stage.addActor(messageLabelLong);
+	}
+	
+	public void updateMessageWithNextNumber(String message, int nextNumber) {
+		Label newLabel = buildNumberLabel();
+		nextNumberSquare.setLabel(newLabel);
+		nextNumberSquare.setText(String.valueOf(nextNumber));
+		messageLabelShort.setText(message);
+		messageLabelLong.remove();
+		stage.addActor(messageLabelShort);
+		stage.addActor(nextNumberSquare);
+	}
+
+	private Label buildNumberLabel() {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = font;
 		labelStyle.fontColor = new Color(250f/255f, 235f/255f, 102f/255f, 1);
 		Label label = new Label("", labelStyle);
-		nextNumberSquare.setLabel(label);
-		stage.addActor(messageLabelLong);
-	}
-	
-	public void updateMessageWithNextNumber(String message, int nextNumber) {
-		messageLabelShort.setText(message);
-		nextNumberSquare.setText(String.valueOf(nextNumber));
-		messageLabelLong.remove();
-		stage.addActor(messageLabelShort);
-		stage.addActor(nextNumberSquare);
+		return label;
 	}
 
 }
