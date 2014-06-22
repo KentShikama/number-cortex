@@ -64,7 +64,7 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		
-		buildGame();
+		buildGame(preferences);
 	}
 
 	public void updateState(CortexState state) {
@@ -117,7 +117,14 @@ public class PlayScreen implements Screen {
 		if (chosenNumber != -1) {
 			messageArea.updateMessageWithNextNumber(message, chosenNumber);
 		} else {
-			messageArea.updateMessage(message);
+			if (state.getWinningCoordinates() != null) {
+				messageArea.updateMessage(state.getWinner() + " wins!");
+				for (Integer coordinate : state.getWinningCoordinates()) {
+					System.out.print(coordinate + " ");
+				}
+			} else {
+				messageArea.updateMessage(message);
+			}
 		}		
 	}
 
@@ -144,8 +151,8 @@ public class PlayScreen implements Screen {
 		buildHelpButton(helpRectangleSkin);
 	}
 	
-	private void buildGame() {
-		Local local = new Local();
+	private void buildGame(CortexPreferences preferences) {
+		Local local = Local.createExchangeable(preferences);
 		Player playerOne = new HumanPlayer("Player 1", this, local);
 		Player playerTwo = new HumanPlayer("Player 2", this, local);
 		players.add(playerOne);
@@ -203,7 +210,8 @@ public class PlayScreen implements Screen {
 	public void hide() {}
 	
 	@Override
-	public void pause() {}
+	public void pause() {
+	}
 	
 	@Override
 	public void resume() {}

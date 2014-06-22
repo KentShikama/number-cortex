@@ -5,10 +5,17 @@ import java.util.ArrayList;
 public class Local implements Exchangeable {
 	
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private CortexModel model = new DefaultCortexModel(this);
 	private String currentPlayer;
+	private CortexModel model;
 
-	public Local() {}
+	public static Local createExchangeable(CortexPreferences preferences) {
+		Local local = new Local();
+		local.model = new DefaultCortexModel(local, preferences);
+		return local;
+	}
+
+	private Local() {
+	}
 
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
