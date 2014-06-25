@@ -204,16 +204,17 @@ public class PlayScreen implements Screen {
 	}
 	
 	@Override
-	public void dispose() {}
-
+	public void resume() {
+		Assets.loadGame();
+	}
+	
 	@Override
 	public void hide() {}
 	
 	@Override
-	public void pause() {
-	}
+	public void dispose() {}
 	
 	@Override
-	public void resume() {}
+	public void pause() {}
 
 }

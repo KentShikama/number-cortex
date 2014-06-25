@@ -13,15 +13,28 @@ public class Assets {
 	public static Skin settingsSkin;
 	public static Skin gameSkin;
 	
-	public static void load() {
-		home = new TextureAtlas(Gdx.files.internal("home/home.txt"));		
-		homeSkin = new Skin(home);
-		
-		settings = new TextureAtlas(Gdx.files.internal("settings/settings.txt"));
-		settingsSkin = new Skin(settings);
-		
-		game = new TextureAtlas(Gdx.files.internal("game/game.txt"));
-		gameSkin = new Skin(game);
+	public static void loadHome() {
+		if (homeSkin == null) {
+			home = new TextureAtlas(Gdx.files.internal("home/home.txt"));		
+			homeSkin = new Skin(home);
+		}
+	}
+	
+	public static void loadSettings() {
+		if (settingsSkin == null) {
+			settings = new TextureAtlas(Gdx.files.internal("settings/settings.txt"));
+			settingsSkin = new Skin(settings);
+		}
+	}
+	
+	public static void loadGame() {
+		if (gameSkin == null) {
+			game = new TextureAtlas(Gdx.files.internal("game/game.txt"));
+			gameSkin = new Skin(game);
+		}
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
+		}
 	}
 
 }

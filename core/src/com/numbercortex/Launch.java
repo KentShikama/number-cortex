@@ -13,7 +13,9 @@ public class Launch extends Game {
 
 	@Override
 	public void create() {
-		Assets.load();
+		Assets.loadHome();
+		Assets.loadSettings();
+		Assets.loadGame();
 		FontGenerator.load();
 		CortexPreferences.getInstance().load();
 		setScreen(new TitleScreen(this));

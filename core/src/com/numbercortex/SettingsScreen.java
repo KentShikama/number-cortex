@@ -152,23 +152,6 @@ public class SettingsScreen implements Screen {
 	}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void hide() {
-		CortexPreferences.getInstance().save();
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
@@ -178,10 +161,6 @@ public class SettingsScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
-	}
-
-	@Override
-	public void resume() {
 	}
 
 	@Override
@@ -349,5 +328,20 @@ public class SettingsScreen implements Screen {
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 //		stage.addActor(resumeButton);
 	}
+	
+	@Override
+	public void hide() {
+		CortexPreferences.getInstance().save();
+	}
+	
+	@Override
+	public void resume() {
+		Assets.loadSettings();
+	}
+	
+	@Override
+	public void dispose() {}
+	@Override
+	public void pause() {}
 
 }

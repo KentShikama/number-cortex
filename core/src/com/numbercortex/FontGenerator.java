@@ -17,6 +17,14 @@ public class FontGenerator {
 
 	private FontGenerator() {}
 	
+	public static boolean isNull() {
+		if (numberScrollerFont == null || boardNumberFont == null || messageFont == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static BitmapFont getBoardNumberFont() {
 		return boardNumberFont;
 	}
