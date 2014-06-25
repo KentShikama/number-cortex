@@ -149,6 +149,7 @@ public class SettingsScreen implements Screen {
 
 	public SettingsScreen(Game game) {
 		this.game = game;
+		stage = ((Launch) game).getStage();
 	}
 
 	@Override
@@ -165,7 +166,7 @@ public class SettingsScreen implements Screen {
 
 	@Override
 	public void show() {
-		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
+		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 		
 		CortexPreferences preferences = CortexPreferences.getInstance();

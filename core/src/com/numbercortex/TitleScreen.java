@@ -91,6 +91,7 @@ public class TitleScreen implements Screen {
 
 	TitleScreen(Game game) {
 		this.game = game;
+		stage = ((Launch) game).getStage();
 	}
 
 	@Override
@@ -121,6 +122,7 @@ public class TitleScreen implements Screen {
 
 	@Override
 	public void show() {
+		stage.clear();
 		buildStage();
 		buildBackground();
 		buildButtons();
@@ -143,7 +145,6 @@ public class TitleScreen implements Screen {
 	}
 
 	private void buildStage() {
-		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
 	}
 

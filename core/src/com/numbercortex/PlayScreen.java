@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class PlayScreen implements Screen {
 	
@@ -37,6 +36,7 @@ public class PlayScreen implements Screen {
 	
 	PlayScreen(Game game) {
 		this.game = game;
+		stage = ((Launch) game).getStage();
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void show() {
-		stage = new Stage(new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT));
+		stage.clear();
 		Gdx.input.setInputProcessor(stage);
 		
 		CortexPreferences preferences = CortexPreferences.getInstance();
