@@ -54,7 +54,6 @@ public class PlayScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		Gdx.input.setInputProcessor(stage);
 		
 		CortexPreferences preferences = CortexPreferences.getInstance();
 		

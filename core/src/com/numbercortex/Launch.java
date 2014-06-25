@@ -1,6 +1,7 @@
 package com.numbercortex;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,6 +26,7 @@ public class Launch extends Game {
 		
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(stage);
 
 		setScreen(new TitleScreen(this));
 		fps = new FPSLogger();
