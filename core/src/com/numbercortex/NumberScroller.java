@@ -46,7 +46,6 @@ public class NumberScroller {
 	private static class Singleton {
 		private static final NumberScroller INSTANCE = new NumberScroller();
 	}
-	
 	private NumberScroller () {}
 	
 	public static NumberScroller createNumberScroller(Stage stage) {

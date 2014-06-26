@@ -13,20 +13,16 @@ public class MessageArea {
 
 	private static final String NEXT_NUMBER = "next_number";
 	
-	private TextButton messageLabelShort;
-	private TextButton messageLabelLong;
-	private NumberTextButton nextNumberSquare;
 	private static Skin skin = Assets.gameSkin;
-	private Stage stage;
-
-	public MessageArea(Stage stage) {
-		this.stage = stage;
-		TextButtonStyle textButtonStyle = buildLabelStyle();
-		buildMessageLabelLong(textButtonStyle);
-		buildMessageLabelShort(textButtonStyle);
-		buildNextNumberSquare(stage);
+	private static TextButtonStyle textButtonStyle = buildLabelStyle();
+	private static TextButtonStyle buildLabelStyle() {
+		BitmapFont font = FontGenerator.getMessageFont();
+		TextButtonStyle textButtonStyle = new TextButtonStyle();
+		textButtonStyle.font = font;
+		textButtonStyle.fontColor = Color.WHITE;
+		return textButtonStyle;
 	}
-
+	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Drawable numberRectangle = skin.getDrawable(textureName);
@@ -37,12 +33,44 @@ public class MessageArea {
 		return buttonStyle;
 	}
 	
-	private static TextButtonStyle buildLabelStyle() {
-		BitmapFont font = FontGenerator.getMessageFont();
-		TextButtonStyle textButtonStyle = new TextButtonStyle();
-		textButtonStyle.font = font;
-		textButtonStyle.fontColor = Color.WHITE;
-		return textButtonStyle;
+	private Stage stage;
+	private TextButton messageLabelShort;
+	private TextButton messageLabelLong;
+	private NumberTextButton nextNumberSquare;
+	
+	private static class Singleton {
+		private static final MessageArea INSTANCE = new MessageArea();
+	}
+	private MessageArea() {}
+	
+	public static MessageArea createMessageArea(Stage stage) {
+		MessageArea instance = Singleton.INSTANCE;
+		instance.stage = stage;
+		instance.messageLabelLong = buildMessageLabelLong();
+		instance.messageLabelShort = buildMessageLabelShort();
+		instance.nextNumberSquare = buildNextNumberSquare();
+		return instance;
+	}
+	
+	private static TextButton buildMessageLabelLong() {
+		TextButton messageLabelLong = new TextButton("", textButtonStyle);
+		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2, 145);
+		messageLabelLong.getLabel().setWrap(true);
+		return messageLabelLong;
+	}
+	
+	private static TextButton buildMessageLabelShort() {
+		TextButton messageLabelShort = new TextButton("", textButtonStyle);
+		messageLabelShort.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2 - 165, 145);
+		messageLabelShort.getLabel().setWrap(true);
+		return messageLabelShort;
+	}
+	
+	private static NumberTextButton buildNextNumberSquare() {
+		NumberTextButton nextNumberSquare = new NumberTextButton("", nextNumberStyle);
+		nextNumberSquare.setBounds(475, Launch.SCREEN_HEIGHT - 175, 141, 141);
+		nextNumberSquare.setName("16");
+		return nextNumberSquare;
 	}
 	
 	public NumberTextButton getNextNumberSquare() {
@@ -65,27 +93,8 @@ public class MessageArea {
 		stage.addActor(messageLabelShort);
 		stage.addActor(nextNumberSquare);
 	}
-	
-	private void buildMessageLabelLong(TextButtonStyle textButtonStyle) {
-		messageLabelLong = new TextButton("", textButtonStyle);
-		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2, 145);
-		messageLabelLong.getLabel().setWrap(true);
-	}
-	
-	private void buildMessageLabelShort(TextButtonStyle textButtonStyle) {
-		messageLabelShort = new TextButton("", textButtonStyle);
-		messageLabelShort.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2 - 165, 145);
-		messageLabelShort.getLabel().setWrap(true);
-	}
-	
-	private void buildNextNumberSquare(Stage stage) {
-		NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
-		nextNumberSquare = new NumberTextButton("", nextNumberStyle);
-		nextNumberSquare.setBounds(475, Launch.SCREEN_HEIGHT - 175, 141, 141);
-		nextNumberSquare.setName("16");
-	}
 
-	private Label buildNumberLabel() {
+	private static Label buildNumberLabel() {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = font;

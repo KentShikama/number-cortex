@@ -170,14 +170,14 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void buildMessageArea() {
-		messageArea = new MessageArea(stage);
+		messageArea = MessageArea.createMessageArea(stage);
 		messageArea.updateMessage("New message");
 		messageArea.updateMessageWithNextNumber("Welcome to Number Quarto", 4);
 		handler.notifyMessageAreaConstrucion(messageArea);
 	}
 	
 	private void buildNumberScroller() {
-		numberScroller = new NumberScroller(stage);
+		numberScroller = NumberScroller.createNumberScroller(stage);
 	}
 
 	private void buildSettingsButton(Drawable settingsRectangleSkin) {

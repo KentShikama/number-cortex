@@ -14,7 +14,6 @@ public class NumberCortexBoard {
 	private static final int NUMBER_OF_ROWS = 4;
 	
 	private static Skin skin = Assets.gameSkin;
-	
 	private static NumberTextButton.NumberTextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
@@ -24,7 +23,6 @@ public class NumberCortexBoard {
 	private static class Singleton {
 		private static NumberCortexBoard INSTANCE = new NumberCortexBoard();
 	}
-
 	private NumberCortexBoard() {}
 
 	public static NumberCortexBoard createNumberCortexBoard(Stage stage, CortexPreferences preferences) {
