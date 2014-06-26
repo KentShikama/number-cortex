@@ -68,6 +68,7 @@ public class NumberCortexBoard {
 				if (actor == cell) {
 					continue;
 				}
+				cell.setText("");
 				stage.addActor(cell);
 			}
 		}

@@ -30,7 +30,8 @@ public class TitleScreen implements Screen {
 			super(PLAY_BUTTON, 0, new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					game.setScreen(new SettingsScreen(game));
+					Launch.settingsScreen.setPrevioiusScreenTag(TAG);
+					game.setScreen(Launch.settingsScreen);
 				}
 			});
 		}
@@ -71,7 +72,7 @@ public class TitleScreen implements Screen {
 			});
 		}
 	}
-	private static final String TAG = TitleScreen.class.getName();
+	public static final String TAG = TitleScreen.class.getName();
 
 	private static final String TITLE_BACKGROUND = "title_background";
 

@@ -116,40 +116,38 @@ public class SettingsScreen implements Screen {
 	}
 
 	private static final String TAG = SettingsScreen.class.getCanonicalName();
+	private static Skin skin = Assets.settingsSkin;
 
 	private Stage stage;
-	private Skin skin = Assets.settingsSkin;
 	private RatingGroup difficultyGroup;
 
 	private Game game;
+
 	private static final int CHECKBOX_LENGTH = 84;
 	private static final int STAR_WIDTH = 78;
-
 	private static final int STAR_HEIGHT = 75;
-	private static final TextureRegion PLAY_BUTTON_TEXTURE = Assets.settingsSkin
-			.getRegion("play_button");
-	private static final int RIGHT_BUTTON_WIDTH = PLAY_BUTTON_TEXTURE
-			.getRegionWidth();
-
-	private static final int RIGHT_BUTTON_HEIGHT = PLAY_BUTTON_TEXTURE
-			.getRegionHeight();
-	private static final TextureRegion QUIT_BUTTON_TEXTURE = Assets.settingsSkin
-			.getRegion("quit_button");
-	private static final int LEFT_BUTTON_WIDTH = QUIT_BUTTON_TEXTURE
-			.getRegionWidth();
-
-	private static final int LEFT_BUTTON_HEIGHT = QUIT_BUTTON_TEXTURE
-			.getRegionHeight();
-
+	
+	private static final TextureRegion PLAY_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("play_button");
+	private static final int RIGHT_BUTTON_WIDTH = PLAY_BUTTON_TEXTURE.getRegionWidth();
+	private static final int RIGHT_BUTTON_HEIGHT = PLAY_BUTTON_TEXTURE.getRegionHeight();
+	
+	private static final TextureRegion QUIT_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("quit_button");
+	private static final int LEFT_BUTTON_WIDTH = QUIT_BUTTON_TEXTURE.getRegionWidth();
+	private static final int LEFT_BUTTON_HEIGHT = QUIT_BUTTON_TEXTURE.getRegionHeight();
+	
 	private static final String SETTINGS_BACKGROUND = "settings_background";
-
 	private static final String SETTINGS_TITLE = "settings_title";
-
 	private static final String MENU_BODY = "menu_body";
+	
+	private String previousScreenTag = TitleScreen.TAG;
 
 	public SettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
+	}
+	
+	public void setPrevioiusScreenTag(String previousScreenTag) {
+		this.previousScreenTag = previousScreenTag;
 	}
 
 	@Override
@@ -196,8 +194,11 @@ public class SettingsScreen implements Screen {
 
 		buildMusicCheckbox(preferences, emptyCheckbox, checkedCheckbox);
 
-		buildPlayButton();
-		buildResumeButton();
+		if (previousScreenTag.equals(PlayScreen.TAG)) {
+			buildResumeButton();
+		} else if (previousScreenTag.equals(TitleScreen.TAG)) {
+			buildPlayButton();
+		}
 		buildQuitButton();
 	}
 
@@ -300,7 +301,8 @@ public class SettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new PlayScreen(game));
+				game.setScreen(Launch.playScreen);
+				Launch.playScreen.buildNewGame(CortexPreferences.getInstance());
 			}
 		});
 		stage.addActor(playButton);
@@ -326,7 +328,14 @@ public class SettingsScreen implements Screen {
 		ImageButton resumeButton = new ImageButton(resumeButtonSkin);
 		resumeButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045,
 				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
-//		stage.addActor(resumeButton);
+		resumeButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(Launch.playScreen);
+				Launch.playScreen.updateUsingCachedState();
+			}
+		});
+		stage.addActor(resumeButton);
 	}
 	
 	@Override

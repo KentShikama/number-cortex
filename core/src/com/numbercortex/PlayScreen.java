@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class PlayScreen implements Screen {
 	
-	private static final String TAG = PlayScreen.class.getCanonicalName();
+	public static final String TAG = PlayScreen.class.getCanonicalName();
 
 	private Game game;
 	private Stage stage;
@@ -33,6 +33,8 @@ public class PlayScreen implements Screen {
 	private MessageArea messageArea;
 	private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 	private ArrayList<Player> players = new ArrayList<Player>();
+
+	private CortexState state;
 	
 	PlayScreen(Game game) {
 		this.game = game;
@@ -62,11 +64,14 @@ public class PlayScreen implements Screen {
 		buildBoard(preferences);
 		buildNumberScroller();
 		buildBottomButtons();
-		
-		buildGame(preferences);
+	}
+	
+	public void updateUsingCachedState() {
+		updateState(state);
 	}
 
 	public void updateState(CortexState state) {
+		this.state = state;
 		updateCurrentPlayer(state);
 		updateChosenNumber(state);
 		updateMessageArea(state);
@@ -150,7 +155,8 @@ public class PlayScreen implements Screen {
 		buildHelpButton(helpRectangleSkin);
 	}
 	
-	private void buildGame(CortexPreferences preferences) {
+	public void buildNewGame(CortexPreferences preferences) {
+		players.clear();
 		Local local = Local.createExchangeable(preferences);
 		Player playerOne = new HumanPlayer("Player 1", this, local);
 		Player playerTwo = new HumanPlayer("Player 2", this, local);
@@ -188,8 +194,8 @@ public class PlayScreen implements Screen {
 		settingsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new SettingsScreen(game));
-				dispose();
+				Launch.settingsScreen.setPrevioiusScreenTag(TAG);
+				game.setScreen(Launch.settingsScreen);
 			}
 		});
 		stage.addActor(settingsButton);
@@ -212,12 +218,7 @@ public class PlayScreen implements Screen {
 	public void hide() {}
 	
 	@Override
-	public void dispose() {
-		board = null;
-		numberScroller = null;
-		messageArea = null;
-		players = null;
-	}
+	public void dispose() {}
 	
 	@Override
 	public void pause() {}
