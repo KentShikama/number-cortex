@@ -139,15 +139,9 @@ public class SettingsScreen implements Screen {
 	private static final String SETTINGS_TITLE = "settings_title";
 	private static final String MENU_BODY = "menu_body";
 	
-	private String previousScreenTag = TitleScreen.TAG;
-
 	public SettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
-	}
-	
-	public void setPrevioiusScreenTag(String previousScreenTag) {
-		this.previousScreenTag = previousScreenTag;
 	}
 
 	@Override
@@ -194,9 +188,9 @@ public class SettingsScreen implements Screen {
 
 		buildMusicCheckbox(preferences, emptyCheckbox, checkedCheckbox);
 
-		if (previousScreenTag.equals(PlayScreen.TAG)) {
+		if (ScreenTracker.isInPlay) {
 			buildResumeButton();
-		} else if (previousScreenTag.equals(TitleScreen.TAG)) {
+		} else {
 			buildPlayButton();
 		}
 		buildQuitButton();
@@ -301,8 +295,7 @@ public class SettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(Launch.playScreen);
-				Launch.playScreen.buildNewGame(CortexPreferences.getInstance());
+				game.setScreen(ScreenTracker.playScreen);
 			}
 		});
 		stage.addActor(playButton);
@@ -316,6 +309,7 @@ public class SettingsScreen implements Screen {
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				ScreenTracker.isInPlay = false;
 				game.setScreen(new TitleScreen(game));
 			}
 		});
@@ -331,8 +325,7 @@ public class SettingsScreen implements Screen {
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(Launch.playScreen);
-				Launch.playScreen.updateUsingCachedState();
+				game.setScreen(ScreenTracker.playScreen);
 			}
 		});
 		stage.addActor(resumeButton);

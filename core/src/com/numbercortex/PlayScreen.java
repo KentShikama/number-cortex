@@ -64,10 +64,13 @@ public class PlayScreen implements Screen {
 		buildBoard(preferences);
 		buildNumberScroller();
 		buildBottomButtons();
-	}
-	
-	public void updateUsingCachedState() {
-		updateState(state);
+		
+		if (ScreenTracker.isInPlay) {
+			updateState(state);
+		} else {
+			buildNewGame(preferences);
+			ScreenTracker.isInPlay = true;
+		}
 	}
 
 	public void updateState(CortexState state) {
@@ -194,8 +197,7 @@ public class PlayScreen implements Screen {
 		settingsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Launch.settingsScreen.setPrevioiusScreenTag(TAG);
-				game.setScreen(Launch.settingsScreen);
+				game.setScreen(ScreenTracker.settingsScreen);
 			}
 		});
 		stage.addActor(settingsButton);

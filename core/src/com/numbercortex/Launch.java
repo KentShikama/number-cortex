@@ -16,9 +16,6 @@ public class Launch extends Game {
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 1136;
 	
-	public static PlayScreen playScreen;
-	public static SettingsScreen settingsScreen;
-
 	@Override
 	public void create() {
  		Assets.loadHome();
@@ -37,8 +34,8 @@ public class Launch extends Game {
 		FontGenerator.load();
 		CortexPreferences.getInstance().load();
 		
-		settingsScreen = new SettingsScreen(this);
-		playScreen = new PlayScreen(this);
+		ScreenTracker.settingsScreen = new SettingsScreen(this);
+		ScreenTracker.playScreen = new PlayScreen(this);
 	}
 	
 	public Stage getStage() {

@@ -30,8 +30,7 @@ public class TitleScreen implements Screen {
 			super(PLAY_BUTTON, 0, new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					Launch.settingsScreen.setPrevioiusScreenTag(TAG);
-					game.setScreen(Launch.settingsScreen);
+					game.setScreen(ScreenTracker.settingsScreen);
 				}
 			});
 		}
