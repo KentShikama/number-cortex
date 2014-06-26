@@ -14,6 +14,8 @@ public class FontGenerator {
 	private static BitmapFont messageFont;
 
 	private static Skin skin = Assets.gameSkin;
+	
+	private static final String SCROLLER_RECTANGLE = "scroller_rectangle";
 
 	private FontGenerator() {}
 	
@@ -70,7 +72,7 @@ public class FontGenerator {
 	
 	private static int calculateNumberScrollerFontSize() {
 		TextureRegion scrollerRectangle = skin
-				.getRegion(NumberScroller.SCROLLER_RECTANGLE);
+				.getRegion(SCROLLER_RECTANGLE);
 		int scrollerRectangleHeight = scrollerRectangle.getRegionHeight();
 		int fontHeight = (int) (scrollerRectangleHeight * 0.85);
 		return fontHeight;

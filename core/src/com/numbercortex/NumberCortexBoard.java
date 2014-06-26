@@ -21,7 +21,7 @@ public class NumberCortexBoard {
 		
 	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
 	
-	public static class Singleton {
+	private static class Singleton {
 		private static NumberCortexBoard INSTANCE = new NumberCortexBoard();
 	}
 
