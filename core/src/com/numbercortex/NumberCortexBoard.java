@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -18,38 +19,58 @@ public class NumberCortexBoard {
 	private static NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
 		
-	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
+	private ArrayList<NumberTextButton> cells;
+	private boolean isBlue;
 	
 	private static class Singleton {
 		private static NumberCortexBoard INSTANCE = new NumberCortexBoard();
 	}
-	private NumberCortexBoard() {}
+	private NumberCortexBoard() {
+		this.isBlue = true;
+		this.cells = buildCells(this.isBlue);
+	}
 
 	public static NumberCortexBoard createNumberCortexBoard(Stage stage, CortexPreferences preferences) {
 		NumberCortexBoard instance = Singleton.INSTANCE;
-		if (instance.cells.isEmpty()) {
-			for (int i = 0; i < 16; i++) {
-				int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
-				int bottom = ((NUMBER_OF_ROWS - 1) - i/NUMBER_OF_ROWS) * SQUARE_LENGTH;
-				NumberTextButton rectangle;
-				if (isGreen(i)) {
-					rectangle = new NumberTextButton("", greenRectangleStyle);
+		if (instance.isBlue != preferences.isBlue()) {
+			instance.isBlue = preferences.isBlue();
+			instance.cells = buildCells(instance.isBlue);
+		}
+		addCellsToStageIfAbsent(stage, instance);
+		return instance;
+	}
+	
+	private static ArrayList<NumberTextButton> buildCells(boolean isBlue) {
+		ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
+		for (int i = 0; i < 16; i++) {
+			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
+			int bottom = ((NUMBER_OF_ROWS - 1) - i/NUMBER_OF_ROWS) * SQUARE_LENGTH;
+			NumberTextButton rectangle;
+			if (isGreen(i)) {
+				rectangle = new NumberTextButton("", greenRectangleStyle);
+			} else {
+				if (isBlue) {
+					rectangle = new NumberTextButton("", blueRectangleStyle);				
 				} else {
-					if (preferences.isBlue()) {
-						rectangle = new NumberTextButton("", blueRectangleStyle);				
-					} else {
-						rectangle = new NumberTextButton("", redRectangleStyle);				
-					}
+					rectangle = new NumberTextButton("", redRectangleStyle);				
 				}
-				rectangle.setName(String.valueOf(i));
-				rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
-				instance.cells.add(rectangle);
+			}
+			rectangle.setName(String.valueOf(i));
+			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
+			cells.add(rectangle);
+		}
+		return cells;
+	}
+
+	private static void addCellsToStageIfAbsent(Stage stage, NumberCortexBoard instance) {
+		for (NumberTextButton cell : instance.cells) {
+			for (Actor actor : stage.getActors()) {
+				if (actor == cell) {
+					continue;
+				}
+				stage.addActor(cell);
 			}
 		}
-		for (NumberTextButton cell : instance.cells) {
-			stage.addActor(cell);
-		}
-		return instance;
 	}
 	
 	public void clearCell (int coordinate) {
