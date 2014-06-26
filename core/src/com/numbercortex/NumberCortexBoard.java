@@ -13,33 +13,45 @@ public class NumberCortexBoard {
 	private static final int SQUARE_LENGTH = Launch.SCREEN_WIDTH/4;
 	private static final int NUMBER_OF_ROWS = 4;
 	
-	private NumberTextButton.NumberTextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
-	private NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
-	private NumberTextButton.NumberTextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
-	
 	private static Skin skin = Assets.gameSkin;
 	
+	private static NumberTextButton.NumberTextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
+	private static NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
+	private static NumberTextButton.NumberTextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
+		
 	private ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
+	
+	public static class Singleton {
+		private static NumberCortexBoard INSTANCE = new NumberCortexBoard();
+	}
 
-	public NumberCortexBoard(Stage stage, CortexPreferences preferences) {
-		for (int i = 0; i < 16; i++) {
-			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
-			int bottom = ((NUMBER_OF_ROWS - 1) - i/NUMBER_OF_ROWS) * SQUARE_LENGTH;
-			NumberTextButton rectangle;
-			if (isGreen(i)) {
-				rectangle = new NumberTextButton("", greenRectangleStyle);
-			} else {
-				if (preferences.isBlue()) {
-					rectangle = new NumberTextButton("", blueRectangleStyle);				
+	private NumberCortexBoard() {}
+
+	public static NumberCortexBoard createNumberCortexBoard(Stage stage, CortexPreferences preferences) {
+		NumberCortexBoard instance = Singleton.INSTANCE;
+		if (instance.cells.isEmpty()) {
+			for (int i = 0; i < 16; i++) {
+				int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
+				int bottom = ((NUMBER_OF_ROWS - 1) - i/NUMBER_OF_ROWS) * SQUARE_LENGTH;
+				NumberTextButton rectangle;
+				if (isGreen(i)) {
+					rectangle = new NumberTextButton("", greenRectangleStyle);
 				} else {
-					rectangle = new NumberTextButton("", redRectangleStyle);				
+					if (preferences.isBlue()) {
+						rectangle = new NumberTextButton("", blueRectangleStyle);				
+					} else {
+						rectangle = new NumberTextButton("", redRectangleStyle);				
+					}
 				}
+				rectangle.setName(String.valueOf(i));
+				rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
+				instance.cells.add(rectangle);
 			}
-			rectangle.setName(String.valueOf(i));
-			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
-			cells.add(rectangle);
-			stage.addActor(rectangle);
 		}
+		for (NumberTextButton cell : instance.cells) {
+			stage.addActor(cell);
+		}
+		return instance;
 	}
 	
 	public void clearCell (int coordinate) {
@@ -56,7 +68,7 @@ public class NumberCortexBoard {
 		cell.setText(String.valueOf(number));
 	}
 	
-	private NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
+	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Drawable numberRectangle = skin.getDrawable(textureName);
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
@@ -66,7 +78,7 @@ public class NumberCortexBoard {
 		return buttonStyle;
 	}
 	
-	private boolean isGreen(int i) {
+	private static boolean isGreen(int i) {
 		int[] greenList = {0, 2, 5, 7, 8, 10, 13, 15};
 		for (int green : greenList) {
 			if (green == i) {

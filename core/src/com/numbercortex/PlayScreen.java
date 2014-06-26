@@ -139,7 +139,7 @@ public class PlayScreen implements Screen {
 	}
 
 	private void buildBoard(CortexPreferences preferences) {
-		board = new NumberCortexBoard(stage, preferences);
+		board = NumberCortexBoard.createNumberCortexBoard(stage, preferences);
 		handler.notifyBoardConstruction(board);
 	}
 	
@@ -189,6 +189,7 @@ public class PlayScreen implements Screen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new SettingsScreen(game));
+				dispose();
 			}
 		});
 		stage.addActor(settingsButton);
@@ -211,7 +212,12 @@ public class PlayScreen implements Screen {
 	public void hide() {}
 	
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		board = null;
+		numberScroller = null;
+		messageArea = null;
+		players = null;
+	}
 	
 	@Override
 	public void pause() {}
