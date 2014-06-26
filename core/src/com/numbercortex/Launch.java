@@ -18,18 +18,20 @@ public class Launch extends Game {
 
 	@Override
 	public void create() {
-		Assets.loadHome();
+ 		Assets.loadHome();
+ 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		stage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(stage);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+		 		setScreen(new TitleScreen(Launch.this));
+			}
+		});
 		Assets.loadSettings();
 		Assets.loadGame();
 		FontGenerator.load();
 		CortexPreferences.getInstance().load();
-		
-		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
-		stage = new Stage(fitViewport);
-		Gdx.input.setInputProcessor(stage);
-
-		setScreen(new TitleScreen(this));
-		fps = new FPSLogger();
 	}
 	
 	public Stage getStage() {
@@ -45,7 +47,6 @@ public class Launch extends Game {
 	@Override
 	public void render() {
 		super.render();
-//		fps.log();
 	}
 	
 }

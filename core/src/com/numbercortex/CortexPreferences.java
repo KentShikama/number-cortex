@@ -51,7 +51,7 @@ public class CortexPreferences {
 
 	public void load() {
 		preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
-		isBlue = preferences.getBoolean(BACKGROUND_COLOR, true);
+		isBlue = preferences.getBoolean(BACKGROUND_COLOR, false);
 		isDiagonalsEnabled = preferences.getBoolean(DIAGONALS, true);
 		isFourSquareEnabled = preferences.getBoolean(FOUR_SQUARE, false);
 		isMusicEnabled = preferences.getBoolean(MUSIC, true);
