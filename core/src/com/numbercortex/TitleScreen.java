@@ -32,40 +32,39 @@ public class TitleScreen implements Screen {
 			return button;
 		}
 	}
-
 	class PlayButton extends TitleScreenButton {
 		PlayButton() {
 			super(PLAY_BUTTON, 0, new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
+					ScreenTracker.mode = ScreenTracker.Mode.SINGLE_PLAYER;
 					game.setScreen(ScreenTracker.settingsScreen);
 				}
 			});
 		}
 	}
-
 	class PassAndPlayButton extends TitleScreenButton {
 		PassAndPlayButton() {
 			super(PASS_AND_PLAY_BUTTON, 1, new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					Gdx.app.log(TAG, PASS_AND_PLAY_BUTTON + " has been clicked");
+					ScreenTracker.mode = ScreenTracker.Mode.TWO_PLAYER;
+					game.setScreen(ScreenTracker.settingsScreen);
 				}
 			});
 		}
 	}
-
 	class PlayOnlineButton extends TitleScreenButton {
 		PlayOnlineButton() {
 			super(PLAY_ONLINE, 2, new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					Gdx.app.log(TAG, PLAY_ONLINE + " has been clicked");
+					ScreenTracker.mode = ScreenTracker.Mode.ONLINE;
+					game.setScreen(ScreenTracker.settingsScreen);
 				}
 			});
 		}
 	}
-
 	class TutorialButton extends TitleScreenButton {
 		TutorialButton() {
 			super(TUTORIAL, 3, new ClickListener() {
