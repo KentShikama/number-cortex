@@ -1,5 +1,6 @@
 package com.numbercortex;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class ComputerPlayer implements Player {
@@ -25,16 +26,21 @@ public class ComputerPlayer implements Player {
 	public void updateState(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
+			ArrayList<Integer> openCoordinates = new ArrayList<Integer>();
 			for (Map.Entry<Integer, Integer> entry : state.getCoordinateNumberMap().entrySet()) {
 				if (entry.getValue() == -1) {
-					int coordinate = entry.getKey();
-					placeNumber(name, coordinate, chosenNumber);
-					return;
+					int openCoordinate = entry.getKey();
+					openCoordinates.add(openCoordinate);
 				}
 			}
+			int chosenCoordinatePosition = (int) (Math.random() * openCoordinates.size());
+			int chosenCoordinate = openCoordinates.get(chosenCoordinatePosition);
+			placeNumber(null, chosenCoordinate, chosenNumber);
 		} else {
-			int nextNumber = state.getAvailableNumbers().get(0);
-			chooseNumber(name, nextNumber);
+			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+			int nextNumberPosition = (int) (Math.random() * availableNumbers.size());
+			int nextNumber = availableNumbers.get(nextNumberPosition);
+			chooseNumber(null, nextNumber);
 			return;
 		}
 	}
