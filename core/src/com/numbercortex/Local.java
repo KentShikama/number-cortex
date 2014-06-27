@@ -40,7 +40,7 @@ public class Local implements Exchangeable {
 		currentPlayer = state.getCurrentPlayer();
 		for (Player player : players) {
 			if (player.getName().equals(state.getCurrentPlayer())) {
-				player.getScreen().updateState(state);
+				player.updateState(state);
 			}
 		}
 	}

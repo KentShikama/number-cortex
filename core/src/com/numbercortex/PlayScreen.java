@@ -54,6 +54,8 @@ public class PlayScreen implements Screen {
 		} else {
 			switch (ScreenTracker.mode) {
 				case SINGLE_PLAYER:
+					buildNewSinglePlayerGame(preferences);
+					ScreenTracker.isInPlay = true;		
 					break;
 				case TWO_PLAYER:
 					buildNewTwoPlayerGame(preferences);
@@ -177,7 +179,18 @@ public class PlayScreen implements Screen {
 		numberScroller.update(availableNumbers);
 	}
 	
-	public void buildNewTwoPlayerGame(CortexPreferences preferences) {
+	private void buildNewSinglePlayerGame(CortexPreferences preferences) {
+		players.clear();
+		Local local = Local.createExchangeable(preferences);
+		Player human = new HumanPlayer("Player", this, local);
+		Player computer = new ComputerPlayer("Computer", this, local);
+		players.add(human);
+		players.add(computer);
+		for (Player player : players) {
+			local.register(player);			
+		}
+	}
+	private void buildNewTwoPlayerGame(CortexPreferences preferences) {
 		players.clear();
 		Local local = Local.createExchangeable(preferences);
 		Player playerOne = new HumanPlayer("Player 1", this, local);

@@ -13,10 +13,20 @@ class HumanPlayer implements Player {
 	}
 	
 	@Override
-	public void chooseNumber(int nextNumber) {
+	public void chooseNumber(String player, int nextNumber) {
 		exchangeable.chooseNumber(name, nextNumber);
 	}
 
+	@Override
+	public void placeNumber(String player, int coordinate, int number) {
+		exchangeable.placeNumber(name, coordinate, number);
+	}
+
+	@Override
+	public void updateState(CortexState state) {
+		screen.updateState(state);
+	}
+	
 	@Override
 	public String getName() {
 		return name;
@@ -25,11 +35,6 @@ class HumanPlayer implements Player {
 	@Override
 	public PlayScreen getScreen() {
 		return screen;
-	}
-
-	@Override
-	public void placeNumber(int coordinate, int number) {
-		exchangeable.placeNumber(name, coordinate, number);
 	}
 	
 }

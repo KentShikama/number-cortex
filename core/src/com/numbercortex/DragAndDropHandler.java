@@ -105,7 +105,7 @@ public class DragAndDropHandler {
 				targetButton.setLabel(label);
 				int targetCoordinate = Integer.valueOf(targetButton.getName());
 				int targetValue = Integer.valueOf(label.getText().toString());
-				messenger.placeNumber(targetCoordinate, targetValue);
+				messenger.placeNumber(null, targetCoordinate, targetValue);
 			} else {
 				sourceButton.setLabel(label);
 			}

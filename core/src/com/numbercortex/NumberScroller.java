@@ -86,7 +86,7 @@ public class NumberScroller {
 		@Override
 		public void clicked (InputEvent event, float x, float y) {
 			int number = getClickedNumber(event);
-			messenger.chooseNumber(number);
+			messenger.chooseNumber(null, number);
 		}
 
 		private int getClickedNumber(InputEvent event) {
