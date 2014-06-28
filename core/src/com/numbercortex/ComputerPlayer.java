@@ -1,48 +1,30 @@
 package com.numbercortex;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class ComputerPlayer implements Player {
 
 	private String name;
 	private PlayScreen screen;
 	private Exchangeable messenger;
-	
-	private enum Difficulty {
-		EASY, MEDIUM, HARD;
-	}
+	private Brain brain;
 
-	public ComputerPlayer(String name, PlayScreen playScreen, Exchangeable messenger) {
+	public ComputerPlayer(String name, PlayScreen playScreen, Exchangeable messenger, Brain difficulty) {
 		this.name = name;
 		this.screen = playScreen;
 		this.messenger = messenger;
+		this.brain = difficulty;
 	}
 	
-	/**
-	 * AI function and which calls chooseNumber or placeNumber once computing is finished
-	 */
 	@Override
 	public void updateState(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
-			ArrayList<Integer> openCoordinates = new ArrayList<Integer>();
-			for (Map.Entry<Integer, Integer> entry : state.getCoordinateNumberMap().entrySet()) {
-				if (entry.getValue() == -1) {
-					int openCoordinate = entry.getKey();
-					openCoordinates.add(openCoordinate);
-				}
-			}
-			int chosenCoordinatePosition = (int) (Math.random() * openCoordinates.size());
-			int chosenCoordinate = openCoordinates.get(chosenCoordinatePosition);
-			placeNumber(null, chosenCoordinate, chosenNumber);
+			int coordinate = brain.calculateCoordinate(state);
+			placeNumber(null, coordinate, chosenNumber);
 		} else {
-			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-			int nextNumberPosition = (int) (Math.random() * availableNumbers.size());
-			int nextNumber = availableNumbers.get(nextNumberPosition);
+			int nextNumber = brain.calculateNextNumber(state);
 			chooseNumber(null, nextNumber);
-			return;
-		}
+		}			
+
 	}
 	
 	@Override

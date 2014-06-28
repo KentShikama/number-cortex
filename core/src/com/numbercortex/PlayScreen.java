@@ -183,11 +183,11 @@ public class PlayScreen implements Screen {
 		players.clear();
 		Local local = Local.createExchangeable(preferences);
 		Player human = new HumanPlayer("Player", this, local);
-		Player computer = new ComputerPlayer("Computer", this, local);
+		Player computer = new ComputerPlayer("Computer", this, local, new EasyBrain());
 		players.add(human);
 		players.add(computer);
 		for (Player player : players) {
-			local.register(player);			
+			local.register(player);
 		}
 	}
 	private void buildNewTwoPlayerGame(CortexPreferences preferences) {
