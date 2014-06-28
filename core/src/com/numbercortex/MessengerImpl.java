@@ -2,20 +2,20 @@ package com.numbercortex;
 
 import java.util.ArrayList;
 
-public class Local implements Exchangeable {
+public class MessengerImpl implements Messenger {
 
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private String currentPlayer;
 	private CortexModel model;
 
-	public static Local createExchangeable(CortexPreferences preferences) {
-		Local local = new Local();
-		local.model = new DefaultCortexModel(local, preferences);
+	private MessengerImpl() {}
+
+	public static MessengerImpl createMessenger() {
+		MessengerImpl local = new MessengerImpl();
+		local.model = new DefaultCortexModel(local);
 		return local;
 	}
-
-	private Local() {}
-
+	
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
 		model.chooseNumber(currentPlayer, nextNumber);

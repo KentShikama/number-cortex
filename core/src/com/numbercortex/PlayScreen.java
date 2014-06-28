@@ -49,22 +49,7 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		
-		if (ScreenTracker.isInPlay) {
-			updateState(state);
-		} else {
-			switch (ScreenTracker.mode) {
-				case SINGLE_PLAYER:
-					buildNewSinglePlayerGame(preferences);
-					ScreenTracker.isInPlay = true;		
-					break;
-				case TWO_PLAYER:
-					buildNewTwoPlayerGame(preferences);
-					ScreenTracker.isInPlay = true;
-					break;
-				case ONLINE:
-					break;
-			}
-		}
+		progressGame();
 	}
 	private void buildBackground(CortexPreferences preferences) {
 		String backgroundProperty = getBackgroundProperty(preferences);
@@ -116,6 +101,50 @@ public class PlayScreen implements Screen {
 	}
 	private void buildNumberScroller() {
 		numberScroller = NumberScroller.createNumberScroller(stage);
+	}
+	
+	private void progressGame() {
+		if (ScreenTracker.isInPlay) {
+			updateState(state);
+		} else {
+			buildNewGame();
+		}
+	}
+	private void buildNewGame() {
+		switch (ScreenTracker.mode) {
+			case SINGLE_PLAYER:
+				buildNewSinglePlayerGame();
+				ScreenTracker.isInPlay = true;		
+				break;
+			case TWO_PLAYER:
+				buildNewTwoPlayerGame();
+				ScreenTracker.isInPlay = true;
+				break;
+			case ONLINE:
+				break;
+		}
+	}
+	private void buildNewSinglePlayerGame() {
+		players.clear();
+		Messenger messenger = MessengerImpl.createMessenger();
+		Player human = new HumanPlayer("Player", this, messenger);
+		Player computer = new ComputerPlayer("Computer", this, messenger, new EasyBrain());
+		players.add(human);
+		players.add(computer);
+		for (Player player : players) {
+			messenger.register(player);
+		}
+	}
+	private void buildNewTwoPlayerGame() {
+		players.clear();
+		Messenger messenger = MessengerImpl.createMessenger();
+		Player playerOne = new HumanPlayer("Player 1", this, messenger);
+		Player playerTwo = new HumanPlayer("Player 2", this, messenger);
+		players.add(playerOne);
+		players.add(playerTwo);
+		for (Player player : players) {
+			messenger.register(player);			
+		}
 	}
 
 	public void updateState(CortexState state) {
@@ -177,29 +206,6 @@ public class PlayScreen implements Screen {
 	private void updateNumberScroller(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
-	}
-	
-	private void buildNewSinglePlayerGame(CortexPreferences preferences) {
-		players.clear();
-		Local local = Local.createExchangeable(preferences);
-		Player human = new HumanPlayer("Player", this, local);
-		Player computer = new ComputerPlayer("Computer", this, local, new EasyBrain());
-		players.add(human);
-		players.add(computer);
-		for (Player player : players) {
-			local.register(player);
-		}
-	}
-	private void buildNewTwoPlayerGame(CortexPreferences preferences) {
-		players.clear();
-		Local local = Local.createExchangeable(preferences);
-		Player playerOne = new HumanPlayer("Player 1", this, local);
-		Player playerTwo = new HumanPlayer("Player 2", this, local);
-		players.add(playerOne);
-		players.add(playerTwo);
-		for (Player player : players) {
-			local.register(player);			
-		}
 	}
 	
 	@Override

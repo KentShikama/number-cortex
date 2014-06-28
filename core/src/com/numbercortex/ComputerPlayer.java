@@ -4,10 +4,10 @@ public class ComputerPlayer implements Player {
 
 	private String name;
 	private PlayScreen screen;
-	private Exchangeable messenger;
+	private Messenger messenger;
 	private Brain brain;
 
-	public ComputerPlayer(String name, PlayScreen playScreen, Exchangeable messenger, Brain difficulty) {
+	public ComputerPlayer(String name, PlayScreen playScreen, Messenger messenger, Brain difficulty) {
 		this.name = name;
 		this.screen = playScreen;
 		this.messenger = messenger;

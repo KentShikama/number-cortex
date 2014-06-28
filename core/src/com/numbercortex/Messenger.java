@@ -1,5 +1,5 @@
 package com.numbercortex;
 
-public interface Exchangeable extends Sendable, Receivable{
+public interface Messenger extends Sendable, Receivable{
 	public abstract void register(Player... players);
 }

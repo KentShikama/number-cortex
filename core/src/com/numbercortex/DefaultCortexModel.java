@@ -19,12 +19,11 @@ public class DefaultCortexModel implements CortexModel {
 	private String winner; // Optional
 	private int[] winningCoordinates; // Optional
 	
-	private Exchangeable listener;
-	private CortexPreferences preferences;
+	private Messenger messenger;
+	private CortexPreferences preferences = CortexPreferences.getInstance();
 	
-	public DefaultCortexModel(Exchangeable listener, CortexPreferences preferences) {
-		this.listener = listener;
-		this.preferences = preferences;
+	public DefaultCortexModel(Messenger messenger) {
+		this.messenger = messenger;
 	}
 
 	@Override
@@ -35,7 +34,7 @@ public class DefaultCortexModel implements CortexModel {
 			currentPlayer = (currentPlayer == usernames.get(0) ? usernames.get(1) : usernames.get(0));
 			message = currentPlayer;
 			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
-			listener.updateState(state);
+			messenger.updateState(state);
 		}
 	}
 
@@ -56,7 +55,7 @@ public class DefaultCortexModel implements CortexModel {
 			} else {
 				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
 			}
-			listener.updateState(state);
+			messenger.updateState(state);
 		}
 	}
 
@@ -118,7 +117,7 @@ public class DefaultCortexModel implements CortexModel {
 		setFirstPlayer();
 		message = currentPlayer + " starts the game!";
 		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber, coordinateNumberMap, availableNumbers).build();
-		listener.updateState(state);
+		messenger.updateState(state);
 	}
 
 }
