@@ -3,7 +3,7 @@ package com.numbercortex;
 import java.util.ArrayList;
 
 public class Local implements Exchangeable {
-	
+
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private String currentPlayer;
 	private CortexModel model;
@@ -14,8 +14,7 @@ public class Local implements Exchangeable {
 		return local;
 	}
 
-	private Local() {
-	}
+	private Local() {}
 
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
@@ -26,7 +25,7 @@ public class Local implements Exchangeable {
 	public void placeNumber(String playerName, int coordinate, int number) {
 		model.placeNumber(currentPlayer, coordinate, number);
 	}
-	
+
 	@Override
 	public void register(Player... players) {
 		for (int i = 0; i < players.length; i++) {
@@ -34,9 +33,9 @@ public class Local implements Exchangeable {
 			model.register(players[i].getName());
 		}
 	}
-	
+
 	@Override
-	public void updateState (CortexState state) {
+	public void updateState(CortexState state) {
 		currentPlayer = state.getCurrentPlayer();
 		for (Player player : players) {
 			if (player.getName().equals(state.getCurrentPlayer())) {
