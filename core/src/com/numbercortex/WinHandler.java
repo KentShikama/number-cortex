@@ -4,6 +4,8 @@ import java.util.Map;
 
 public class WinHandler {
 	
+	private WinHandler() {}
+	
 	private static final int LENGTH = (int) Math.sqrt(DefaultCortexModel.BOARD_SIZE);
 
 	public static int[] handleWinningBoard(Map<Integer, Integer> coordinateNumberMap, CortexPreferences preferences) {
