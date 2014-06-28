@@ -15,12 +15,13 @@ public class CortexState implements Serializable {
 		private final ArrayList<Integer> availableNumbers;
 		private String winner; // Optional
 		private int[] winningCoordinates; // Optional
-		
+
 		public CortexStateBuilder(Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> availableNumbers) {
 			this(null, null, null, 0, coordinateNumberMap, availableNumbers);
 		}
-		
-		public CortexStateBuilder(String message, String currentPlayer, ArrayList<String> players, int chosenNumber, Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> availableNumbers) {
+
+		public CortexStateBuilder(String message, String currentPlayer, ArrayList<String> players, int chosenNumber,
+				Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> availableNumbers) {
 			this.message = message;
 			this.currentPlayer = currentPlayer;
 			this.players = players;
@@ -28,16 +29,17 @@ public class CortexState implements Serializable {
 			this.coordinateNumberMap = coordinateNumberMap;
 			this.availableNumbers = availableNumbers;
 		}
-		
-		public CortexState build() {
-			return new CortexState(this);
-		}
-		
+
 		public CortexStateBuilder win(String winner, int[] winningCoordinates) {
 			this.winner = winner;
 			this.winningCoordinates = winningCoordinates;
 			return this;
 		}
+
+		public CortexState build() {
+			return new CortexState(this);
+		}
+
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -50,8 +52,8 @@ public class CortexState implements Serializable {
 	private String winner; // Optional
 
 	private int[] winningCoordinates; // Optional
-	
-	private CortexState (CortexStateBuilder builder) {
+
+	private CortexState(CortexStateBuilder builder) {
 		this.message = builder.message;
 		this.players = builder.players;
 		this.currentPlayer = builder.currentPlayer;
@@ -61,11 +63,11 @@ public class CortexState implements Serializable {
 		this.winner = builder.winner;
 		this.winningCoordinates = builder.winningCoordinates;
 	}
-	
+
 	public ArrayList<Integer> getAvailableNumbers() {
 		return availableNumbers;
 	}
-	
+
 	public int getChosenNumber() {
 		return chosenNumber;
 	}
@@ -77,7 +79,7 @@ public class CortexState implements Serializable {
 	public String getCurrentPlayer() {
 		return currentPlayer;
 	}
-	
+
 	public String getMessage() {
 		return message;
 	}
@@ -93,5 +95,5 @@ public class CortexState implements Serializable {
 	public int[] getWinningCoordinates() {
 		return winningCoordinates;
 	}
-	
+
 }

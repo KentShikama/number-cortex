@@ -15,7 +15,7 @@ public class MessengerImpl implements Messenger {
 		local.model = new DefaultCortexModel(local);
 		return local;
 	}
-	
+
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
 		model.chooseNumber(currentPlayer, nextNumber);

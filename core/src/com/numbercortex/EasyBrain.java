@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class EasyBrain implements Brain {
-	
+
+	@Override
 	public int calculateCoordinate(CortexState state) {
 		ArrayList<Integer> openCoordinates = new ArrayList<Integer>();
 		for (Map.Entry<Integer, Integer> entry : state.getCoordinateNumberMap().entrySet()) {
@@ -17,12 +18,13 @@ public class EasyBrain implements Brain {
 		int chosenCoordinate = openCoordinates.get(chosenCoordinatePosition);
 		return chosenCoordinate;
 	}
-	
+
+	@Override
 	public int calculateNextNumber(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		int nextNumberPosition = (int) (Math.random() * availableNumbers.size());
 		int nextNumber = availableNumbers.get(nextNumberPosition);
 		return nextNumber;
 	}
-	
+
 }

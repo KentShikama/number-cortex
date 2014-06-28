@@ -7,46 +7,28 @@ public class CortexPreferences {
 	private static class Singleton {
 		final static CortexPreferences instance = new CortexPreferences();
 	}
-	
+
 	private Preferences preferences;
-	
+
 	private static final String PREFERENCES_NAME = "preferences";
-	
+
 	private boolean isBlue;
 	private boolean isDiagonalsEnabled;
-	
+
 	private boolean isFourSquareEnabled;
 	private boolean isMusicEnabled;
 	private int difficulty;
 	private static final String BACKGROUND_COLOR = "background_color";
 	private static final String DIAGONALS = "diagonals";
-	
+
 	private static final String FOUR_SQUARE = "four_square";
 	private static final String MUSIC = "music";
 	private static final String DIFFICULTY = "difficulty";
+
 	private CortexPreferences() {}
+
 	public static CortexPreferences getInstance() {
 		return Singleton.instance;
-	}
-
-	public int getDifficulty() {
-		return difficulty;
-	}
-	
-	public boolean isBlue() {
-		return isBlue;
-	}
-
-	public boolean isDiagonalsEnabled() {
-		return isDiagonalsEnabled;
-	}
-
-	public boolean isFourSquareEnabled() {
-		return isFourSquareEnabled;
-	}
-
-	public boolean isMusicEnabled() {
-		return isMusicEnabled;
 	}
 
 	public void load() {
@@ -85,5 +67,25 @@ public class CortexPreferences {
 
 	public void setMusicEnabled(boolean isMusicEnabled) {
 		this.isMusicEnabled = isMusicEnabled;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	public boolean isBlue() {
+		return isBlue;
+	}
+
+	public boolean isDiagonalsEnabled() {
+		return isDiagonalsEnabled;
+	}
+
+	public boolean isFourSquareEnabled() {
+		return isFourSquareEnabled;
+	}
+
+	public boolean isMusicEnabled() {
+		return isMusicEnabled;
 	}
 }

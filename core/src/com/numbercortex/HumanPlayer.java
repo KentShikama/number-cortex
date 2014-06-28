@@ -1,7 +1,7 @@
 package com.numbercortex;
 
 class HumanPlayer implements Player {
-	
+
 	private String name;
 	private PlayScreen screen;
 	private Messenger messenger;
@@ -11,7 +11,7 @@ class HumanPlayer implements Player {
 		this.screen = screen;
 		this.name = name;
 	}
-	
+
 	@Override
 	public void chooseNumber(String player, int nextNumber) {
 		messenger.chooseNumber(name, nextNumber);
@@ -26,7 +26,7 @@ class HumanPlayer implements Player {
 	public void updateState(CortexState state) {
 		screen.updateState(state);
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
@@ -36,5 +36,5 @@ class HumanPlayer implements Player {
 	public PlayScreen getScreen() {
 		return screen;
 	}
-	
+
 }

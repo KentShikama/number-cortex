@@ -17,17 +17,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class SettingsScreen implements Screen {
 
 	class DifficultyGroupListener extends ClickListener {
 		private RatingGroup group;
 		private CortexPreferences preferences;
+
 		DifficultyGroupListener(RatingGroup group, CortexPreferences preferences) {
 			this.group = group;
 			this.preferences = preferences;
 		}
+
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
 			if (group.isDisabled())
@@ -42,8 +43,7 @@ public class SettingsScreen implements Screen {
 
 		MenuBody() {
 			menuBody = skin.getRegion(MENU_BODY);
-			this.setBounds(0, Launch.SCREEN_HEIGHT - 875,
-					menuBody.getRegionWidth(), menuBody.getRegionHeight());
+			this.setBounds(0, Launch.SCREEN_HEIGHT - 875, menuBody.getRegionWidth(), menuBody.getRegionHeight());
 		}
 
 		@Override
@@ -51,6 +51,7 @@ public class SettingsScreen implements Screen {
 			batch.draw(menuBody, this.getX(), this.getY());
 		}
 	}
+
 	class RatingGroup {
 		private ArrayList<Button> list = new ArrayList<Button>();
 		private boolean isDisabled;
@@ -80,7 +81,7 @@ public class SettingsScreen implements Screen {
 				button.setDisabled(isDisabled);
 			}
 		}
-		
+
 		public void toggleRating() {
 			if (list.size() < rating) {
 				Gdx.app.log(TAG, "Some buttons are missing...");
@@ -104,8 +105,7 @@ public class SettingsScreen implements Screen {
 
 		SettingsTitle() {
 			settingsTitle = skin.getRegion(SETTINGS_TITLE);
-			this.setBounds(0, Launch.SCREEN_HEIGHT - 245,
-					settingsTitle.getRegionWidth(),
+			this.setBounds(0, Launch.SCREEN_HEIGHT - 245, settingsTitle.getRegionWidth(),
 					settingsTitle.getRegionHeight());
 		}
 
@@ -126,19 +126,19 @@ public class SettingsScreen implements Screen {
 	private static final int CHECKBOX_LENGTH = 84;
 	private static final int STAR_WIDTH = 78;
 	private static final int STAR_HEIGHT = 75;
-	
+
 	private static final TextureRegion PLAY_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("play_button");
 	private static final int RIGHT_BUTTON_WIDTH = PLAY_BUTTON_TEXTURE.getRegionWidth();
 	private static final int RIGHT_BUTTON_HEIGHT = PLAY_BUTTON_TEXTURE.getRegionHeight();
-	
+
 	private static final TextureRegion QUIT_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("quit_button");
 	private static final int LEFT_BUTTON_WIDTH = QUIT_BUTTON_TEXTURE.getRegionWidth();
 	private static final int LEFT_BUTTON_HEIGHT = QUIT_BUTTON_TEXTURE.getRegionHeight();
-	
+
 	private static final String SETTINGS_BACKGROUND = "settings_background";
 	private static final String SETTINGS_TITLE = "settings_title";
 	private static final String MENU_BODY = "menu_body";
-	
+
 	public SettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
@@ -159,7 +159,7 @@ public class SettingsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		
+
 		CortexPreferences preferences = CortexPreferences.getInstance();
 
 		ScreenBackground background = new ScreenBackground(skin, SETTINGS_BACKGROUND);
@@ -183,7 +183,7 @@ public class SettingsScreen implements Screen {
 		ImageButton easyButton = buildEasyButton(preferences, emptyStar, fullStar);
 		ImageButton mediumButton = buildMediumButton(preferences, emptyStar, fullStar);
 		ImageButton hardButton = buildHardButton(preferences, emptyStar, fullStar);
-		
+
 		buildDifficultyGroup(preferences, easyButton, mediumButton, hardButton);
 
 		buildMusicCheckbox(preferences, emptyCheckbox, checkedCheckbox);
@@ -198,10 +198,8 @@ public class SettingsScreen implements Screen {
 
 	private void buildDiagonalsCheckbox(final CortexPreferences preferences, Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		final ImageButton diagonalsCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
-				checkedCheckbox);
-		diagonalsCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 488,
-				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
+		final ImageButton diagonalsCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox, checkedCheckbox);
+		diagonalsCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 488, CHECKBOX_LENGTH, CHECKBOX_LENGTH);
 		diagonalsCheckbox.setChecked(preferences.isDiagonalsEnabled());
 		diagonalsCheckbox.left();
 		diagonalsCheckbox.bottom();
@@ -213,8 +211,8 @@ public class SettingsScreen implements Screen {
 		});
 		stage.addActor(diagonalsCheckbox);
 	}
-	
-	private void buildDifficultyGroup(CortexPreferences preferences, ImageButton...buttons) {
+
+	private void buildDifficultyGroup(CortexPreferences preferences, ImageButton... buttons) {
 		difficultyGroup = new RatingGroup();
 		DifficultyGroupListener listener = new DifficultyGroupListener(difficultyGroup, preferences);
 		for (int i = 0; i < buttons.length; i++) {
@@ -229,18 +227,15 @@ public class SettingsScreen implements Screen {
 
 	private ImageButton buildEasyButton(CortexPreferences preferences, Drawable emptyStar, Drawable fullStar) {
 		ImageButton easyButton = new ImageButton(emptyStar, emptyStar, fullStar);
-		easyButton.setBounds(351, Launch.SCREEN_HEIGHT - 721, STAR_WIDTH,
-				STAR_HEIGHT);
+		easyButton.setBounds(351, Launch.SCREEN_HEIGHT - 721, STAR_WIDTH, STAR_HEIGHT);
 		easyButton.removeListener(easyButton.getClickListener());
 		return easyButton;
 	}
 
 	private void buildFourSquareCheckbox(final CortexPreferences preferences, Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		final ImageButton fourSquareCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
-				checkedCheckbox);
-		fourSquareCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 593,
-				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
+		final ImageButton fourSquareCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox, checkedCheckbox);
+		fourSquareCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 593, CHECKBOX_LENGTH, CHECKBOX_LENGTH);
 		fourSquareCheckbox.setChecked(preferences.isFourSquareEnabled());
 		fourSquareCheckbox.left();
 		fourSquareCheckbox.bottom();
@@ -255,26 +250,22 @@ public class SettingsScreen implements Screen {
 
 	private ImageButton buildHardButton(CortexPreferences preferences, Drawable emptyStar, Drawable fullStar) {
 		ImageButton hardButton = new ImageButton(emptyStar, emptyStar, fullStar);
-		hardButton.setBounds(351 + (91 * 2), Launch.SCREEN_HEIGHT - 721,
-				STAR_WIDTH, STAR_HEIGHT);
+		hardButton.setBounds(351 + (91 * 2), Launch.SCREEN_HEIGHT - 721, STAR_WIDTH, STAR_HEIGHT);
 		hardButton.removeListener(hardButton.getClickListener());
 		return hardButton;
 	}
 
 	private ImageButton buildMediumButton(CortexPreferences preferences, Drawable emptyStar, Drawable fullStar) {
 		ImageButton mediumButton = new ImageButton(emptyStar, emptyStar, fullStar);
-		mediumButton.setBounds(351 + 91, Launch.SCREEN_HEIGHT - 721,
-				STAR_WIDTH, STAR_HEIGHT);
+		mediumButton.setBounds(351 + 91, Launch.SCREEN_HEIGHT - 721, STAR_WIDTH, STAR_HEIGHT);
 		mediumButton.removeListener(mediumButton.getClickListener());
 		return mediumButton;
 	}
 
 	private void buildMusicCheckbox(final CortexPreferences preferences, Drawable emptyCheckbox,
 			Drawable checkedCheckbox) {
-		final ImageButton musicCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox,
-				checkedCheckbox);
-		musicCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 844,
-				CHECKBOX_LENGTH, CHECKBOX_LENGTH);
+		final ImageButton musicCheckbox = new ImageButton(emptyCheckbox, emptyCheckbox, checkedCheckbox);
+		musicCheckbox.setBounds(416, Launch.SCREEN_HEIGHT - 844, CHECKBOX_LENGTH, CHECKBOX_LENGTH);
 		musicCheckbox.setChecked(preferences.isMusicEnabled());
 		musicCheckbox.left();
 		musicCheckbox.bottom();
@@ -290,8 +281,7 @@ public class SettingsScreen implements Screen {
 	private void buildPlayButton() {
 		Drawable playButtonSkin = skin.getDrawable("play_button");
 		final ImageButton playButton = new ImageButton(playButtonSkin);
-		playButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045,
-				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
+		playButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -304,8 +294,7 @@ public class SettingsScreen implements Screen {
 	private void buildQuitButton() {
 		Drawable quitButtonSkin = skin.getDrawable("quit_button");
 		final ImageButton exitButton = new ImageButton(quitButtonSkin);
-		exitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045,
-				LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
+		exitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -320,8 +309,7 @@ public class SettingsScreen implements Screen {
 	private void buildResumeButton() {
 		Drawable resumeButtonSkin = skin.getDrawable("resume_button");
 		ImageButton resumeButton = new ImageButton(resumeButtonSkin);
-		resumeButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045,
-				RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
+		resumeButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -330,19 +318,20 @@ public class SettingsScreen implements Screen {
 		});
 		stage.addActor(resumeButton);
 	}
-	
+
 	@Override
 	public void hide() {
 		CortexPreferences.getInstance().save();
 	}
-	
+
 	@Override
 	public void resume() {
 		Assets.loadSettings();
 	}
-	
+
 	@Override
 	public void dispose() {}
+
 	@Override
 	public void pause() {}
 

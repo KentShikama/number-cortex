@@ -14,22 +14,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class TitleScreen implements Screen {
 	abstract class TitleScreenButton {
+
 		private Button button;
+		public Button getButton() {
+			return button;
+		}
 
 		TitleScreenButton(String buttonName, int index, ClickListener listener) {
 			Drawable buttonDrawable = skin.getDrawable(buttonName);
 			TextureRegion buttonTexture = skin.getRegion(buttonName);
-			Button.ButtonStyle buttonStyle = new Button.ButtonStyle(
-					buttonDrawable, buttonDrawable, buttonDrawable);
+			Button.ButtonStyle buttonStyle = new Button.ButtonStyle(buttonDrawable, buttonDrawable, buttonDrawable);
 			button = new Button(buttonStyle);
-			button.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80),
-					buttonTexture.getRegionWidth(),
+			button.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80), buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
 			button.addListener(listener);
-		}
-
-		public Button getButton() {
-			return button;
 		}
 	}
 	class PlayButton extends TitleScreenButton {
@@ -99,13 +97,10 @@ public class TitleScreen implements Screen {
 		buildBackground();
 		buildButtons();
 	}
-
 	private void buildBackground() {
-		ScreenBackground background = new ScreenBackground(skin,
-				TITLE_BACKGROUND);
+		ScreenBackground background = new ScreenBackground(skin, TITLE_BACKGROUND);
 		stage.addActor(background);
 	}
-
 	private void buildButtons() {
 		TitleScreenButton playButton = new PlayButton();
 		TitleScreenButton passAndPlayButton = new PassAndPlayButton();
@@ -123,23 +118,18 @@ public class TitleScreen implements Screen {
 		stage.act(delta);
 		stage.draw();
 	}
-
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
-
 	@Override
 	public void resume() {
 		Assets.loadHome();
 	}
-
 	@Override
 	public void dispose() {}
-
 	@Override
 	public void hide() {}
-
 	@Override
 	public void pause() {}
 }

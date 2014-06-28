@@ -13,7 +13,7 @@ public class ComputerPlayer implements Player {
 		this.messenger = messenger;
 		this.brain = difficulty;
 	}
-	
+
 	@Override
 	public void updateState(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
@@ -23,10 +23,9 @@ public class ComputerPlayer implements Player {
 		} else {
 			int nextNumber = brain.calculateNextNumber(state);
 			chooseNumber(null, nextNumber);
-		}			
-
+		}
 	}
-	
+
 	@Override
 	public void chooseNumber(String player, int nextNumber) {
 		messenger.chooseNumber(name, nextNumber);

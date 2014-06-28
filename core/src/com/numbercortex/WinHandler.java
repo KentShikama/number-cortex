@@ -3,9 +3,9 @@ package com.numbercortex;
 import java.util.Map;
 
 public class WinHandler {
-	
+
 	private WinHandler() {}
-	
+
 	private static final int LENGTH = (int) Math.sqrt(DefaultCortexModel.BOARD_SIZE);
 
 	public static int[] handleWinningBoard(Map<Integer, Integer> coordinateNumberMap, CortexPreferences preferences) {
@@ -44,6 +44,7 @@ public class WinHandler {
 		}
 		return translatedCoordinateNumberMap;
 	}
+
 	private static int[] checkAndHandleHorizontals(int[][] translatedCoordinateNumberMap) {
 		for (int row = 0; row < LENGTH; row++) {
 			int[] set = translatedCoordinateNumberMap[row];
@@ -60,7 +61,7 @@ public class WinHandler {
 				set[i] = translatedCoordinateNumberMap[i][column];
 			}
 			if (isBingo(set)) {
-				 return set;
+				return set;
 			}
 		}
 		return null;
@@ -68,7 +69,7 @@ public class WinHandler {
 	private static int[] checkAndHandleLeftDiagonal(int[][] translatedCoordinateNumberMap) {
 		int[] leftDiagonalSet = new int[LENGTH];
 		for (int i = 0; i < LENGTH; i++) {
-			leftDiagonalSet[i] = translatedCoordinateNumberMap[i][i]; 
+			leftDiagonalSet[i] = translatedCoordinateNumberMap[i][i];
 		}
 		if (isBingo(leftDiagonalSet)) {
 			return leftDiagonalSet;
@@ -100,6 +101,7 @@ public class WinHandler {
 		}
 		return null;
 	}
+
 	private static boolean isBingo(int[] set) {
 		for (int i = 0; i < set.length; i++) {
 			if (set[i] == -1) {
@@ -128,7 +130,6 @@ public class WinHandler {
 		}
 		return true;
 	}
-
 	private static boolean isValidSingleDouble(int[] set) {
 		for (int i = 0; i < set.length - 1; i++) {
 			if (set[i] / 10 != set[i + 1] / 10) {
@@ -152,7 +153,7 @@ public class WinHandler {
 		if (number % 2 == 0) {
 			return false;
 		}
-		for (int i = 3; i*i <= number; i++) {
+		for (int i = 3; i * i <= number; i++) {
 			if (number % i == 0) {
 				return false;
 			}
@@ -174,5 +175,4 @@ public class WinHandler {
 			return false;
 		}
 	}
-
 }
