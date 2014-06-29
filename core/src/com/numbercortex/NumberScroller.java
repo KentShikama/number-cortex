@@ -2,7 +2,6 @@ package com.numbercortex;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,7 +31,7 @@ public class NumberScroller {
 		Drawable numberRectangle = skin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
 		buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
-		buttonStyle.fontColor = new Color(250f / 255f, 235f / 255f, 102f / 255f, 1);
+		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;
 		buttonStyle.up = numberRectangle;
 		return buttonStyle;
 	}

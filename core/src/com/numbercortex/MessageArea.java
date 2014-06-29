@@ -29,7 +29,7 @@ public class MessageArea {
 		Drawable numberRectangle = skin.getDrawable(textureName);
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
-		buttonStyle.fontColor = new Color(250f / 255f, 235f / 255f, 102f / 255f, 1);
+		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;
 		buttonStyle.up = numberRectangle;
 		return buttonStyle;
 	}
@@ -96,7 +96,7 @@ public class MessageArea {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = font;
-		labelStyle.fontColor = new Color(250f / 255f, 235f / 255f, 102f / 255f, 1);
+		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label label = new Label("", labelStyle);
 		return label;
 	}

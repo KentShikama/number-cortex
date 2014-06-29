@@ -19,6 +19,7 @@ public class PlayScreenBackground extends Actor {
 	@Override
 	public void draw(Batch batch, float alpha) {
 		batch.end();
+		shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(backgroundProperty);
 		shapeRenderer.rect(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
