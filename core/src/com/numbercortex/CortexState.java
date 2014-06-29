@@ -2,6 +2,7 @@ package com.numbercortex;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CortexState implements Serializable {
@@ -65,7 +66,7 @@ public class CortexState implements Serializable {
 	}
 
 	public ArrayList<Integer> getAvailableNumbers() {
-		return availableNumbers;
+		return (ArrayList<Integer>) availableNumbers.clone();
 	}
 
 	public int getChosenNumber() {
@@ -73,7 +74,7 @@ public class CortexState implements Serializable {
 	}
 
 	public Map<Integer, Integer> getCoordinateNumberMap() {
-		return coordinateNumberMap;
+		return (Map<Integer, Integer>) new HashMap<Integer, Integer>(coordinateNumberMap).clone();
 	}
 
 	public String getCurrentPlayer() {
@@ -85,7 +86,7 @@ public class CortexState implements Serializable {
 	}
 
 	public ArrayList<String> getPlayers() {
-		return players;
+		return (ArrayList<String>) players.clone();
 	}
 
 	public String getWinner() {
@@ -93,7 +94,11 @@ public class CortexState implements Serializable {
 	}
 
 	public int[] getWinningCoordinates() {
-		return winningCoordinates;
+		if (winningCoordinates == null) {
+			return null;
+		} else {
+			return winningCoordinates.clone();
+		}
 	}
 
 }
