@@ -69,7 +69,7 @@ public class NumberTextButton extends Button {
 	}
 
 	public void clearLabel() {
-		label = new Label("", new LabelStyle(style.font, style.fontColor));
+		setLabel(new Label("", new LabelStyle(style.font, style.fontColor)));
 	}
 
 	@Override

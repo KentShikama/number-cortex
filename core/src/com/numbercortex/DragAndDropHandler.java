@@ -64,7 +64,6 @@ public class DragAndDropHandler {
 				payload.setInvalidDragActor(buttonLabel);
 				payload.setValidDragActor(buttonLabel);
 				handler.setDragActorPosition(-(buttonLabel.getWidth() / 2), buttonLabel.getHeight() / 2);
-				sourceButton.clearLabel();
 				return payload;
 			}
 			return null;
@@ -88,10 +87,10 @@ public class DragAndDropHandler {
 			Label label = (Label) payload.getObject();
 			if (validDrop(target)) {
 				NumberTextButton targetButton = (NumberTextButton) target.getActor();
+				sourceButton.clearLabel();
 				targetButton.setLabel(label);
 				int targetCoordinate = Integer.valueOf(targetButton.getName());
-				int targetValue = Integer.valueOf(label.getText().toString());
-				messenger.placeNumber(null, targetCoordinate);
+				Information.targetCoordinate = targetCoordinate;
 			} else {
 				sourceButton.setLabel(label);
 			}
