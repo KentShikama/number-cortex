@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
+
 public class DefaultCortexModel implements CortexModel {
+	
+	private static final String TAG = DefaultCortexModel.class.getCanonicalName();
 
 	private String currentPlayer;
 	private ArrayList<Integer> availableNumbers = new ArrayList<Integer>();
@@ -36,10 +40,15 @@ public class DefaultCortexModel implements CortexModel {
 			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 					coordinateNumberMap, availableNumbers).build();
 			messenger.updateState(state);
+		}  else {
+			Gdx.app.log(TAG, "Invalid chosen number: " + chosenNumber + ".");
+			for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
+				Gdx.app.log(TAG, entry.getKey() + ", " + entry.getValue());
+			}
 		}
 	}
 	private boolean isChosenNumberValid(String playerName, int nextNumber) {
-		return playerName == currentPlayer && chosenNumber == -1 && isAvailable(nextNumber);
+		return arePlayersMatching(playerName) && chosenNumber == -1 && isAvailable(nextNumber);
 	}
 	private boolean isAvailable(int nextNumber) {
 		for (Integer number : availableNumbers) {
@@ -51,29 +60,42 @@ public class DefaultCortexModel implements CortexModel {
 	}
 
 	@Override
-	public void placeNumber(String playerName, int coordinate, int number) {
-		if (isNumberPlacementValid(playerName, coordinate, number)) {
+	public void placeNumber(String playerName, int coordinate) {
+		if (isNumberPlacementValid(playerName, coordinate)) {
 			for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
-				if (entry.getValue() == number) {
+				if (entry.getValue() == chosenNumber) {
 					coordinateNumberMap.put(entry.getKey(), -1);
 				}
 			}
-			coordinateNumberMap.put(coordinate, number);
-			chosenNumber = -1;
+			coordinateNumberMap.put(coordinate, chosenNumber);
+			this.chosenNumber = -1;
 			winningCoordinates = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
 			CortexState state;
 			if (winningCoordinates != null) {
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
+				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, this.chosenNumber,
 						coordinateNumberMap, availableNumbers).win(currentPlayer, winningCoordinates).build();
 			} else {
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
+				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, this.chosenNumber,
 						coordinateNumberMap, availableNumbers).build();
 			}
 			messenger.updateState(state);
+		} else {
+			Gdx.app.log(TAG, "Invalid number placement: " + coordinate + ", " + chosenNumber + ".");
+			for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
+				Gdx.app.log(TAG, entry.getKey() + ", " + entry.getValue());
+			}
+			Gdx.app.log(TAG, "Player's match: " + arePlayersMatching(playerName));
+			Gdx.app.log(TAG, "Coordinate is empty: " + isCoordinateEmpty(coordinate));
 		}
 	}
-	private boolean isNumberPlacementValid(String playerName, int coordinate, int number) {
-		return playerName == currentPlayer && coordinateNumberMap.get(coordinate) == -1;
+	private boolean isNumberPlacementValid(String playerName, int coordinate) {
+		return arePlayersMatching(playerName) && isCoordinateEmpty(coordinate);
+	}
+	private boolean arePlayersMatching(String playerName) {
+		return playerName == currentPlayer;
+	}
+	private boolean isCoordinateEmpty(int coordinate) {
+		return coordinateNumberMap.get(coordinate) == -1;
 	}
 
 	@Override

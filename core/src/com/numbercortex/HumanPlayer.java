@@ -18,8 +18,8 @@ class HumanPlayer implements Player {
 	}
 
 	@Override
-	public void placeNumber(String player, int coordinate, int number) {
-		messenger.placeNumber(name, coordinate, number);
+	public void placeNumber(String player, int coordinate) {
+		messenger.placeNumber(name, coordinate);
 	}
 
 	@Override

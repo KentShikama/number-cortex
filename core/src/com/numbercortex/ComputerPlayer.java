@@ -23,7 +23,7 @@ public class ComputerPlayer implements Player {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
 			int coordinate = brain.calculateCoordinate(state);
-			placeNumber(null, coordinate, chosenNumber);
+			placeNumber(null, coordinate);
 		} else {
 			int nextNumber = brain.calculateNextNumber(state);
 			chooseNumber(null, nextNumber);
@@ -36,8 +36,8 @@ public class ComputerPlayer implements Player {
 	}
 
 	@Override
-	public void placeNumber(String player, int coordinate, int number) {
-		messenger.placeNumber(name, coordinate, number);
+	public void placeNumber(String player, int coordinate) {
+		messenger.placeNumber(name, coordinate);
 	}
 
 	@Override

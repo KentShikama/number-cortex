@@ -22,8 +22,8 @@ public class MessengerImpl implements Messenger {
 	}
 
 	@Override
-	public void placeNumber(String playerName, int coordinate, int number) {
-		model.placeNumber(currentPlayer, coordinate, number);
+	public void placeNumber(String playerName, int coordinate) {
+		model.placeNumber(currentPlayer, coordinate);
 	}
 
 	@Override
