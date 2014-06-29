@@ -17,10 +17,6 @@ public class CortexState implements Serializable {
 		private String winner; // Optional
 		private int[] winningCoordinates; // Optional
 
-		public CortexStateBuilder(Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> availableNumbers) {
-			this(null, null, null, 0, coordinateNumberMap, availableNumbers);
-		}
-
 		public CortexStateBuilder(String message, String currentPlayer, ArrayList<String> players, int chosenNumber,
 				Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> availableNumbers) {
 			this.message = message;

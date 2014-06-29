@@ -124,7 +124,7 @@ public class PlayScreen implements Screen {
 		players.clear();
 		Messenger messenger = MessengerImpl.createMessenger();
 		Player human = new HumanPlayer("Player", this, messenger);
-		Player computer = new ComputerPlayer("Computer", this, messenger, new HardBrain());
+		Player computer = new ComputerPlayer("Computer", this, messenger, new EasyBrain());
 		players.add(human);
 		players.add(computer);
 		for (Player player : players) {
@@ -197,7 +197,9 @@ public class PlayScreen implements Screen {
 			if (number != -1) {
 				board.updateCell(coordinate, number);
 			}
+			System.out.print("(" + coordinate + ", " + number + ")");
 		}
+		System.out.println();
 	}
 	private void updateNumberScroller(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();

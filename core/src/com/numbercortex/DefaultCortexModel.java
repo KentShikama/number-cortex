@@ -68,14 +68,14 @@ public class DefaultCortexModel implements CortexModel {
 				}
 			}
 			coordinateNumberMap.put(coordinate, chosenNumber);
-			this.chosenNumber = -1;
+			chosenNumber = -1;
 			winningCoordinates = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
 			CortexState state;
 			if (winningCoordinates != null) {
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, this.chosenNumber,
+				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 						coordinateNumberMap, availableNumbers).win(currentPlayer, winningCoordinates).build();
 			} else {
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, this.chosenNumber,
+				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 						coordinateNumberMap, availableNumbers).build();
 			}
 			messenger.updateState(state);
