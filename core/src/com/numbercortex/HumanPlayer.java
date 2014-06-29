@@ -13,7 +13,7 @@ class HumanPlayer implements Player {
 	private Messenger messenger;
 	private CortexState state;
 
-	private int coordinate;
+	private int savedCoordinate;
 	private boolean nextCoordinateChosen;
 	
 	private CortexPreferences preferences = CortexPreferences.getInstance();
@@ -24,12 +24,15 @@ class HumanPlayer implements Player {
 		this.name = name;
 	}
 
+	/**
+	 * TODO: Eventually send the state along with a confirm dialog
+	 */
 	@Override
 	public void chooseNumber(String player, int nextNumber) {
 		if (state.getChosenNumber() == -1) {
 			messenger.chooseNumber(name, nextNumber);
 		} else if (state.getChosenNumber() != -1 && nextCoordinateChosen) {
-			messenger.placeNumber(name, coordinate);
+			messenger.placeNumber(name, savedCoordinate);
 			messenger.chooseNumber(name, nextNumber);
 			nextCoordinateChosen = false;
 		} else {
@@ -39,17 +42,31 @@ class HumanPlayer implements Player {
 
 	@Override
 	public void placeNumber(String player, int coordinate) {
-		this.coordinate = coordinate;
+		savePostPlaceState(coordinate);
+		postPlaceUpdate(coordinate);
+	}
+	private void savePostPlaceState(int coordinate) {
+		this.savedCoordinate = coordinate;
 		nextCoordinateChosen = true;
-		
+	}
+	private void postPlaceUpdate(int coordinate) {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
+		updateCoordinateNumberMap(coordinate, coordinateNumberMap);
+		handleUpdatedMap(coordinate, coordinateNumberMap);
+	}
+	private void updateCoordinateNumberMap(int coordinate, Map<Integer, Integer> coordinateNumberMap) {
 		int chosenNumber = state.getChosenNumber();
+		eliminateOldChosenNumberPosition(coordinateNumberMap, chosenNumber);
+		coordinateNumberMap.put(coordinate, chosenNumber);
+	}
+	private void eliminateOldChosenNumberPosition(Map<Integer, Integer> coordinateNumberMap, int chosenNumber) {
 		for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
 			if (entry.getValue() == chosenNumber) {
 				coordinateNumberMap.put(entry.getKey(), -1);
 			}
 		}
-		coordinateNumberMap.put(coordinate, chosenNumber);
+	}
+	private void handleUpdatedMap(int coordinate, Map<Integer, Integer> coordinateNumberMap) {
 		int[] winningCoordinates = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
 		if (winningCoordinates != null) {
 			messenger.placeNumber(name, coordinate);
@@ -58,7 +75,7 @@ class HumanPlayer implements Player {
 			screen.updateState(temporaryState);
 		}
 	}
-
+	
 	@Override
 	public void updateState(CortexState state) {
 		this.state = state;
