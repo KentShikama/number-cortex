@@ -1,87 +1,75 @@
+
 game.png
+size: 962,248
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest,Nearest
 repeat: none
-blue_background
-  rotate: false
-  xy: 644, 2
-  size: 640, 1136
-  orig: 640, 1136
-  offset: 0, 0
-  index: -1
 blue_rectangle
   rotate: false
-  xy: 326, 1140
+  xy: 2, 88
   size: 160, 160
   orig: 160, 160
   offset: 0, 0
   index: -1
 green_rectangle
   rotate: false
-  xy: 164, 1140
+  xy: 164, 88
   size: 160, 160
   orig: 160, 160
   offset: 0, 0
   index: -1
 help
   rotate: false
-  xy: 1052, 1244
+  xy: 2, 2
   size: 86, 84
   orig: 86, 84
   offset: 0, 0
   index: -1
 left_arrow
   rotate: false
-  xy: 861, 1244
+  xy: 758, 42
   size: 101, 102
   orig: 101, 102
   offset: 0, 0
   index: -1
 next_number
   rotate: false
-  xy: 488, 1140
+  xy: 488, 3
   size: 141, 141
   orig: 141, 141
   offset: 0, 0
   index: -1
 number_rectangle_background
   rotate: false
-  xy: 631, 1244
+  xy: 631, 42
   size: 125, 102
   orig: 125, 102
   offset: 0, 0
   index: -1
-red_background
-  rotate: false
-  xy: 2, 2
-  size: 640, 1136
-  orig: 640, 1136
-  offset: 0, 0
-  index: -1
 red_rectangle
   rotate: false
-  xy: 2, 1140
+  xy: 326, 88
   size: 160, 160
   orig: 160, 160
   offset: 0, 0
   index: -1
 right_arrow
   rotate: false
-  xy: 758, 1244
+  xy: 861, 42
   size: 101, 102
   orig: 101, 102
   offset: 0, 0
   index: -1
 scroller_rectangle
   rotate: false
-  xy: 631, 1140
+  xy: 488, 146
   size: 438, 102
   orig: 438, 102
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 964, 1244
+  xy: 90, 2
   size: 86, 84
   orig: 86, 84
   offset: 0, 0
