@@ -29,7 +29,7 @@ public class Assets {
 
 	public static void loadGame() {
 		if (gameSkin == null) {
-			game = new TextureAtlas(Gdx.files.internal("game/game.txt"));
+			game = new TextureAtlas(Gdx.files.internal("game/game.atlas"));
 			gameSkin = new Skin(game);
 		}
 		if (FontGenerator.isNull()) {

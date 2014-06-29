@@ -6,6 +6,7 @@ import java.util.Map;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -19,8 +20,6 @@ public class PlayScreen implements Screen {
 	public static final String TAG = PlayScreen.class.getCanonicalName();
 
 	private static final Skin skin = Assets.gameSkin;
-	private static final String RED_BACKGROUND = "red_background";
-	private static final String BLUE_BACKGROUND = "blue_background";
 	private static final int BOTTOM_RECTANGLE_WIDTH = skin.getRegion("settings").getRegionWidth();
 	private static final int BOTTOM_RECTANGLE_HEIGHT = skin.getRegion("settings").getRegionHeight();
 
@@ -52,15 +51,15 @@ public class PlayScreen implements Screen {
 		progressGame();
 	}
 	private void buildBackground(CortexPreferences preferences) {
-		String backgroundProperty = getBackgroundProperty(preferences);
-		ScreenBackground background = new ScreenBackground(skin, backgroundProperty);
+		Color backgroundProperty = getBackgroundColor(preferences);
+		PlayScreenBackground background = new PlayScreenBackground(backgroundProperty);
 		stage.addActor(background);
 	}
-	private String getBackgroundProperty(CortexPreferences preferences) {
+	private Color getBackgroundColor(CortexPreferences preferences) {
 		if (preferences.isBlue()) {
-			return BLUE_BACKGROUND;
+			return Launch.SEA_BLUE;
 		} else {
-			return RED_BACKGROUND;
+			return Launch.RETRO_RED;
 		}
 	}
 	private void buildMessageArea() {
@@ -209,25 +208,20 @@ public class PlayScreen implements Screen {
 	public void resume() {
 		Assets.loadGame();
 	}
-
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();
 	}
-
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
-
 	@Override
 	public void hide() {}
-
 	@Override
 	public void dispose() {}
-
 	@Override
 	public void pause() {}
 }

@@ -14,6 +14,6 @@ class ScreenBackground extends Actor {
 
 	@Override
 	public void draw(Batch batch, float alpha) {
-		batch.draw(backgroundTexture, 0, 0);
+		 batch.draw(backgroundTexture, 0, 0);
 	}
 }
