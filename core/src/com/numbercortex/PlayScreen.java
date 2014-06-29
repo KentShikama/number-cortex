@@ -124,7 +124,7 @@ public class PlayScreen implements Screen {
 		players.clear();
 		Messenger messenger = MessengerImpl.createMessenger();
 		Player human = new HumanPlayer("Player", this, messenger);
-		Player computer = new ComputerPlayer("Computer", this, messenger, new MediumBrain());
+		Player computer = new ComputerPlayer("Computer", this, messenger, new HardBrain());
 		players.add(human);
 		players.add(computer);
 		for (Player player : players) {
