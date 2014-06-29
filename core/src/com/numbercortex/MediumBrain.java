@@ -17,13 +17,11 @@ public class MediumBrain implements Brain {
 			}
 		}
 		int chosenCoordinate = assignWinningCoordinateIfExistent(state, openCoordinates);
-		if (chosenCoordinate == -1) {
-			int chosenCoordinatePosition = (int) (Math.random() * openCoordinates.size());
-			chosenCoordinate = openCoordinates.get(chosenCoordinatePosition);
+		if (noWinningCoordinateExists(chosenCoordinate)) {
+			chosenCoordinate = assignRandomCoordinate(openCoordinates);
 		}
 		return chosenCoordinate;
 	}
-
 	private int assignWinningCoordinateIfExistent(CortexState state, ArrayList<Integer> openCoordinates) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
@@ -37,6 +35,15 @@ public class MediumBrain implements Brain {
 				break;
 			}
 		}
+		return chosenCoordinate;
+	}
+	private boolean noWinningCoordinateExists(int chosenCoordinate) {
+		return chosenCoordinate == -1;
+	}
+	private int assignRandomCoordinate(ArrayList<Integer> openCoordinates) {
+		int chosenCoordinate;
+		int chosenCoordinatePosition = (int) (Math.random() * openCoordinates.size());
+		chosenCoordinate = openCoordinates.get(chosenCoordinatePosition);
 		return chosenCoordinate;
 	}
 
