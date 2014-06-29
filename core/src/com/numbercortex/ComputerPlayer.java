@@ -16,6 +16,10 @@ public class ComputerPlayer implements Player {
 
 	@Override
 	public void updateState(CortexState state) {
+		if (state.getWinner() != null) {
+			screen.updateState(state);
+			return;
+		}
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
 			int coordinate = brain.calculateCoordinate(state);

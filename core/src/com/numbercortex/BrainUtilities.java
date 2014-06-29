@@ -37,6 +37,7 @@ public class BrainUtilities {
 		for (Integer availableNumber : availableNumbers) {
 			if (isSafeNumber(availableNumber, coordinateNumberMap)) {
 				nextNumber = availableNumber;
+				return nextNumber;
 			}
 		}
 		return nextNumber;
