@@ -11,9 +11,9 @@ public class MessengerImpl implements Messenger {
 	private MessengerImpl() {}
 
 	public static MessengerImpl createMessenger() {
-		MessengerImpl local = new MessengerImpl();
-		local.model = new DefaultCortexModel(local);
-		return local;
+		MessengerImpl messenger = new MessengerImpl();
+		messenger.model = new DefaultCortexModel(messenger);
+		return messenger;
 	}
 
 	@Override
