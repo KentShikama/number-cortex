@@ -5,72 +5,68 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.numbercortex.ScreenTracker.Mode;
 
 public class TitleScreen implements Screen {
-	abstract class TitleScreenButton {
+	class TitleScreenListener extends ClickListener {
+		private ScreenTracker.Mode mode;
+		private int index;
+		private Screen screen;
+		TitleScreenListener(int index, Screen screen, ScreenTracker.Mode mode) {
+			this.index = index;
+			this.screen = screen;
+		}
+		@Override
+		public void clicked(InputEvent event, float x, float y) {
+			MoveToAction action = Actions.moveTo(Launch.SCREEN_WIDTH - 50, Launch.SCREEN_HEIGHT - (756 + index * 80), 0.3f);
+			Button button = (Button) event.getTarget();
+			Action completeAction = new Action() {
+			    public boolean act( float delta ) {
+					ScreenTracker.mode = mode;
+					if (screen != null) {
+						game.setScreen(screen);	
+					}
+					return true;
+			    }
+			};
+			button.addAction(Actions.sequence(action, completeAction));
+		}
+	}
+	class TitleScreenButton {
 
 		private Button button;
 		public Button getButton() {
 			return button;
 		}
 
-		TitleScreenButton(String buttonName, int index, ClickListener listener) {
+		TitleScreenButton(String buttonName, int index, Screen screen) {
 			Drawable buttonDrawable = skin.getDrawable(buttonName);
 			TextureRegion buttonTexture = skin.getRegion(buttonName);
 			Button.ButtonStyle buttonStyle = new Button.ButtonStyle(buttonDrawable, buttonDrawable, buttonDrawable);
 			button = new Button(buttonStyle);
 			button.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80), buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
+			Mode mode;
+			if (buttonName.equals(PLAY_BUTTON)) {
+				mode = ScreenTracker.Mode.SINGLE_PLAYER;
+			} else if (buttonName.equals(PASS_AND_PLAY_BUTTON)) {
+				mode = ScreenTracker.Mode.TWO_PLAYER;
+			} else if (buttonName.equals(PLAY_ONLINE)) {
+				mode = ScreenTracker.Mode.ONLINE;
+			} else {
+				mode = null;
+			}
+			ClickListener listener = new TitleScreenListener(index, screen, mode);
 			button.addListener(listener);
-		}
-	}
-	class PlayButton extends TitleScreenButton {
-		PlayButton() {
-			super(PLAY_BUTTON, 0, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					ScreenTracker.mode = ScreenTracker.Mode.SINGLE_PLAYER;
-					game.setScreen(ScreenTracker.settingsScreen);
-				}
-			});
-		}
-	}
-	class PassAndPlayButton extends TitleScreenButton {
-		PassAndPlayButton() {
-			super(PASS_AND_PLAY_BUTTON, 1, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					ScreenTracker.mode = ScreenTracker.Mode.TWO_PLAYER;
-					game.setScreen(ScreenTracker.settingsScreen);
-				}
-			});
-		}
-	}
-	class PlayOnlineButton extends TitleScreenButton {
-		PlayOnlineButton() {
-			super(PLAY_ONLINE, 2, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					ScreenTracker.mode = ScreenTracker.Mode.ONLINE;
-					game.setScreen(ScreenTracker.settingsScreen);
-				}
-			});
-		}
-	}
-	class TutorialButton extends TitleScreenButton {
-		TutorialButton() {
-			super(TUTORIAL, 3, new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					Gdx.app.log(TAG, TUTORIAL + " has been clicked");
-				}
-			});
 		}
 	}
 
@@ -95,17 +91,17 @@ public class TitleScreen implements Screen {
 	public void show() {
 		stage.clear();
 		buildBackground();
-		buildButtons();
+		buildButtons();		
 	}
 	private void buildBackground() {
 		ScreenBackground background = new ScreenBackground(skin, TITLE_BACKGROUND);
 		stage.addActor(background);
 	}
 	private void buildButtons() {
-		TitleScreenButton playButton = new PlayButton();
-		TitleScreenButton passAndPlayButton = new PassAndPlayButton();
-		TitleScreenButton playOnlineButton = new PlayOnlineButton();
-		TitleScreenButton tutorialButton = new TutorialButton();
+		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.settingsScreen);
+		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1, ScreenTracker.settingsScreen);
+		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2, ScreenTracker.settingsScreen);
+		TitleScreenButton tutorialButton =new TitleScreenButton(TUTORIAL, 3, null);
 		stage.addActor(playButton.getButton());
 		stage.addActor(passAndPlayButton.getButton());
 		stage.addActor(playOnlineButton.getButton());
