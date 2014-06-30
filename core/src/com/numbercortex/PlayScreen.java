@@ -136,7 +136,7 @@ public class PlayScreen implements Screen {
 				brain = new HardBrain();
 				break;
 		}
-		Player computer = new ComputerPlayer("Computer", this, messenger, brain);
+		Player computer = new ComputerPlayer(brain.getName(), this, messenger, brain);
 		players.add(human);
 		players.add(computer);
 		for (Player player : players) {

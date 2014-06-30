@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class EasyBrain implements Brain {
+	
+	private String name = "Easy Computer";
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public int calculateCoordinate(CortexState state) {

@@ -5,6 +5,11 @@ import java.util.Map;
 
 public class MediumBrain implements Brain {
 	
+	private String name = "Medium Computer";
+	public String getName() {
+		return name;
+	}
+	
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
