@@ -67,8 +67,8 @@ class HumanPlayer implements Player {
 		}
 	}
 	private void handleUpdatedMap(int coordinate, Map<Integer, Integer> coordinateNumberMap) {
-		int[] winningCoordinates = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
-		if (winningCoordinates != null) {
+		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
+		if (winningValues != null) {
 			messenger.placeNumber(name, coordinate);
 		} else {
 			CortexState temporaryState = new CortexState.CortexStateBuilder(state.getMessage(),

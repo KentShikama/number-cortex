@@ -195,9 +195,9 @@ public class PlayScreen implements Screen {
 		if (chosenNumber != -1) {
 			messageArea.updateMessageWithNextNumber(message, chosenNumber);
 		} else {
-			if (state.getWinningCoordinates() != null) {
+			if (state.getWinningValues() != null) {
 				messageArea.updateMessage(state.getWinner() + " wins!");
-				for (Integer coordinate : state.getWinningCoordinates()) {
+				for (Integer coordinate : state.getWinningValues()) {
 					System.out.print(coordinate + " ");
 				}
 			} else {
@@ -213,6 +213,9 @@ public class PlayScreen implements Screen {
 			if (number != -1) {
 				board.updateCell(coordinate, number);
 			}
+		}
+		if (state.getWinningValues() != null) {
+			//
 		}
 	}
 	private void updateNumberScroller(CortexState state) {

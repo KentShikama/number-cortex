@@ -55,9 +55,9 @@ public class BrainUtilities {
 
 	public static boolean isWinningCoordinate(int coordinate, int number, Map<Integer, Integer> coordinateNumberMap) {
 		coordinateNumberMap.put(coordinate, number);
-		int[] winningCoordinates = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
+		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
 		coordinateNumberMap.put(coordinate, -1);
-		if (winningCoordinates != null) {
+		if (winningValues != null) {
 			return true;
 		}
 		return false;
