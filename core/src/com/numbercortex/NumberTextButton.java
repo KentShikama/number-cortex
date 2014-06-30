@@ -3,7 +3,6 @@ package com.numbercortex;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,7 +14,7 @@ import com.esotericsoftware.tablelayout.Cell;
  * An extension of the com.badlogic.gdx.scenes.scene2d.ui.TextButton class
  * allowing for the label to directly be modified
  */
-public class NumberTextButton extends Button {
+public class NumberTextButton extends HighlightableButton {
 	static public class NumberTextButtonStyle extends ButtonStyle {
 		public BitmapFont font;
 		public Color fontColor, downFontColor, overFontColor, checkedFontColor, checkedOverFontColor,
@@ -80,9 +79,6 @@ public class NumberTextButton extends Button {
 				fontColor = style.disabledFontColor;
 			else if (isPressed() && style.downFontColor != null)
 				fontColor = style.downFontColor;
-			else if (isChecked() && style.checkedFontColor != null)
-				fontColor = (isOver() && style.checkedOverFontColor != null) ? style.checkedOverFontColor
-						: style.checkedFontColor;
 			else if (isOver() && style.overFontColor != null)
 				fontColor = style.overFontColor;
 			else

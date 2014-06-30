@@ -215,25 +215,37 @@ public class PlayScreen implements Screen {
 			}
 		}
 		if (state.getWinningValues() != null) {
-			//
+			int[] winningValues = state.getWinningValues();
+			int[] winningCoordinates = new int[4];
+			int i = 0;
+			for (Map.Entry<Integer, Integer> entry : state.getCoordinateNumberMap().entrySet()) {
+				for (Integer winningCoordinateValue : winningValues) {
+					if (entry.getValue() == winningCoordinateValue) {
+						winningCoordinates[i] = entry.getKey();
+						i++;
+					}
+				}
+			}
+			board.showWinningCoordinates(winningCoordinates);
 		}
 	}
 	private void updateNumberScroller(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
 	}
-	
+
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
 		Label nextNumberLabel = nextNumberCell.getLabel();
 		float nextNumberLabelX = nextNumberCell.getX() - 10;
 		float nextNumberLabelY = nextNumberCell.getY() - 10;
-		
+
 		float dragToPositionX = board.getBoardCells().get(coordinate).getX();
 		float dragToPositionY = board.getBoardCells().get(coordinate).getY();
 		Vector3 pos = new Vector3(dragToPositionX, dragToPositionY, 0);
 		stage.getCamera().unproject(pos);
-		MoveToAction moveToAction = Actions.moveTo(dragToPositionX - nextNumberLabelX, dragToPositionY - nextNumberLabelY, 0.7f);
+		MoveToAction moveToAction = Actions.moveTo(dragToPositionX - nextNumberLabelX, dragToPositionY
+				- nextNumberLabelY, 0.7f);
 		ArrayList<Object> components = new ArrayList<Object>();
 		components.add(nextNumberLabel);
 		components.add(moveToAction);

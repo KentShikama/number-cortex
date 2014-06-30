@@ -20,10 +20,12 @@ public class NumberCortexBoard {
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Drawable numberRectangle = skin.getDrawable(textureName);
+		Drawable numberRectangleChecked = skin.getDrawable(textureName + "_checked");
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
 		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;
 		buttonStyle.up = numberRectangle;
+		buttonStyle.highlighted = numberRectangleChecked;
 		return buttonStyle;
 	}
 
@@ -100,5 +102,12 @@ public class NumberCortexBoard {
 
 	public ArrayList<NumberTextButton> getBoardCells() {
 		return cells;
+	}
+
+	public void showWinningCoordinates(int[] winningCoordinates) {
+		for (Integer winningCoordinate : winningCoordinates) {
+			NumberTextButton cell = cells.get(winningCoordinate);
+			cell.setHighlighted(true);
+		}
 	}
 }
