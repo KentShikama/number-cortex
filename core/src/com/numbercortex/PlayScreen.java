@@ -8,9 +8,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -209,13 +213,34 @@ public class PlayScreen implements Screen {
 			if (number != -1) {
 				board.updateCell(coordinate, number);
 			}
-			System.out.print("(" + coordinate + ", " + number + ")");
 		}
-		System.out.println();
 	}
 	private void updateNumberScroller(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
+	}
+	
+	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
+		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
+		Label nextNumberLabel = nextNumberCell.getLabel();
+		float nextNumberLabelX = nextNumberCell.getX() - 10;
+		float nextNumberLabelY = nextNumberCell.getY() - 10;
+		
+		float dragToPositionX = board.getBoardCells().get(coordinate).getX();
+		float dragToPositionY = board.getBoardCells().get(coordinate).getY();
+		Vector3 pos = new Vector3(dragToPositionX, dragToPositionY, 0);
+		stage.getCamera().unproject(pos);
+		MoveToAction moveToAction = Actions.moveTo(dragToPositionX - nextNumberLabelX, dragToPositionY - nextNumberLabelY, 0.7f);
+		ArrayList<Object> components = new ArrayList<Object>();
+		components.add(nextNumberLabel);
+		components.add(moveToAction);
+		System.out.println("Drag position X: " + dragToPositionX);
+		System.out.println("Drag position Y: " + dragToPositionY);
+		System.out.println("Next Number X: " + nextNumberLabelX);
+		System.out.println("Next Number Y: " + nextNumberLabelY);
+		System.out.println("Padding X: " + nextNumberCell.getPadX());
+		System.out.println("Padding Y: " + nextNumberCell.getPadTop());
+		return components;
 	}
 
 	@Override
@@ -238,4 +263,5 @@ public class PlayScreen implements Screen {
 	public void dispose() {}
 	@Override
 	public void pause() {}
+
 }

@@ -56,7 +56,7 @@ public class DragAndDropHandler {
 
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-			if (isChosenNumber(sourceButton)) {
+			if (isChosenNumber(sourceButton) && isHumanPlayerTurn()) {
 				Payload payload = new Payload();
 				Label buttonLabel = sourceButton.getLabel();
 				payload.setObject(buttonLabel);
@@ -68,6 +68,14 @@ public class DragAndDropHandler {
 			}
 			return null;
 		}
+		private boolean isHumanPlayerTurn() {
+			if (messenger instanceof HumanPlayer) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 		private boolean isChosenNumber(NumberTextButton button) {
 			Label label = button.getLabel();
 			String labelText = label.getText().toString();
