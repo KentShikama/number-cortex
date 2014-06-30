@@ -108,16 +108,16 @@ public class PlayScreen implements Screen {
 	}
 	private void buildNewGame() {
 		switch (ScreenTracker.mode) {
-		case SINGLE_PLAYER:
-			buildNewSinglePlayerGame();
-			ScreenTracker.isInPlay = true;
-			break;
-		case TWO_PLAYER:
-			buildNewTwoPlayerGame();
-			ScreenTracker.isInPlay = true;
-			break;
-		case ONLINE:
-			break;
+			case SINGLE_PLAYER:
+				buildNewSinglePlayerGame();
+				ScreenTracker.isInPlay = true;
+				break;
+			case TWO_PLAYER:
+				buildNewTwoPlayerGame();
+				ScreenTracker.isInPlay = true;
+				break;
+			case ONLINE:
+				break;
 		}
 	}
 	private void buildNewSinglePlayerGame() {
