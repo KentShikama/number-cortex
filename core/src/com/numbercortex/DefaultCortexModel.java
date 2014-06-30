@@ -7,7 +7,7 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 
 public class DefaultCortexModel implements CortexModel {
-	
+
 	private static final String TAG = DefaultCortexModel.class.getCanonicalName();
 
 	private String currentPlayer;
@@ -40,7 +40,7 @@ public class DefaultCortexModel implements CortexModel {
 			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 					coordinateNumberMap, availableNumbers).build();
 			messenger.updateState(state);
-		}  else {
+		} else {
 			Gdx.app.log(TAG, "Invalid chosen number: " + chosenNumber + ".");
 			for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
 				Gdx.app.log(TAG, entry.getKey() + ", " + entry.getValue());

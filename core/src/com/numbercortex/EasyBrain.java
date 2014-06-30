@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class EasyBrain implements Brain {
-	
+
 	private String name = "Easy Computer";
+	@Override
 	public String getName() {
 		return name;
 	}

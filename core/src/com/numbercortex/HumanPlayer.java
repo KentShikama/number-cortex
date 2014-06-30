@@ -7,7 +7,7 @@ import java.util.Map;
 class HumanPlayer implements Player {
 
 	private static final String TAG = HumanPlayer.class.getCanonicalName();
-	
+
 	private String name;
 	private PlayScreen screen;
 	private Messenger messenger;
@@ -15,9 +15,9 @@ class HumanPlayer implements Player {
 
 	private int savedCoordinate;
 	private boolean nextCoordinateChosen;
-	
+
 	private CortexPreferences preferences = CortexPreferences.getInstance();
-		
+
 	public HumanPlayer(String name, PlayScreen screen, Messenger messenger) {
 		this.messenger = messenger;
 		this.screen = screen;
@@ -71,11 +71,13 @@ class HumanPlayer implements Player {
 		if (winningCoordinates != null) {
 			messenger.placeNumber(name, coordinate);
 		} else {
-			CortexState temporaryState = new CortexState.CortexStateBuilder(state.getMessage(), state.getCurrentPlayer(), state.getPlayers(), -1, coordinateNumberMap, state.getAvailableNumbers()).build();
+			CortexState temporaryState = new CortexState.CortexStateBuilder(state.getMessage(),
+					state.getCurrentPlayer(), state.getPlayers(), -1, coordinateNumberMap, state.getAvailableNumbers())
+					.build();
 			screen.updateState(temporaryState);
 		}
 	}
-	
+
 	@Override
 	public void updateState(CortexState state) {
 		this.state = state;

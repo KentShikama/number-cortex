@@ -35,13 +35,15 @@ public class TitleScreen implements Screen {
 			float moveTime = 0.35f;
 			Button button = (Button) event.getTarget();
 			for (Actor actor : stage.getActors()) {
-				DelayAction delayAction = Actions.delay(moveTime - moveTime/2);
+				DelayAction delayAction = Actions.delay(moveTime - moveTime / 2);
 				AlphaAction fadeOutAction = Actions.fadeOut(0.35f);
-				SequenceAction sequence = Actions.sequence(delayAction, fadeOutAction);		
+				SequenceAction sequence = Actions.sequence(delayAction, fadeOutAction);
 				if (actor == button) {
-					MoveToAction moveToAction = Actions.moveTo(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT - (756 + index * 80), moveTime);
+					MoveToAction moveToAction = Actions.moveTo(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT
+							- (756 + index * 80), moveTime);
 					Action screenSwitchAction = buildScreenSwitchAction();
-					SequenceAction clickedButtonSequence = Actions.sequence(delayAction, fadeOutAction, screenSwitchAction);
+					SequenceAction clickedButtonSequence = Actions.sequence(delayAction, fadeOutAction,
+							screenSwitchAction);
 					ParallelAction parallel = Actions.parallel(moveToAction, clickedButtonSequence);
 					button.addAction(parallel);
 				} else {
@@ -51,13 +53,14 @@ public class TitleScreen implements Screen {
 		}
 		private Action buildScreenSwitchAction() {
 			Action completeAction = new Action() {
-			    public boolean act( float delta ) {
+				@Override
+				public boolean act(float delta) {
 					if (screen != null) {
-				    	ScreenTracker.mode = mode;
-						game.setScreen(screen);	
+						ScreenTracker.mode = mode;
+						game.setScreen(screen);
 					}
 					return true;
-			    }
+				}
 			};
 			return completeAction;
 		}
@@ -102,17 +105,20 @@ public class TitleScreen implements Screen {
 	public void show() {
 		stage.clear();
 		buildBackground();
-		buildButtons();		
+		buildButtons();
 	}
 	private void buildBackground() {
 		ScreenBackground background = new ScreenBackground(skin, TITLE_BACKGROUND);
 		stage.addActor(background);
 	}
 	private void buildButtons() {
-		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.settingsScreen, ScreenTracker.Mode.SINGLE_PLAYER);
-		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1, ScreenTracker.settingsScreen, ScreenTracker.Mode.TWO_PLAYER);
-		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2, ScreenTracker.settingsScreen, ScreenTracker.Mode.ONLINE);
-		TitleScreenButton tutorialButton =new TitleScreenButton(TUTORIAL, 3, null, null);
+		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.settingsScreen,
+				ScreenTracker.Mode.SINGLE_PLAYER);
+		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
+				ScreenTracker.settingsScreen, ScreenTracker.Mode.TWO_PLAYER);
+		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2, ScreenTracker.settingsScreen,
+				ScreenTracker.Mode.ONLINE);
+		TitleScreenButton tutorialButton = new TitleScreenButton(TUTORIAL, 3, null, null);
 		stage.addActor(playButton.getButton());
 		stage.addActor(passAndPlayButton.getButton());
 		stage.addActor(playOnlineButton.getButton());

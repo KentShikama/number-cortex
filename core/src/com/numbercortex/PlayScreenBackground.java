@@ -15,7 +15,7 @@ public class PlayScreenBackground extends Actor {
 		this.backgroundProperty = backgroundProperty;
 		this.shapeRenderer = new ShapeRenderer();
 	}
-	
+
 	@Override
 	public void draw(Batch batch, float alpha) {
 		batch.end();

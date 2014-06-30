@@ -4,21 +4,24 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class ImpossibleBrain implements Brain {
-	
+
 	private String name = "Impossible Computer";
+	@Override
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
-		
-		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap, openCoordinates);
+
+		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
+				openCoordinates);
 		if (chosenCoordinate == -1) {
-			// Check if there is a safe number that matches the chosenCoordinate instead of a random coordinate
+			// Check if there is a safe number that matches the chosenCoordinate
+			// instead of a random coordinate
 			chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
 		}
 		return chosenCoordinate;
