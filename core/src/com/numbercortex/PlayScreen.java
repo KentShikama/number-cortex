@@ -124,7 +124,19 @@ public class PlayScreen implements Screen {
 		players.clear();
 		Messenger messenger = MessengerImpl.createMessenger();
 		Player human = new HumanPlayer("Player", this, messenger);
-		Player computer = new ComputerPlayer("Computer", this, messenger, new EasyBrain());
+		Brain brain;
+		switch (CortexPreferences.getInstance().getDifficulty()) {
+			case 1:
+				brain = new EasyBrain();
+				break;
+			case 2:
+				brain = new MediumBrain();
+				break;
+			default:
+				brain = new HardBrain();
+				break;
+		}
+		Player computer = new ComputerPlayer("Computer", this, messenger, brain);
 		players.add(human);
 		players.add(computer);
 		for (Player player : players) {
