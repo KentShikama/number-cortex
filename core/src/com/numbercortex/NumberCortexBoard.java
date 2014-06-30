@@ -1,10 +1,17 @@
 package com.numbercortex;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -104,10 +111,44 @@ public class NumberCortexBoard {
 		return cells;
 	}
 
-	public void showWinningCoordinates(int[] winningCoordinates) {
-		for (Integer winningCoordinate : winningCoordinates) {
-			NumberTextButton cell = cells.get(winningCoordinate);
-			cell.setHighlighted(true);
+	public void showWinningCoordinates(Map<Integer, Integer> winningMap) {
+		for (Map.Entry<Integer, Integer> winningEntry : winningMap.entrySet()) {
+			buildWinningAction(winningEntry);
 		}
+	}
+	private void buildWinningAction(Map.Entry<Integer, Integer> winningEntry) {
+		int winningCoordinate = winningEntry.getKey();
+		final int winningValue = winningEntry.getValue();
+		final NumberTextButton cell = cells.get(winningCoordinate);
+		final Label cellLabel = cell.getLabel();
+		RepeatAction repeatAction = buildRepeatableFlashingAction(winningValue, cell, cellLabel);
+		cell.addAction(repeatAction);
+	}
+	private RepeatAction buildRepeatableFlashingAction(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
+		DelayAction delayAction = Actions.delay(0.5f);
+		Action toggleAction = buildToggleAction(winningValue, cell, cellLabel);
+		SequenceAction sequence = Actions.sequence(toggleAction, delayAction);
+		RepeatAction repeatAction = new RepeatAction();
+		repeatAction.setAction(sequence);
+		repeatAction.setCount(6);
+		return repeatAction;
+	}
+	private Action buildToggleAction(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
+		Action toggleAction = new Action () {
+			public boolean act (float delta) {
+				toggleCell(winningValue, cell, cellLabel);					
+				return true;
+			}
+			private void toggleCell(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
+				if (cell.isHighlighted) {
+					cellLabel.setText(String.valueOf(winningValue));
+					cell.setHighlighted(false);
+				} else {
+					cellLabel.setText("");
+					cell.setHighlighted(true);
+				}
+			}
+		};
+		return toggleAction;
 	}
 }

@@ -1,6 +1,7 @@
 package com.numbercortex;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Game;
@@ -216,18 +217,21 @@ public class PlayScreen implements Screen {
 		}
 		if (state.getWinningValues() != null) {
 			int[] winningValues = state.getWinningValues();
-			int[] winningCoordinates = new int[4];
-			int i = 0;
-			for (Map.Entry<Integer, Integer> entry : state.getCoordinateNumberMap().entrySet()) {
-				for (Integer winningCoordinateValue : winningValues) {
-					if (entry.getValue() == winningCoordinateValue) {
-						winningCoordinates[i] = entry.getKey();
-						i++;
-					}
+			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
+			board.showWinningCoordinates(winningMap);
+		}
+	}
+	private Map<Integer, Integer> buildWinningMap(CortexState state, int[] winningValues) {
+		Map<Integer, Integer> winningMap = new HashMap<Integer, Integer>();
+		for (Map.Entry<Integer, Integer> entry : state.getCoordinateNumberMap().entrySet()) {
+			for (Integer winningValue : winningValues) {
+				if (entry.getValue() == winningValue) {
+					int winningCoordinate = entry.getKey();
+					winningMap.put(winningCoordinate, winningValue);
 				}
 			}
-			board.showWinningCoordinates(winningCoordinates);
 		}
+		return winningMap;
 	}
 	private void updateNumberScroller(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
