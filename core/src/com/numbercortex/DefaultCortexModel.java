@@ -106,7 +106,7 @@ public class DefaultCortexModel implements CortexModel {
 		}
 	}
 	private void startGame() {
-		// clearVariables();
+		clearVariables();
 		setInitialBoardState();
 		setInitialAvailableNumbers();
 		setFirstPlayer();
@@ -115,6 +115,11 @@ public class DefaultCortexModel implements CortexModel {
 				coordinateNumberMap, availableNumbers).build();
 		messenger.updateState(state);
 	}
+	private void clearVariables() {
+		winner = null;
+		winningValues = null;
+	}
+
 	private void setInitialBoardState() {
 		coordinateNumberMap.clear();
 		for (int i = 0; i < BOARD_SIZE; i++) {
