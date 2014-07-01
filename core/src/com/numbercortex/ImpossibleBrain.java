@@ -69,6 +69,11 @@ public class ImpossibleBrain implements Brain {
 					bestSafeNumberList.add(safeNumber);
 				}
 			}
+			System.out.println(bestSafeNumberList.size() + "/" + safeNumbers.size() + " not filtered with max points: " + maxPoints + ".");
+			for (Integer integer : bestSafeNumberList) {
+				System.out.print(integer + ", ");
+				System.out.println();
+			}
 			nextNumber = BrainUtilities.assignRandomNumberFromList(bestSafeNumberList);
 		}
 		return nextNumber;
