@@ -31,6 +31,22 @@ public class BrainUtilities {
 		}
 		return chosenCoordinate;
 	}
+	
+	public static ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber,
+			Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> openCoordinates,
+			ArrayList<Integer> availableNumbers) {
+		ArrayList<Integer> safeCoordinates = new ArrayList<Integer>();
+		for (Integer openCoordinate : openCoordinates) {
+			coordinateNumberMap.put(openCoordinate, chosenNumber);
+			ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap,
+					availableNumbers);
+			coordinateNumberMap.put(openCoordinate, -1);
+			if (!safeNumbers.isEmpty()) {
+				safeCoordinates.add(openCoordinate);
+			}
+		}
+		return safeCoordinates;
+	}
 
 	public static ArrayList<Integer> getSafeNumbersIfExistent(Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> availableNumbers) {

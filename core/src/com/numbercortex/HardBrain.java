@@ -32,7 +32,7 @@ public class HardBrain implements Brain {
 
 		ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
 		int nextNumber;
-		if (safeNumbers == null) {
+		if (safeNumbers.isEmpty()) {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
 		} else {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);

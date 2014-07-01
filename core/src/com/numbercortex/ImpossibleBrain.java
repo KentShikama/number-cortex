@@ -20,9 +20,14 @@ public class ImpossibleBrain implements Brain {
 		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
 		if (chosenCoordinate == -1) {
-			// Check if there is a safe number that matches the chosenCoordinate
-			// instead of a random coordinate
-			chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber,
+					coordinateNumberMap, openCoordinates, availableNumbers);
+			if (safeCoordinates.isEmpty()) {
+				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+			} else {
+				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(safeCoordinates);
+			}
 		}
 		return chosenCoordinate;
 	}
@@ -34,7 +39,7 @@ public class ImpossibleBrain implements Brain {
 
 		ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
 		int nextNumber;
-		if (safeNumbers == null) {
+		if (safeNumbers.isEmpty()) {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
 		} else {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
