@@ -21,8 +21,8 @@ public class ImpossibleBrain implements Brain {
 				openCoordinates);
 		if (chosenCoordinate == -1) {
 			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber,
-					coordinateNumberMap, openCoordinates, availableNumbers);
+			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber, coordinateNumberMap,
+					openCoordinates, availableNumbers);
 			if (safeCoordinates.isEmpty()) {
 				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
 			} else {
@@ -43,7 +43,7 @@ public class ImpossibleBrain implements Brain {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
 		} else {
 			ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
-			if (openCoordinates.size() > 6) {
+			if (openCoordinates.size() > 12) {
 				nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
 				return nextNumber;
 			}
@@ -54,29 +54,30 @@ public class ImpossibleBrain implements Brain {
 				availableNumbers.remove(Integer.valueOf(safeNumber));
 				for (Integer openCoordinate : openCoordinates) {
 					coordinateNumberMap.put(openCoordinate, safeNumber); // Opponent places your number
-					ArrayList<Integer> safeNumbersOpponentCanChoose = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
+					ArrayList<Integer> safeNumbersOpponentCanChoose = BrainUtilities.getSafeNumbersIfExistent(
+							coordinateNumberMap, availableNumbers);
 					if (safeNumbersOpponentCanChoose.isEmpty()) {
-						coordinateNumberMap.put(openCoordinate, -1);
-						continue; // Your opponent will not choose this coordinate
-					}
-					ArrayList<Integer> newAvailableNumbers = (ArrayList<Integer>) safeNumbersOpponentCanChoose.clone();
-					for (Integer possibleNextNumber : safeNumbersOpponentCanChoose) { // Opponent chooses your number
-						boolean safe = false;
-						newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
-						ArrayList<Integer> newOpenCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
-						for (Integer newOpenCoordinate : newOpenCoordinates) {
-							coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
-							ArrayList<Integer> list = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap,
-								newAvailableNumbers); // Check if you can give a safe number
-							coordinateNumberMap.put(newOpenCoordinate, -1);
-							if (!list.isEmpty()) { // If you can give a safe number...then that number is good
-								safe = true;
-								break;
+						// Your opponent will not choose this coordinate
+					} else {
+						ArrayList<Integer> newAvailableNumbers = (ArrayList<Integer>) safeNumbersOpponentCanChoose.clone();
+						for (Integer possibleNextNumber : safeNumbersOpponentCanChoose) { // Opponent chooses your number
+							boolean safe = false;
+							newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
+							ArrayList<Integer> newOpenCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+							for (Integer newOpenCoordinate : newOpenCoordinates) {
+								coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
+								ArrayList<Integer> list = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap,
+										newAvailableNumbers); // Check if you can give a safe number
+								coordinateNumberMap.put(newOpenCoordinate, -1);
+								if (!list.isEmpty()) { // If you can give a safe number...then that number is good
+									safe = true;
+									break;
+								}
 							}
-						}
-						newAvailableNumbers.add(Integer.valueOf(possibleNextNumber));
-						if (safe) { // Safe for you if opponent decides to give you this possibleNextNumber
-							points++;
+							newAvailableNumbers.add(Integer.valueOf(possibleNextNumber));
+							if (safe) { // Safe for you if opponent decides to give you this possibleNextNumber
+								points++;
+							}
 						}
 					}
 					coordinateNumberMap.put(openCoordinate, -1);
