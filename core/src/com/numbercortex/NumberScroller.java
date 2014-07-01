@@ -68,8 +68,7 @@ public class NumberScroller {
 		return numberScrollerInstance;
 	}
 	/**
-	 * The width of the numberScroller is enlarged by 1 pixel to prevent the
-	 * background color from showing through
+	 * The width of the numberScroller is enlarged by 1 pixel to prevent the background color from showing through
 	 */
 	private static ScrollPane buildNumberScroller(Table numberTable, ScrollPane.ScrollPaneStyle style) {
 		ScrollPane numberScroller = new ScrollPane(numberTable, style);

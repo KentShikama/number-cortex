@@ -19,104 +19,109 @@ public class HighlightableButton extends Table implements Disableable {
 	ButtonGroup buttonGroup;
 	private ClickListener clickListener;
 
-	public HighlightableButton (Skin skin) {
+	public HighlightableButton(Skin skin) {
 		super(skin);
 		initialize();
 		setStyle(skin.get(ButtonStyle.class));
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
-	public HighlightableButton (Skin skin, String styleName) {
+	public HighlightableButton(Skin skin, String styleName) {
 		super(skin);
 		initialize();
 		setStyle(skin.get(styleName, ButtonStyle.class));
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
-	public HighlightableButton (Actor child, Skin skin, String styleName) {
+	public HighlightableButton(Actor child, Skin skin, String styleName) {
 		this(child, skin.get(styleName, ButtonStyle.class));
 	}
 
-	public HighlightableButton (Actor child, ButtonStyle style) {
+	public HighlightableButton(Actor child, ButtonStyle style) {
 		initialize();
 		add(child);
 		setStyle(style);
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
-	public HighlightableButton (ButtonStyle style) {
+	public HighlightableButton(ButtonStyle style) {
 		initialize();
 		setStyle(style);
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	/** Creates a button without setting the style or size. At least a style must be set before using this button. */
-	public HighlightableButton () {
+	public HighlightableButton() {
 		initialize();
 	}
 
-	private void initialize () {
+	private void initialize() {
 		setTouchable(Touchable.enabled);
 		addListener(clickListener = new ClickListener() {
-			public void clicked (InputEvent event, float x, float y) {
-				if (isDisabled) return;
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if (isDisabled)
+					return;
 			}
 		});
 	}
 
-	public HighlightableButton (Drawable up) {
+	public HighlightableButton(Drawable up) {
 		this(new ButtonStyle(up, null, null));
 	}
 
-	public HighlightableButton (Drawable up, Drawable down) {
+	public HighlightableButton(Drawable up, Drawable down) {
 		this(new ButtonStyle(up, down, null));
 	}
 
-	public HighlightableButton (Drawable up, Drawable down, Drawable checked) {
+	public HighlightableButton(Drawable up, Drawable down, Drawable checked) {
 		this(new ButtonStyle(up, down, checked));
 	}
 
-	public HighlightableButton (Actor child, Skin skin) {
+	public HighlightableButton(Actor child, Skin skin) {
 		this(child, skin.get(ButtonStyle.class));
 	}
 
-	public boolean isPressed () {
+	public boolean isPressed() {
 		return clickListener.isVisualPressed();
 	}
 
-	public boolean isOver () {
+	public boolean isOver() {
 		return clickListener.isOver();
 	}
 
-	public ClickListener getClickListener () {
+	public ClickListener getClickListener() {
 		return clickListener;
 	}
 
-	public boolean isDisabled () {
+	public boolean isDisabled() {
 		return isDisabled;
 	}
 
 	/** When true, the button will not toggle {@link #isChecked()} when clicked and will not fire a {@link ChangeEvent}. */
-	public void setDisabled (boolean isDisabled) {
+	@Override
+	public void setDisabled(boolean isDisabled) {
 		this.isDisabled = isDisabled;
 	}
-	
-	public boolean isHighlighted () {
+
+	public boolean isHighlighted() {
 		return isHighlighted;
 	}
 
-	public void setHighlighted (boolean isHighlighted) {
+	public void setHighlighted(boolean isHighlighted) {
 		this.isHighlighted = isHighlighted;
 	}
-	
-	public void setStyle (ButtonStyle style) {
-		if (style == null) throw new IllegalArgumentException("style cannot be null.");
+
+	public void setStyle(ButtonStyle style) {
+		if (style == null)
+			throw new IllegalArgumentException("style cannot be null.");
 		this.style = style;
 
 		Drawable background = style.up;
 		if (background == null) {
 			background = style.down;
-			if (background == null) background = style.checked;
+			if (background == null)
+				background = style.checked;
 		}
 		if (background != null) {
 			padBottom(background.getBottomHeight());
@@ -127,13 +132,15 @@ public class HighlightableButton extends Table implements Disableable {
 		invalidateHierarchy();
 	}
 
-	/** Returns the button's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is
-	 * called. */
-	public ButtonStyle getStyle () {
+	/**
+	 * Returns the button's style. Modifying the returned style may not have an effect until {@link #setStyle(ButtonStyle)} is called.
+	 */
+	public ButtonStyle getStyle() {
 		return style;
 	}
 
-	public void draw (Batch batch, float parentAlpha) {
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
 		validate();
 
 		Drawable background = null;
@@ -166,27 +173,37 @@ public class HighlightableButton extends Table implements Disableable {
 			children.get(i).moveBy(-offsetX, -offsetY);
 	}
 
-	public float getPrefWidth () {
+	@Override
+	public float getPrefWidth() {
 		float width = super.getPrefWidth();
-		if (style.up != null) width = Math.max(width, style.up.getMinWidth());
-		if (style.down != null) width = Math.max(width, style.down.getMinWidth());
-		if (style.checked != null) width = Math.max(width, style.checked.getMinWidth());
+		if (style.up != null)
+			width = Math.max(width, style.up.getMinWidth());
+		if (style.down != null)
+			width = Math.max(width, style.down.getMinWidth());
+		if (style.checked != null)
+			width = Math.max(width, style.checked.getMinWidth());
 		return width;
 	}
 
-	public float getPrefHeight () {
+	@Override
+	public float getPrefHeight() {
 		float height = super.getPrefHeight();
-		if (style.up != null) height = Math.max(height, style.up.getMinHeight());
-		if (style.down != null) height = Math.max(height, style.down.getMinHeight());
-		if (style.checked != null) height = Math.max(height, style.checked.getMinHeight());
+		if (style.up != null)
+			height = Math.max(height, style.up.getMinHeight());
+		if (style.down != null)
+			height = Math.max(height, style.down.getMinHeight());
+		if (style.checked != null)
+			height = Math.max(height, style.checked.getMinHeight());
 		return height;
 	}
 
-	public float getMinWidth () {
+	@Override
+	public float getMinWidth() {
 		return getPrefWidth();
 	}
 
-	public float getMinHeight () {
+	@Override
+	public float getMinHeight() {
 		return getPrefHeight();
 	}
 
@@ -198,16 +215,15 @@ public class HighlightableButton extends Table implements Disableable {
 		/** Optional. */
 		public float unpressedOffsetX, unpressedOffsetY;
 
-		public ButtonStyle () {
-		}
+		public ButtonStyle() {}
 
-		public ButtonStyle (Drawable up, Drawable down, Drawable checked) {
+		public ButtonStyle(Drawable up, Drawable down, Drawable checked) {
 			this.up = up;
 			this.down = down;
 			this.checked = checked;
 		}
 
-		public ButtonStyle (ButtonStyle style) {
+		public ButtonStyle(ButtonStyle style) {
 			this.up = style.up;
 			this.down = style.down;
 			this.over = style.over;

@@ -31,7 +31,7 @@ public class BrainUtilities {
 		}
 		return chosenCoordinate;
 	}
-	
+
 	public static ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber,
 			Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> openCoordinates,
 			ArrayList<Integer> availableNumbers) {

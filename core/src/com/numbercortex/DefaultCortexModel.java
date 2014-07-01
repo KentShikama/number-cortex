@@ -23,7 +23,7 @@ public class DefaultCortexModel implements CortexModel {
 
 	private Messenger messenger;
 	private CortexPreferences preferences = CortexPreferences.getInstance();
-	
+
 	private int boardSize;
 
 	public DefaultCortexModel(Messenger messenger) {

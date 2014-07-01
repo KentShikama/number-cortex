@@ -32,7 +32,7 @@ public class TitleScreen implements Screen {
 			this.index = index;
 			this.screen = screen;
 			this.mode = mode;
-			
+
 			Drawable buttonDrawable = skin.getDrawable(buttonName);
 			TextureRegion buttonTexture = skin.getRegion(buttonName);
 			Button.ButtonStyle buttonStyle = new Button.ButtonStyle(buttonDrawable, buttonDrawable, buttonDrawable);
@@ -42,7 +42,7 @@ public class TitleScreen implements Screen {
 			ClickListener listener = new TitleScreenListener();
 			button.addListener(listener);
 		}
-		
+
 		class TitleScreenListener extends ClickListener {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

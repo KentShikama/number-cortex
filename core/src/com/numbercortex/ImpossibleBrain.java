@@ -21,8 +21,8 @@ public class ImpossibleBrain implements Brain {
 				openCoordinates);
 		if (chosenCoordinate == -1) {
 			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber, coordinateNumberMap,
-					openCoordinates, availableNumbers);
+			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber,
+					coordinateNumberMap, openCoordinates, availableNumbers);
 			if (safeCoordinates.isEmpty()) {
 				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
 			} else {
@@ -59,11 +59,13 @@ public class ImpossibleBrain implements Brain {
 					if (safeNumbersOpponentCanChoose.isEmpty()) {
 						// Your opponent will not choose this coordinate
 					} else {
-						ArrayList<Integer> newAvailableNumbers = (ArrayList<Integer>) safeNumbersOpponentCanChoose.clone();
+						ArrayList<Integer> newAvailableNumbers = (ArrayList<Integer>) safeNumbersOpponentCanChoose
+								.clone();
 						for (Integer possibleNextNumber : safeNumbersOpponentCanChoose) { // Opponent chooses your number
 							boolean safe = false;
 							newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
-							ArrayList<Integer> newOpenCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+							ArrayList<Integer> newOpenCoordinates = BrainUtilities
+									.getOpenCoordinates(coordinateNumberMap);
 							for (Integer newOpenCoordinate : newOpenCoordinates) {
 								coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
 								ArrayList<Integer> list = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap,

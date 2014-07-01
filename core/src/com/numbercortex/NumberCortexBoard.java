@@ -57,7 +57,7 @@ public class NumberCortexBoard {
 		return instance;
 	}
 	private static ArrayList<NumberTextButton> buildCells(boolean isBlue, int numberOfRows) {
-		int squareLength = Launch.SCREEN_WIDTH/numberOfRows;
+		int squareLength = Launch.SCREEN_WIDTH / numberOfRows;
 		ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
 		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
 			int left = (i % numberOfRows) * squareLength;
@@ -131,7 +131,8 @@ public class NumberCortexBoard {
 		RepeatAction repeatAction = buildRepeatableFlashingAction(winningValue, cell, cellLabel);
 		cell.addAction(repeatAction);
 	}
-	private RepeatAction buildRepeatableFlashingAction(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
+	private RepeatAction buildRepeatableFlashingAction(final int winningValue, final NumberTextButton cell,
+			final Label cellLabel) {
 		DelayAction delayAction = Actions.delay(0.5f);
 		Action toggleAction = buildToggleAction(winningValue, cell, cellLabel);
 		SequenceAction sequence = Actions.sequence(toggleAction, delayAction);
@@ -141,9 +142,10 @@ public class NumberCortexBoard {
 		return repeatAction;
 	}
 	private Action buildToggleAction(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
-		Action toggleAction = new Action () {
-			public boolean act (float delta) {
-				toggleCell(winningValue, cell, cellLabel);					
+		Action toggleAction = new Action() {
+			@Override
+			public boolean act(float delta) {
+				toggleCell(winningValue, cell, cellLabel);
 				return true;
 			}
 			private void toggleCell(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
@@ -158,14 +160,14 @@ public class NumberCortexBoard {
 		};
 		return toggleAction;
 	}
-	
+
 	public void clearBoard() {
 		for (NumberTextButton cell : cells) {
 			cell.clearActions();
 			cell.setHighlighted(false);
 		}
 	}
-	
+
 	public ArrayList<NumberTextButton> getBoardCells() {
 		return cells;
 	}

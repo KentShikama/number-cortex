@@ -11,8 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.esotericsoftware.tablelayout.Cell;
 
 /**
- * An extension of the com.badlogic.gdx.scenes.scene2d.ui.TextButton class
- * allowing for the label to directly be modified
+ * An extension of the com.badlogic.gdx.scenes.scene2d.ui.TextButton class allowing for the label to directly be modified
  */
 public class NumberTextButton extends HighlightableButton {
 	static public class NumberTextButtonStyle extends ButtonStyle {

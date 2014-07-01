@@ -1,8 +1,6 @@
 package com.numbercortex;
 
 import java.util.ArrayList;
-import java.util.Map;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
@@ -32,7 +30,7 @@ public class ComputerPlayer implements Player {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
 			final int coordinate = brain.calculateCoordinate(state);
-			
+
 			ArrayList<Object> components = screen.getRequiredComponentsForComputerAnimation(coordinate);
 			Label labelToMove = (Label) components.get(0);
 			MoveToAction moveToAction = (MoveToAction) components.get(1);
@@ -50,7 +48,6 @@ public class ComputerPlayer implements Player {
 			chooseNumber(null, nextNumber);
 		}
 	}
-
 
 	@Override
 	public void chooseNumber(String player, int nextNumber) {
