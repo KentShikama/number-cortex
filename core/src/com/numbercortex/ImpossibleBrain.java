@@ -43,7 +43,7 @@ public class ImpossibleBrain implements Brain {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
 		} else {
 			ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
-			if (openCoordinates.size() > 12) {
+			if (openCoordinates.size() > 10) {
 				nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
 				return nextNumber;
 			}

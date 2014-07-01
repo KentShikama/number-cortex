@@ -139,7 +139,7 @@ public class PlayScreen implements Screen {
 				brain = new EasyBrain();
 				break;
 			default:
-				brain = new MediumBrain();
+				brain = new ImpossibleBrain();
 				break;
 		}
 		Player computer = new ComputerPlayer(brain.getName(), this, messenger, brain);
