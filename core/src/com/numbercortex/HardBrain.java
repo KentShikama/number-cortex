@@ -30,9 +30,12 @@ public class HardBrain implements Brain {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 
-		int nextNumber = BrainUtilities.assignSafeNumberIfExistent(coordinateNumberMap, availableNumbers);
-		if (nextNumber == -1) {
+		ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
+		int nextNumber;
+		if (safeNumbers == null) {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
+		} else {
+			nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
 		}
 		return nextNumber;
 	}

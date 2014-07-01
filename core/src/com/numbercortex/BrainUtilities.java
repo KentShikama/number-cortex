@@ -32,16 +32,15 @@ public class BrainUtilities {
 		return chosenCoordinate;
 	}
 
-	public static int assignSafeNumberIfExistent(Map<Integer, Integer> coordinateNumberMap,
+	public static ArrayList<Integer> getSafeNumbersIfExistent(Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> availableNumbers) {
-		int nextNumber = -1;
+		ArrayList<Integer> safeNumbers = new ArrayList<Integer>();
 		for (Integer availableNumber : availableNumbers) {
 			if (isSafeNumber(availableNumber, coordinateNumberMap)) {
-				nextNumber = availableNumber;
-				return nextNumber;
+				safeNumbers.add(availableNumber);
 			}
 		}
-		return nextNumber;
+		return safeNumbers;
 	}
 	public static boolean isSafeNumber(int chosenNumber, Map<Integer, Integer> coordinateNumberMap) {
 		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
