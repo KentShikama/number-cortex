@@ -127,6 +127,7 @@ public class PlayScreen implements Screen {
 	}
 	private void buildNewSinglePlayerGame() {
 		players.clear();
+		board.clearBoard();
 		Messenger messenger = MessengerImpl.createMessenger();
 		Player human = new HumanPlayer("Player", this, messenger);
 		Brain brain;
@@ -150,6 +151,7 @@ public class PlayScreen implements Screen {
 	}
 	private void buildNewTwoPlayerGame() {
 		players.clear();
+		board.clearBoard();
 		Messenger messenger = MessengerImpl.createMessenger();
 		Player playerOne = new HumanPlayer("Player 1", this, messenger);
 		Player playerTwo = new HumanPlayer("Player 2", this, messenger);
@@ -240,9 +242,11 @@ public class PlayScreen implements Screen {
 
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
+		int numberOfRows = board.getNumberOfRows();
 		Label nextNumberLabel = nextNumberCell.getLabel();
-		float nextNumberLabelX = nextNumberCell.getX() - 10;
-		float nextNumberLabelY = nextNumberCell.getY() - 10;
+		int offset = numberOfRows == 3 ? 36 : 10;
+		float nextNumberLabelX = nextNumberCell.getX() - offset;
+		float nextNumberLabelY = nextNumberCell.getY() - offset;
 
 		float dragToPositionX = board.getBoardCells().get(coordinate).getX();
 		float dragToPositionY = board.getBoardCells().get(coordinate).getY();

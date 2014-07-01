@@ -17,9 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class NumberCortexBoard {
 
-	private static final int SQUARE_LENGTH = Launch.SCREEN_WIDTH / 4;
-	private static final int NUMBER_OF_ROWS = 4;
-
 	private static Skin skin = Assets.gameSkin;
 	private static NumberTextButton.NumberTextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
@@ -38,31 +35,35 @@ public class NumberCortexBoard {
 
 	private ArrayList<NumberTextButton> cells;
 	private boolean isBlue;
+	private int numberOfRows;
 
 	private static class Singleton {
 		private static NumberCortexBoard INSTANCE = new NumberCortexBoard();
 	}
 	private NumberCortexBoard() {
 		this.isBlue = true;
-		this.cells = buildCells(this.isBlue);
+		this.numberOfRows = 4;
+		this.cells = buildCells(this.isBlue, numberOfRows);
 	}
 
 	public static NumberCortexBoard createNumberCortexBoard(Stage stage, CortexPreferences preferences) {
 		NumberCortexBoard instance = Singleton.INSTANCE;
-		if (instance.isBlue != preferences.isBlue()) {
+		if (instance.isBlue != preferences.isBlue() || instance.numberOfRows != preferences.getNumberOfRows()) {
 			instance.isBlue = preferences.isBlue();
-			instance.cells = buildCells(instance.isBlue);
+			instance.numberOfRows = preferences.getNumberOfRows();
+			instance.cells = buildCells(instance.isBlue, instance.numberOfRows);
 		}
 		addCellsToStageIfAbsent(stage, instance);
 		return instance;
 	}
-	private static ArrayList<NumberTextButton> buildCells(boolean isBlue) {
+	private static ArrayList<NumberTextButton> buildCells(boolean isBlue, int numberOfRows) {
+		int squareLength = Launch.SCREEN_WIDTH/numberOfRows;
 		ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
-		for (int i = 0; i < 16; i++) {
-			int left = (i % NUMBER_OF_ROWS) * SQUARE_LENGTH;
-			int bottom = ((NUMBER_OF_ROWS - 1) - i / NUMBER_OF_ROWS) * SQUARE_LENGTH;
+		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
+			int left = (i % numberOfRows) * squareLength;
+			int bottom = ((numberOfRows - 1) - i / numberOfRows) * squareLength;
 			NumberTextButton rectangle;
-			if (isGreen(i)) {
+			if (isGreen(i, numberOfRows)) {
 				rectangle = new NumberTextButton("", greenRectangleStyle);
 			} else {
 				if (isBlue) {
@@ -72,19 +73,29 @@ public class NumberCortexBoard {
 				}
 			}
 			rectangle.setName(String.valueOf(i));
-			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), SQUARE_LENGTH, SQUARE_LENGTH);
+			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength, squareLength);
 			cells.add(rectangle);
 		}
 		return cells;
 	}
-	private static boolean isGreen(int i) {
-		int[] greenList = { 0, 2, 5, 7, 8, 10, 13, 15 };
-		for (int green : greenList) {
-			if (green == i) {
-				return true;
+	private static boolean isGreen(int i, int numberOfRows) {
+		int[] greenListThree = { 0, 2, 4, 6, 8 };
+		int[] greenListFour = { 0, 2, 5, 7, 8, 10, 13, 15 };
+		if (numberOfRows == 3) {
+			for (int green : greenListThree) {
+				if (green == i) {
+					return true;
+				}
 			}
+			return false;
+		} else {
+			for (int green : greenListFour) {
+				if (green == i) {
+					return true;
+				}
+			}
+			return false;
 		}
-		return false;
 	}
 	private static void addCellsToStageIfAbsent(Stage stage, NumberCortexBoard instance) {
 		for (NumberTextButton cell : instance.cells) {
@@ -105,10 +116,6 @@ public class NumberCortexBoard {
 	public void clearCell(int coordinate) {
 		NumberTextButton cell = cells.get(coordinate);
 		cell.setText("");
-	}
-
-	public ArrayList<NumberTextButton> getBoardCells() {
-		return cells;
 	}
 
 	public void showWinningCoordinates(Map<Integer, Integer> winningMap) {
@@ -150,5 +157,19 @@ public class NumberCortexBoard {
 			}
 		};
 		return toggleAction;
+	}
+	
+	public void clearBoard() {
+		for (NumberTextButton cell : cells) {
+			cell.clearActions();
+			cell.setHighlighted(false);
+		}
+	}
+	
+	public ArrayList<NumberTextButton> getBoardCells() {
+		return cells;
+	}
+	public int getNumberOfRows() {
+		return numberOfRows;
 	}
 }

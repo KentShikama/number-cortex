@@ -88,4 +88,8 @@ public class CortexPreferences {
 	public boolean isMusicEnabled() {
 		return isMusicEnabled;
 	}
+
+	public int getNumberOfRows() {
+		return 4;
+	}
 }

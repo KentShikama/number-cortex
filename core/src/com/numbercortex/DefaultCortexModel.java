@@ -18,13 +18,13 @@ public class DefaultCortexModel implements CortexModel {
 
 	private ArrayList<String> usernames = new ArrayList<String>();
 
-	static final int BOARD_SIZE = 16;
-
 	private String winner; // Optional
 	private int[] winningValues; // Optional
 
 	private Messenger messenger;
 	private CortexPreferences preferences = CortexPreferences.getInstance();
+	
+	private int boardSize;
 
 	public DefaultCortexModel(Messenger messenger) {
 		this.messenger = messenger;
@@ -121,8 +121,10 @@ public class DefaultCortexModel implements CortexModel {
 	}
 
 	private void setInitialBoardState() {
+		int numberOfRows = preferences.getNumberOfRows();
+		int boardSize = numberOfRows * numberOfRows;
 		coordinateNumberMap.clear();
-		for (int i = 0; i < BOARD_SIZE; i++) {
+		for (int i = 0; i < boardSize; i++) {
 			coordinateNumberMap.put(i, -1);
 		}
 	}

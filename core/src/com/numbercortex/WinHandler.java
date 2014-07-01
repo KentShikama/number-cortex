@@ -6,8 +6,6 @@ public class WinHandler {
 
 	private WinHandler() {}
 
-	private static final int LENGTH = (int) Math.sqrt(DefaultCortexModel.BOARD_SIZE);
-
 	public static int[] handleWinningBoard(Map<Integer, Integer> coordinateNumberMap, CortexPreferences preferences) {
 		int[][] translatedCoordinateNumberMap = translateCoordinates(coordinateNumberMap);
 		int[] winningSet;
@@ -38,15 +36,17 @@ public class WinHandler {
 		return null;
 	}
 	private static int[][] translateCoordinates(Map<Integer, Integer> coordinateNumberMap) {
-		int[][] translatedCoordinateNumberMap = new int[LENGTH][LENGTH];
-		for (int i = 0; i < LENGTH * LENGTH; i++) {
-			translatedCoordinateNumberMap[i / 4][i % 4] = coordinateNumberMap.get(i);
+		int numberOfRows = (int) Math.sqrt(coordinateNumberMap.size());
+		int[][] translatedCoordinateNumberMap = new int[numberOfRows][numberOfRows];
+		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
+			translatedCoordinateNumberMap[i / numberOfRows][i % numberOfRows] = coordinateNumberMap.get(i);
 		}
 		return translatedCoordinateNumberMap;
 	}
 
 	private static int[] checkAndHandleHorizontals(int[][] translatedCoordinateNumberMap) {
-		for (int row = 0; row < LENGTH; row++) {
+		int numberOfRows = translatedCoordinateNumberMap.length;
+		for (int row = 0; row < numberOfRows; row++) {
 			int[] set = translatedCoordinateNumberMap[row];
 			if (isBingo(set)) {
 				return set;
@@ -55,9 +55,10 @@ public class WinHandler {
 		return null;
 	}
 	private static int[] checkAndHandleVerticals(int[][] translatedCoordinateNumberMap) {
-		for (int column = 0; column < LENGTH; column++) {
-			int[] set = new int[LENGTH];
-			for (int i = 0; i < LENGTH; i++) {
+		int numberOfRows = translatedCoordinateNumberMap.length;
+		for (int column = 0; column < numberOfRows; column++) {
+			int[] set = new int[numberOfRows];
+			for (int i = 0; i < numberOfRows; i++) {
 				set[i] = translatedCoordinateNumberMap[i][column];
 			}
 			if (isBingo(set)) {
@@ -67,8 +68,9 @@ public class WinHandler {
 		return null;
 	}
 	private static int[] checkAndHandleLeftDiagonal(int[][] translatedCoordinateNumberMap) {
-		int[] leftDiagonalSet = new int[LENGTH];
-		for (int i = 0; i < LENGTH; i++) {
+		int numberOfRows = translatedCoordinateNumberMap.length;
+		int[] leftDiagonalSet = new int[numberOfRows];
+		for (int i = 0; i < numberOfRows; i++) {
 			leftDiagonalSet[i] = translatedCoordinateNumberMap[i][i];
 		}
 		if (isBingo(leftDiagonalSet)) {
@@ -77,9 +79,10 @@ public class WinHandler {
 		return null;
 	}
 	private static int[] checkAndHandleRightDiagonal(int[][] translatedCoordinateNumberMap) {
-		int[] rightDiagonalSet = new int[LENGTH];
-		for (int i = 0; i < LENGTH; i++) {
-			rightDiagonalSet[i] = translatedCoordinateNumberMap[3 - i][i];
+		int numberOfRows = translatedCoordinateNumberMap.length;
+		int[] rightDiagonalSet = new int[numberOfRows];
+		for (int i = 0; i < numberOfRows; i++) {
+			rightDiagonalSet[i] = translatedCoordinateNumberMap[numberOfRows - 1 - i][i];
 		}
 		if (isBingo(rightDiagonalSet)) {
 			return rightDiagonalSet;
@@ -87,9 +90,10 @@ public class WinHandler {
 		return null;
 	}
 	private static int[] checkAndHandleFourSquare(int[][] translatedCoordinateNumberMap) {
-		int[] set = new int[LENGTH];
-		for (int row = 0; row < LENGTH - 1; row++) {
-			for (int column = 0; column < LENGTH - 1; column++) {
+		int numberOfRows = translatedCoordinateNumberMap.length;
+		int[] set = new int[4];
+		for (int row = 0; row < numberOfRows - 1; row++) {
+			for (int column = 0; column < numberOfRows - 1; column++) {
 				set[0] = translatedCoordinateNumberMap[row][column];
 				set[1] = translatedCoordinateNumberMap[row + 1][column];
 				set[2] = translatedCoordinateNumberMap[row][column + 1];
