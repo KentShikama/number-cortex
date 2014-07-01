@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ImpossibleBrain implements Brain {
 
-	private String name = "Impossible Computer";
+	private String name = "Impossible AI";
 	@Override
 	public String getName() {
 		return name;
@@ -42,7 +42,34 @@ public class ImpossibleBrain implements Brain {
 		if (safeNumbers.isEmpty()) {
 			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
 		} else {
-			nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
+			int maxPoints = 0;
+			ArrayList<Integer> bestSafeNumberList = new ArrayList<Integer>();
+			ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+			for (Integer safeNumber : safeNumbers) {
+				int points = 0;
+				availableNumbers.remove(Integer.valueOf(safeNumber));
+				for (Integer openCoordinate : openCoordinates) {
+					coordinateNumberMap.put(openCoordinate, safeNumber);
+					for (Integer availableNumber : availableNumbers) {
+						ArrayList<Integer> newOpenCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+						int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(availableNumber, coordinateNumberMap,
+									newOpenCoordinates);
+						if (chosenCoordinate != -1) {
+							points++;
+						}
+					}
+					coordinateNumberMap.put(openCoordinate, -1);
+				}
+				availableNumbers.add(safeNumber);
+				if (points > maxPoints) {
+					maxPoints = points;
+					bestSafeNumberList.clear();
+					bestSafeNumberList.add(safeNumber);
+				} else if (points == maxPoints) {
+					bestSafeNumberList.add(safeNumber);
+				}
+			}
+			nextNumber = BrainUtilities.assignRandomNumberFromList(bestSafeNumberList);
 		}
 		return nextNumber;
 	}

@@ -3,9 +3,9 @@ package com.numbercortex;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class EasyBrain implements Brain {
+public class RandomBrain implements Brain {
 
-	private String name = "Easy AI";
+	private String name = "Random AI";
 	@Override
 	public String getName() {
 		return name;
@@ -13,15 +13,9 @@ public class EasyBrain implements Brain {
 
 	@Override
 	public int calculateCoordinate(CortexState state) {
-		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
-
-		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
-				openCoordinates);
-		if (chosenCoordinate == -1) {
-			chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
-		}
+		int chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
 		return chosenCoordinate;
 	}
 

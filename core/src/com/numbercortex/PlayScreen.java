@@ -133,13 +133,13 @@ public class PlayScreen implements Screen {
 		Brain brain;
 		switch (CortexPreferences.getInstance().getDifficulty()) {
 			case 1:
-				brain = new EasyBrain();
+				brain = new RandomBrain();
 				break;
 			case 2:
-				brain = new MediumBrain();
+				brain = new EasyBrain();
 				break;
 			default:
-				brain = new HardBrain();
+				brain = new MediumBrain();
 				break;
 		}
 		Player computer = new ComputerPlayer(brain.getName(), this, messenger, brain);

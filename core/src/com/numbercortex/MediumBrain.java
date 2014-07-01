@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class MediumBrain implements Brain {
 
-	private String name = "Medium Computer";
+	private String name = "Medium AI";
 	@Override
 	public String getName() {
 		return name;
@@ -27,8 +27,17 @@ public class MediumBrain implements Brain {
 
 	@Override
 	public int calculateNextNumber(CortexState state) {
+		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-		return BrainUtilities.assignRandomNumberFromList(availableNumbers);
+
+		ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
+		int nextNumber;
+		if (safeNumbers.isEmpty()) {
+			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
+		} else {
+			nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
+		}
+		return nextNumber;
 	}
 
 }

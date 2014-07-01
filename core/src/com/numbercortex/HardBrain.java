@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class HardBrain implements Brain {
 
-	private String name = "Hard Computer";
+	private String name = "Hard AI";
 	@Override
 	public String getName() {
 		return name;
@@ -20,7 +20,14 @@ public class HardBrain implements Brain {
 		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
 		if (chosenCoordinate == -1) {
-			chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber,
+					coordinateNumberMap, openCoordinates, availableNumbers);
+			if (safeCoordinates.isEmpty()) {
+				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+			} else {
+				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(safeCoordinates);
+			}
 		}
 		return chosenCoordinate;
 	}
