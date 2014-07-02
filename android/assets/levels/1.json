@@ -1,0 +1,8 @@
+{
+time: 1000,
+singleDouble: true,
+evenOdd: true,
+numberOfRows: 3,
+difficulty: 1,
+diagonals: true
+}

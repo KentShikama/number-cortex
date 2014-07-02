@@ -46,14 +46,17 @@ public class PlayScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
+				
 		CortexPreferences preferences = CortexPreferences.getInstance();
+		GameSettings settings = GameSettings.load();
+		
 		buildBackground(preferences);
 		buildMessageArea();
-		buildBoard(preferences);
+		buildBoard(settings, preferences);
 		buildNumberScroller();
 		buildBottomButtons();
 
-		progressGame();
+		progressGame(settings);
 	}
 	private void buildBackground(CortexPreferences preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
@@ -73,8 +76,10 @@ public class PlayScreen implements Screen {
 		messageArea.updateMessageWithNextNumber("Welcome to Number Quarto", 4);
 		handler.notifyMessageAreaConstrucion(messageArea);
 	}
-	private void buildBoard(CortexPreferences preferences) {
-		board = NumberCortexBoard.createNumberCortexBoard(stage, preferences);
+	private void buildBoard(GameSettings settings, CortexPreferences preferences) {
+		boolean isBlue = preferences.isBlue();
+		int numberOfRows = settings.getNumberOfRows();
+		board = NumberCortexBoard.createNumberCortexBoard(stage, isBlue, numberOfRows);
 		handler.notifyBoardConstruction(board);
 	}
 	private void buildBottomButtons() {
@@ -104,31 +109,30 @@ public class PlayScreen implements Screen {
 		numberScroller = NumberScroller.createNumberScroller(stage);
 	}
 
-	private void progressGame() {
+	private void progressGame(GameSettings settings) {
 		if (ScreenTracker.isInPlay) {
 			updateState(state);
 		} else {
-			buildNewGame();
+			buildNewGame(settings);
 		}
 	}
-	private void buildNewGame() {
+	private void buildNewGame(GameSettings settings) {
 		switch (ScreenTracker.mode) {
 			case SINGLE_PLAYER:
-				buildNewSinglePlayerGame();
+				buildNewSinglePlayerGame(settings);
 				ScreenTracker.isInPlay = true;
 				break;
 			case TWO_PLAYER:
-				buildNewTwoPlayerGame();
+				buildNewTwoPlayerGame(settings);
 				ScreenTracker.isInPlay = true;
 				break;
 			case ONLINE:
 				break;
 		}
 	}
-	private void buildNewSinglePlayerGame() {
+	private void buildNewSinglePlayerGame(GameSettings settings) {
 		players.clear();
 		board.clearBoard();
-		GameSettings settings = new GameSettings();
 		Messenger messenger = MessengerImpl.createMessenger(settings);
 		Player human = new HumanPlayer("Player", this, messenger);
 		Player computer = new ComputerPlayer(this, messenger);
@@ -138,10 +142,9 @@ public class PlayScreen implements Screen {
 			messenger.register(player);
 		}
 	}
-	private void buildNewTwoPlayerGame() {
+	private void buildNewTwoPlayerGame(GameSettings settings) {
 		players.clear();
 		board.clearBoard();
-		GameSettings settings = new GameSettings();
 		Messenger messenger = MessengerImpl.createMessenger(settings);
 		Player playerOne = new HumanPlayer("Player 1", this, messenger);
 		Player playerTwo = new HumanPlayer("Player 2", this, messenger);
