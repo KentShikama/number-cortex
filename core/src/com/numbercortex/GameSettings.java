@@ -1,6 +1,7 @@
 package com.numbercortex;
 
 import java.io.Reader;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -8,6 +9,8 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class GameSettings {
+	
+	private int level;
 	
 	private int numberOfRows;
 	private int time;
@@ -25,8 +28,17 @@ public class GameSettings {
 	public static GameSettings load() {
 		Json json = new Json();
 		FileHandle handle = Gdx.files.internal("levels/1.json");
-		GameSettings settings = json.fromJson(GameSettings.class, handle);
-		return settings;
+		ArrayList<GameSettings> array = json.fromJson(ArrayList.class, handle);
+		int level = 16;
+		return array.get(level - 1);
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public int getNumberOfRows() {
