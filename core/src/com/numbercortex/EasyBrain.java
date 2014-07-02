@@ -5,22 +5,28 @@ import java.util.Map;
 
 public class EasyBrain implements Brain {
 
+	private BrainUtilities utility;
 	private String name = "Easy AI";
+	
+	public EasyBrain(GameSettings settings) {
+		this.utility = new BrainUtilities(settings);
+	}
+	
 	@Override
 	public String getName() {
 		return name;
 	}
-
+	
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
 
-		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
+		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
 		if (chosenCoordinate == -1) {
-			chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+			chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
 		}
 		return chosenCoordinate;
 	}
@@ -28,7 +34,7 @@ public class EasyBrain implements Brain {
 	@Override
 	public int calculateNextNumber(CortexState state) {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-		return BrainUtilities.assignRandomNumberFromList(availableNumbers);
+		return utility.assignRandomNumberFromList(availableNumbers);
 	}
 
 }

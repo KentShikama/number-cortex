@@ -22,12 +22,13 @@ public class DefaultCortexModel implements CortexModel {
 	private int[] winningValues; // Optional
 
 	private Messenger messenger;
-	private CortexPreferences preferences = CortexPreferences.getInstance();
+	private GameSettings settings;
 
 	private int boardSize;
 
-	public DefaultCortexModel(Messenger messenger) {
+	public DefaultCortexModel(Messenger messenger, GameSettings settings) {
 		this.messenger = messenger;
+		this.settings = settings;
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class DefaultCortexModel implements CortexModel {
 			}
 			coordinateNumberMap.put(coordinate, chosenNumber);
 			chosenNumber = -1;
-			winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
+			winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, settings);
 			CortexState state;
 			if (winningValues != null) {
 				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
@@ -121,7 +122,7 @@ public class DefaultCortexModel implements CortexModel {
 	}
 
 	private void setInitialBoardState() {
-		int numberOfRows = preferences.getNumberOfRows();
+		int numberOfRows = settings.getNumberOfRows();
 		int boardSize = numberOfRows * numberOfRows;
 		coordinateNumberMap.clear();
 		for (int i = 0; i < boardSize; i++) {

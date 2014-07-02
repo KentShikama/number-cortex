@@ -6,7 +6,7 @@ public class WinHandler {
 
 	private WinHandler() {}
 
-	public static int[] handleWinningBoard(Map<Integer, Integer> coordinateNumberMap, CortexPreferences preferences) {
+	public static int[] handleWinningBoard(Map<Integer, Integer> coordinateNumberMap, GameSettings settings) {
 		int[][] translatedCoordinateNumberMap = translateCoordinates(coordinateNumberMap);
 		int[] winningSet;
 		winningSet = checkAndHandleHorizontals(translatedCoordinateNumberMap);
@@ -17,7 +17,7 @@ public class WinHandler {
 		if (winningSet != null) {
 			return winningSet;
 		}
-		if (preferences.isDiagonalsEnabled()) {
+		if (settings.isDiagonals()) {
 			winningSet = checkAndHandleLeftDiagonal(translatedCoordinateNumberMap);
 			if (winningSet != null) {
 				return winningSet;
@@ -27,7 +27,7 @@ public class WinHandler {
 				return winningSet;
 			}
 		}
-		if (preferences.isFourSquareEnabled()) {
+		if (settings.isFourSquare()) {
 			winningSet = checkAndHandleFourSquare(translatedCoordinateNumberMap);
 			if (winningSet != null) {
 				return winningSet;

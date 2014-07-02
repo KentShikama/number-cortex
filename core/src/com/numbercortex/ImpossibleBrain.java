@@ -6,6 +6,12 @@ import java.util.Map;
 public class ImpossibleBrain implements Brain {
 
 	private String name = "Impossible AI";
+	private BrainUtilities utility;
+
+	public ImpossibleBrain(GameSettings settings) {
+		this.utility = new BrainUtilities(settings);
+	}
+
 	@Override
 	public String getName() {
 		return name;
@@ -15,18 +21,18 @@ public class ImpossibleBrain implements Brain {
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
 
-		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
+		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
 		if (chosenCoordinate == -1) {
 			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber,
+			ArrayList<Integer> safeCoordinates = utility.getSafeCoordinatesIfExistent(chosenNumber,
 					coordinateNumberMap, openCoordinates, availableNumbers);
 			if (safeCoordinates.isEmpty()) {
-				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+				chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
 			} else {
-				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(safeCoordinates);
+				chosenCoordinate = utility.assignRandomNumberFromList(safeCoordinates);
 			}
 		}
 		return chosenCoordinate;
@@ -37,14 +43,14 @@ public class ImpossibleBrain implements Brain {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 
-		ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
+		ArrayList<Integer> safeNumbers = utility.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
 		int nextNumber;
 		if (safeNumbers.isEmpty()) {
-			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
+			nextNumber = utility.assignRandomNumberFromList(availableNumbers);
 		} else {
-			ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+			ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
 			if (openCoordinates.size() > 9) {
-				nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
+				nextNumber = utility.assignRandomNumberFromList(safeNumbers);
 				return nextNumber;
 			}
 			int maxPoints = 0;
@@ -54,7 +60,7 @@ public class ImpossibleBrain implements Brain {
 				availableNumbers.remove(Integer.valueOf(safeNumber));
 				for (Integer openCoordinate : openCoordinates) {
 					coordinateNumberMap.put(openCoordinate, safeNumber); // Opponent places your number
-					ArrayList<Integer> safeNumbersOpponentCanChoose = BrainUtilities.getSafeNumbersIfExistent(
+					ArrayList<Integer> safeNumbersOpponentCanChoose = utility.getSafeNumbersIfExistent(
 							coordinateNumberMap, availableNumbers);
 					if (safeNumbersOpponentCanChoose.isEmpty()) {
 						// Your opponent will not choose this coordinate
@@ -64,11 +70,11 @@ public class ImpossibleBrain implements Brain {
 						for (Integer possibleNextNumber : safeNumbersOpponentCanChoose) { // Opponent chooses your number
 							boolean safe = false;
 							newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
-							ArrayList<Integer> newOpenCoordinates = BrainUtilities
+							ArrayList<Integer> newOpenCoordinates = utility
 									.getOpenCoordinates(coordinateNumberMap);
 							for (Integer newOpenCoordinate : newOpenCoordinates) {
 								coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
-								ArrayList<Integer> list = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap,
+								ArrayList<Integer> list = utility.getSafeNumbersIfExistent(coordinateNumberMap,
 										newAvailableNumbers); // Check if you can give a safe number
 								coordinateNumberMap.put(newOpenCoordinate, -1);
 								if (!list.isEmpty()) { // If you can give a safe number...then that number is good
@@ -94,9 +100,9 @@ public class ImpossibleBrain implements Brain {
 				}
 			}
 			if (bestSafeNumberList.isEmpty()) {
-				nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
+				nextNumber = utility.assignRandomNumberFromList(safeNumbers);
 			} else {
-				nextNumber = BrainUtilities.assignRandomNumberFromList(bestSafeNumberList);
+				nextNumber = utility.assignRandomNumberFromList(bestSafeNumberList);
 			}
 		}
 		return nextNumber;

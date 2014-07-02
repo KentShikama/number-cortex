@@ -7,13 +7,19 @@ public class MessengerImpl implements Messenger {
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private String currentPlayer;
 	private CortexModel model;
+	private GameSettings settings;
 
 	private MessengerImpl() {}
 
-	public static MessengerImpl createMessenger() {
+	public static MessengerImpl createMessenger(GameSettings settings) {
 		MessengerImpl messenger = new MessengerImpl();
-		messenger.model = new DefaultCortexModel(messenger);
+		messenger.settings = settings;
+		messenger.model = new DefaultCortexModel(messenger, settings);
 		return messenger;
+	}
+	
+	public GameSettings getSettings() {
+		return settings;
 	}
 
 	@Override

@@ -6,6 +6,12 @@ import java.util.Map;
 public class MediumBrain implements Brain {
 
 	private String name = "Medium AI";
+	private BrainUtilities utility;
+	
+	public MediumBrain(GameSettings settings) {
+		this.utility = new BrainUtilities(settings);
+	}
+
 	@Override
 	public String getName() {
 		return name;
@@ -15,12 +21,12 @@ public class MediumBrain implements Brain {
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
 
-		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
+		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
 		if (chosenCoordinate == -1) {
-			chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+			chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
 		}
 		return chosenCoordinate;
 	}
@@ -30,12 +36,12 @@ public class MediumBrain implements Brain {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 
-		ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
+		ArrayList<Integer> safeNumbers = utility.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
 		int nextNumber;
 		if (safeNumbers.isEmpty()) {
-			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
+			nextNumber = utility.assignRandomNumberFromList(availableNumbers);
 		} else {
-			nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
+			nextNumber = utility.assignRandomNumberFromList(safeNumbers);
 		}
 		return nextNumber;
 	}

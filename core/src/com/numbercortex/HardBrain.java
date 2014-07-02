@@ -6,27 +6,33 @@ import java.util.Map;
 public class HardBrain implements Brain {
 
 	private String name = "Hard AI";
+	private BrainUtilities utility;
+
+	public HardBrain(GameSettings settings) {
+		this.utility = new BrainUtilities(settings);
+	}
+
 	@Override
 	public String getName() {
 		return name;
 	}
-
+	
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
 
-		int chosenCoordinate = BrainUtilities.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
+		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
 		if (chosenCoordinate == -1) {
 			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-			ArrayList<Integer> safeCoordinates = BrainUtilities.getSafeCoordinatesIfExistent(chosenNumber,
+			ArrayList<Integer> safeCoordinates = utility.getSafeCoordinatesIfExistent(chosenNumber,
 					coordinateNumberMap, openCoordinates, availableNumbers);
 			if (safeCoordinates.isEmpty()) {
-				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(openCoordinates);
+				chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
 			} else {
-				chosenCoordinate = BrainUtilities.assignRandomNumberFromList(safeCoordinates);
+				chosenCoordinate = utility.assignRandomNumberFromList(safeCoordinates);
 			}
 		}
 		return chosenCoordinate;
@@ -37,12 +43,12 @@ public class HardBrain implements Brain {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 
-		ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
+		ArrayList<Integer> safeNumbers = utility.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
 		int nextNumber;
 		if (safeNumbers.isEmpty()) {
-			nextNumber = BrainUtilities.assignRandomNumberFromList(availableNumbers);
+			nextNumber = utility.assignRandomNumberFromList(availableNumbers);
 		} else {
-			nextNumber = BrainUtilities.assignRandomNumberFromList(safeNumbers);
+			nextNumber = utility.assignRandomNumberFromList(safeNumbers);
 		}
 		return nextNumber;
 	}

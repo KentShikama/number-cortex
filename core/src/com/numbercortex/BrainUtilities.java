@@ -5,11 +5,13 @@ import java.util.Map;
 
 public class BrainUtilities {
 
-	private static CortexPreferences preferences = CortexPreferences.getInstance();
+	private GameSettings settings;
 
-	private BrainUtilities() {}
+	public BrainUtilities(GameSettings settings) {
+		this.settings = settings;
+	}
 
-	public static ArrayList<Integer> getOpenCoordinates(Map<Integer, Integer> coordinateNumberMap) {
+	public ArrayList<Integer> getOpenCoordinates(Map<Integer, Integer> coordinateNumberMap) {
 		ArrayList<Integer> openCoordinates = new ArrayList<Integer>();
 		for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
 			if (entry.getValue() == -1) {
@@ -20,7 +22,7 @@ public class BrainUtilities {
 		return openCoordinates;
 	}
 
-	public static int assignWinningCoordinateIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
+	public int assignWinningCoordinateIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> openCoordinates) {
 		int chosenCoordinate = -1;
 		for (Integer openCoordinate : openCoordinates) {
@@ -32,14 +34,13 @@ public class BrainUtilities {
 		return chosenCoordinate;
 	}
 
-	public static ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber,
+	public ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber,
 			Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> openCoordinates,
 			ArrayList<Integer> availableNumbers) {
 		ArrayList<Integer> safeCoordinates = new ArrayList<Integer>();
 		for (Integer openCoordinate : openCoordinates) {
 			coordinateNumberMap.put(openCoordinate, chosenNumber);
-			ArrayList<Integer> safeNumbers = BrainUtilities.getSafeNumbersIfExistent(coordinateNumberMap,
-					availableNumbers);
+			ArrayList<Integer> safeNumbers = getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
 			coordinateNumberMap.put(openCoordinate, -1);
 			if (!safeNumbers.isEmpty()) {
 				safeCoordinates.add(openCoordinate);
@@ -48,7 +49,7 @@ public class BrainUtilities {
 		return safeCoordinates;
 	}
 
-	public static ArrayList<Integer> getSafeNumbersIfExistent(Map<Integer, Integer> coordinateNumberMap,
+	public ArrayList<Integer> getSafeNumbersIfExistent(Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> availableNumbers) {
 		ArrayList<Integer> safeNumbers = new ArrayList<Integer>();
 		for (Integer availableNumber : availableNumbers) {
@@ -58,8 +59,8 @@ public class BrainUtilities {
 		}
 		return safeNumbers;
 	}
-	public static boolean isSafeNumber(int chosenNumber, Map<Integer, Integer> coordinateNumberMap) {
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+	public boolean isSafeNumber(int chosenNumber, Map<Integer, Integer> coordinateNumberMap) {
+		ArrayList<Integer> openCoordinates = getOpenCoordinates(coordinateNumberMap);
 		for (Integer openCoordinate : openCoordinates) {
 			if (isWinningCoordinate(openCoordinate, chosenNumber, coordinateNumberMap)) {
 				return false;
@@ -68,9 +69,9 @@ public class BrainUtilities {
 		return true;
 	}
 
-	public static boolean isWinningCoordinate(int coordinate, int number, Map<Integer, Integer> coordinateNumberMap) {
+	public boolean isWinningCoordinate(int coordinate, int number, Map<Integer, Integer> coordinateNumberMap) {
 		coordinateNumberMap.put(coordinate, number);
-		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
+		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, settings);
 		coordinateNumberMap.put(coordinate, -1);
 		if (winningValues != null) {
 			return true;
@@ -78,7 +79,7 @@ public class BrainUtilities {
 		return false;
 	}
 
-	public static int assignRandomNumberFromList(ArrayList<Integer> numberList) {
+	public int assignRandomNumberFromList(ArrayList<Integer> numberList) {
 		int randomNumberPosition = (int) (Math.random() * numberList.size());
 		int randomNumber = numberList.get(randomNumberPosition);
 		return randomNumber;

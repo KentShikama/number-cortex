@@ -16,8 +16,6 @@ class HumanPlayer implements Player {
 	private int savedCoordinate;
 	private boolean nextCoordinateChosen;
 
-	private CortexPreferences preferences = CortexPreferences.getInstance();
-
 	public HumanPlayer(String name, PlayScreen screen, Messenger messenger) {
 		this.messenger = messenger;
 		this.screen = screen;
@@ -67,7 +65,7 @@ class HumanPlayer implements Player {
 		}
 	}
 	private void handleUpdatedMap(int coordinate, Map<Integer, Integer> coordinateNumberMap) {
-		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, preferences);
+		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, messenger.getSettings());
 		if (winningValues != null) {
 			messenger.placeNumber(name, coordinate);
 		} else {

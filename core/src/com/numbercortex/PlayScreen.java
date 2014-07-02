@@ -128,21 +128,10 @@ public class PlayScreen implements Screen {
 	private void buildNewSinglePlayerGame() {
 		players.clear();
 		board.clearBoard();
-		Messenger messenger = MessengerImpl.createMessenger();
+		GameSettings settings = new GameSettings();
+		Messenger messenger = MessengerImpl.createMessenger(settings);
 		Player human = new HumanPlayer("Player", this, messenger);
-		Brain brain;
-		switch (CortexPreferences.getInstance().getDifficulty()) {
-			case 1:
-				brain = new RandomBrain();
-				break;
-			case 2:
-				brain = new EasyBrain();
-				break;
-			default:
-				brain = new ImpossibleBrain();
-				break;
-		}
-		Player computer = new ComputerPlayer(brain.getName(), this, messenger, brain);
+		Player computer = new ComputerPlayer(this, messenger);
 		players.add(human);
 		players.add(computer);
 		for (Player player : players) {
@@ -152,7 +141,8 @@ public class PlayScreen implements Screen {
 	private void buildNewTwoPlayerGame() {
 		players.clear();
 		board.clearBoard();
-		Messenger messenger = MessengerImpl.createMessenger();
+		GameSettings settings = new GameSettings();
+		Messenger messenger = MessengerImpl.createMessenger(settings);
 		Player playerOne = new HumanPlayer("Player 1", this, messenger);
 		Player playerTwo = new HumanPlayer("Player 2", this, messenger);
 		players.add(playerOne);

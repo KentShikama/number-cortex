@@ -10,20 +10,45 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 public class ComputerPlayer implements Player {
 
 	private String name;
-	private PlayScreen screen;
+	private PlayScreen playScreen;
 	private Messenger messenger;
 	private Brain brain;
 
-	public ComputerPlayer(String name, PlayScreen playScreen, Messenger messenger, Brain difficulty) {
-		this.name = name;
-		this.screen = playScreen;
+	public ComputerPlayer(PlayScreen playScreen, Messenger messenger) {
+		this.playScreen = playScreen;
 		this.messenger = messenger;
-		this.brain = difficulty;
+		
+		this.brain = buildBrain(messenger);
+		this.name = brain.getName();
+	}
+
+	private Brain buildBrain(Messenger messenger) {
+		Brain brain;
+		GameSettings settings = messenger.getSettings();
+		int brainDifficulty = settings.getDifficulty();
+		switch (brainDifficulty) {
+			case 1:
+				brain = new RandomBrain(settings);
+				break;
+			case 2:
+				brain = new EasyBrain(settings);
+				break;
+			case 3:
+				brain = new MediumBrain(settings);
+				break;
+			case 4:
+				brain = new HardBrain(settings);
+				break;
+			default:
+				brain = new ImpossibleBrain(settings);
+				break;
+		}
+		return brain;
 	}
 
 	@Override
 	public void updateState(CortexState state) {
-		screen.updateState(state);
+		playScreen.updateState(state);
 		if (state.getWinner() != null) {
 			return;
 		}
@@ -31,7 +56,7 @@ public class ComputerPlayer implements Player {
 		if (chosenNumber != -1) {
 			final int coordinate = brain.calculateCoordinate(state);
 
-			ArrayList<Object> components = screen.getRequiredComponentsForComputerAnimation(coordinate);
+			ArrayList<Object> components = playScreen.getRequiredComponentsForComputerAnimation(coordinate);
 			Label labelToMove = (Label) components.get(0);
 			MoveToAction moveToAction = (MoveToAction) components.get(1);
 			DelayAction delayAction = Actions.delay(0.5f);
@@ -66,7 +91,7 @@ public class ComputerPlayer implements Player {
 
 	@Override
 	public PlayScreen getScreen() {
-		return screen;
+		return playScreen;
 	}
 
 }
