@@ -46,11 +46,11 @@ public class NumberCortexBoard {
 		this.cells = buildCells(this.isBlue, numberOfRows);
 	}
 
-	public static NumberCortexBoard createNumberCortexBoard(Stage stage, CortexPreferences preferences) {
+	public static NumberCortexBoard createNumberCortexBoard(Stage stage, boolean isBlue, int numberOfRows) {
 		NumberCortexBoard instance = Singleton.INSTANCE;
-		if (instance.isBlue != preferences.isBlue() || instance.numberOfRows != preferences.getNumberOfRows()) {
-			instance.isBlue = preferences.isBlue();
-			instance.numberOfRows = preferences.getNumberOfRows();
+		if (instance.isBlue != isBlue || instance.numberOfRows != numberOfRows) {
+			instance.isBlue = isBlue;
+			instance.numberOfRows = numberOfRows;
 			instance.cells = buildCells(instance.isBlue, instance.numberOfRows);
 		}
 		addCellsToStageIfAbsent(stage, instance);
