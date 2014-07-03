@@ -1,5 +1,7 @@
 package com.numbercortex;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -23,6 +25,8 @@ public class LevelsScreen implements Screen {
 
 	private Game game;
 	private Stage stage;
+	private ArrayList<TextButton> textButtons = buildTextButtons(18);
+	private ArrayList<ClickListener> listeners = buildClicklisteners(18);
 	
 	private static final String TITLE = "level_selector";
 	private static final String BOARD_SIZE_3_LABEL = "3x3";
@@ -51,16 +55,51 @@ public class LevelsScreen implements Screen {
 	}
 	
 	private TextButton buildEnabledLevel(final int level) {
-		TextButton levelButton = new TextButton(String.valueOf(level), levelButtonStyle);
+		TextButton levelButton = textButtons.get(level - 1);
+		levelButton.setText(String.valueOf(level));
+		levelButton.setDisabled(false);
+		ClickListener listener = listeners.get(level - 1);
+		levelButton.addListener(listener);
+		return levelButton;
+	}
+	
+	private TextButton buildDisabledLevel(final int level) {
+		TextButton levelButton = textButtons.get(level - 1);
+		levelButton.setText("");
+		levelButton.setDisabled(true);
+		return levelButton;
+	}
+	
+	private ArrayList<ClickListener> buildClicklisteners(int numberOfLevels) {
+		ArrayList<ClickListener> listeners = new ArrayList<ClickListener>();
+		for (int i = 0; i < numberOfLevels; i++) {
+			listeners.add(buildClickListener(i + 1));
+		}
+		return listeners;
+	}
+	private ClickListener buildClickListener(final int level) {
 		ClickListener listener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScreenTracker.level = level;
-				game.setScreen(ScreenTracker.playScreen);
+				TextButton button = (TextButton) event.getListenerActor();
+				if (!button.isDisabled()) {
+					ScreenTracker.level = level;
+					game.setScreen(ScreenTracker.playScreen);
+				}
 			}
 		};
-		levelButton.addListener(listener);
-		return levelButton;
+		return listener;
+	}
+	
+	private ArrayList<TextButton> buildTextButtons(int numberOfLevels) {
+		ArrayList<TextButton> textButtons = new ArrayList<TextButton>();
+		for (int i = 0; i < numberOfLevels; i++) {
+			textButtons.add(buildTextButton(i + 1));
+		}
+		return textButtons;
+	}
+	private TextButton buildTextButton(int level) {
+		return new TextButton(String.valueOf(level), levelButtonStyle);
 	}
 	
 	@Override
@@ -135,7 +174,7 @@ public class LevelsScreen implements Screen {
 		
 		TextButton level16 = buildEnabledLevel(16);
 		TextButton level17 = buildEnabledLevel(17);
-		TextButton level18 = buildEnabledLevel(18);
+		TextButton level18 = buildDisabledLevel(18);
 		
 		table.add(level16).size(100, 100).pad(20).right();
 		table.add(level17).size(100, 100).pad(20);
