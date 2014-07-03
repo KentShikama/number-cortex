@@ -36,10 +36,12 @@ public class Launch extends Game {
 	private void buildOtherScreens() {
 		Assets.loadSettings();
 		Assets.loadGame();
+		Assets.loadLevels();
 		FontGenerator.load();
 		CortexPreferences.getInstance().load();
 
 		ScreenTracker.settingsScreen = new SettingsScreen(this);
+		ScreenTracker.levelsScreen = new LevelsScreen(this);
 		ScreenTracker.playScreen = new PlayScreen(this);
 	}
 

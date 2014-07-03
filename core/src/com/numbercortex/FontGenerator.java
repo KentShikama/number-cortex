@@ -14,6 +14,7 @@ public class FontGenerator {
 	private static BitmapFont messageFont;
 
 	private static Skin skin = Assets.gameSkin;
+	private static BitmapFont levelFont;
 
 	private static final String SCROLLER_RECTANGLE = "scroller_rectangle";
 
@@ -36,12 +37,16 @@ public class FontGenerator {
 	public static BitmapFont getNumberScrollFont() {
 		return numberScrollerFont;
 	}
+	public static BitmapFont getLevelFont() {
+		return levelFont;
+	}
 
 	public static void load() {
 		int numberScrollerFontSize = calculateNumberScrollerFontSize();
 		int boardNumberFontSize = calculateBoardNumberFontSize();
+		int levelFontSize = (int) (numberScrollerFontSize * 0.7);
 		int messageFontSize = (int) (calculateBoardNumberFontSize() * 0.5);
-		createTahomaFonts(numberScrollerFontSize, boardNumberFontSize);
+		createTahomaFonts(numberScrollerFontSize, boardNumberFontSize, levelFontSize);
 		createTimesFonts(messageFontSize);
 	}
 	private static int calculateBoardNumberFontSize() {
@@ -56,12 +61,14 @@ public class FontGenerator {
 		int fontHeight = (int) (scrollerRectangleHeight * 0.85);
 		return fontHeight;
 	}
-	private static void createTahomaFonts(int numberScrollerFontSize, int boardNumberFontSize) {
+	private static void createTahomaFonts(int numberScrollerFontSize, int boardNumberFontSize, int levelFontSize) {
 		FreeTypeFontGenerator tahomaGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Tahoma.ttf"));
 		numberScrollerFont = tahomaGenerator.generateFont(numberScrollerFontSize);
 		boardNumberFont = tahomaGenerator.generateFont(boardNumberFontSize);
+		levelFont = tahomaGenerator.generateFont(levelFontSize);
 		numberScrollerFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		boardNumberFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		levelFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		tahomaGenerator.dispose();
 	}
 	private static void createTimesFonts(int messageFontSize) {

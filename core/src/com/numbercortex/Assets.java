@@ -6,34 +6,47 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
 
-	private static TextureAtlas home;
-	private static TextureAtlas settings;
-	private static TextureAtlas game;
 	public static Skin homeSkin;
-	public static Skin settingsSkin;
+	public static Skin levelsSkin;
 	public static Skin gameSkin;
+	
+	public static Skin settingsSkin;
+
 
 	public static void loadHome() {
 		if (homeSkin == null) {
-			home = new TextureAtlas(Gdx.files.internal("home/home.txt"));
+			TextureAtlas home = new TextureAtlas(Gdx.files.internal("home/home.txt"));
 			homeSkin = new Skin(home);
 		}
 	}
-
-	public static void loadSettings() {
-		if (settingsSkin == null) {
-			settings = new TextureAtlas(Gdx.files.internal("settings/settings.txt"));
-			settingsSkin = new Skin(settings);
+	
+	public static void loadLevels() {
+		if (levelsSkin == null) {
+			TextureAtlas levels = new TextureAtlas(Gdx.files.internal("levels/levels.atlas"));
+			levelsSkin = new Skin(levels);
+		}
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
 		}
 	}
 
 	public static void loadGame() {
 		if (gameSkin == null) {
-			game = new TextureAtlas(Gdx.files.internal("game/game.atlas"));
+			TextureAtlas game = new TextureAtlas(Gdx.files.internal("game/game.atlas"));
 			gameSkin = new Skin(game);
 		}
 		if (FontGenerator.isNull()) {
 			FontGenerator.load();
+		}
+	}
+	
+	/**
+	 * TODO: Delete once no longer needed
+	 */
+	public static void loadSettings() {
+		if (settingsSkin == null) {
+			TextureAtlas settings = new TextureAtlas(Gdx.files.internal("settings/settings.txt"));
+			settingsSkin = new Skin(settings);
 		}
 	}
 
