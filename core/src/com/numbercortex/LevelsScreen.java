@@ -110,8 +110,6 @@ public class LevelsScreen implements Screen {
 		stage.addActor(background);
 		
 		Table table = new Table();
-		table.debug();
-		table.setWidth(Launch.SCREEN_WIDTH);
 		Drawable titleDrawable = skin.getDrawable(TITLE);
 		Image title = new Image(titleDrawable);
 		table.add(title).expandX().padTop(90).padBottom(60).colspan(3);

@@ -53,7 +53,7 @@ public class PlayScreen implements Screen {
 			int level = ScreenTracker.level;
 			settings = GameSettingsLoader.loadLevel(level);
 		} else {
-			settings = GameSettingsLoader.loadLevel(15);
+			settings = preferences.getTwoPlayerGameSettings();
 		}
 		
 		buildBackground(preferences);
@@ -101,7 +101,11 @@ public class PlayScreen implements Screen {
 		settingsButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(ScreenTracker.settingsScreen);
+				if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+				} else {
+					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);
+				}
 			}
 		});
 		stage.addActor(settingsButton);

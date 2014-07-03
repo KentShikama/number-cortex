@@ -26,10 +26,11 @@ public class Launch extends Game {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
+		ScreenTracker.titleScreen = new TitleScreen(Launch.this); 
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
-				setScreen(new TitleScreen(Launch.this));
+				setScreen(ScreenTracker.titleScreen);
 			}
 		});
 	}
@@ -40,7 +41,8 @@ public class Launch extends Game {
 		FontGenerator.load();
 		CortexPreferences.getInstance().load();
 
-		ScreenTracker.settingsScreen = new SettingsScreen(this);
+		ScreenTracker.singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(this);
+		ScreenTracker.twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(this);
 		ScreenTracker.levelsScreen = new LevelsScreen(this);
 		ScreenTracker.playScreen = new PlayScreen(this);
 	}

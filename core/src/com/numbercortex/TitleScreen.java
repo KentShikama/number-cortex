@@ -112,8 +112,8 @@ public class TitleScreen implements Screen {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
 				ScreenTracker.Mode.SINGLE_PLAYER);
 		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
-				ScreenTracker.settingsScreen, ScreenTracker.Mode.TWO_PLAYER);
-		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2, ScreenTracker.settingsScreen,
+				ScreenTracker.twoPlayerSettingsScreen, ScreenTracker.Mode.TWO_PLAYER);
+		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2, ScreenTracker.twoPlayerSettingsScreen,
 				ScreenTracker.Mode.ONLINE);
 		TitleScreenButton tutorialButton = new TitleScreenButton(TUTORIAL, 3, null, null);
 		stage.addActor(playButton.button);

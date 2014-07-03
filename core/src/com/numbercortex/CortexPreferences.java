@@ -7,23 +7,28 @@ public class CortexPreferences {
 	private static class Singleton {
 		final static CortexPreferences instance = new CortexPreferences();
 	}
-
 	private Preferences preferences;
-
+	
 	private static final String PREFERENCES_NAME = "preferences";
 
-	private boolean isBlue;
-	private boolean isDiagonalsEnabled;
-
-	private boolean isFourSquareEnabled;
-	private boolean isMusicEnabled;
-	private int difficulty;
 	private static final String BACKGROUND_COLOR = "background_color";
-	private static final String DIAGONALS = "diagonals";
-
-	private static final String FOUR_SQUARE = "four_square";
 	private static final String MUSIC = "music";
+	private static final String CURRENT_LEVEL = "level";
+	
+	private static final String TIME = "time";
+	private static final String NUMBER_OF_ROWS = "number_of_rows";
+	private static final String EVEN_ODD = "even_odd";
+	private static final String SINGLE_DOUBLE = "single_double";
+	private static final String PRIME_COMPOSITE = "prime_composite";
+	private static final String MIDDLE_EXTREME = "middle_extreme";
+	private static final String DIAGONALS = "diagonals";
+	private static final String FOUR_SQUARE = "four_square";
 	private static final String DIFFICULTY = "difficulty";
+	
+	private boolean isBlue;
+	private boolean isMusicEnabled;
+	private int currentLevel;
+	private GameSettings twoPlayerGameSettings;
 
 	private CortexPreferences() {}
 
@@ -33,63 +38,94 @@ public class CortexPreferences {
 
 	public void load() {
 		preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
-		isBlue = preferences.getBoolean(BACKGROUND_COLOR, false);
-		isDiagonalsEnabled = preferences.getBoolean(DIAGONALS, true);
-		isFourSquareEnabled = preferences.getBoolean(FOUR_SQUARE, false);
-		isMusicEnabled = preferences.getBoolean(MUSIC, true);
-		difficulty = preferences.getInteger(DIFFICULTY, 2);
+		loadTwoPlayerGameSettings();
+		loadOtherPreferences();
 	}
-
+	private void loadTwoPlayerGameSettings() {
+		twoPlayerGameSettings = new GameSettings();
+		int time = preferences.getInteger(TIME, 1000);
+		int numberOfRows = preferences.getInteger(NUMBER_OF_ROWS, 4);
+		boolean isEvenOddEnabled = preferences.getBoolean(EVEN_ODD, true);
+		boolean isSingleDoubleEnabled = preferences.getBoolean(SINGLE_DOUBLE, true);
+		boolean isPrimeCompositeEnabled = preferences.getBoolean(PRIME_COMPOSITE, true);
+		boolean isMiddleExtremeEnabled = preferences.getBoolean(MIDDLE_EXTREME, false);
+		boolean isDiagonalsEnabled = preferences.getBoolean(DIAGONALS, true);
+		boolean isFourSquareEnabled = preferences.getBoolean(FOUR_SQUARE, false);
+		int difficulty = preferences.getInteger(DIFFICULTY, 3);
+		twoPlayerGameSettings.setTime(time);
+		twoPlayerGameSettings.setNumberOfRows(numberOfRows);
+		twoPlayerGameSettings.setEvenOdd(isEvenOddEnabled);
+		twoPlayerGameSettings.setSingleDouble(isSingleDoubleEnabled);
+		twoPlayerGameSettings.setPrimeComposite(isPrimeCompositeEnabled);
+		twoPlayerGameSettings.setMiddleExtreme(isMiddleExtremeEnabled);
+		twoPlayerGameSettings.setDiagonals(isDiagonalsEnabled);
+		twoPlayerGameSettings.setFourSquare(isFourSquareEnabled);
+		twoPlayerGameSettings.setDifficulty(difficulty);
+	}
+	private void loadOtherPreferences() {
+		isBlue = preferences.getBoolean(BACKGROUND_COLOR, false);
+		isMusicEnabled = preferences.getBoolean(MUSIC, true);
+		currentLevel = preferences.getInteger(CURRENT_LEVEL, 1);
+	}
+	
 	public void save() {
-		preferences.putBoolean(BACKGROUND_COLOR, isBlue);
-		preferences.putBoolean(DIAGONALS, isDiagonalsEnabled);
-		preferences.putBoolean(FOUR_SQUARE, isFourSquareEnabled);
-		preferences.putBoolean(MUSIC, isMusicEnabled);
-		preferences.putInteger(DIFFICULTY, difficulty);
+		saveTwoPlayerGameSettings();
+		saveOtherPreferences();
 		preferences.flush();
 	}
-
-	public void setBlue(boolean isBlue) {
-		this.isBlue = isBlue;
+	private void saveOtherPreferences() {
+		preferences.putBoolean(BACKGROUND_COLOR, isBlue);
+		preferences.putBoolean(MUSIC, isMusicEnabled);
+		preferences.putInteger(CURRENT_LEVEL, currentLevel);
 	}
-
-	public void setDiagonalsEnabled(boolean isDiagonalsEnabled) {
-		this.isDiagonalsEnabled = isDiagonalsEnabled;
-	}
-
-	public void setDifficulty(int difficulty) {
-		this.difficulty = difficulty;
-	}
-
-	public void setFourSquareEnabled(boolean isFourSquareEnabled) {
-		this.isFourSquareEnabled = isFourSquareEnabled;
-	}
-
-	public void setMusicEnabled(boolean isMusicEnabled) {
-		this.isMusicEnabled = isMusicEnabled;
-	}
-
-	public int getDifficulty() {
-		return difficulty;
+	private void saveTwoPlayerGameSettings() {
+		int time = twoPlayerGameSettings.getTime();
+		int numberOfRows = twoPlayerGameSettings.getNumberOfRows();
+		boolean isEvenOddEnabled = twoPlayerGameSettings.isEvenOdd();
+		boolean isSingleDoubleEnabled = twoPlayerGameSettings.isSingleDouble();
+		boolean isPrimeCompositeEnabled = twoPlayerGameSettings.isPrimeComposite();
+		boolean isMiddleExtremeEnabled = twoPlayerGameSettings.isMiddleExtreme();
+		boolean isDiagonalsEnabled = twoPlayerGameSettings.isDiagonals();
+		boolean isFourSquareEnabled = twoPlayerGameSettings.isFourSquare();
+		int difficulty = twoPlayerGameSettings.getDifficulty();
+		
+		preferences.putInteger(TIME, time);
+		preferences.putInteger(NUMBER_OF_ROWS, numberOfRows);
+		preferences.putBoolean(EVEN_ODD, isEvenOddEnabled);
+		preferences.putBoolean(SINGLE_DOUBLE, isSingleDoubleEnabled);
+		preferences.putBoolean(PRIME_COMPOSITE, isPrimeCompositeEnabled);
+		preferences.putBoolean(MIDDLE_EXTREME, isMiddleExtremeEnabled);
+		preferences.putBoolean(DIAGONALS, isDiagonalsEnabled);
+		preferences.putBoolean(FOUR_SQUARE, isFourSquareEnabled);
+		preferences.putInteger(DIFFICULTY, difficulty);
 	}
 
 	public boolean isBlue() {
 		return isBlue;
 	}
-
-	public boolean isDiagonalsEnabled() {
-		return isDiagonalsEnabled;
-	}
-
-	public boolean isFourSquareEnabled() {
-		return isFourSquareEnabled;
+	public void setBlue(boolean isBlue) {
+		this.isBlue = isBlue;
 	}
 
 	public boolean isMusicEnabled() {
 		return isMusicEnabled;
 	}
-
-	public int getNumberOfRows() {
-		return 4;
+	public void setMusicEnabled(boolean isMusicEnabled) {
+		this.isMusicEnabled = isMusicEnabled;
 	}
+
+	public int getCurrentLevel() {
+		return currentLevel;
+	}
+	public void setCurrentLevel(int currentLevel) {
+		this.currentLevel = currentLevel;
+	}
+
+	public GameSettings getTwoPlayerGameSettings() {
+		return twoPlayerGameSettings;
+	}
+	public void setTwoPlayerGameSettings(GameSettings twoPlayerGameSettings) {
+		this.twoPlayerGameSettings = twoPlayerGameSettings;
+	}
+
 }

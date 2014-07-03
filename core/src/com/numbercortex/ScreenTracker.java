@@ -1,7 +1,9 @@
 package com.numbercortex;
 
 public class ScreenTracker {
-	public static SettingsScreen settingsScreen;
+	public static TitleScreen titleScreen;
+	public static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
+	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
 	public static LevelsScreen levelsScreen;
 	public static PlayScreen playScreen;
 	
