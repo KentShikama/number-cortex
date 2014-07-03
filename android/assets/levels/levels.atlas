@@ -1,0 +1,41 @@
+
+levels.png
+size: 922,208
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+3x3
+  rotate: false
+  xy: 471, 111
+  size: 349, 97
+  orig: 349, 97
+  offset: 0, 0
+  index: -1
+4x4
+  rotate: false
+  xy: 2, 4
+  size: 349, 98
+  orig: 349, 98
+  offset: 0, 0
+  index: -1
+empty_rectangle
+  rotate: false
+  xy: 353, 2
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+level_selector
+  rotate: false
+  xy: 2, 104
+  size: 467, 104
+  orig: 467, 104
+  offset: 0, 0
+  index: -1
+locked_rectangle
+  rotate: false
+  xy: 822, 108
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1

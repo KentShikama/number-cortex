@@ -27,9 +27,9 @@ public class GameSettings {
 	
 	public static GameSettings load() {
 		Json json = new Json();
-		FileHandle handle = Gdx.files.internal("levels/1.json");
+		FileHandle handle = Gdx.files.internal("data/levels.json");
 		ArrayList<GameSettings> array = json.fromJson(ArrayList.class, handle);
-		int level = 16;
+		int level = 17;
 		return array.get(level - 1);
 	}
 
