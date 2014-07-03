@@ -48,7 +48,7 @@ public class PlayScreen implements Screen {
 		stage.clear();
 				
 		CortexPreferences preferences = CortexPreferences.getInstance();
-		GameSettings settings = GameSettings.load();
+		GameSettings settings = GameSettingsLoader.loadLevel(5);
 		
 		buildBackground(preferences);
 		buildMessageArea();
