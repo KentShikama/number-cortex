@@ -2,7 +2,7 @@
 game.png
 size: 1004,428
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 blue_rectangle
   rotate: false
