@@ -109,7 +109,7 @@ public class TitleScreen implements Screen {
 		stage.addActor(background);
 	}
 	private void buildButtons() {
-		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.settingsScreen,
+		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
 				ScreenTracker.Mode.SINGLE_PLAYER);
 		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
 				ScreenTracker.settingsScreen, ScreenTracker.Mode.TWO_PLAYER);

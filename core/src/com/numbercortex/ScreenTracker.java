@@ -4,7 +4,9 @@ public class ScreenTracker {
 	public static SettingsScreen settingsScreen;
 	public static LevelsScreen levelsScreen;
 	public static PlayScreen playScreen;
+	
 	public static boolean isInPlay = false;
+	public static int level;
 
 	protected static Mode mode;
 

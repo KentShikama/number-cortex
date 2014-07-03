@@ -48,7 +48,13 @@ public class PlayScreen implements Screen {
 		stage.clear();
 				
 		CortexPreferences preferences = CortexPreferences.getInstance();
-		GameSettings settings = GameSettingsLoader.loadLevel(5);
+		GameSettings settings;
+		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+			int level = ScreenTracker.level;
+			settings = GameSettingsLoader.loadLevel(level);
+		} else {
+			settings = GameSettingsLoader.loadLevel(15);
+		}
 		
 		buildBackground(preferences);
 		buildMessageArea();

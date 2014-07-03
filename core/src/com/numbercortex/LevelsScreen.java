@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class LevelsScreen implements Screen {
@@ -48,6 +50,19 @@ public class LevelsScreen implements Screen {
 		stage = ((Launch) game).getStage();
 	}
 	
+	private TextButton buildEnabledLevel(final int level) {
+		TextButton levelButton = new TextButton(String.valueOf(level), levelButtonStyle);
+		ClickListener listener = new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				ScreenTracker.level = level;
+				game.setScreen(ScreenTracker.playScreen);
+			}
+		};
+		levelButton.addListener(listener);
+		return levelButton;
+	}
+	
 	@Override
 	public void show() {
 		stage.clear();
@@ -68,31 +83,27 @@ public class LevelsScreen implements Screen {
 		table.add(boardSize3Label).left().padBottom(20).padTop(20).colspan(2);
 		table.row();
 		
-		TextButton level1 = new TextButton("1", levelButtonStyle);
-		TextButton level2 = new TextButton("2", levelButtonStyle);
-		TextButton level3 = new TextButton("3", levelButtonStyle);
+		TextButton level1 = buildEnabledLevel(1);
+		TextButton level2 = buildEnabledLevel(2);
+		TextButton level3 = buildEnabledLevel(3);
 
 		table.add(level1).size(100, 100).pad(20).right();
 		table.add(level2).size(100, 100).pad(20);
 		table.add(level3).size(100, 100).pad(20).left();
 		table.row();
 		
-		TextButton level4 = new TextButton("4", levelButtonStyle);
-		TextButton level5 = new TextButton("5", levelButtonStyle);
-		TextButton level6 = new TextButton("", levelButtonStyle);
-		level6.setDisabled(true);
+		TextButton level4 = buildEnabledLevel(4);
+		TextButton level5 = buildEnabledLevel(5);
+		TextButton level6 = buildEnabledLevel(6);
 
 		table.add(level4).size(100, 100).pad(20).right();
 		table.add(level5).size(100, 100).pad(20);
 		table.add(level6).size(100, 100).pad(20).left();
 		table.row();
 		
-		TextButton level7 = new TextButton("", levelButtonStyle);
-		level7.setDisabled(true);
-		TextButton level8 = new TextButton("", levelButtonStyle);
-		level8.setDisabled(true);
-		TextButton level9 = new TextButton("", levelButtonStyle);
-		level9.setDisabled(true);
+		TextButton level7 = buildEnabledLevel(7);
+		TextButton level8 = buildEnabledLevel(8);
+		TextButton level9 = buildEnabledLevel(9);
 
 		table.add(level7).size(100, 100).pad(20).right();
 		table.add(level8).size(100, 100).pad(20);
@@ -104,37 +115,28 @@ public class LevelsScreen implements Screen {
 		table.add(boardSize4Label).left().padBottom(20).padTop(20).colspan(2);
 		table.row();
 		
-		TextButton level10 = new TextButton("", levelButtonStyle);
-		level10.setDisabled(true);
-		TextButton level11 = new TextButton("", levelButtonStyle);
-		level11.setDisabled(true);
-		TextButton level12 = new TextButton("", levelButtonStyle);
-		level12.setDisabled(true);
+		TextButton level10 = buildEnabledLevel(10);
+		TextButton level11 = buildEnabledLevel(11);
+		TextButton level12 = buildEnabledLevel(12);
 
 		table.add(level10).size(100, 100).pad(20).right();
 		table.add(level11).size(100, 100).pad(20);
 		table.add(level12).size(100, 100).pad(20).left();
 		table.row();
 		
-		TextButton level13 = new TextButton("", levelButtonStyle);
-		level13.setDisabled(true);
-		TextButton level14 = new TextButton("", levelButtonStyle);
-		level14.setDisabled(true);
-		TextButton level15 = new TextButton("", levelButtonStyle);
-		level15.setDisabled(true);
+		TextButton level13 = buildEnabledLevel(13);
+		TextButton level14 = buildEnabledLevel(14);
+		TextButton level15 = buildEnabledLevel(15);
 
 		table.add(level13).size(100, 100).pad(20).right();
 		table.add(level14).size(100, 100).pad(20);
 		table.add(level15).size(100, 100).pad(20).left();
 		table.row();
 		
-		TextButton level16 = new TextButton("", levelButtonStyle);
-		level16.setDisabled(true);
-		TextButton level17 = new TextButton("", levelButtonStyle);
-		level17.setDisabled(true);
-		TextButton level18 = new TextButton("", levelButtonStyle);
-		level18.setDisabled(true);
-
+		TextButton level16 = buildEnabledLevel(16);
+		TextButton level17 = buildEnabledLevel(17);
+		TextButton level18 = buildEnabledLevel(18);
+		
 		table.add(level16).size(100, 100).pad(20).right();
 		table.add(level17).size(100, 100).pad(20);
 		table.add(level18).size(100, 100).pad(20).left();
