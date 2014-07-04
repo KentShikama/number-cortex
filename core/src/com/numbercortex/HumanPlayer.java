@@ -80,6 +80,22 @@ class HumanPlayer implements Player {
 	public void updateState(CortexState state) {
 		this.state = state;
 		screen.updateState(state);
+		String winner = state.getWinner();
+		if (playerWinsSinglePlayerGame(winner)) {
+			CortexPreferences preferences = CortexPreferences.getInstance();
+			int currentLevel = ScreenTracker.level;
+			int maxLevel = preferences.getCurrentLevel();
+			if (currentLevel == maxLevel) {
+				int raisedMaxLevel = ++maxLevel;
+				preferences.setCurrentLevel(raisedMaxLevel);
+				preferences.save();
+				System.out.println("Level up " + raisedMaxLevel);
+			}
+		}
+	}
+
+	public boolean playerWinsSinglePlayerGame(String winner) {
+		return winner != null && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && winner.equals(name);
 	}
 
 	@Override
