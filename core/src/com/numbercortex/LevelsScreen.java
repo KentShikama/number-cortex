@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class LevelsScreen implements Screen {
-	
+
 	public static final String TAG = PlayScreen.class.getCanonicalName();
 	private static final Skin skin = Assets.levelsSkin;
 
@@ -38,7 +38,7 @@ public class LevelsScreen implements Screen {
 	private TextButton buildTextButton(int level) {
 		return new TextButton(String.valueOf(level), levelButtonStyle);
 	}
-	
+
 	private ArrayList<ClickListener> listeners = buildClicklisteners(18);
 	private ArrayList<ClickListener> buildClicklisteners(int numberOfLevels) {
 		ArrayList<ClickListener> listeners = new ArrayList<ClickListener>();
@@ -60,13 +60,13 @@ public class LevelsScreen implements Screen {
 		};
 		return listener;
 	}
-	
+
 	private static final String TITLE = "level_selector";
 	private static final String BOARD_SIZE_3_LABEL = "3x3";
 	private static final String BOARD_SIZE_4_LABEL = "4x4";
 	private static final String UNLOCKED_LEVEL = "empty_rectangle";
 	private static final String LOCKED_LEVEL = "locked_rectangle";
-	
+
 	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
 	private static TextButton.TextButtonStyle buildButtonStyle() {
 		BitmapFont font = FontGenerator.getLevelFont();
@@ -79,42 +79,26 @@ public class LevelsScreen implements Screen {
 		buttonStyle.disabled = numberRectangleDisabled;
 		return buttonStyle;
 	}
-	
+
 	private static CortexPreferences preferences = CortexPreferences.getInstance();
 
 	LevelsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
 	}
-	
-	private TextButton buildEnabledLevel(final int level) {
-		TextButton levelButton = textButtons.get(level - 1);
-		levelButton.setText(String.valueOf(level));
-		levelButton.setDisabled(false);
-		ClickListener listener = listeners.get(level - 1);
-		levelButton.addListener(listener);
-		return levelButton;
-	}
-	
-	private TextButton buildDisabledLevel(final int level) {
-		TextButton levelButton = textButtons.get(level - 1);
-		levelButton.setText("");
-		levelButton.setDisabled(true);
-		return levelButton;
-	}
-	
+
 	@Override
 	public void show() {
 		stage.clear();
 		table.clear();
-		
+
 		addBackground();
 		addTitle();
-		addBoardSizeLabel(BOARD_SIZE_3_LABEL);		
+		addBoardSizeLabel(BOARD_SIZE_3_LABEL);
 		addLevelButtons(1, 9);
 		addBoardSizeLabel(BOARD_SIZE_4_LABEL);
 		addLevelButtons(10, 18);
-	
+
 		addScrollPane();
 	}
 	private void addBackground() {
@@ -152,12 +136,26 @@ public class LevelsScreen implements Screen {
 			}
 		}
 	}
+	private TextButton buildEnabledLevel(final int level) {
+		TextButton levelButton = textButtons.get(level - 1);
+		levelButton.setText(String.valueOf(level));
+		levelButton.setDisabled(false);
+		ClickListener listener = listeners.get(level - 1);
+		levelButton.addListener(listener);
+		return levelButton;
+	}
+	private TextButton buildDisabledLevel(final int level) {
+		TextButton levelButton = textButtons.get(level - 1);
+		levelButton.setText("");
+		levelButton.setDisabled(true);
+		return levelButton;
+	}
 	private void addScrollPane() {
 		ScrollPane pane = new ScrollPane(table);
-		pane.setBounds(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);	
+		pane.setBounds(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage.addActor(pane);
 	}
-	
+
 	@Override
 	public void resume() {
 		Assets.loadLevels();
