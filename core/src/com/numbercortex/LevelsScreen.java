@@ -25,6 +25,8 @@ public class LevelsScreen implements Screen {
 
 	private Game game;
 	private Stage stage;
+	private Table table = new Table();
+
 	private ArrayList<TextButton> textButtons = buildTextButtons(18);
 	private ArrayList<TextButton> buildTextButtons(int numberOfLevels) {
 		ArrayList<TextButton> textButtons = new ArrayList<TextButton>();
@@ -104,22 +106,35 @@ public class LevelsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
+		table.clear();
 		
+		addBackground();
+		addTitle();
+		addBoardSizeLabel(BOARD_SIZE_3_LABEL);		
+		addLevelButtons(1, 9);
+		addBoardSizeLabel(BOARD_SIZE_4_LABEL);
+		addLevelButtons(10, 18);
+	
+		addScrollPane();
+	}
+	private void addBackground() {
 		PlayScreenBackground background = new PlayScreenBackground(Launch.SEA_BLUE);
 		stage.addActor(background);
-		
-		Table table = new Table();
+	}
+	private void addTitle() {
 		Drawable titleDrawable = skin.getDrawable(TITLE);
 		Image title = new Image(titleDrawable);
 		table.add(title).expandX().padTop(90).padBottom(60).colspan(3);
 		table.row();
-		
-		Drawable boardSize3LabelDrawable = skin.getDrawable(BOARD_SIZE_3_LABEL);
+	}
+	private void addBoardSizeLabel(String boardSizeLabelString) {
+		Drawable boardSize3LabelDrawable = skin.getDrawable(boardSizeLabelString);
 		Image boardSize3Label = new Image(boardSize3LabelDrawable);
 		table.add(boardSize3Label).left().padBottom(20).padTop(20).colspan(2);
 		table.row();
-		
-		for (int i = 0; i < 9; i++) {
+	}
+	private void addLevelButtons(int startingLevel, int endingLevel) {
+		for (int i = startingLevel - 1; i < endingLevel; i++) {
 			int level = i + 1;
 			TextButton levelButton;
 			if (level <= preferences.getCurrentLevel()) {
@@ -136,35 +151,13 @@ public class LevelsScreen implements Screen {
 				table.row();
 			}
 		}
- 
-		Drawable boardSize4LabelDrawable = skin.getDrawable(BOARD_SIZE_4_LABEL);
-		Image boardSize4Label = new Image(boardSize4LabelDrawable);
-		table.add(boardSize4Label).left().padBottom(20).padTop(20).colspan(2);
-		table.row();
-		
-		for (int i = 9; i < 18; i++) {
-			int level = i + 1;
-			TextButton levelButton;
-			if (level <= preferences.getCurrentLevel()) {
-				levelButton = buildEnabledLevel(level);
-			} else {
-				levelButton = buildDisabledLevel(level);
-			}
-			if (level % 3 == 1) {
-				table.add(levelButton).size(100, 100).pad(20).right();
-			} else if (level % 3 == 2) {
-				table.add(levelButton).size(100, 100).pad(20);
-			} else {
-				table.add(levelButton).size(100, 100).pad(20).left();
-				table.row();
-			}
-		}
-		
+	}
+	private void addScrollPane() {
 		ScrollPane pane = new ScrollPane(table);
-		pane.setBounds(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		pane.setBounds(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);	
 		stage.addActor(pane);
 	}
-
+	
 	@Override
 	public void resume() {
 		Assets.loadLevels();
