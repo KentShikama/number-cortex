@@ -54,7 +54,7 @@ public class LevelsScreen implements Screen {
 				TextButton button = (TextButton) event.getListenerActor();
 				if (!button.isDisabled()) {
 					ScreenTracker.level = level;
-					GameManager manager = GameManagerImpl.createMessenger();
+					GameManager manager = GameManagerImpl.createNewGameManager();
 					game.setScreen(ScreenTracker.playScreen);
 					manager.startNewGame();
 				}

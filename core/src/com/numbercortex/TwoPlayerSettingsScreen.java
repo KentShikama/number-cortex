@@ -170,7 +170,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = GameManagerImpl.createMessenger();
+				GameManager manager = GameManagerImpl.createNewGameManager();
 				game.setScreen(ScreenTracker.playScreen);
 				manager.startNewGame();
 			}
