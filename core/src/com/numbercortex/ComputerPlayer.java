@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class ComputerPlayer implements Player {
@@ -55,23 +56,30 @@ public class ComputerPlayer implements Player {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
 			final int coordinate = brain.calculateCoordinate(state);
-
-			ArrayList<Object> components = playScreen.getRequiredComponentsForComputerAnimation(coordinate);
-			Label labelToMove = (Label) components.get(0);
-			MoveToAction moveToAction = (MoveToAction) components.get(1);
-			DelayAction delayAction = Actions.delay(0.5f);
-			Action completeAction = new Action() {
-				@Override
-				public boolean act(float delta) {
-					placeNumber(null, coordinate);
-					return true;
-				}
-			};
-			labelToMove.addAction(Actions.sequence(delayAction, moveToAction, completeAction));
+			placeNumberWithAnimation(coordinate);
 		} else {
 			int nextNumber = brain.calculateNextNumber(state);
 			chooseNumber(null, nextNumber);
 		}
+	}
+	private void placeNumberWithAnimation(final int coordinate) {
+		ArrayList<Object> components = playScreen.getRequiredComponentsForComputerAnimation(coordinate);
+		Label labelToMove = (Label) components.get(0);
+		MoveToAction moveToAction = (MoveToAction) components.get(1);
+		DelayAction delayAction = Actions.delay(0.5f);
+		Action completePlaceNumberAction = buildCompletePlaceNumberAction(coordinate);
+		SequenceAction placeNumberAction = Actions.sequence(delayAction, moveToAction, completePlaceNumberAction);
+		labelToMove.addAction(placeNumberAction);
+	}
+	private Action buildCompletePlaceNumberAction(final int coordinate) {
+		Action completePlaceNumberAction = new Action() {
+			@Override
+			public boolean act(float delta) {
+				placeNumber(null, coordinate);
+				return true;
+			}
+		};
+		return completePlaceNumberAction;
 	}
 
 	@Override
