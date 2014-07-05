@@ -23,6 +23,8 @@ public class Launch extends Game {
 	}
 	private void buildHomeScreen() {
 		Assets.loadHome();
+		Assets.manager.finishLoading();
+		Assets.assignHomeScreen();
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
@@ -55,6 +57,7 @@ public class Launch extends Game {
 	public void dispose() {
 		super.dispose();
 		getScreen().dispose();
+		Assets.manager.clear();
 	}
 
 	@Override

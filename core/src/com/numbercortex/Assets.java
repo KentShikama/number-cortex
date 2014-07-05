@@ -1,25 +1,29 @@
 package com.numbercortex;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
 
+	public static AssetManager manager = new AssetManager();
+
 	public static Skin homeSkin;
 	public static Skin levelsSkin;
 	public static Skin gameSkin;
-	
 	public static Skin settingsSkin;
 
-
 	public static void loadHome() {
-		if (homeSkin == null) {
-			TextureAtlas home = new TextureAtlas(Gdx.files.internal("home/home.txt"));
-			homeSkin = new Skin(home);
-		}
+		manager.load("home/home.txt", TextureAtlas.class);
+		manager.load("home/home.json", Skin.class, new SkinLoader.SkinParameter("home/home.txt"));
 	}
-	
+
+	public static void assignHomeScreen() {
+		homeSkin = manager.get("home/home.json", Skin.class);
+	}
+
 	public static void loadLevels() {
 		if (levelsSkin == null) {
 			TextureAtlas levels = new TextureAtlas(Gdx.files.internal("levels/levels.atlas"));

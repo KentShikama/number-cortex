@@ -89,7 +89,7 @@ public class TitleScreen implements Screen {
 	private static final String PLAY_ONLINE = "play_online";
 	private static final String TUTORIAL = "tutorial";
 
-	private static Skin skin = Assets.homeSkin;
+	private Skin skin = Assets.homeSkin;
 	private Stage stage;
 	private Game game;
 
@@ -133,9 +133,7 @@ public class TitleScreen implements Screen {
 		stage.getViewport().update(width, height, true);
 	}
 	@Override
-	public void resume() {
-		Assets.loadHome();
-	}
+	public void resume() {}
 	@Override
 	public void dispose() {}
 	@Override
