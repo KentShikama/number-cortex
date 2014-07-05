@@ -14,21 +14,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class NumberScroller {
 
-	private static Skin skin = Assets.gameSkin;
 	private static final String NUMBER_RECTANGLE_BACKGROUND = "number_rectangle_background";
 	private static final String SCROLLER_RECTANGLE = "scroller_rectangle";
 
 	private static ScrollPane.ScrollPaneStyle style = buildScrollPaneStyle();
 	private static ScrollPane.ScrollPaneStyle buildScrollPaneStyle() {
 		ScrollPane.ScrollPaneStyle style = new ScrollPane.ScrollPaneStyle();
-		style.background = skin.getDrawable(SCROLLER_RECTANGLE);
+		style.background = Assets.gameSkin.getDrawable(SCROLLER_RECTANGLE);
 		return style;
 	}
 
 	private static NumberTextButton.NumberTextButtonStyle buttonStyle = buildButtonStyle();;
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle() {
 		BitmapFont font = FontGenerator.getNumberScrollFont();
-		Drawable numberRectangle = skin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
+		Drawable numberRectangle = Assets.gameSkin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
 		buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
 		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;
@@ -72,8 +71,8 @@ public class NumberScroller {
 	 */
 	private static ScrollPane buildNumberScroller(Table numberTable, ScrollPane.ScrollPaneStyle style) {
 		ScrollPane numberScroller = new ScrollPane(numberTable, style);
-		int scrollerRectangleWidth = skin.getRegion(SCROLLER_RECTANGLE).getRegionWidth();
-		int scrollerRectangleHeight = skin.getRegion(SCROLLER_RECTANGLE).getRegionHeight();
+		int scrollerRectangleWidth = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionWidth();
+		int scrollerRectangleHeight = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionHeight();
 		numberScroller.setBounds(101 - 1, Launch.SCREEN_HEIGHT - 1013, scrollerRectangleWidth + 2,
 				scrollerRectangleHeight);
 		numberScroller.setOverscroll(true, false);

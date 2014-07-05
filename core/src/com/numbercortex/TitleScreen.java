@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -33,8 +32,8 @@ public class TitleScreen implements Screen {
 			this.screen = screen;
 			this.mode = mode;
 
-			Drawable buttonDrawable = skin.getDrawable(buttonName);
-			TextureRegion buttonTexture = skin.getRegion(buttonName);
+			Drawable buttonDrawable = Assets.homeSkin.getDrawable(buttonName);
+			TextureRegion buttonTexture = Assets.homeSkin.getRegion(buttonName);
 			Button.ButtonStyle buttonStyle = new Button.ButtonStyle(buttonDrawable, buttonDrawable, buttonDrawable);
 			button = new Button(buttonStyle);
 			button.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80), buttonTexture.getRegionWidth(),
@@ -89,7 +88,6 @@ public class TitleScreen implements Screen {
 	private static final String PLAY_ONLINE = "play_online";
 	private static final String TUTORIAL = "tutorial";
 
-	private Skin skin = Assets.homeSkin;
 	private Stage stage;
 	private Game game;
 
@@ -105,7 +103,7 @@ public class TitleScreen implements Screen {
 		buildButtons();
 	}
 	private void buildBackground() {
-		ScreenBackground background = new ScreenBackground(skin, TITLE_BACKGROUND);
+		ScreenBackground background = new ScreenBackground(Assets.homeSkin, TITLE_BACKGROUND);
 		stage.addActor(background);
 	}
 	private void buildButtons() {

@@ -24,9 +24,8 @@ public class PlayScreen implements Screen {
 
 	public static final String TAG = PlayScreen.class.getCanonicalName();
 
-	private static final Skin skin = Assets.gameSkin;
-	private static final int BOTTOM_RECTANGLE_WIDTH = skin.getRegion("settings").getRegionWidth();
-	private static final int BOTTOM_RECTANGLE_HEIGHT = skin.getRegion("settings").getRegionHeight();
+	private static final int BOTTOM_RECTANGLE_WIDTH =  Assets.gameSkin.getRegion("settings").getRegionWidth();
+	private static final int BOTTOM_RECTANGLE_HEIGHT =  Assets.gameSkin.getRegion("settings").getRegionHeight();
 
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
@@ -86,8 +85,8 @@ public class PlayScreen implements Screen {
 		handler.notifyBoardConstruction(board);
 	}
 	private void buildBottomButtons() {
-		Drawable settingsRectangleSkin = skin.getDrawable("settings");
-		Drawable helpRectangleSkin = skin.getDrawable("help");
+		Drawable settingsRectangleSkin = Assets.gameSkin.getDrawable("settings");
+		Drawable helpRectangleSkin = Assets.gameSkin.getDrawable("help");
 		buildSettingsButton(settingsRectangleSkin);
 		buildHelpButton(helpRectangleSkin);
 	}
@@ -201,7 +200,9 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void resume() {
-		Assets.loadGame();
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
+		}
 	}
 	@Override
 	public void render(float delta) {

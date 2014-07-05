@@ -17,14 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class NumberCortexBoard {
 
-	private static Skin skin = Assets.gameSkin;
 	private static NumberTextButton.NumberTextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
-		Drawable numberRectangle = skin.getDrawable(textureName);
-		Drawable numberRectangleChecked = skin.getDrawable(textureName + "_checked");
+		Drawable numberRectangle = Assets.gameSkin.getDrawable(textureName);
+		Drawable numberRectangleChecked = Assets.gameSkin.getDrawable(textureName + "_checked");
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
 		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;

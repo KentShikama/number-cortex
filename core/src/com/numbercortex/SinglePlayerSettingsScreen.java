@@ -21,7 +21,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		private TextureRegion menuBody;
 
 		MenuBody() {
-			menuBody = skin.getRegion(MENU_BODY);
+			menuBody = Assets.settingsSkin.getRegion(MENU_BODY);
 			this.setBounds(0, Launch.SCREEN_HEIGHT - 875, menuBody.getRegionWidth(), menuBody.getRegionHeight());
 		}
 
@@ -35,7 +35,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		private TextureRegion settingsTitle;
 
 		SettingsTitle() {
-			settingsTitle = skin.getRegion(SETTINGS_TITLE);
+			settingsTitle = Assets.settingsSkin.getRegion(SETTINGS_TITLE);
 			this.setBounds(0, Launch.SCREEN_HEIGHT - 245, settingsTitle.getRegionWidth(),
 					settingsTitle.getRegionHeight());
 		}
@@ -47,7 +47,6 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 
 	private static final String TAG = TwoPlayerSettingsScreen.class.getCanonicalName();
-	private static Skin skin = Assets.settingsSkin;
 
 	private Stage stage;
 	private Game game;
@@ -87,7 +86,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	public void show() {
 		stage.clear();
 		
-		ScreenBackground background = new ScreenBackground(skin, SETTINGS_BACKGROUND);
+		ScreenBackground background = new ScreenBackground(Assets.settingsSkin, SETTINGS_BACKGROUND);
 		stage.addActor(background);
 
 		SettingsTitle title = new SettingsTitle();
@@ -102,7 +101,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 
 	private void buildPlayButton() {
-		Drawable playButtonSkin = skin.getDrawable("play_button");
+		Drawable playButtonSkin = Assets.settingsSkin.getDrawable("play_button");
 		final ImageButton playButton = new ImageButton(playButtonSkin);
 		playButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		playButton.addListener(new ClickListener() {
@@ -115,7 +114,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 
 	private void buildQuitButton() {
-		Drawable quitButtonSkin = skin.getDrawable("quit_button");
+		Drawable quitButtonSkin = Assets.settingsSkin.getDrawable("quit_button");
 		final ImageButton exitButton = new ImageButton(quitButtonSkin);
 		exitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
@@ -130,7 +129,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 
 	private void buildResumeButton() {
-		Drawable resumeButtonSkin = skin.getDrawable("resume_button");
+		Drawable resumeButtonSkin = Assets.settingsSkin.getDrawable("resume_button");
 		ImageButton resumeButton = new ImageButton(resumeButtonSkin);
 		resumeButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		resumeButton.addListener(new ClickListener() {

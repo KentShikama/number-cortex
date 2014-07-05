@@ -21,11 +21,23 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class LevelsScreen implements Screen {
 
 	public static final String TAG = PlayScreen.class.getCanonicalName();
-	private static final Skin skin = Assets.levelsSkin;
 
 	private Game game;
 	private Stage stage;
 	private Table table = new Table();
+	
+	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
+	private static TextButton.TextButtonStyle buildButtonStyle() {
+		BitmapFont font = FontGenerator.getLevelFont();
+		Drawable numberRectangle = Assets.levelsSkin.getDrawable(UNLOCKED_LEVEL);
+		Drawable numberRectangleDisabled = Assets.levelsSkin.getDrawable(LOCKED_LEVEL);
+		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+		buttonStyle.font = font;
+		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;
+		buttonStyle.up = numberRectangle;
+		buttonStyle.disabled = numberRectangleDisabled;
+		return buttonStyle;
+	}
 
 	private ArrayList<TextButton> textButtons = buildTextButtons(18);
 	private ArrayList<TextButton> buildTextButtons(int numberOfLevels) {
@@ -69,19 +81,6 @@ public class LevelsScreen implements Screen {
 	private static final String UNLOCKED_LEVEL = "empty_rectangle";
 	private static final String LOCKED_LEVEL = "locked_rectangle";
 
-	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
-	private static TextButton.TextButtonStyle buildButtonStyle() {
-		BitmapFont font = FontGenerator.getLevelFont();
-		Drawable numberRectangle = skin.getDrawable(UNLOCKED_LEVEL);
-		Drawable numberRectangleDisabled = skin.getDrawable(LOCKED_LEVEL);
-		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-		buttonStyle.font = font;
-		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		buttonStyle.up = numberRectangle;
-		buttonStyle.disabled = numberRectangleDisabled;
-		return buttonStyle;
-	}
-
 	private static CortexPreferences preferences = CortexPreferences.getInstance();
 
 	LevelsScreen(Game game) {
@@ -108,13 +107,13 @@ public class LevelsScreen implements Screen {
 		stage.addActor(background);
 	}
 	private void addTitle() {
-		Drawable titleDrawable = skin.getDrawable(TITLE);
+		Drawable titleDrawable = Assets.levelsSkin.getDrawable(TITLE);
 		Image title = new Image(titleDrawable);
 		table.add(title).expandX().padTop(90).padBottom(60).colspan(3);
 		table.row();
 	}
 	private void addBoardSizeLabel(String boardSizeLabelString) {
-		Drawable boardSize3LabelDrawable = skin.getDrawable(boardSizeLabelString);
+		Drawable boardSize3LabelDrawable = Assets.levelsSkin.getDrawable(boardSizeLabelString);
 		Image boardSize3Label = new Image(boardSize3LabelDrawable);
 		table.add(boardSize3Label).left().padBottom(20).padTop(20).colspan(2);
 		table.row();
@@ -160,7 +159,9 @@ public class LevelsScreen implements Screen {
 
 	@Override
 	public void resume() {
-		Assets.loadLevels();
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
+		}
 	}
 	@Override
 	public void render(float delta) {

@@ -13,7 +13,6 @@ public class MessageArea {
 
 	private static final String NEXT_NUMBER = "next_number";
 
-	private static Skin skin = Assets.gameSkin;
 	private static TextButtonStyle textButtonStyle = buildLabelStyle();
 	private static TextButtonStyle buildLabelStyle() {
 		BitmapFont font = FontGenerator.getMessageFont();
@@ -26,7 +25,7 @@ public class MessageArea {
 	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
-		Drawable numberRectangle = skin.getDrawable(textureName);
+		Drawable numberRectangle = Assets.gameSkin.getDrawable(textureName);
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
 		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;

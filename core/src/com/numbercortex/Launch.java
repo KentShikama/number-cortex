@@ -40,9 +40,13 @@ public class Launch extends Game {
 		Assets.loadSettings();
 		Assets.loadGame();
 		Assets.loadLevels();
+		Assets.manager.finishLoading();
+		Assets.assignSettingsScreen();
+		Assets.assignPlayScreen();
+		Assets.assignLevelsScreen();
+		
 		FontGenerator.load();
 		CortexPreferences.getInstance().load();
-
 		ScreenTracker.singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(this);
 		ScreenTracker.twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(this);
 		ScreenTracker.levelsScreen = new LevelsScreen(this);

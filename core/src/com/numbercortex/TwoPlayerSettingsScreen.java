@@ -21,7 +21,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		private TextureRegion menuBody;
 
 		MenuBody() {
-			menuBody = skin.getRegion(MENU_BODY);
+			menuBody = Assets.settingsSkin.getRegion(MENU_BODY);
 			this.setBounds(0, Launch.SCREEN_HEIGHT - 875, menuBody.getRegionWidth(), menuBody.getRegionHeight());
 		}
 
@@ -35,7 +35,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		private TextureRegion settingsTitle;
 
 		SettingsTitle() {
-			settingsTitle = skin.getRegion(SETTINGS_TITLE);
+			settingsTitle = Assets.settingsSkin.getRegion(SETTINGS_TITLE);
 			this.setBounds(0, Launch.SCREEN_HEIGHT - 245, settingsTitle.getRegionWidth(),
 					settingsTitle.getRegionHeight());
 		}
@@ -47,7 +47,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	private static final String TAG = TwoPlayerSettingsScreen.class.getCanonicalName();
-	private static Skin skin = Assets.settingsSkin;
 
 	private Stage stage;
 	private Game game;
@@ -90,7 +89,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		CortexPreferences preferences = CortexPreferences.getInstance();
 		GameSettings twoPlayerGameSettings = preferences.getTwoPlayerGameSettings();
 
-		ScreenBackground background = new ScreenBackground(skin, SETTINGS_BACKGROUND);
+		ScreenBackground background = new ScreenBackground(Assets.settingsSkin, SETTINGS_BACKGROUND);
 		stage.addActor(background);
 
 		SettingsTitle title = new SettingsTitle();
@@ -99,8 +98,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 		MenuBody menuBody = new MenuBody();
 		stage.addActor(menuBody);
 
-		Drawable emptyCheckbox = skin.getDrawable("empty_checkbox");
-		Drawable checkedCheckbox = skin.getDrawable("checked_checkbox");
+		Drawable emptyCheckbox = Assets.settingsSkin.getDrawable("empty_checkbox");
+		Drawable checkedCheckbox = Assets.settingsSkin.getDrawable("checked_checkbox");
 
 		buildDiagonalsCheckbox(twoPlayerGameSettings, emptyCheckbox, checkedCheckbox);
 		buildFourSquareCheckbox(twoPlayerGameSettings, emptyCheckbox, checkedCheckbox);
@@ -164,7 +163,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	private void buildPlayButton() {
-		Drawable playButtonSkin = skin.getDrawable("play_button");
+		Drawable playButtonSkin = Assets.settingsSkin.getDrawable("play_button");
 		final ImageButton playButton = new ImageButton(playButtonSkin);
 		playButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		playButton.addListener(new ClickListener() {
@@ -179,7 +178,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	private void buildQuitButton() {
-		Drawable quitButtonSkin = skin.getDrawable("quit_button");
+		Drawable quitButtonSkin = Assets.settingsSkin.getDrawable("quit_button");
 		final ImageButton exitButton = new ImageButton(quitButtonSkin);
 		exitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
 		exitButton.addListener(new ClickListener() {
@@ -194,7 +193,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	private void buildResumeButton() {
-		Drawable resumeButtonSkin = skin.getDrawable("resume_button");
+		Drawable resumeButtonSkin = Assets.settingsSkin.getDrawable("resume_button");
 		ImageButton resumeButton = new ImageButton(resumeButtonSkin);
 		resumeButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
 		resumeButton.addListener(new ClickListener() {

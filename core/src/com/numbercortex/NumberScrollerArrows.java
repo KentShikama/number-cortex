@@ -10,16 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class NumberScrollerArrows {
 
-	private static Skin skin = Assets.gameSkin;
 	private static final String RIGHT_ARROW = "right_arrow";
 	private static final String LEFT_ARROW = "left_arrow";
 
 	public static void buildArrows(Stage stage, final ScrollPane scroller) {
-		Drawable leftArrowRectangleSkin = skin.getDrawable(LEFT_ARROW);
-		Drawable rightArrowRectangleSkin = skin.getDrawable(RIGHT_ARROW);
+		Drawable leftArrowRectangleSkin = Assets.gameSkin.getDrawable(LEFT_ARROW);
+		Drawable rightArrowRectangleSkin = Assets.gameSkin.getDrawable(RIGHT_ARROW);
 
-		int arrowRectangleTextureWidth = skin.getRegion(LEFT_ARROW).getRegionWidth();
-		int arrowRectangleTextureHeight = skin.getRegion(LEFT_ARROW).getRegionHeight();
+		int arrowRectangleTextureWidth = Assets.gameSkin.getRegion(LEFT_ARROW).getRegionWidth();
+		int arrowRectangleTextureHeight = Assets.gameSkin.getRegion(LEFT_ARROW).getRegionHeight();
 
 		ImageButton leftArrowButton = new ImageButton(leftArrowRectangleSkin);
 		leftArrowButton.setBounds(0, Launch.SCREEN_HEIGHT - 1013, arrowRectangleTextureWidth,
