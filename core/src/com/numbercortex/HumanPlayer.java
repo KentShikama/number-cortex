@@ -85,7 +85,9 @@ class HumanPlayer implements Player {
 			handleLevelUnlockingIfApplicable();
 		}
 	}
-
+	private boolean playerWinsSinglePlayerGame(String winner) {
+		return winner != null && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && winner.equals(name);
+	}
 	private void handleLevelUnlockingIfApplicable() {
 		CortexPreferences preferences = CortexPreferences.getInstance();
 		int currentLevel = ScreenTracker.level;
@@ -94,12 +96,8 @@ class HumanPlayer implements Player {
 			int raisedMaxLevel = ++maxLevel;
 			preferences.setCurrentLevel(raisedMaxLevel);
 			preferences.save();
-			System.out.println("Level up " + raisedMaxLevel);
+			Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
 		}
-	}
-
-	public boolean playerWinsSinglePlayerGame(String winner) {
-		return winner != null && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && winner.equals(name);
 	}
 
 	@Override

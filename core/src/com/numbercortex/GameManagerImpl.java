@@ -26,8 +26,8 @@ public class GameManagerImpl implements GameManager {
 		GameManagerImpl messenger = Singleton.INSTANCE;
 		PlayScreen screen = ScreenTracker.playScreen;
 		messenger.players.clear();
-		addPlayers(messenger, screen);
 		messenger.settings = buildSettings(messenger);
+		addPlayers(messenger, screen);
 		screen.setGameSettings(messenger.settings);
 		messenger.model = new DefaultCortexModel(messenger, messenger.settings);
 		return messenger;
@@ -75,6 +75,9 @@ public class GameManagerImpl implements GameManager {
 	}
 	
 	public void startNewGame() {
+		if (ScreenTracker.isInPlay) {
+			Gdx.app.log(TAG, "Deleting previous game data.");
+		}
 		ScreenTracker.isInPlay = true;
 		registerPlayersAndStartGame();
 	}
@@ -95,7 +98,10 @@ public class GameManagerImpl implements GameManager {
 	@Override
 	public void updateState(CortexState state) {
 		this.state = state;
-		currentPlayer = state.getCurrentPlayer();
+		this.currentPlayer = state.getCurrentPlayer();
+		updateCurrentPlayerState(state);
+	}
+	private void updateCurrentPlayerState(CortexState state) {
 		for (Player player : players) {
 			String playerName = player.getName();
 			if (playerName.equals(currentPlayer)) {
@@ -103,6 +109,4 @@ public class GameManagerImpl implements GameManager {
 			}
 		}
 	}
-
-
 }
