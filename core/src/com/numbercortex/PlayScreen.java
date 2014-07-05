@@ -32,37 +32,34 @@ public class PlayScreen implements Screen {
 	private NumberScroller numberScroller;
 	private MessageArea messageArea;
 	private DragAndDropHandler handler = DragAndDropHandler.getInstance();
-	private ArrayList<Player> players = new ArrayList<Player>();
 
 	private Game game;
 	private Stage stage;
-	private CortexState state;
+
+	private GameSettings settings;
 
 	PlayScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
 	}
-
+	
+	public void setGameSettings(GameSettings settings) {
+		this.settings = settings;
+	}
+	
 	@Override
 	public void show() {
 		stage.clear();
-				
+		
 		CortexPreferences preferences = CortexPreferences.getInstance();
-		GameSettings settings;
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
-			int level = ScreenTracker.level;
-			settings = GameSettingsLoader.loadLevel(level);
-		} else {
-			settings = preferences.getTwoPlayerGameSettings();
-		}
 		
 		buildBackground(preferences);
 		buildMessageArea();
 		buildBoard(settings, preferences);
 		buildNumberScroller();
 		buildBottomButtons();
-
-		progressGame(settings);
+		board.clearBoard();
+		
 	}
 	private void buildBackground(CortexPreferences preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
@@ -119,76 +116,18 @@ public class PlayScreen implements Screen {
 		numberScroller = NumberScroller.createNumberScroller(stage);
 	}
 
-	private void progressGame(GameSettings settings) {
-		if (ScreenTracker.isInPlay) {
-			updateState(state);
-		} else {
-			buildNewGame(settings);
-		}
-	}
-	private void buildNewGame(GameSettings settings) {
-		switch (ScreenTracker.mode) {
-			case SINGLE_PLAYER:
-				buildNewSinglePlayerGame(settings);
-				ScreenTracker.isInPlay = true;
-				break;
-			case TWO_PLAYER:
-				buildNewTwoPlayerGame(settings);
-				ScreenTracker.isInPlay = true;
-				break;
-			case ONLINE:
-				break;
-		}
-	}
-	private void buildNewSinglePlayerGame(GameSettings settings) {
-		players.clear();
-		board.clearBoard();
-		Messenger messenger = MessengerImpl.createMessenger(settings);
-		Player human = new HumanPlayer("Player", this, messenger);
-		Player computer = new ComputerPlayer(this, messenger);
-		players.add(human);
-		players.add(computer);
-		for (Player player : players) {
-			messenger.register(player);
-		}
-	}
-	private void buildNewTwoPlayerGame(GameSettings settings) {
-		players.clear();
-		board.clearBoard();
-		Messenger messenger = MessengerImpl.createMessenger(settings);
-		Player playerOne = new HumanPlayer("Player 1", this, messenger);
-		Player playerTwo = new HumanPlayer("Player 2", this, messenger);
-		players.add(playerOne);
-		players.add(playerTwo);
-		for (Player player : players) {
-			messenger.register(player);
-		}
-	}
-
-	public void updateState(CortexState state) {
-		this.state = state;
-		updateCurrentPlayer(state);
+	public void updateState(CortexState state, Player currentPlayer) {
+		updateCurrentPlayer(currentPlayer);
 		updateChosenNumber(state);
 		updateMessageArea(state);
 		updateBoardMap(state);
 		updateNumberScroller(state);
 	}
-	private void updateCurrentPlayer(CortexState state) {
-		String currentPlayerName = state.getCurrentPlayer();
-		Sendable currentPlayer = getCurrentPlayer(currentPlayerName);
+	private void updateCurrentPlayer(Player currentPlayer) {
 		numberScroller.setSendable(currentPlayer);
 		handler.setSendable(currentPlayer);
 	}
-	private Sendable getCurrentPlayer(String currentPlayerName) {
-		for (Player player : players) {
-			String playerName = player.getName();
-			if (playerName.equals(currentPlayerName)) {
-				return player;
-			}
-		}
-		Gdx.app.log(TAG, "The player was not found.");
-		return null;
-	}
+
 	private void updateChosenNumber(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {

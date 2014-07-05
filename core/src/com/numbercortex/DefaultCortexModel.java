@@ -21,12 +21,12 @@ public class DefaultCortexModel implements CortexModel {
 	private String winner; // Optional
 	private int[] winningValues; // Optional
 
-	private Messenger messenger;
+	private GameManager messenger;
 	private GameSettings settings;
 
 	private int boardSize;
 
-	public DefaultCortexModel(Messenger messenger, GameSettings settings) {
+	public DefaultCortexModel(GameManager messenger, GameSettings settings) {
 		this.messenger = messenger;
 		this.settings = settings;
 	}

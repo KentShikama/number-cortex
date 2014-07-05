@@ -11,10 +11,10 @@ public class ComputerPlayer implements Player {
 
 	private String name;
 	private PlayScreen playScreen;
-	private Messenger messenger;
+	private GameManager messenger;
 	private Brain brain;
 
-	public ComputerPlayer(PlayScreen playScreen, Messenger messenger) {
+	public ComputerPlayer(PlayScreen playScreen, GameManager messenger) {
 		this.playScreen = playScreen;
 		this.messenger = messenger;
 		
@@ -22,7 +22,7 @@ public class ComputerPlayer implements Player {
 		this.name = brain.getName();
 	}
 
-	private Brain buildBrain(Messenger messenger) {
+	private Brain buildBrain(GameManager messenger) {
 		Brain brain;
 		GameSettings settings = messenger.getSettings();
 		int brainDifficulty = settings.getDifficulty();
@@ -48,7 +48,7 @@ public class ComputerPlayer implements Player {
 
 	@Override
 	public void updateState(CortexState state) {
-		playScreen.updateState(state);
+		playScreen.updateState(state, this);
 		if (state.getWinner() != null) {
 			return;
 		}

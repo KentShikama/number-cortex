@@ -10,13 +10,13 @@ class HumanPlayer implements Player {
 
 	private String name;
 	private PlayScreen screen;
-	private Messenger messenger;
+	private GameManager messenger;
 	private CortexState state;
 
 	private int savedCoordinate;
 	private boolean nextCoordinateChosen;
 
-	public HumanPlayer(String name, PlayScreen screen, Messenger messenger) {
+	public HumanPlayer(String name, PlayScreen screen, GameManager messenger) {
 		this.messenger = messenger;
 		this.screen = screen;
 		this.name = name;
@@ -72,14 +72,14 @@ class HumanPlayer implements Player {
 			CortexState temporaryState = new CortexState.CortexStateBuilder(state.getMessage(),
 					state.getCurrentPlayer(), state.getPlayers(), -1, coordinateNumberMap, state.getAvailableNumbers())
 					.build();
-			screen.updateState(temporaryState);
+			screen.updateState(temporaryState, this);
 		}
 	}
 
 	@Override
 	public void updateState(CortexState state) {
 		this.state = state;
-		screen.updateState(state);
+		screen.updateState(state, this);
 		String winner = state.getWinner();
 		if (playerWinsSinglePlayerGame(winner)) {
 			CortexPreferences preferences = CortexPreferences.getInstance();

@@ -170,7 +170,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				GameManager manager = GameManagerImpl.createMessenger();
 				game.setScreen(ScreenTracker.playScreen);
+				manager.startNewGame();
 			}
 		});
 		stage.addActor(playButton);
@@ -198,7 +200,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				GameManager manager = GameManagerImpl.getInstance();
 				game.setScreen(ScreenTracker.playScreen);
+				manager.resumeGame();
 			}
 		});
 		stage.addActor(resumeButton);

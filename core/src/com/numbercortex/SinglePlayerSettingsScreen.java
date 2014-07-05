@@ -136,7 +136,9 @@ public class SinglePlayerSettingsScreen implements Screen {
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				GameManager manager = GameManagerImpl.getInstance();
 				game.setScreen(ScreenTracker.playScreen);
+				manager.resumeGame();
 			}
 		});
 		stage.addActor(resumeButton);
