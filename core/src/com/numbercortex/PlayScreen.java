@@ -142,9 +142,6 @@ public class PlayScreen implements Screen {
 		} else {
 			if (state.getWinningValues() != null) {
 				messageArea.updateMessage(state.getWinner() + " wins!");
-				for (Integer coordinate : state.getWinningValues()) {
-					System.out.print(coordinate + " ");
-				}
 			} else {
 				messageArea.updateMessage(message);
 			}
@@ -199,12 +196,6 @@ public class PlayScreen implements Screen {
 		ArrayList<Object> components = new ArrayList<Object>();
 		components.add(nextNumberLabel);
 		components.add(moveToAction);
-		System.out.println("Drag position X: " + dragToPositionX);
-		System.out.println("Drag position Y: " + dragToPositionY);
-		System.out.println("Next Number X: " + nextNumberLabelX);
-		System.out.println("Next Number Y: " + nextNumberLabelY);
-		System.out.println("Padding X: " + nextNumberCell.getPadX());
-		System.out.println("Padding Y: " + nextNumberCell.getPadTop());
 		return components;
 	}
 
