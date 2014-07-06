@@ -64,6 +64,7 @@ public class Launch extends Game {
 		super.dispose();
 		getScreen().dispose();
 		ScreenTracker.levelsScreen.dispose();
+		CortexDialog.dispose();
 		Assets.manager.clear();
 	}
 

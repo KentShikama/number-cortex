@@ -30,7 +30,6 @@ public class CortexDialog extends Dialog {
 		return textButtonStyle;
 	}
 
-	
 	private CortexDialog(String title, WindowStyle windowStyle) {
 		super(title, windowStyle);
 	}
@@ -51,6 +50,12 @@ public class CortexDialog extends Dialog {
 		
 		return dialog;
 	}
+	private static Window.WindowStyle buildWindowStyle() {
+		Window.WindowStyle windowStyle = new Window.WindowStyle();
+		windowStyle.background = Assets.dialogSkin.getDrawable("pop_up");
+		windowStyle.titleFont = FontGenerator.getMessageFont();
+		return windowStyle;
+	}
 	private static void addContentLabel(String labelText, Dialog dialog) {
 		Table contentTable = dialog.getContentTable();
 		Label continueLabel = new Label(labelText, labelStyle);
@@ -60,16 +65,15 @@ public class CortexDialog extends Dialog {
 	}
 	private static void addButton(String buttonText, Dialog dialog) {
 		Table buttonTable = dialog.getButtonTable();
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle();
+		}
 		TextButton cancelButton = new TextButton(buttonText, textButtonStyle);
 		buttonTable.add(cancelButton).padBottom(60);
 		dialog.setObject(cancelButton, buttonText);
 	}
 
-
-	private static Window.WindowStyle buildWindowStyle() {
-		Window.WindowStyle windowStyle = new Window.WindowStyle();
-		windowStyle.background = Assets.dialogSkin.getDrawable("pop_up");
-		windowStyle.titleFont = FontGenerator.getMessageFont();
-		return windowStyle;
+	public static void dispose() {
+		textButtonStyle = null;
 	}
 }
