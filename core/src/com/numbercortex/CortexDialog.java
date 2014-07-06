@@ -1,5 +1,6 @@
 package com.numbercortex;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class CortexDialog extends Dialog {
 	
@@ -30,26 +32,40 @@ public class CortexDialog extends Dialog {
 		return textButtonStyle;
 	}
 
+	private Game game;
+	
 	private CortexDialog(String title, WindowStyle windowStyle) {
 		super(title, windowStyle);
 	}
+	
+	protected void result(Object object) {}
 
-	public static Dialog createCortexDialog() {
+	public static CortexDialog createCortexDialog() {
 		Window.WindowStyle windowStyle = buildWindowStyle();
 		
-		Dialog dialog = new CortexDialog("", windowStyle) {
-			protected void result (Object object) {
-				System.out.println(object.toString());
-			}
-		};
+		CortexDialog dialog = new CortexDialog("", windowStyle);
 		
 		addContentLabel("Do you wish to continue?", dialog);
 		
-		addButton("Cancel", dialog);
-		addButton("Confirm", dialog);
+		addButton("Cancel", null, dialog);
+		addButton("Confirm", null, dialog);
 		
 		return dialog;
 	}
+	
+	public static CortexDialog createQuitCancelDialog(ClickListener quitListener) {
+		Window.WindowStyle windowStyle = buildWindowStyle();
+		
+		CortexDialog dialog = new CortexDialog("", windowStyle);
+		
+		addContentLabel("Are you sure you want to quit? The current game data will be lost.", dialog);
+		
+		addButton("Quit", quitListener, dialog);
+		addButton("Cancel", null, dialog);
+		
+		return dialog;
+	}
+	
 	private static Window.WindowStyle buildWindowStyle() {
 		Window.WindowStyle windowStyle = new Window.WindowStyle();
 		windowStyle.background = Assets.dialogSkin.getDrawable("pop_up");
@@ -58,19 +74,22 @@ public class CortexDialog extends Dialog {
 	}
 	private static void addContentLabel(String labelText, Dialog dialog) {
 		Table contentTable = dialog.getContentTable();
-		Label continueLabel = new Label(labelText, labelStyle);
-		continueLabel.setWrap(true);
-		continueLabel.setAlignment(Align.center);
-		contentTable.add(continueLabel).width(540);
+		Label contentLabel = new Label(labelText, labelStyle);
+		contentLabel.setWrap(true);
+		contentLabel.setAlignment(Align.center);
+		contentTable.add(contentLabel).width(495).padRight(14);
 	}
-	private static void addButton(String buttonText, Dialog dialog) {
+	private static void addButton(String buttonText, ClickListener listener, Dialog dialog) {
 		Table buttonTable = dialog.getButtonTable();
 		if (textButtonStyle == null) {
 			textButtonStyle = buildTextButtonStyle();
 		}
-		TextButton cancelButton = new TextButton(buttonText, textButtonStyle);
-		buttonTable.add(cancelButton).padBottom(60);
-		dialog.setObject(cancelButton, buttonText);
+		TextButton button = new TextButton(buttonText, textButtonStyle);
+		if (listener != null) {
+			button.addListener(listener);			
+		}
+		buttonTable.add(button).pad(4).padRight(14).padBottom(55);
+		dialog.setObject(button, buttonText);
 	}
 
 	public static void dispose() {

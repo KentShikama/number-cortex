@@ -65,12 +65,8 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		board.clearBoard();
-		
-		Dialog dialog = CortexDialog.createCortexDialog();
-		dialog.show(stage);
-		
-		
 	}
+	
 	private void buildBackground(CortexPreferences preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
 		PlayScreenBackground background = new PlayScreenBackground(backgroundProperty);
