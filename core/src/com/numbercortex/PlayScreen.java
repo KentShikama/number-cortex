@@ -43,6 +43,9 @@ public class PlayScreen implements Screen {
 	private Stage stage;
 
 	private GameSettings settings;
+	
+	private ImageButton settingsButton;
+	private ImageButton helpButton;
 
 	PlayScreen(Game game) {
 		this.game = game;
@@ -98,7 +101,7 @@ public class PlayScreen implements Screen {
 		buildHelpButton(helpRectangleSkin);
 	}
 	private void buildSettingsButton(Drawable settingsRectangleSkin) {
-		final ImageButton settingsButton = new ImageButton(settingsRectangleSkin, settingsRectangleSkin,
+		settingsButton = new ImageButton(settingsRectangleSkin, settingsRectangleSkin,
 				settingsRectangleSkin);
 		settingsButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		settingsButton.addListener(new ClickListener() {
@@ -114,7 +117,7 @@ public class PlayScreen implements Screen {
 		stage.addActor(settingsButton);
 	}
 	private void buildHelpButton(Drawable helpRectangleSkin) {
-		ImageButton helpButton = new ImageButton(helpRectangleSkin, helpRectangleSkin, helpRectangleSkin);
+		helpButton = new ImageButton(helpRectangleSkin, helpRectangleSkin, helpRectangleSkin);
 		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		stage.addActor(helpButton);
 	}
@@ -136,6 +139,11 @@ public class PlayScreen implements Screen {
 			int[] winningValues = state.getWinningValues();
 			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
 			board.showWinningCoordinates(winningMap);
+			
+			numberScroller.removeScroller();
+			
+			settingsButton.remove();			
+			helpButton.remove();
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {

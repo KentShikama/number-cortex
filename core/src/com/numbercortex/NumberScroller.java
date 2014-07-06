@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -36,6 +37,8 @@ public class NumberScroller {
 	}
 
 	private ScrollPane numberScroller;
+	private NumberScrollerArrows arrows;
+	
 	private Sendable messenger;
 	private Table numberTable = new Table();
 	private NumberButtonListener listener = new NumberButtonListener();
@@ -62,8 +65,9 @@ public class NumberScroller {
 	public static NumberScroller createNumberScroller(Stage stage) {
 		NumberScroller numberScrollerInstance = Singleton.INSTANCE;
 		numberScrollerInstance.numberScroller = buildNumberScroller(numberScrollerInstance.numberTable, style);
-		NumberScrollerArrows.buildArrows(stage, numberScrollerInstance.numberScroller);
+		numberScrollerInstance.arrows = new NumberScrollerArrows(numberScrollerInstance.numberScroller);
 		stage.addActor(numberScrollerInstance.numberScroller);
+		numberScrollerInstance.arrows.addArrows(stage);
 		return numberScrollerInstance;
 	}
 	/**
@@ -81,6 +85,11 @@ public class NumberScroller {
 
 	public void setSendable(Sendable messenger) {
 		this.messenger = messenger;
+	}
+	
+	public void removeScroller() {
+		numberScroller.remove();
+		arrows.remove();
 	}
 
 	public void update(ArrayList<Integer> numberList) {
