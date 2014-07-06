@@ -71,7 +71,7 @@ public class PlayScreen implements Screen {
 		windowStyle.titleFont = FontGenerator.getMessageFont();
 		Dialog dialog = new Dialog("", windowStyle) {
 			protected void result (Object object) {
-				System.out.println("Button was clicked");
+				System.out.println(object.toString());
 			}
 		};
 		
@@ -89,9 +89,12 @@ public class PlayScreen implements Screen {
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
 		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
-		Table buttonTable = dialog.getButtonTable();
+		TextButton cancelButton = new TextButton("Cancel", textButtonStyle);
 		TextButton confirmButton = new TextButton("Confirm", textButtonStyle);
+		Table buttonTable = dialog.getButtonTable();
+		buttonTable.add(cancelButton).padBottom(60);
 		buttonTable.add(confirmButton).padBottom(60);
+		dialog.setObject(cancelButton, "Cancel was clicked.");
 		dialog.setObject(confirmButton, "Confirm was clicked.");
 		
 		dialog.show(stage);
