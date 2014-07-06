@@ -123,11 +123,20 @@ public class PlayScreen implements Screen {
 	}
 
 	public void updateState(CortexState state, Player currentPlayer) {
-		updateCurrentPlayer(currentPlayer);
-		updateChosenNumber(state);
-		updateMessageArea(state);
-		updateBoardMap(state);
-		updateNumberScroller(state);
+		String winner = state.getWinner();
+		if (winner == null) {
+			updateCurrentPlayer(currentPlayer);
+			updateChosenNumber(state);
+			updateMessageArea(state);
+			updateBoardMap(state);
+			updateNumberScroller(state);
+		} else {
+			messageArea.updateMessage(winner + " wins!");
+			
+			int[] winningValues = state.getWinningValues();
+			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
+			board.showWinningCoordinates(winningMap);
+		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {
 		numberScroller.setSendable(currentPlayer);
@@ -146,11 +155,7 @@ public class PlayScreen implements Screen {
 		if (chosenNumber != -1) {
 			messageArea.updateMessageWithNextNumber(message, chosenNumber);
 		} else {
-			if (state.getWinningValues() != null) {
-				messageArea.updateMessage(state.getWinner() + " wins!");
-			} else {
-				messageArea.updateMessage(message);
-			}
+			messageArea.updateMessage(message);
 		}
 	}
 	private void updateBoardMap(CortexState state) {
@@ -162,11 +167,10 @@ public class PlayScreen implements Screen {
 				board.updateCell(coordinate, number);
 			}
 		}
-		if (state.getWinningValues() != null) {
-			int[] winningValues = state.getWinningValues();
-			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
-			board.showWinningCoordinates(winningMap);
-		}
+	}
+	private void updateNumberScroller(CortexState state) {
+		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+		numberScroller.update(availableNumbers);
 	}
 	private Map<Integer, Integer> buildWinningMap(CortexState state, int[] winningValues) {
 		Map<Integer, Integer> winningMap = new HashMap<Integer, Integer>();
@@ -179,10 +183,6 @@ public class PlayScreen implements Screen {
 			}
 		}
 		return winningMap;
-	}
-	private void updateNumberScroller(CortexState state) {
-		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-		numberScroller.update(availableNumbers);
 	}
 
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
