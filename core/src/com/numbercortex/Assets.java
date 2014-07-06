@@ -14,6 +14,9 @@ public class Assets {
 	public static Skin gameSkin;
 	public static Skin settingsSkin;
 	
+	private static final String HOME_ATLAS = "home/home.txt";
+	private static final String HOME_SKIN = "home/home.json";
+	
 	private static final String LEVEL_ATLAS = "levels/levels.atlas";
 	private static final String LEVEL_SKIN = "levels/levels.json";
 	
@@ -24,11 +27,11 @@ public class Assets {
 	private static final String SETTINGS_SKIN = "settings/settings.json";
 
 	public static void loadHome() {
-		manager.load("home/home.txt", TextureAtlas.class);
-		manager.load("home/home.json", Skin.class, new SkinLoader.SkinParameter("home/home.txt"));
+		manager.load(HOME_ATLAS, TextureAtlas.class);
+		manager.load(HOME_SKIN, Skin.class, new SkinLoader.SkinParameter(HOME_ATLAS));
 	}
 	public static void assignHomeScreen() {
-		homeSkin = manager.get("home/home.json", Skin.class);
+		homeSkin = manager.get(HOME_SKIN, Skin.class);
 	}
 
 	public static void loadLevels() {
