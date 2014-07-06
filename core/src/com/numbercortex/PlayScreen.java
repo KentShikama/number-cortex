@@ -66,37 +66,7 @@ public class PlayScreen implements Screen {
 		buildBottomButtons();
 		board.clearBoard();
 		
-		Window.WindowStyle windowStyle = new Window.WindowStyle();
-		windowStyle.background = Assets.dialogSkin.getDrawable("pop_up");
-		windowStyle.titleFont = FontGenerator.getMessageFont();
-		Dialog dialog = new Dialog("", windowStyle) {
-			protected void result (Object object) {
-				System.out.println(object.toString());
-			}
-		};
-		
-		BitmapFont font = FontGenerator.getMessageFont();
-		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = font;
-		labelStyle.fontColor = Color.WHITE;
-		Table contentTable = dialog.getContentTable();
-		Label continueLabel = new Label("Do you wish to continue?", labelStyle);
-		continueLabel.setWrap(true);
-		continueLabel.setAlignment(Align.center);
-		contentTable.add(continueLabel).width(540);
-		
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = font;
-		textButtonStyle.fontColor = Color.WHITE;
-		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
-		TextButton cancelButton = new TextButton("Cancel", textButtonStyle);
-		TextButton confirmButton = new TextButton("Confirm", textButtonStyle);
-		Table buttonTable = dialog.getButtonTable();
-		buttonTable.add(cancelButton).padBottom(60);
-		buttonTable.add(confirmButton).padBottom(60);
-		dialog.setObject(cancelButton, "Cancel was clicked.");
-		dialog.setObject(confirmButton, "Confirm was clicked.");
-		
+		Dialog dialog = CortexDialog.createCortexDialog();
 		dialog.show(stage);
 		
 		
