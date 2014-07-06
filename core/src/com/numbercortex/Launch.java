@@ -40,10 +40,12 @@ public class Launch extends Game {
 		Assets.loadSettings();
 		Assets.loadGame();
 		Assets.loadLevels();
+		Assets.loadDialog();
 		Assets.manager.finishLoading();
 		Assets.assignSettingsScreen();
 		Assets.assignPlayScreen();
 		Assets.assignLevelsScreen();
+		Assets.assignDialogScreen();
 		
 		FontGenerator.load();
 		CortexPreferences.getInstance().load();

@@ -12,6 +12,7 @@ public class Assets {
 	public static Skin homeSkin;
 	public static Skin levelsSkin;
 	public static Skin gameSkin;
+	public static Skin dialogSkin;
 	public static Skin settingsSkin;
 	
 	private static final String HOME_ATLAS = "home/home.txt";
@@ -22,6 +23,9 @@ public class Assets {
 	
 	private static final String GAME_ATLAS = "game/game.atlas";
 	private static final String GAME_SKIN = "game/game.json";
+	
+	private static final String DIALOG_ATLAS = "dialog/dialog.atlas";
+	private static final String DIALOG_SKIN = "dialog/dialog.json";
 
 	private static final String SETTINGS_ATLAS = "settings/settings.txt";
 	private static final String SETTINGS_SKIN = "settings/settings.json";
@@ -48,6 +52,15 @@ public class Assets {
 	}
 	public static void assignPlayScreen() {
 		gameSkin = manager.get(GAME_SKIN, Skin.class);
+	}
+	
+	public static void loadDialog() {
+		manager.load(DIALOG_ATLAS, TextureAtlas.class);
+		manager.load(DIALOG_SKIN, Skin.class, new SkinLoader.SkinParameter(DIALOG_ATLAS));
+	}
+	
+	public static void assignDialogScreen() {
+		dialogSkin = manager.get(DIALOG_SKIN, Skin.class);
 	}
 	
 	/**
