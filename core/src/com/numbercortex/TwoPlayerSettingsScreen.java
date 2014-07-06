@@ -179,11 +179,14 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 	private void buildQuitButton() {
 		Drawable quitButtonSkin = Assets.settingsSkin.getDrawable("quit_button");
-		final ImageButton exitButton = new ImageButton(quitButtonSkin);
-		exitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
-		exitButton.addListener(new ClickListener() {
+		final ImageButton quitButton = new ImageButton(quitButtonSkin);
+		quitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
+		quitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				handleQuitClick();
+			}
+			private void handleQuitClick() {
 				if (ScreenTracker.isInPlay) {
 					CortexDialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
 						public void clicked(InputEvent event, float x, float y) {
@@ -197,7 +200,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 				}
 			}
 		});
-		stage.addActor(exitButton);
+		stage.addActor(quitButton);
 
 	}
 
