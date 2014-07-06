@@ -26,8 +26,8 @@ public class LevelsScreen implements Screen {
 	private Stage stage;
 	private Table table = new Table();
 	
-	private TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
-	private TextButton.TextButtonStyle buildButtonStyle() {
+	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
+	private static TextButton.TextButtonStyle buildButtonStyle() {
 		BitmapFont font = FontGenerator.getLevelFont();
 		Drawable numberRectangle = Assets.levelsSkin.getDrawable(UNLOCKED_LEVEL);
 		Drawable numberRectangleDisabled = Assets.levelsSkin.getDrawable(LOCKED_LEVEL);
@@ -48,6 +48,9 @@ public class LevelsScreen implements Screen {
 		return textButtons;
 	}
 	private TextButton buildTextButton(int level) {
+		if (levelButtonStyle == null) {
+			levelButtonStyle = buildButtonStyle();
+		}
 		return new TextButton(String.valueOf(level), levelButtonStyle);
 	}
 
@@ -178,6 +181,8 @@ public class LevelsScreen implements Screen {
 	@Override
 	public void hide() {}
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		levelButtonStyle = null;
+	}
 
 }
