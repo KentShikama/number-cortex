@@ -9,14 +9,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -58,6 +65,37 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		board.clearBoard();
+		
+		Window.WindowStyle windowStyle = new Window.WindowStyle();
+		windowStyle.background = Assets.dialogSkin.getDrawable("pop_up");
+		windowStyle.titleFont = FontGenerator.getMessageFont();
+		Dialog dialog = new Dialog("", windowStyle) {
+			protected void result (Object object) {
+				System.out.println("Button was clicked");
+			}
+		};
+		
+		BitmapFont font = FontGenerator.getMessageFont();
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = font;
+		labelStyle.fontColor = Color.WHITE;
+		Table contentTable = dialog.getContentTable();
+		Label continueLabel = new Label("Do you wish to continue?", labelStyle);
+		continueLabel.setWrap(true);
+		continueLabel.setAlignment(Align.center);
+		contentTable.add(continueLabel).width(540);
+		
+		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+		textButtonStyle.font = font;
+		textButtonStyle.fontColor = Color.WHITE;
+		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
+		Table buttonTable = dialog.getButtonTable();
+		TextButton confirmButton = new TextButton("Confirm", textButtonStyle);
+		buttonTable.add(confirmButton).padBottom(60);
+		dialog.setObject(confirmButton, "Confirm was clicked.");
+		
+		dialog.show(stage);
+		
 		
 	}
 	private void buildBackground(CortexPreferences preferences) {
