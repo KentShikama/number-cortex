@@ -136,14 +136,16 @@ public class PlayScreen implements Screen {
 		} else {
 			messageArea.updateMessage(winner + " wins!");
 			
+			// messageArea show buttons and replace message after delay action
+			
+			board.bringCellsDown();
 			int[] winningValues = state.getWinningValues();
 			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
 			board.showWinningCoordinates(winningMap);
 			
 			numberScroller.removeScroller();
-			
-			settingsButton.remove();			
-			helpButton.remove();
+			AnimationUtilities.delayFadeAndRemoveActor(settingsButton);
+			AnimationUtilities.delayFadeAndRemoveActor(helpButton);			
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {

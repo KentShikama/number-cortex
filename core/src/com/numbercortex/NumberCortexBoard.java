@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -137,7 +139,7 @@ public class NumberCortexBoard {
 		SequenceAction sequence = Actions.sequence(toggleAction, delayAction);
 		RepeatAction repeatAction = new RepeatAction();
 		repeatAction.setAction(sequence);
-		repeatAction.setCount(6);
+		repeatAction.setCount(4);
 		return repeatAction;
 	}
 	private Action buildToggleAction(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
@@ -172,5 +174,13 @@ public class NumberCortexBoard {
 	}
 	public int getNumberOfRows() {
 		return numberOfRows;
+	}
+
+	public void bringCellsDown() {
+		for (NumberTextButton button : cells) {
+			DelayAction delayAction = Actions.delay(2f);
+			MoveByAction moveToAction = Actions.moveBy(0, -200, 1f);
+			button.addAction(Actions.sequence(delayAction, moveToAction));
+		}
 	}
 }

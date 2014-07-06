@@ -3,8 +3,11 @@ package com.numbercortex;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -77,8 +80,7 @@ public class NumberScroller {
 		ScrollPane numberScroller = new ScrollPane(numberTable, style);
 		int scrollerRectangleWidth = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionWidth();
 		int scrollerRectangleHeight = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionHeight();
-		numberScroller.setBounds(101 - 1, Launch.SCREEN_HEIGHT - 1013, scrollerRectangleWidth + 2,
-				scrollerRectangleHeight);
+		numberScroller.setBounds(101 - 1, Launch.SCREEN_HEIGHT - 1013, scrollerRectangleWidth + 2, scrollerRectangleHeight);
 		numberScroller.setOverscroll(true, false);
 		return numberScroller;
 	}
@@ -88,10 +90,10 @@ public class NumberScroller {
 	}
 	
 	public void removeScroller() {
-		numberScroller.remove();
+		AnimationUtilities.delayFadeAndRemoveActor(numberScroller);
 		arrows.remove();
 	}
-
+	
 	public void update(ArrayList<Integer> numberList) {
 		numberTable.clearChildren();
 		for (Integer number : numberList) {
