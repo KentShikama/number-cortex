@@ -144,6 +144,8 @@ public class PlayScreen implements Screen {
 			board.showWinningCoordinates(winningMap);
 			
 			numberScroller.removeScroller();
+			settingsButton.clearListeners();
+			helpButton.clearListeners();
 			AnimationUtilities.delayFadeAndRemoveActor(settingsButton);
 			AnimationUtilities.delayFadeAndRemoveActor(helpButton);		
 			

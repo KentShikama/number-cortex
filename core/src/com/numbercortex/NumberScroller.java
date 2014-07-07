@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -93,6 +94,9 @@ public class NumberScroller {
 	}
 	
 	public void removeScroller() {
+		for (Actor numberButton : numberTable.getChildren()) {
+			numberButton.clearListeners();
+		}
 		AnimationUtilities.delayFadeAndRemoveActor(numberScroller);
 		arrows.remove();
 	}
