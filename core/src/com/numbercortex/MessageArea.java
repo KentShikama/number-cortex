@@ -124,8 +124,11 @@ public class MessageArea {
 		TextButton playButton = new TextButton("Play", borderedTextButtonStyle);
 		playButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				ScreenTracker.mode = ScreenTracker.Mode.SINGLE_PLAYER;
-				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+				if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);					
+				} else {
+					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);					
+				}
 			}
 		});		
 		return playButton;
@@ -137,6 +140,9 @@ public class MessageArea {
 		TextButton continueButton = new TextButton("Continue", borderedTextButtonStyle);
 		continueButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				/**
+				 * TODO: Update level
+				 */
 				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 			}
 		});		
@@ -200,9 +206,6 @@ public class MessageArea {
 		};
 		return showNextOptions;
 	}
-	/**
-	 * TODO: Implement buttons along with functionality for two players
-	 */
 	private void updateMessageWithButtons(String message) {
 		messageLabelLong.setText(message);
 		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 225, Launch.SCREEN_WIDTH - 30 * 2, 145);
