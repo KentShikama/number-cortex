@@ -49,9 +49,14 @@ public class NumberCortexBoard {
 
 	public static NumberCortexBoard createNumberCortexBoard(Stage stage, boolean isBlue, int numberOfRows) {
 		NumberCortexBoard instance = Singleton.INSTANCE;
-		if (instance.isBlue != isBlue || instance.numberOfRows != numberOfRows) {
+		if (instance.isBlue != isBlue || instance.numberOfRows != numberOfRows || instance.cells == null) {
 			instance.isBlue = isBlue;
 			instance.numberOfRows = numberOfRows;
+			if (greenRectangleStyle == null || blueRectangleStyle == null || redRectangleStyle == null) {
+				greenRectangleStyle = buildButtonStyle("green_rectangle");
+				blueRectangleStyle = buildButtonStyle("blue_rectangle");
+				redRectangleStyle = buildButtonStyle("red_rectangle");
+			}
 			instance.cells = buildCells(instance.isBlue, instance.numberOfRows);
 		}
 		resetCellPositions(instance.numberOfRows, instance.cells);
@@ -96,7 +101,7 @@ public class NumberCortexBoard {
 		}
 	}
 	private static void resetCellPositions(int numberOfRows, ArrayList<NumberTextButton> cells) {
-		int squareLength = Launch.SCREEN_WIDTH / numberOfRows;
+		int squareLength = Launch.SCREEN_WIDTH / numberOfRows + 1;
 		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
 			int left = (i % numberOfRows) * squareLength;
 			int bottom = ((numberOfRows - 1) - i / numberOfRows) * squareLength;
@@ -188,5 +193,12 @@ public class NumberCortexBoard {
 			MoveByAction moveToAction = Actions.moveBy(0, -220, 1f);
 			button.addAction(Actions.sequence(delayAction, moveToAction));
 		}
+	}
+	
+	public static void dispose() {
+		greenRectangleStyle = null;
+		blueRectangleStyle = null;
+		redRectangleStyle = null;
+		Singleton.INSTANCE.cells = null;
 	}
 }

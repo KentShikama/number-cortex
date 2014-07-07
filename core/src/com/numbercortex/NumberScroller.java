@@ -28,7 +28,7 @@ public class NumberScroller {
 		return style;
 	}
 
-	private static NumberTextButton.NumberTextButtonStyle buttonStyle = buildButtonStyle();;
+	private static NumberTextButton.NumberTextButtonStyle buttonStyle = buildButtonStyle();
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle() {
 		BitmapFont font = FontGenerator.getNumberScrollFont();
 		Drawable numberRectangle = Assets.gameSkin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
@@ -67,6 +67,9 @@ public class NumberScroller {
 
 	public static NumberScroller createNumberScroller(Stage stage) {
 		NumberScroller numberScrollerInstance = Singleton.INSTANCE;
+		if (style == null) {
+			style = buildScrollPaneStyle();
+		}
 		numberScrollerInstance.numberScroller = buildNumberScroller(numberScrollerInstance.numberTable, style);
 		numberScrollerInstance.arrows = new NumberScrollerArrows(numberScrollerInstance.numberScroller);
 		stage.addActor(numberScrollerInstance.numberScroller);
@@ -96,10 +99,18 @@ public class NumberScroller {
 	
 	public void update(ArrayList<Integer> numberList) {
 		numberTable.clearChildren();
+		if (buttonStyle == null) {
+			buttonStyle = buildButtonStyle();
+		}
 		for (Integer number : numberList) {
 			NumberTextButton button = new NumberTextButton(number.toString(), buttonStyle);
 			button.addListener(listener);
 			numberTable.add(button);
 		}
+	}
+	
+	public static void dispose() {
+		style = null;
+		buttonStyle = null;
 	}
 }
