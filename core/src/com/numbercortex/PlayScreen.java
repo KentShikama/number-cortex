@@ -63,7 +63,7 @@ public class PlayScreen implements Screen {
 		CortexPreferences preferences = CortexPreferences.getInstance();
 		
 		buildBackground(preferences);
-		buildMessageArea();
+		buildMessageArea(game);
 		buildBoard(settings, preferences);
 		buildNumberScroller();
 		buildBottomButtons();
@@ -82,8 +82,8 @@ public class PlayScreen implements Screen {
 			return Launch.RETRO_RED;
 		}
 	}
-	private void buildMessageArea() {
-		messageArea = MessageArea.createMessageArea(stage);
+	private void buildMessageArea(Game game) {
+		messageArea = MessageArea.createMessageArea(stage, game);
 		messageArea.updateMessage("New message");
 		messageArea.updateMessageWithNextNumber("Welcome to Number Quarto", 4);
 		handler.notifyMessageAreaConstrucion(messageArea);
@@ -137,6 +137,7 @@ public class PlayScreen implements Screen {
 			messageArea.updateMessage(winner + " wins!");
 			
 			// messageArea show buttons and replace message after delay action
+			messageArea.updateMessageWithButtons("Do you wish to play again?");
 			
 			board.bringCellsDown();
 			int[] winningValues = state.getWinningValues();
@@ -145,7 +146,9 @@ public class PlayScreen implements Screen {
 			
 			numberScroller.removeScroller();
 			AnimationUtilities.delayFadeAndRemoveActor(settingsButton);
-			AnimationUtilities.delayFadeAndRemoveActor(helpButton);			
+			AnimationUtilities.delayFadeAndRemoveActor(helpButton);		
+			
+			ScreenTracker.isInPlay = false;
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {

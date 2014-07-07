@@ -54,15 +54,13 @@ public class NumberCortexBoard {
 			instance.numberOfRows = numberOfRows;
 			instance.cells = buildCells(instance.isBlue, instance.numberOfRows);
 		}
+		resetCellPositions(instance.numberOfRows, instance.cells);
 		addCellsToStageIfAbsent(stage, instance);
 		return instance;
 	}
 	private static ArrayList<NumberTextButton> buildCells(boolean isBlue, int numberOfRows) {
-		int squareLength = Launch.SCREEN_WIDTH / numberOfRows;
 		ArrayList<NumberTextButton> cells = new ArrayList<NumberTextButton>();
 		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
-			int left = (i % numberOfRows) * squareLength;
-			int bottom = ((numberOfRows - 1) - i / numberOfRows) * squareLength;
 			NumberTextButton rectangle;
 			if (isGreen(i, numberOfRows)) {
 				rectangle = new NumberTextButton("", greenRectangleStyle);
@@ -74,7 +72,6 @@ public class NumberCortexBoard {
 				}
 			}
 			rectangle.setName(String.valueOf(i));
-			rectangle.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength, squareLength);
 			cells.add(rectangle);
 		}
 		return cells;
@@ -97,6 +94,15 @@ public class NumberCortexBoard {
 			}
 			return false;
 		}
+	}
+	private static void resetCellPositions(int numberOfRows, ArrayList<NumberTextButton> cells) {
+		int squareLength = Launch.SCREEN_WIDTH / numberOfRows;
+		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
+			int left = (i % numberOfRows) * squareLength;
+			int bottom = ((numberOfRows - 1) - i / numberOfRows) * squareLength;
+			NumberTextButton button = cells.get(i);
+			button.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength, squareLength);
+		}		
 	}
 	private static void addCellsToStageIfAbsent(Stage stage, NumberCortexBoard instance) {
 		for (NumberTextButton cell : instance.cells) {

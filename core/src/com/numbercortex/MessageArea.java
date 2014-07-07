@@ -1,12 +1,16 @@
 package com.numbercortex;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class MessageArea {
@@ -21,6 +25,16 @@ public class MessageArea {
 		textButtonStyle.fontColor = Color.WHITE;
 		return textButtonStyle;
 	}
+	
+	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildTextButtonStyle();
+	private static TextButton.TextButtonStyle buildTextButtonStyle() {
+		BitmapFont font = FontGenerator.getMessageFont();
+		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+		textButtonStyle.font = font;
+		textButtonStyle.fontColor = Color.WHITE;
+		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
+		return textButtonStyle;
+	}	
 
 	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
@@ -33,23 +47,33 @@ public class MessageArea {
 		return buttonStyle;
 	}
 
+
 	private Stage stage;
 	private TextButton messageLabelShort;
 	private TextButton messageLabelLong;
 	private NumberTextButton nextNumberSquare;
+	
+	private Table buttonTable = new Table();
+	private TextButton menuButton;
+	private TextButton playButton;
+	private TextButton continueButton;
 
 	private static class Singleton {
 		private static final MessageArea INSTANCE = new MessageArea();
 	}
 
 	private MessageArea() {}
-
-	public static MessageArea createMessageArea(Stage stage) {
+	
+	public static MessageArea createMessageArea(Stage stage, Game game) {
 		MessageArea instance = Singleton.INSTANCE;
 		instance.stage = stage;
 		instance.messageLabelLong = buildMessageLabelLong();
 		instance.messageLabelShort = buildMessageLabelShort();
 		instance.nextNumberSquare = buildNextNumberSquare();
+		instance.buttonTable = buildButtonTable();
+		instance.menuButton = buildMenuButton(game);
+		instance.playButton = buildPlayButton(game);
+		instance.continueButton = buildContinueButton(game);
 		return instance;
 	}
 	private static TextButton buildMessageLabelLong() {
@@ -64,11 +88,56 @@ public class MessageArea {
 		messageLabelShort.getLabel().setWrap(true);
 		return messageLabelShort;
 	}
+	private static Table buildButtonTable() {
+		Table buttonTable = new Table();
+		buttonTable.setBounds(30, Launch.SCREEN_HEIGHT - 320, Launch.SCREEN_WIDTH - 30 * 2, 145);
+		return buttonTable;
+	}
 	private static NumberTextButton buildNextNumberSquare() {
+		if (nextNumberStyle == null) {
+			nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
+		}
 		NumberTextButton nextNumberSquare = new NumberTextButton("", nextNumberStyle);
 		nextNumberSquare.setBounds(475, Launch.SCREEN_HEIGHT - 175, 141, 141);
 		nextNumberSquare.setName("16");
 		return nextNumberSquare;
+	}
+	private static TextButton buildMenuButton(final Game game) {
+		if (borderedTextButtonStyle == null) {
+			borderedTextButtonStyle = buildTextButtonStyle();
+		}
+		TextButton menuButton = new TextButton("Menu", borderedTextButtonStyle);
+		menuButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(ScreenTracker.titleScreen);
+			}
+		});		
+		return menuButton;
+	}
+	private static TextButton buildPlayButton(final Game game) {
+		if (borderedTextButtonStyle == null) {
+			borderedTextButtonStyle = buildTextButtonStyle();
+		}
+		TextButton playButton = new TextButton("Play", borderedTextButtonStyle);
+		playButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				ScreenTracker.mode = ScreenTracker.Mode.SINGLE_PLAYER;
+				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+			}
+		});		
+		return playButton;
+	}
+	private static TextButton buildContinueButton(final Game game) {
+		if (borderedTextButtonStyle == null) {
+			borderedTextButtonStyle = buildTextButtonStyle();
+		}
+		TextButton continueButton = new TextButton("Continue", borderedTextButtonStyle);
+		continueButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+			}
+		});		
+		return continueButton;
 	}
 
 	public NumberTextButton getNextNumberSquare() {
@@ -79,6 +148,7 @@ public class MessageArea {
 		messageLabelLong.setText(message);
 		messageLabelShort.remove();
 		nextNumberSquare.remove();
+		buttonTable.remove();
 		stage.addActor(messageLabelLong);
 	}
 
@@ -88,6 +158,7 @@ public class MessageArea {
 		nextNumberSquare.setText(String.valueOf(nextNumber));
 		messageLabelShort.setText(message);
 		messageLabelLong.remove();
+		buttonTable.remove();
 		stage.addActor(messageLabelShort);
 		stage.addActor(nextNumberSquare);
 	}
@@ -98,5 +169,22 @@ public class MessageArea {
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label label = new Label("", labelStyle);
 		return label;
+	}
+	
+	/**
+	 * TODO: Implement buttons along with functionality for two players
+	 * and fix position of buttons
+	 */
+	public void updateMessageWithButtons(String message) {
+		messageLabelLong.setText(message);
+		buttonTable.clear();
+		buttonTable.add(menuButton).pad(20).padTop(50);
+		buttonTable.add(playButton).pad(20).padTop(50);
+		stage.addActor(buttonTable);
+	}
+	
+	public static void dispose() {
+		borderedTextButtonStyle = null;
+		nextNumberStyle = null;
 	}
 }
