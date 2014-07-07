@@ -185,7 +185,7 @@ public class NumberCortexBoard {
 	public void bringCellsDown() {
 		for (NumberTextButton button : cells) {
 			DelayAction delayAction = Actions.delay(2f);
-			MoveByAction moveToAction = Actions.moveBy(0, -200, 1f);
+			MoveByAction moveToAction = Actions.moveBy(0, -220, 1f);
 			button.addAction(Actions.sequence(delayAction, moveToAction));
 		}
 	}

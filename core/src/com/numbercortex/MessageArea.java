@@ -90,7 +90,7 @@ public class MessageArea {
 	}
 	private static Table buildButtonTable() {
 		Table buttonTable = new Table();
-		buttonTable.setBounds(30, Launch.SCREEN_HEIGHT - 320, Launch.SCREEN_WIDTH - 30 * 2, 145);
+		buttonTable.setBounds(30, Launch.SCREEN_HEIGHT - 370, Launch.SCREEN_WIDTH - 30 * 2, 145);
 		return buttonTable;
 	}
 	private static NumberTextButton buildNextNumberSquare() {
@@ -173,10 +173,10 @@ public class MessageArea {
 	
 	/**
 	 * TODO: Implement buttons along with functionality for two players
-	 * and fix position of buttons
 	 */
 	public void updateMessageWithButtons(String message) {
 		messageLabelLong.setText(message);
+		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 225, Launch.SCREEN_WIDTH - 30 * 2, 145);
 		buttonTable.clear();
 		buttonTable.add(menuButton).pad(20).padTop(50);
 		buttonTable.add(playButton).pad(20).padTop(50);

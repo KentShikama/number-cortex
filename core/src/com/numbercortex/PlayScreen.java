@@ -11,9 +11,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -126,7 +128,7 @@ public class PlayScreen implements Screen {
 	}
 
 	public void updateState(CortexState state, Player currentPlayer) {
-		String winner = state.getWinner();
+		final String winner = state.getWinner();
 		if (winner == null) {
 			updateCurrentPlayer(currentPlayer);
 			updateChosenNumber(state);
@@ -134,11 +136,23 @@ public class PlayScreen implements Screen {
 			updateBoardMap(state);
 			updateNumberScroller(state);
 		} else {
-			messageArea.updateMessage(winner + " wins!");
-			
-			// messageArea show buttons and replace message after delay action
-			messageArea.updateMessageWithButtons("Do you wish to play again?");
-			
+			Action showWinner = new Action() {
+				@Override
+				public boolean act(float delta) {
+					messageArea.updateMessage(winner + " wins!");
+					return true;
+				}	
+			};
+			DelayAction delayAction = Actions.delay(3f);
+			Action showNextOptions = new Action() {
+				@Override
+				public boolean act(float delta) {
+					messageArea.updateMessageWithButtons("Do you wish to play again?");
+					return true;
+				}	
+			};
+			stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
+						
 			board.bringCellsDown();
 			int[] winningValues = state.getWinningValues();
 			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
