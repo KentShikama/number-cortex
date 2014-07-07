@@ -155,7 +155,7 @@ public class NumberCortexBoard {
 		SequenceAction sequence = Actions.sequence(toggleAction, delayAction);
 		RepeatAction repeatAction = new RepeatAction();
 		repeatAction.setAction(sequence);
-		repeatAction.setCount(4);
+		repeatAction.setCount(6);
 		return repeatAction;
 	}
 	private Action buildToggleAction(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
@@ -194,7 +194,7 @@ public class NumberCortexBoard {
 
 	public void bringCellsDown() {
 		for (NumberTextButton button : cells) {
-			DelayAction delayAction = Actions.delay(2f);
+			DelayAction delayAction = Actions.delay(3f);
 			MoveByAction moveToAction = Actions.moveBy(0, -220, 1f);
 			button.addAction(Actions.sequence(delayAction, moveToAction));
 		}

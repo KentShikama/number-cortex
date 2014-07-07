@@ -11,7 +11,7 @@ public class AnimationUtilities {
 	private AnimationUtilities() {}
 	
 	public static void delayFadeAndRemoveActor(Actor actor) {
-		DelayAction delayAction = Actions.delay(2f);
+		DelayAction delayAction = Actions.delay(3f);
 		AlphaAction fadeAction = Actions.fadeOut(1f);
 		fadeAction.setInterpolation(Interpolation.exp10Out);
 		Action removeActor = new Action() {

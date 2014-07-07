@@ -180,9 +180,12 @@ public class MessageArea {
 		return label;
 	}
 	
+	/**
+	 * TODO: Add different message when unlocking new element
+	 */
 	public void showWinningMessageSequence(final String winner) {
 		Action showWinner = buildShowWinnerAction(winner);
-		DelayAction delayAction = Actions.delay(3f);
+		DelayAction delayAction = Actions.delay(4f);
 		Action showNextOptions = buildShowNextOptionsAction();
 		stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
 	}
