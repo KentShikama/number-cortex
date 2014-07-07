@@ -3,8 +3,11 @@ package com.numbercortex;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -171,10 +174,36 @@ public class MessageArea {
 		return label;
 	}
 	
+	public void showWinningMessageSequence(final String winner) {
+		Action showWinner = buildShowWinnerAction(winner);
+		DelayAction delayAction = Actions.delay(3f);
+		Action showNextOptions = buildShowNextOptionsAction();
+		stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
+	}
+	private Action buildShowWinnerAction(final String winner) {
+		Action showWinner = new Action() {
+			@Override
+			public boolean act(float delta) {
+				updateMessage(winner + " wins!");
+				return true;
+			}	
+		};
+		return showWinner;
+	}
+	private Action buildShowNextOptionsAction() {
+		Action showNextOptions = new Action() {
+			@Override
+			public boolean act(float delta) {
+				updateMessageWithButtons("Do you wish to play again?");
+				return true;
+			}	
+		};
+		return showNextOptions;
+	}
 	/**
 	 * TODO: Implement buttons along with functionality for two players
 	 */
-	public void updateMessageWithButtons(String message) {
+	private void updateMessageWithButtons(String message) {
 		messageLabelLong.setText(message);
 		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 225, Launch.SCREEN_WIDTH - 30 * 2, 145);
 		buttonTable.clear();

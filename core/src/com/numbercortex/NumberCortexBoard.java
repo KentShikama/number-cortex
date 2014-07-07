@@ -70,16 +70,21 @@ public class NumberCortexBoard {
 			if (isGreen(i, numberOfRows)) {
 				rectangle = new NumberTextButton("", greenRectangleStyle);
 			} else {
-				if (isBlue) {
-					rectangle = new NumberTextButton("", blueRectangleStyle);
-				} else {
-					rectangle = new NumberTextButton("", redRectangleStyle);
-				}
+				rectangle = createComplementaryColorRectangle(isBlue);
 			}
 			rectangle.setName(String.valueOf(i));
 			cells.add(rectangle);
 		}
 		return cells;
+	}
+	private static NumberTextButton createComplementaryColorRectangle(boolean isBlue) {
+		NumberTextButton rectangle;
+		if (isBlue) {
+			rectangle = new NumberTextButton("", blueRectangleStyle);
+		} else {
+			rectangle = new NumberTextButton("", redRectangleStyle);
+		}
+		return rectangle;
 	}
 	private static boolean isGreen(int i, int numberOfRows) {
 		int[] greenListThree = { 0, 2, 4, 6, 8 };

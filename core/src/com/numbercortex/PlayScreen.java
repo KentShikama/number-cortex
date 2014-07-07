@@ -136,22 +136,7 @@ public class PlayScreen implements Screen {
 			updateBoardMap(state);
 			updateNumberScroller(state);
 		} else {
-			Action showWinner = new Action() {
-				@Override
-				public boolean act(float delta) {
-					messageArea.updateMessage(winner + " wins!");
-					return true;
-				}	
-			};
-			DelayAction delayAction = Actions.delay(3f);
-			Action showNextOptions = new Action() {
-				@Override
-				public boolean act(float delta) {
-					messageArea.updateMessageWithButtons("Do you wish to play again?");
-					return true;
-				}	
-			};
-			stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
+			messageArea.showWinningMessageSequence(winner);
 						
 			board.bringCellsDown();
 			int[] winningValues = state.getWinningValues();
@@ -169,7 +154,6 @@ public class PlayScreen implements Screen {
 		numberScroller.setSendable(currentPlayer);
 		handler.setSendable(currentPlayer);
 	}
-
 	private void updateChosenNumber(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
