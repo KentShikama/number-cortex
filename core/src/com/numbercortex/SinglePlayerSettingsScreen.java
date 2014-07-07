@@ -123,13 +123,17 @@ public class SinglePlayerSettingsScreen implements Screen {
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				CortexDialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
-					public void clicked(InputEvent event, float x, float y) {
-						ScreenTracker.isInPlay = false;
-						game.setScreen(ScreenTracker.titleScreen);
-					}
-				});
-				dialog.show(stage);
+				if (ScreenTracker.isInPlay) {
+					CortexDialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+						public void clicked(InputEvent event, float x, float y) {
+							ScreenTracker.isInPlay = false;
+							game.setScreen(ScreenTracker.titleScreen);
+						}
+					});
+					dialog.show(stage);
+				} else {
+					game.setScreen(ScreenTracker.titleScreen);					
+				}
 			}
 		});
 		stage.addActor(exitButton);
