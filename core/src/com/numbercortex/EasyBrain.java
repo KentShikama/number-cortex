@@ -7,16 +7,16 @@ public class EasyBrain implements Brain {
 
 	private BrainUtilities utility;
 	private String name = "Easy AI";
-	
+
 	public EasyBrain(GameSettings settings) {
 		this.utility = new BrainUtilities(settings);
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();

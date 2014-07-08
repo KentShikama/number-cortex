@@ -8,13 +8,13 @@ public class CortexPreferences {
 		final static CortexPreferences instance = new CortexPreferences();
 	}
 	private Preferences preferences;
-	
+
 	private static final String PREFERENCES_NAME = "preferences";
 
 	private static final String BACKGROUND_COLOR = "background_color";
 	private static final String MUSIC = "music";
 	private static final String CURRENT_LEVEL = "level";
-	
+
 	private static final String TIME = "time";
 	private static final String NUMBER_OF_ROWS = "number_of_rows";
 	private static final String EVEN_ODD = "even_odd";
@@ -24,7 +24,7 @@ public class CortexPreferences {
 	private static final String DIAGONALS = "diagonals";
 	private static final String FOUR_SQUARE = "four_square";
 	private static final String DIFFICULTY = "difficulty";
-	
+
 	private boolean isBlue;
 	private boolean isMusicEnabled;
 	private int currentLevel;
@@ -67,7 +67,7 @@ public class CortexPreferences {
 		isMusicEnabled = preferences.getBoolean(MUSIC, true);
 		currentLevel = preferences.getInteger(CURRENT_LEVEL, 1);
 	}
-	
+
 	public void save() {
 		saveTwoPlayerGameSettings();
 		saveOtherPreferences();
@@ -88,7 +88,7 @@ public class CortexPreferences {
 		boolean isDiagonalsEnabled = twoPlayerGameSettings.isDiagonals();
 		boolean isFourSquareEnabled = twoPlayerGameSettings.isFourSquare();
 		int difficulty = twoPlayerGameSettings.getDifficulty();
-		
+
 		preferences.putInteger(TIME, time);
 		preferences.putInteger(NUMBER_OF_ROWS, numberOfRows);
 		preferences.putBoolean(EVEN_ODD, isEvenOddEnabled);

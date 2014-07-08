@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
 public class AnimationUtilities {
 	private AnimationUtilities() {}
-	
+
 	public static void delayFadeAndRemoveActor(Actor actor) {
 		DelayAction delayAction = Actions.delay(3f);
 		AlphaAction fadeAction = Actions.fadeOut(1f);
@@ -17,7 +17,7 @@ public class AnimationUtilities {
 		Action removeActor = new Action() {
 			@Override
 			public boolean act(float delta) {
-				actor.remove();			
+				actor.remove();
 				return true;
 			}
 		};

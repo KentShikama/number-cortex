@@ -6,7 +6,7 @@ public class ScreenTracker {
 	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
 	public static LevelsScreen levelsScreen;
 	public static PlayScreen playScreen;
-	
+
 	public static boolean isInPlay = false;
 	public static int level;
 

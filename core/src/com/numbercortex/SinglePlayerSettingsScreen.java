@@ -9,12 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.numbercortex.TwoPlayerSettingsScreen.SettingsTitle;
 
 public class SinglePlayerSettingsScreen implements Screen {
 
@@ -86,7 +83,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		
+
 		ScreenBackground background = new ScreenBackground(Assets.settingsSkin, SETTINGS_BACKGROUND);
 		stage.addActor(background);
 
@@ -125,6 +122,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if (ScreenTracker.isInPlay) {
 					CortexDialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+						@Override
 						public void clicked(InputEvent event, float x, float y) {
 							ScreenTracker.isInPlay = false;
 							game.setScreen(ScreenTracker.titleScreen);
@@ -132,14 +130,14 @@ public class SinglePlayerSettingsScreen implements Screen {
 					});
 					dialog.show(stage);
 				} else {
-					game.setScreen(ScreenTracker.titleScreen);					
+					game.setScreen(ScreenTracker.titleScreen);
 				}
 			}
 		});
 		stage.addActor(exitButton);
 
 	}
-	
+
 	private void buildResumeButton() {
 		Drawable resumeButtonSkin = Assets.settingsSkin.getDrawable("resume_button");
 		ImageButton resumeButton = new ImageButton(resumeButtonSkin);

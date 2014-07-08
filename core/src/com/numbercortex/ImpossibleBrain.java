@@ -70,8 +70,7 @@ public class ImpossibleBrain implements Brain {
 						for (Integer possibleNextNumber : safeNumbersOpponentCanChoose) { // Opponent chooses your number
 							boolean safe = false;
 							newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
-							ArrayList<Integer> newOpenCoordinates = utility
-									.getOpenCoordinates(coordinateNumberMap);
+							ArrayList<Integer> newOpenCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
 							for (Integer newOpenCoordinate : newOpenCoordinates) {
 								coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
 								ArrayList<Integer> list = utility.getSafeNumbersIfExistent(coordinateNumberMap,

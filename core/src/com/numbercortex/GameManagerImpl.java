@@ -7,14 +7,14 @@ import com.badlogic.gdx.Gdx;
 public class GameManagerImpl implements GameManager {
 
 	private static final String TAG = GameManagerImpl.class.getCanonicalName();
-	
+
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private CortexModel model;
 	private GameSettings settings;
 
 	private CortexState state;
 	private String currentPlayer;
-	
+
 	private GameManagerImpl() {}
 	private static class Singleton {
 		private static final GameManagerImpl INSTANCE = new GameManagerImpl();
@@ -34,7 +34,7 @@ public class GameManagerImpl implements GameManager {
 	}
 	private static void addPlayers(GameManagerImpl messenger, PlayScreen screen) {
 		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
-			addPlayersForSinglePlayerMode(messenger, screen);	
+			addPlayersForSinglePlayerMode(messenger, screen);
 		} else {
 			addPlayersForTwoPlayerMode(messenger, screen);
 		}
@@ -59,7 +59,8 @@ public class GameManagerImpl implements GameManager {
 			return CortexPreferences.getInstance().getTwoPlayerGameSettings();
 		}
 	}
-	
+
+	@Override
 	public GameSettings getSettings() {
 		return settings;
 	}
@@ -73,7 +74,8 @@ public class GameManagerImpl implements GameManager {
 	public void placeNumber(String playerName, int coordinate) {
 		model.placeNumber(currentPlayer, coordinate);
 	}
-	
+
+	@Override
 	public void startNewGame() {
 		if (ScreenTracker.isInPlay) {
 			Gdx.app.log(TAG, "Deleting previous game data.");
@@ -86,7 +88,8 @@ public class GameManagerImpl implements GameManager {
 			model.register(player.getName());
 		}
 	}
-	
+
+	@Override
 	public void resumeGame() {
 		if (ScreenTracker.isInPlay) {
 			updateState(state);

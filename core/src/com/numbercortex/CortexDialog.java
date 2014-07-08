@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class CortexDialog extends Dialog {
-	
+
 	private static Label.LabelStyle labelStyle = buildLabelStyle();
 	private static Label.LabelStyle buildLabelStyle() {
 		BitmapFont font = FontGenerator.getMessageFont();
@@ -21,7 +21,7 @@ public class CortexDialog extends Dialog {
 		labelStyle.fontColor = Color.WHITE;
 		return labelStyle;
 	}
-	
+
 	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle();
 	private static TextButton.TextButtonStyle buildTextButtonStyle() {
 		BitmapFont font = FontGenerator.getMessageFont();
@@ -33,39 +33,40 @@ public class CortexDialog extends Dialog {
 	}
 
 	private Game game;
-	
+
 	private CortexDialog(String title, WindowStyle windowStyle) {
 		super(title, windowStyle);
 	}
-	
+
+	@Override
 	protected void result(Object object) {}
 
 	public static CortexDialog createCortexDialog() {
 		Window.WindowStyle windowStyle = buildWindowStyle();
-		
+
 		CortexDialog dialog = new CortexDialog("", windowStyle);
-		
+
 		addContentLabel("Do you wish to continue?", dialog);
-		
+
 		addButton("Cancel", null, dialog);
 		addButton("Confirm", null, dialog);
-		
+
 		return dialog;
 	}
-	
+
 	public static CortexDialog createQuitCancelDialog(ClickListener quitListener) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
-		
+
 		CortexDialog dialog = new CortexDialog("", windowStyle);
-		
+
 		addContentLabel("Are you sure you want to quit? The current game data will be lost.", dialog);
-		
+
 		addButton("Quit", quitListener, dialog);
 		addButton("Cancel", null, dialog);
-		
+
 		return dialog;
 	}
-	
+
 	private static Window.WindowStyle buildWindowStyle() {
 		Window.WindowStyle windowStyle = new Window.WindowStyle();
 		windowStyle.background = Assets.dialogSkin.getDrawable("pop_up");
@@ -86,7 +87,7 @@ public class CortexDialog extends Dialog {
 		}
 		TextButton button = new TextButton(buttonText, textButtonStyle);
 		if (listener != null) {
-			button.addListener(listener);			
+			button.addListener(listener);
 		}
 		buttonTable.add(button).pad(4).padRight(14).padBottom(55);
 		dialog.setObject(button, buttonText);

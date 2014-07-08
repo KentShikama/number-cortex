@@ -9,23 +9,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -33,8 +23,8 @@ public class PlayScreen implements Screen {
 
 	public static final String TAG = PlayScreen.class.getCanonicalName();
 
-	private static final int BOTTOM_RECTANGLE_WIDTH =  Assets.gameSkin.getRegion("settings").getRegionWidth();
-	private static final int BOTTOM_RECTANGLE_HEIGHT =  Assets.gameSkin.getRegion("settings").getRegionHeight();
+	private static final int BOTTOM_RECTANGLE_WIDTH = Assets.gameSkin.getRegion("settings").getRegionWidth();
+	private static final int BOTTOM_RECTANGLE_HEIGHT = Assets.gameSkin.getRegion("settings").getRegionHeight();
 
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
@@ -45,7 +35,7 @@ public class PlayScreen implements Screen {
 	private Stage stage;
 
 	private GameSettings settings;
-	
+
 	private ImageButton settingsButton;
 	private ImageButton helpButton;
 
@@ -53,17 +43,17 @@ public class PlayScreen implements Screen {
 		this.game = game;
 		stage = ((Launch) game).getStage();
 	}
-	
+
 	public void setGameSettings(GameSettings settings) {
 		this.settings = settings;
 	}
-	
+
 	@Override
 	public void show() {
 		stage.clear();
-		
+
 		CortexPreferences preferences = CortexPreferences.getInstance();
-		
+
 		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
@@ -71,7 +61,7 @@ public class PlayScreen implements Screen {
 		buildBottomButtons();
 		board.clearBoard();
 	}
-	
+
 	private void buildBackground(CortexPreferences preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
 		PlayScreenBackground background = new PlayScreenBackground(backgroundProperty);
@@ -103,8 +93,7 @@ public class PlayScreen implements Screen {
 		buildHelpButton(helpRectangleSkin);
 	}
 	private void buildSettingsButton(Drawable settingsRectangleSkin) {
-		settingsButton = new ImageButton(settingsRectangleSkin, settingsRectangleSkin,
-				settingsRectangleSkin);
+		settingsButton = new ImageButton(settingsRectangleSkin, settingsRectangleSkin, settingsRectangleSkin);
 		settingsButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		settingsButton.addListener(new ClickListener() {
 			@Override
@@ -137,18 +126,18 @@ public class PlayScreen implements Screen {
 			updateNumberScroller(state);
 		} else {
 			messageArea.showWinningMessageSequence(winner);
-						
+
 			board.bringCellsDown();
 			int[] winningValues = state.getWinningValues();
 			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
 			board.showWinningCoordinates(winningMap);
-			
+
 			numberScroller.removeScroller();
 			settingsButton.clearListeners();
 			helpButton.clearListeners();
 			AnimationUtilities.delayFadeAndRemoveActor(settingsButton);
-			AnimationUtilities.delayFadeAndRemoveActor(helpButton);		
-			
+			AnimationUtilities.delayFadeAndRemoveActor(helpButton);
+
 			ScreenTracker.isInPlay = false;
 		}
 	}

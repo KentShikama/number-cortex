@@ -18,7 +18,7 @@ public class ComputerPlayer implements Player {
 	public ComputerPlayer(PlayScreen playScreen, GameManager messenger) {
 		this.playScreen = playScreen;
 		this.messenger = messenger;
-		
+
 		this.brain = buildBrain(messenger);
 		this.name = brain.getName();
 	}

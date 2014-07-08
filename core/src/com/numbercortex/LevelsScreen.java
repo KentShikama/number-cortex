@@ -10,9 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -25,7 +23,7 @@ public class LevelsScreen implements Screen {
 	private Game game;
 	private Stage stage;
 	private Table table = new Table();
-	
+
 	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
 	private static TextButton.TextButtonStyle buildButtonStyle() {
 		BitmapFont font = FontGenerator.getLevelFont();

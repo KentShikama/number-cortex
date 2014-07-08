@@ -7,7 +7,7 @@ public class MediumBrain implements Brain {
 
 	private String name = "Medium AI";
 	private BrainUtilities utility;
-	
+
 	public MediumBrain(GameSettings settings) {
 		this.utility = new BrainUtilities(settings);
 	}

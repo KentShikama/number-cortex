@@ -1,20 +1,20 @@
 package com.numbercortex;
 
 public class GameSettings {
-	
+
 	private int level;
-	
+
 	private int numberOfRows;
 	private int time;
-	
+
 	private boolean evenOdd;
 	private boolean singleDouble;
 	private boolean primeComposite;
 	private boolean middleExtreme;
-	
+
 	private boolean diagonals;
 	private boolean fourSquare;
-	
+
 	private int difficulty;
 
 	public int getLevel() {

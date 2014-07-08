@@ -14,16 +14,16 @@ public class Assets {
 	public static Skin gameSkin;
 	public static Skin dialogSkin;
 	public static Skin settingsSkin;
-	
+
 	private static final String HOME_ATLAS = "home/home.txt";
 	private static final String HOME_SKIN = "home/home.json";
-	
+
 	private static final String LEVEL_ATLAS = "levels/levels.atlas";
 	private static final String LEVEL_SKIN = "levels/levels.json";
-	
+
 	private static final String GAME_ATLAS = "game/game.atlas";
 	private static final String GAME_SKIN = "game/game.json";
-	
+
 	private static final String DIALOG_ATLAS = "dialog/dialog.atlas";
 	private static final String DIALOG_SKIN = "dialog/dialog.json";
 
@@ -53,16 +53,16 @@ public class Assets {
 	public static void assignPlayScreen() {
 		gameSkin = manager.get(GAME_SKIN, Skin.class);
 	}
-	
+
 	public static void loadDialog() {
 		manager.load(DIALOG_ATLAS, TextureAtlas.class);
 		manager.load(DIALOG_SKIN, Skin.class, new SkinLoader.SkinParameter(DIALOG_ATLAS));
 	}
-	
+
 	public static void assignDialogScreen() {
 		dialogSkin = manager.get(DIALOG_SKIN, Skin.class);
 	}
-	
+
 	/**
 	 * TODO: Delete once no longer needed
 	 */

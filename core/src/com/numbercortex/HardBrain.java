@@ -16,7 +16,7 @@ public class HardBrain implements Brain {
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();

@@ -34,9 +34,8 @@ public class BrainUtilities {
 		return chosenCoordinate;
 	}
 
-	public ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber,
-			Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> openCoordinates,
-			ArrayList<Integer> availableNumbers) {
+	public ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
+			ArrayList<Integer> openCoordinates, ArrayList<Integer> availableNumbers) {
 		ArrayList<Integer> safeCoordinates = new ArrayList<Integer>();
 		for (Integer openCoordinate : openCoordinates) {
 			coordinateNumberMap.put(openCoordinate, chosenNumber);

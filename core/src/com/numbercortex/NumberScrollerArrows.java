@@ -1,14 +1,9 @@
 package com.numbercortex;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -16,10 +11,10 @@ public class NumberScrollerArrows {
 
 	private static final String RIGHT_ARROW = "right_arrow";
 	private static final String LEFT_ARROW = "left_arrow";
-	
+
 	private ImageButton leftArrowButton;
 	private ImageButton rightArrowButton;
-	
+
 	NumberScrollerArrows(final ScrollPane scroller) {
 		Drawable leftArrowRectangleSkin = Assets.gameSkin.getDrawable(LEFT_ARROW);
 		Drawable rightArrowRectangleSkin = Assets.gameSkin.getDrawable(RIGHT_ARROW);
@@ -50,7 +45,7 @@ public class NumberScrollerArrows {
 			}
 		});
 	}
-	
+
 	public void addArrows(Stage stage) {
 		stage.addActor(leftArrowButton);
 		stage.addActor(rightArrowButton);

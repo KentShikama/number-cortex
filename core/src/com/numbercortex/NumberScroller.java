@@ -3,16 +3,11 @@ package com.numbercortex;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -42,7 +37,7 @@ public class NumberScroller {
 
 	private ScrollPane numberScroller;
 	private NumberScrollerArrows arrows;
-	
+
 	private Sendable messenger;
 	private Table numberTable = new Table();
 	private NumberButtonListener listener = new NumberButtonListener();
@@ -84,7 +79,8 @@ public class NumberScroller {
 		ScrollPane numberScroller = new ScrollPane(numberTable, style);
 		int scrollerRectangleWidth = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionWidth();
 		int scrollerRectangleHeight = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionHeight();
-		numberScroller.setBounds(101 - 1, Launch.SCREEN_HEIGHT - 1013, scrollerRectangleWidth + 2, scrollerRectangleHeight);
+		numberScroller.setBounds(101 - 1, Launch.SCREEN_HEIGHT - 1013, scrollerRectangleWidth + 2,
+				scrollerRectangleHeight);
 		numberScroller.setOverscroll(true, false);
 		return numberScroller;
 	}
@@ -92,7 +88,7 @@ public class NumberScroller {
 	public void setSendable(Sendable messenger) {
 		this.messenger = messenger;
 	}
-	
+
 	public void removeScroller() {
 		for (Actor numberButton : numberTable.getChildren()) {
 			numberButton.clearListeners();
@@ -100,7 +96,7 @@ public class NumberScroller {
 		AnimationUtilities.delayFadeAndRemoveActor(numberScroller);
 		arrows.remove();
 	}
-	
+
 	public void update(ArrayList<Integer> numberList) {
 		numberTable.clearChildren();
 		if (buttonStyle == null) {
@@ -112,7 +108,7 @@ public class NumberScroller {
 			numberTable.add(button);
 		}
 	}
-	
+
 	public static void dispose() {
 		style = null;
 		buttonStyle = null;

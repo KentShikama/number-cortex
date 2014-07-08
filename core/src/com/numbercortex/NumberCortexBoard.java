@@ -10,11 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class NumberCortexBoard {
@@ -112,7 +110,7 @@ public class NumberCortexBoard {
 			int bottom = ((numberOfRows - 1) - i / numberOfRows) * squareLength;
 			NumberTextButton button = cells.get(i);
 			button.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength, squareLength);
-		}		
+		}
 	}
 	private static void addCellsToStageIfAbsent(Stage stage, NumberCortexBoard instance) {
 		for (NumberTextButton cell : instance.cells) {
@@ -199,7 +197,7 @@ public class NumberCortexBoard {
 			button.addAction(Actions.sequence(delayAction, moveToAction));
 		}
 	}
-	
+
 	public static void dispose() {
 		Singleton.INSTANCE.cells = null;
 		greenRectangleStyle = null;

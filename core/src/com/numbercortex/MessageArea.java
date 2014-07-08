@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -28,7 +27,7 @@ public class MessageArea {
 		textButtonStyle.fontColor = Color.WHITE;
 		return textButtonStyle;
 	}
-	
+
 	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildTextButtonStyle();
 	private static TextButton.TextButtonStyle buildTextButtonStyle() {
 		BitmapFont font = FontGenerator.getMessageFont();
@@ -37,7 +36,7 @@ public class MessageArea {
 		textButtonStyle.fontColor = Color.WHITE;
 		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
 		return textButtonStyle;
-	}	
+	}
 
 	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
@@ -50,12 +49,11 @@ public class MessageArea {
 		return buttonStyle;
 	}
 
-
 	private Stage stage;
 	private TextButton messageLabelShort;
 	private TextButton messageLabelLong;
 	private NumberTextButton nextNumberSquare;
-	
+
 	private Table buttonTable = new Table();
 	private TextButton menuButton;
 	private TextButton playButton;
@@ -66,7 +64,7 @@ public class MessageArea {
 	}
 
 	private MessageArea() {}
-	
+
 	public static MessageArea createMessageArea(Stage stage, Game game) {
 		MessageArea instance = Singleton.INSTANCE;
 		instance.stage = stage;
@@ -111,10 +109,11 @@ public class MessageArea {
 		}
 		TextButton menuButton = new TextButton("Menu", borderedTextButtonStyle);
 		menuButton.addListener(new ClickListener() {
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.titleScreen);
 			}
-		});		
+		});
 		return menuButton;
 	}
 	private static TextButton buildPlayButton(final Game game) {
@@ -123,14 +122,15 @@ public class MessageArea {
 		}
 		TextButton playButton = new TextButton("Play", borderedTextButtonStyle);
 		playButton.addListener(new ClickListener() {
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
-					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);					
+					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 				} else {
-					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);					
+					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);
 				}
 			}
-		});		
+		});
 		return playButton;
 	}
 	private static TextButton buildContinueButton(final Game game) {
@@ -139,13 +139,14 @@ public class MessageArea {
 		}
 		TextButton continueButton = new TextButton("Continue", borderedTextButtonStyle);
 		continueButton.addListener(new ClickListener() {
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				/**
 				 * TODO: Update level
 				 */
 				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 			}
-		});		
+		});
 		return continueButton;
 	}
 
@@ -179,7 +180,7 @@ public class MessageArea {
 		Label label = new Label("", labelStyle);
 		return label;
 	}
-	
+
 	/**
 	 * TODO: Add different message when unlocking new element
 	 */
@@ -195,7 +196,7 @@ public class MessageArea {
 			public boolean act(float delta) {
 				updateMessage(winner + " wins!");
 				return true;
-			}	
+			}
 		};
 		return showWinner;
 	}
@@ -205,7 +206,7 @@ public class MessageArea {
 			public boolean act(float delta) {
 				updateMessageWithButtons("Do you wish to play again?");
 				return true;
-			}	
+			}
 		};
 		return showNextOptions;
 	}
@@ -217,7 +218,7 @@ public class MessageArea {
 		buttonTable.add(playButton).pad(20).padTop(50);
 		stage.addActor(buttonTable);
 	}
-	
+
 	public static void dispose() {
 		borderedTextButtonStyle = null;
 		nextNumberStyle = null;
