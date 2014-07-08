@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
 
-	public static AssetManager manager = new AssetManager();
+	public static AssetManager manager;
 
 	public static Skin homeSkin;
 	public static Skin levelsSkin;

@@ -2,6 +2,7 @@ package com.numbercortex;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,6 +19,7 @@ public class Launch extends Game {
 
 	@Override
 	public void create() {
+		Assets.manager = new AssetManager();
 		buildHomeScreen();
 		buildOtherScreens();
 	}
@@ -68,12 +70,19 @@ public class Launch extends Game {
 		MessageArea.dispose();
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
-		Assets.manager.clear();
+		Assets.manager.dispose();
 	}
 
 	@Override
 	public void render() {
 		super.render();
 	}
+	
+	@Override
+	public void resume () {
+		super.resume();
+		Assets.manager.finishLoading();
+	}
+
 
 }

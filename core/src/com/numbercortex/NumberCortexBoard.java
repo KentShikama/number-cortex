@@ -201,9 +201,9 @@ public class NumberCortexBoard {
 	}
 	
 	public static void dispose() {
+		Singleton.INSTANCE.cells = null;
 		greenRectangleStyle = null;
 		blueRectangleStyle = null;
 		redRectangleStyle = null;
-		Singleton.INSTANCE.cells = null;
 	}
 }
