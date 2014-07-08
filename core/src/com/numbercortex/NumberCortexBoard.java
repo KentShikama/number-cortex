@@ -190,9 +190,9 @@ public class NumberCortexBoard {
 		return numberOfRows;
 	}
 
-	public void bringCellsDown() {
+	public void bringCellsDown(float delay) {
 		for (NumberTextButton button : cells) {
-			DelayAction delayAction = Actions.delay(3f);
+			DelayAction delayAction = Actions.delay(delay - 1f);
 			MoveByAction moveToAction = Actions.moveBy(0, -220, 1f);
 			button.addAction(Actions.sequence(delayAction, moveToAction));
 		}

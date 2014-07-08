@@ -11,7 +11,7 @@ public class BrainUtilities {
 		this.settings = settings;
 	}
 
-	public ArrayList<Integer> getOpenCoordinates(Map<Integer, Integer> coordinateNumberMap) {
+	public static ArrayList<Integer> getOpenCoordinates(Map<Integer, Integer> coordinateNumberMap) {
 		ArrayList<Integer> openCoordinates = new ArrayList<Integer>();
 		for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
 			if (entry.getValue() == -1) {

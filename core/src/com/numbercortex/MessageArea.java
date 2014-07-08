@@ -184,9 +184,9 @@ public class MessageArea {
 	/**
 	 * TODO: Add different message when unlocking new element
 	 */
-	public void showWinningMessageSequence(final String winner) {
+	public void showEndingMessageSequence(final String winner, float delay) {
 		Action showWinner = buildShowWinnerAction(winner);
-		DelayAction delayAction = Actions.delay(4f);
+		DelayAction delayAction = Actions.delay(delay);
 		Action showNextOptions = buildShowNextOptionsAction();
 		stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
 	}
@@ -194,7 +194,11 @@ public class MessageArea {
 		Action showWinner = new Action() {
 			@Override
 			public boolean act(float delta) {
-				updateMessage(winner + " wins!");
+				if (winner == null) {
+					updateMessage("Tie game!");
+				} else {
+					updateMessage(winner + " wins!");					
+				}
 				return true;
 			}
 		};

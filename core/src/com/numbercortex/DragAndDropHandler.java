@@ -56,7 +56,7 @@ public class DragAndDropHandler {
 
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-			if (isChosenNumber(sourceButton) && isHumanPlayerTurn()) {
+			if (isChosenNumber(sourceButton) && isHumanPlayerTurn() && ScreenTracker.isInPlay) {
 				Payload payload = new Payload();
 				Label buttonLabel = sourceButton.getLabel();
 				payload.setObject(buttonLabel);

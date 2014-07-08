@@ -118,16 +118,19 @@ public class PlayScreen implements Screen {
 
 	public void updateState(CortexState state, Player currentPlayer) {
 		final String winner = state.getWinner();
-		if (winner == null) {
+		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
+		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		if (winner == null && !openCoordinates.isEmpty()) {
 			updateCurrentPlayer(currentPlayer);
 			updateChosenNumber(state);
 			updateMessageArea(state);
 			updateBoardMap(state);
 			updateNumberScroller(state);
-		} else {
-			messageArea.showWinningMessageSequence(winner);
+		} else if (winner != null) {
+			float endingAnimationTime = 4f;
+			messageArea.showEndingMessageSequence(winner, endingAnimationTime);
 
-			board.bringCellsDown();
+			board.bringCellsDown(endingAnimationTime);
 			int[] winningValues = state.getWinningValues();
 			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
 			board.showWinningCoordinates(winningMap);
@@ -139,6 +142,21 @@ public class PlayScreen implements Screen {
 			AnimationUtilities.delayFadeAndRemoveActor(helpButton);
 
 			ScreenTracker.isInPlay = false;
+		} else if (winner == null && openCoordinates.isEmpty()) {
+			float endingAnimationTime = 2f;
+			messageArea.showEndingMessageSequence(winner, endingAnimationTime);
+
+			board.bringCellsDown(endingAnimationTime);
+
+			numberScroller.removeScroller();
+			settingsButton.clearListeners();
+			helpButton.clearListeners();
+			AnimationUtilities.delayFadeAndRemoveActor(settingsButton);
+			AnimationUtilities.delayFadeAndRemoveActor(helpButton);
+
+			ScreenTracker.isInPlay = false;
+		} else {
+			Gdx.app.log(TAG, "Impossible board state.");
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {
