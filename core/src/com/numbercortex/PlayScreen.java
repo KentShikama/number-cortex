@@ -126,37 +126,9 @@ public class PlayScreen implements Screen {
 			updateMessageArea(state);
 			updateBoardMap(state);
 			updateNumberScroller(state);
-		} else if (winner != null) {
-			float endingAnimationTime = 4f;
-			messageArea.showEndingMessageSequence(winner, endingAnimationTime);
-
-			board.bringCellsDown(endingAnimationTime);
-			int[] winningValues = state.getWinningValues();
-			Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
-			board.showWinningCoordinates(winningMap);
-
-			numberScroller.removeScroller();
-			settingsButton.clearListeners();
-			helpButton.clearListeners();
-			AnimationUtilities.delayFadeAndRemoveActor(settingsButton);
-			AnimationUtilities.delayFadeAndRemoveActor(helpButton);
-
-			ScreenTracker.isInPlay = false;
-		} else if (winner == null && openCoordinates.isEmpty()) {
-			float endingAnimationTime = 2f;
-			messageArea.showEndingMessageSequence(winner, endingAnimationTime);
-
-			board.bringCellsDown(endingAnimationTime);
-
-			numberScroller.removeScroller();
-			settingsButton.clearListeners();
-			helpButton.clearListeners();
-			AnimationUtilities.delayFadeAndRemoveActor(settingsButton);
-			AnimationUtilities.delayFadeAndRemoveActor(helpButton);
-
-			ScreenTracker.isInPlay = false;
 		} else {
-			Gdx.app.log(TAG, "Impossible board state.");
+			animateEndingSequence(state, winner);
+			ScreenTracker.isInPlay = false;
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {
@@ -192,6 +164,22 @@ public class PlayScreen implements Screen {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
 	}
+	private void animateEndingSequence(CortexState state, final String winner) {
+		float currentGameOverAnimationTime = 0f;
+		if (winner != null) {
+			currentGameOverAnimationTime += handleShowingOfWinningCoordinates(state);
+		} else {
+			int tieDelay = 1;
+			currentGameOverAnimationTime += tieDelay;
+		}
+		currentGameOverAnimationTime += moveDownBoardAndRemoveOtherElements(currentGameOverAnimationTime);
+		messageArea.showEndingMessageSequence(winner, currentGameOverAnimationTime);
+	}
+	private float handleShowingOfWinningCoordinates(CortexState state) {
+		int[] winningValues = state.getWinningValues();
+		Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
+		return board.showWinningCoordinates(winningMap);
+	}
 	private Map<Integer, Integer> buildWinningMap(CortexState state, int[] winningValues) {
 		Map<Integer, Integer> winningMap = new HashMap<Integer, Integer>();
 		for (Map.Entry<Integer, Integer> entry : state.getCoordinateNumberMap().entrySet()) {
@@ -203,6 +191,18 @@ public class PlayScreen implements Screen {
 			}
 		}
 		return winningMap;
+	}
+	private float moveDownBoardAndRemoveOtherElements(float delay) {
+		board.bringCellsDown(delay);
+		removeOtherElementsWithAnimation(delay);
+		return 1f;
+	}
+	private void removeOtherElementsWithAnimation(float delay) {
+		numberScroller.removeScroller(delay);
+		settingsButton.clearListeners();
+		helpButton.clearListeners();
+		AnimationUtilities.delayFadeAndRemoveActor(settingsButton, delay);
+		AnimationUtilities.delayFadeAndRemoveActor(helpButton, delay);
 	}
 
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {

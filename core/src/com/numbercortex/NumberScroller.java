@@ -89,12 +89,12 @@ public class NumberScroller {
 		this.messenger = messenger;
 	}
 
-	public void removeScroller() {
+	public void removeScroller(float delay) {
 		for (Actor numberButton : numberTable.getChildren()) {
 			numberButton.clearListeners();
 		}
-		AnimationUtilities.delayFadeAndRemoveActor(numberScroller);
-		arrows.remove();
+		AnimationUtilities.delayFadeAndRemoveActor(numberScroller, delay);
+		arrows.remove(delay);
 	}
 
 	public void update(ArrayList<Integer> numberList) {

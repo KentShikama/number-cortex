@@ -51,8 +51,8 @@ public class NumberScrollerArrows {
 		stage.addActor(rightArrowButton);
 	}
 
-	public void remove() {
-		AnimationUtilities.delayFadeAndRemoveActor(leftArrowButton);
-		AnimationUtilities.delayFadeAndRemoveActor(rightArrowButton);
+	public void remove(float delay) {
+		AnimationUtilities.delayFadeAndRemoveActor(leftArrowButton, delay);
+		AnimationUtilities.delayFadeAndRemoveActor(rightArrowButton, delay);
 	}
 }

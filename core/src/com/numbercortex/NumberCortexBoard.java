@@ -133,10 +133,11 @@ public class NumberCortexBoard {
 		cell.setText("");
 	}
 
-	public void showWinningCoordinates(Map<Integer, Integer> winningMap) {
+	public float showWinningCoordinates(Map<Integer, Integer> winningMap) {
 		for (Map.Entry<Integer, Integer> winningEntry : winningMap.entrySet()) {
 			buildWinningAction(winningEntry);
 		}
+		return 3f;
 	}
 	private void buildWinningAction(Map.Entry<Integer, Integer> winningEntry) {
 		int winningCoordinate = winningEntry.getKey();
@@ -192,7 +193,7 @@ public class NumberCortexBoard {
 
 	public void bringCellsDown(float delay) {
 		for (NumberTextButton button : cells) {
-			DelayAction delayAction = Actions.delay(delay - 1f);
+			DelayAction delayAction = Actions.delay(delay);
 			MoveByAction moveToAction = Actions.moveBy(0, -220, 1f);
 			button.addAction(Actions.sequence(delayAction, moveToAction));
 		}

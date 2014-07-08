@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 public class AnimationUtilities {
 	private AnimationUtilities() {}
 
-	public static void delayFadeAndRemoveActor(Actor actor) {
-		DelayAction delayAction = Actions.delay(3f);
+	public static void delayFadeAndRemoveActor(Actor actor, float delay) {
+		DelayAction delayAction = Actions.delay(delay);
 		AlphaAction fadeAction = Actions.fadeOut(1f);
 		fadeAction.setInterpolation(Interpolation.exp10Out);
 		Action removeActor = new Action() {
