@@ -165,15 +165,15 @@ public class PlayScreen implements Screen {
 		numberScroller.update(availableNumbers);
 	}
 	private void animateEndingSequence(CortexState state, final String winner) {
-		float currentGameOverAnimationTime = 0f;
+		float currentAnimationTime = 0f;
 		if (winner != null) {
-			currentGameOverAnimationTime += handleShowingOfWinningCoordinates(state);
+			currentAnimationTime += handleShowingOfWinningCoordinates(state);
 		} else {
 			int tieDelay = 1;
-			currentGameOverAnimationTime += tieDelay;
+			currentAnimationTime += tieDelay;
 		}
-		currentGameOverAnimationTime += moveDownBoardAndRemoveOtherElements(currentGameOverAnimationTime);
-		messageArea.showEndingMessageSequence(winner, currentGameOverAnimationTime);
+		currentAnimationTime += moveDownBoardAndRemoveOtherElements(currentAnimationTime);
+		messageArea.showEndingMessageSequence(winner, currentAnimationTime);
 	}
 	private float handleShowingOfWinningCoordinates(CortexState state) {
 		int[] winningValues = state.getWinningValues();
