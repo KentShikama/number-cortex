@@ -19,6 +19,7 @@ public class DefaultCortexModel implements CortexModel {
 	private ArrayList<String> usernames = new ArrayList<String>();
 
 	private String winner; // Optional
+	private String winningAttribute; // Optional
 	private int[] winningValues; // Optional
 
 	private GameManager messenger;
@@ -26,9 +27,12 @@ public class DefaultCortexModel implements CortexModel {
 
 	private int firstPlayerPosition = -1;
 
+	private WinHandler winHandler;
+
 	public DefaultCortexModel(GameManager messenger, GameSettings settings) {
 		this.messenger = messenger;
 		this.settings = settings;
+		this.winHandler = new WinHandler(settings);
 	}
 
 	@Override
@@ -70,11 +74,12 @@ public class DefaultCortexModel implements CortexModel {
 			}
 			coordinateNumberMap.put(coordinate, chosenNumber);
 			chosenNumber = -1;
-			winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, settings);
+			winningValues = winHandler.handleWinningBoard(coordinateNumberMap);
 			CortexState state;
 			if (winningValues != null) {
+				winningAttribute = winHandler.getWinningAttriute();
 				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
-						coordinateNumberMap, availableNumbers).win(currentPlayer, winningValues).build();
+						coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues).build();
 			} else {
 				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 						coordinateNumberMap, availableNumbers).build();

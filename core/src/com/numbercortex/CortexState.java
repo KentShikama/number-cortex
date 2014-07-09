@@ -14,7 +14,9 @@ public class CortexState implements Serializable {
 		private final int chosenNumber;
 		private final Map<Integer, Integer> coordinateNumberMap;
 		private final ArrayList<Integer> availableNumbers;
+		
 		private String winner; // Optional
+		private String winningAttribute; // Optional
 		private int[] winningValues; // Optional
 
 		public CortexStateBuilder(String message, String currentPlayer, ArrayList<String> players, int chosenNumber,
@@ -27,8 +29,9 @@ public class CortexState implements Serializable {
 			this.availableNumbers = availableNumbers;
 		}
 
-		public CortexStateBuilder win(String winner, int[] winningValues) {
+		public CortexStateBuilder win(String winner, String winningAttribute, int[] winningValues) {
 			this.winner = winner;
+			this.winningAttribute = winningAttribute;
 			this.winningValues = winningValues;
 			return this;
 		}
@@ -46,8 +49,9 @@ public class CortexState implements Serializable {
 	private int chosenNumber;
 	private Map<Integer, Integer> coordinateNumberMap;
 	private ArrayList<Integer> availableNumbers;
+	
 	private String winner; // Optional
-
+	private String winningAttribute; // Optional
 	private int[] winningValues; // Optional
 
 	private CortexState(CortexStateBuilder builder) {
@@ -58,6 +62,7 @@ public class CortexState implements Serializable {
 		this.coordinateNumberMap = builder.coordinateNumberMap;
 		this.availableNumbers = builder.availableNumbers;
 		this.winner = builder.winner;
+		this.winningAttribute = builder.winningAttribute;
 		this.winningValues = builder.winningValues;
 	}
 
@@ -87,6 +92,10 @@ public class CortexState implements Serializable {
 
 	public String getWinner() {
 		return winner;
+	}
+	
+	public String getWinningAttribute() {
+		return winningAttribute;
 	}
 
 	public int[] getWinningValues() {

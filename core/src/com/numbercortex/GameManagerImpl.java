@@ -138,7 +138,8 @@ public class GameManagerImpl implements GameManager {
 	}
 	private void handleTutorialMessages(CortexState state) {
 		if (ScreenTracker.level == 0) {
-			int turnCount = utilities.getTurnNumber(state);
+			int numberOfRows = settings.getNumberOfRows();
+			int turnCount = utilities.getTurnNumber(state, numberOfRows);
 			String[] messages = getTutorialMessage(turnCount);
 			if (messages != null) {
 				screen.showConfirmationDialog(messages);				

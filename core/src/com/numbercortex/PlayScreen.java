@@ -126,7 +126,7 @@ public class PlayScreen implements Screen {
 			updateBoardMap(state);
 			updateNumberScroller(state);
 		} else {
-			animateEndingSequence(state, winner);
+			animateEndingSequence(state);
 			ScreenTracker.isInPlay = false;
 		}
 	}
@@ -163,7 +163,9 @@ public class PlayScreen implements Screen {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
 	}
-	private void animateEndingSequence(CortexState state, final String winner) {
+	private void animateEndingSequence(CortexState state) {
+		String winner = state.getWinner();
+		String winningAttribute = state.getWinningAttribute();
 		float currentAnimationTime = 0f;
 		if (winner != null) {
 			currentAnimationTime += handleShowingOfWinningCoordinates(state);
@@ -172,7 +174,7 @@ public class PlayScreen implements Screen {
 			currentAnimationTime += tieDelay;
 		}
 		currentAnimationTime += moveDownBoardAndRemoveOtherElements(currentAnimationTime);
-		messageArea.showEndingMessageSequence(winner, currentAnimationTime);
+		messageArea.showEndingMessageSequence(winner, winningAttribute, currentAnimationTime);
 	}
 	private float handleShowingOfWinningCoordinates(CortexState state) {
 		int[] winningValues = state.getWinningValues();

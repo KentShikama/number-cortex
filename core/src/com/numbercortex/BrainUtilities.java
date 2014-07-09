@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class BrainUtilities {
 
-	private GameSettings settings;
+	private WinHandler winHandler;
 
 	public BrainUtilities(GameSettings settings) {
-		this.settings = settings;
+		this.winHandler = new WinHandler(settings);
 	}
 
 	public static ArrayList<Integer> getOpenCoordinates(Map<Integer, Integer> coordinateNumberMap) {
@@ -22,8 +22,8 @@ public class BrainUtilities {
 		return openCoordinates;
 	}
 	
-	public int getTurnNumber(CortexState state) {
-		int fullCoordinatesSize = getFullCoordinates(state);
+	public int getTurnNumber(CortexState state, int numberOfRows) {
+		int fullCoordinatesSize = getFullCoordinates(state, numberOfRows);
 		int turnCount = 0;
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber == -1) {
@@ -33,14 +33,13 @@ public class BrainUtilities {
 		}
 		return turnCount;
 	}
-	private int getFullCoordinates(CortexState state) {
-		int boardSize = getBoardSize();
+	private int getFullCoordinates(CortexState state, int numberOfRows) {
+		int boardSize = getBoardSize(numberOfRows);
 		int openCoordinatesSize = getOpenCoordinateSize(state);
 		int fullCoordinatesSize =  boardSize - openCoordinatesSize;
 		return fullCoordinatesSize;
 	}
-	private int getBoardSize() {
-		int numberOfRows = settings.getNumberOfRows();
+	private int getBoardSize(int numberOfRows) {
 		int boardSize = numberOfRows * numberOfRows;
 		return boardSize;
 	}
@@ -99,7 +98,7 @@ public class BrainUtilities {
 
 	public boolean isWinningCoordinate(int coordinate, int number, Map<Integer, Integer> coordinateNumberMap) {
 		coordinateNumberMap.put(coordinate, number);
-		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, settings);
+		int[] winningValues = winHandler.handleWinningBoard(coordinateNumberMap);
 		coordinateNumberMap.put(coordinate, -1);
 		if (winningValues != null) {
 			return true;

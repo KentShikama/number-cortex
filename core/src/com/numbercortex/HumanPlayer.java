@@ -16,10 +16,13 @@ class HumanPlayer implements Player {
 	private int savedCoordinate;
 	private boolean nextCoordinateChosen;
 
+	private WinHandler winHandler;
+
 	public HumanPlayer(String name, PlayScreen screen, GameManager messenger) {
 		this.messenger = messenger;
 		this.screen = screen;
 		this.name = name;
+		this.winHandler = new WinHandler(messenger.getSettings());
 	}
 
 	/**
@@ -69,7 +72,7 @@ class HumanPlayer implements Player {
 		}
 	}
 	private void handleUpdatedMap(int coordinate, Map<Integer, Integer> coordinateNumberMap) {
-		int[] winningValues = WinHandler.handleWinningBoard(coordinateNumberMap, messenger.getSettings());
+		int[] winningValues = winHandler.handleWinningBoard(coordinateNumberMap);
 		if (winningValues != null) {
 			messenger.placeNumber(name, coordinate);
 		} else {

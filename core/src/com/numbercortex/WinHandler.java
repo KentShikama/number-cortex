@@ -3,39 +3,48 @@ package com.numbercortex;
 import java.util.Map;
 
 public class WinHandler {
+	
+	private GameSettings settings;
+	private String winningAttribute;
+	
+	WinHandler(GameSettings settings) {
+		this.settings = settings;
+	}
+	
+	public String getWinningAttriute() {
+		return winningAttribute;
+	}
 
-	private WinHandler() {}
-
-	public static int[] handleWinningBoard(Map<Integer, Integer> coordinateNumberMap, GameSettings settings) {
+	public int[] handleWinningBoard(Map<Integer, Integer> coordinateNumberMap) {
 		int[][] translatedCoordinateNumberMap = translateCoordinates(coordinateNumberMap);
 		int[] winningSet;
-		winningSet = checkAndHandleHorizontals(translatedCoordinateNumberMap, settings);
+		winningSet = checkAndHandleHorizontals(translatedCoordinateNumberMap);
 		if (winningSet != null) {
 			return winningSet;
 		}
-		winningSet = checkAndHandleVerticals(translatedCoordinateNumberMap, settings);
+		winningSet = checkAndHandleVerticals(translatedCoordinateNumberMap);
 		if (winningSet != null) {
 			return winningSet;
 		}
 		if (settings.isDiagonals()) {
-			winningSet = checkAndHandleLeftDiagonal(translatedCoordinateNumberMap, settings);
+			winningSet = checkAndHandleLeftDiagonal(translatedCoordinateNumberMap);
 			if (winningSet != null) {
 				return winningSet;
 			}
-			winningSet = checkAndHandleRightDiagonal(translatedCoordinateNumberMap, settings);
+			winningSet = checkAndHandleRightDiagonal(translatedCoordinateNumberMap);
 			if (winningSet != null) {
 				return winningSet;
 			}
 		}
 		if (settings.isFourSquare()) {
-			winningSet = checkAndHandleFourSquare(translatedCoordinateNumberMap, settings);
+			winningSet = checkAndHandleFourSquare(translatedCoordinateNumberMap);
 			if (winningSet != null) {
 				return winningSet;
 			}
 		}
 		return null;
 	}
-	private static int[][] translateCoordinates(Map<Integer, Integer> coordinateNumberMap) {
+	private int[][] translateCoordinates(Map<Integer, Integer> coordinateNumberMap) {
 		int numberOfRows = (int) Math.sqrt(coordinateNumberMap.size());
 		int[][] translatedCoordinateNumberMap = new int[numberOfRows][numberOfRows];
 		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
@@ -44,52 +53,52 @@ public class WinHandler {
 		return translatedCoordinateNumberMap;
 	}
 
-	private static int[] checkAndHandleHorizontals(int[][] translatedCoordinateNumberMap, GameSettings settings) {
+	private int[] checkAndHandleHorizontals(int[][] translatedCoordinateNumberMap) {
 		int numberOfRows = translatedCoordinateNumberMap.length;
 		for (int row = 0; row < numberOfRows; row++) {
 			int[] set = translatedCoordinateNumberMap[row];
-			if (isBingo(set, settings)) {
+			if (isBingo(set)) {
 				return set;
 			}
 		}
 		return null;
 	}
-	private static int[] checkAndHandleVerticals(int[][] translatedCoordinateNumberMap, GameSettings settings) {
+	private int[] checkAndHandleVerticals(int[][] translatedCoordinateNumberMap) {
 		int numberOfRows = translatedCoordinateNumberMap.length;
 		for (int column = 0; column < numberOfRows; column++) {
 			int[] set = new int[numberOfRows];
 			for (int i = 0; i < numberOfRows; i++) {
 				set[i] = translatedCoordinateNumberMap[i][column];
 			}
-			if (isBingo(set, settings)) {
+			if (isBingo(set)) {
 				return set;
 			}
 		}
 		return null;
 	}
-	private static int[] checkAndHandleLeftDiagonal(int[][] translatedCoordinateNumberMap, GameSettings settings) {
+	private int[] checkAndHandleLeftDiagonal(int[][] translatedCoordinateNumberMap) {
 		int numberOfRows = translatedCoordinateNumberMap.length;
 		int[] leftDiagonalSet = new int[numberOfRows];
 		for (int i = 0; i < numberOfRows; i++) {
 			leftDiagonalSet[i] = translatedCoordinateNumberMap[i][i];
 		}
-		if (isBingo(leftDiagonalSet, settings)) {
+		if (isBingo(leftDiagonalSet)) {
 			return leftDiagonalSet;
 		}
 		return null;
 	}
-	private static int[] checkAndHandleRightDiagonal(int[][] translatedCoordinateNumberMap, GameSettings settings) {
+	private int[] checkAndHandleRightDiagonal(int[][] translatedCoordinateNumberMap) {
 		int numberOfRows = translatedCoordinateNumberMap.length;
 		int[] rightDiagonalSet = new int[numberOfRows];
 		for (int i = 0; i < numberOfRows; i++) {
 			rightDiagonalSet[i] = translatedCoordinateNumberMap[numberOfRows - 1 - i][i];
 		}
-		if (isBingo(rightDiagonalSet, settings)) {
+		if (isBingo(rightDiagonalSet)) {
 			return rightDiagonalSet;
 		}
 		return null;
 	}
-	private static int[] checkAndHandleFourSquare(int[][] translatedCoordinateNumberMap, GameSettings settings) {
+	private int[] checkAndHandleFourSquare(int[][] translatedCoordinateNumberMap) {
 		int numberOfRows = translatedCoordinateNumberMap.length;
 		int[] set = new int[4];
 		for (int row = 0; row < numberOfRows - 1; row++) {
@@ -98,7 +107,7 @@ public class WinHandler {
 				set[1] = translatedCoordinateNumberMap[row + 1][column];
 				set[2] = translatedCoordinateNumberMap[row][column + 1];
 				set[3] = translatedCoordinateNumberMap[row + 1][column + 1];
-				if (isBingo(set, settings)) {
+				if (isBingo(set)) {
 					return set;
 				}
 			}
@@ -106,7 +115,7 @@ public class WinHandler {
 		return null;
 	}
 
-	private static boolean isBingo(int[] set, GameSettings settings) {
+	private boolean isBingo(int[] set) {
 		for (int i = 0; i < set.length; i++) {
 			if (set[i] == -1) {
 				return false;
@@ -126,27 +135,42 @@ public class WinHandler {
 		}
 		return false;
 	}
-	private static boolean isValidEvenOdd(int[] set) {
+	private boolean isValidEvenOdd(int[] set) {
 		for (int i = 0; i < set.length - 1; i++) {
 			if (set[i] % 2 != set[i + 1] % 2) {
 				return false;
 			}
 		}
+		if (set[0] % 2 == 0) {
+			winningAttribute = "Evens";
+		} else {
+			winningAttribute = "Odds";
+		}
 		return true;
 	}
-	private static boolean isValidSingleDouble(int[] set) {
+	private boolean isValidSingleDouble(int[] set) {
 		for (int i = 0; i < set.length - 1; i++) {
 			if (set[i] / 10 != set[i + 1] / 10) {
 				return false;
 			}
 		}
+		if (set[0] / 10 == 0) {
+			winningAttribute = "Single Digits";
+		} else {
+			winningAttribute = "Double Digits";
+		}
 		return true;
 	}
-	private static boolean isValidPrimeComposite(int[] set) {
+	private boolean isValidPrimeComposite(int[] set) {
 		for (int i = 0; i < set.length - 1; i++) {
 			if (isPrime(set[i]) != isPrime(set[i + 1])) {
 				return false;
 			}
+		}
+		if (isPrime(set[0]) == true) {
+			winningAttribute = "Primes";
+		} else {
+			winningAttribute = "Composites";
 		}
 		return true;
 	}
@@ -164,11 +188,16 @@ public class WinHandler {
 		}
 		return true;
 	}
-	private static boolean isValidMiddleExtreme(int[] set) {
+	private boolean isValidMiddleExtreme(int[] set) {
 		for (int i = 0; i < set.length - 1; i++) {
 			if (isMiddle(set[i]) != isMiddle(set[i + 1])) {
 				return false;
 			}
+		}
+		if (isMiddle(set[0]) == true) {
+			winningAttribute = "middle";
+		} else {
+			winningAttribute = "extreme";
 		}
 		return true;
 	}

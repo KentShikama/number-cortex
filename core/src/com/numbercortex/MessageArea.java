@@ -179,20 +179,21 @@ public class MessageArea {
 		return label;
 	}
 
-	public void showEndingMessageSequence(final String winner, float delay) {
-		Action showWinner = buildShowWinnerAction(winner);
+	public void showEndingMessageSequence(final String winner, final String winningAttribute, float delay) {
+		Action showWinner = buildShowWinnerAction(winner, winningAttribute);
 		DelayAction delayAction = Actions.delay(delay);
 		Action showNextOptions = buildShowNextOptionsAction(winner);
 		stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
 	}
-	private Action buildShowWinnerAction(final String winner) {
+	private Action buildShowWinnerAction(final String winner, final String winningAttribute) {
 		Action showWinner = new Action() {
 			@Override
 			public boolean act(float delta) {
 				if (winner == null) {
 					updateMessage("Tie game!");
 				} else {
-					updateMessage(winner + " wins!");					
+					updateMessage(winner + " wins!\n" + 
+							"(" + winningAttribute + ")");					
 				}
 				return true;
 			}
