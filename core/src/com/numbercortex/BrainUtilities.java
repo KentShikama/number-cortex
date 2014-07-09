@@ -22,18 +22,33 @@ public class BrainUtilities {
 		return openCoordinates;
 	}
 	
-	public int getTurnNumber(Map<Integer, Integer> coordinateNumberMap, int chosenNumber) {
+	public int getTurnNumber(CortexState state) {
+		int fullCoordinatesSize = getFullCoordinates(state);
 		int turnCount = 0;
-		int openCoordinatesSize = getOpenCoordinates(coordinateNumberMap).size();
-		int numberOfRows = settings.getNumberOfRows();
-		int boardSize = numberOfRows * numberOfRows;
-		int fullCoordinatesSize =  boardSize - openCoordinatesSize;
+		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber == -1) {
 			turnCount = fullCoordinatesSize * 2;
 		} else {
 			turnCount = fullCoordinatesSize * 2 + 1;
 		}
 		return turnCount;
+	}
+	private int getFullCoordinates(CortexState state) {
+		int boardSize = getBoardSize();
+		int openCoordinatesSize = getOpenCoordinateSize(state);
+		int fullCoordinatesSize =  boardSize - openCoordinatesSize;
+		return fullCoordinatesSize;
+	}
+	private int getBoardSize() {
+		int numberOfRows = settings.getNumberOfRows();
+		int boardSize = numberOfRows * numberOfRows;
+		return boardSize;
+	}
+	private int getOpenCoordinateSize(CortexState state) {
+		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
+		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		int openCoordinatesSize = openCoordinates.size();
+		return openCoordinatesSize;
 	}
 
 	public int assignWinningCoordinateIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
