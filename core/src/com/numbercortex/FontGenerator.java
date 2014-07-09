@@ -3,6 +3,7 @@ package com.numbercortex;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -79,6 +80,7 @@ public class FontGenerator {
 	private static void createTimesFonts(int messageFontSize, int dialogFontSize) {
 		FreeTypeFontGenerator timesGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Times.dfont"));
 		messageFont = timesGenerator.generateFont(messageFontSize);
+		messageFont.getData().down = (float) (-messageFontSize * 1.1);
 		messageFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		dialogFont = timesGenerator.generateFont(dialogFontSize);
 		dialogFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
