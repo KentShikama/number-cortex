@@ -70,6 +70,7 @@ public class Launch extends Game {
 		MessageArea.dispose();
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
+		FontGenerator.dispose();
 		Assets.manager.dispose();
 	}
 
