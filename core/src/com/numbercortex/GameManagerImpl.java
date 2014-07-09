@@ -1,6 +1,7 @@
 package com.numbercortex;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 
@@ -126,18 +127,21 @@ public class GameManagerImpl implements GameManager {
 		updateCurrentPlayerState(state);
 	}
 	private void updateCurrentPlayerState(CortexState state) {
+		handleTutorialMessages(state);
+		for (Player player : players) {
+			String playerName = player.getName();
+			if (playerName.equals(currentPlayer)) {
+				player.updateState(state);
+			}
+		}
+		handleLevelUnlockingIfApplicable(state);
+	}
+	private void handleTutorialMessages(CortexState state) {
 		if (ScreenTracker.level == 0) {
 			int turnCount = utilities.getTurnNumber(state);
 			String[] messages = getTutorialMessage(turnCount);
 			if (messages != null) {
 				screen.showConfirmationDialog(messages);				
-			}
-			// TODO: Check if game ends and then ensure level up
-		}
-		for (Player player : players) {
-			String playerName = player.getName();
-			if (playerName.equals(currentPlayer)) {
-				player.updateState(state);
 			}
 		}
 	}
@@ -150,5 +154,31 @@ public class GameManagerImpl implements GameManager {
 			return new String[] {"Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits. Good luck!"};
 		}
 		return null;
+	}
+	private void handleLevelUnlockingIfApplicable(CortexState state) {
+		String winner = state.getWinner();
+		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
+		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		if (playerWinsSinglePlayerGame(winner) || tutorialEnds(winner, openCoordinates)) {
+			unlockNextLevelIfOnMaxLevel();
+			// TODO: Show unlock message if applicable
+		}
+	}
+	private boolean playerWinsSinglePlayerGame(String winner) {
+		return winner != null && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && winner.equals("Player");
+	}
+	private boolean tutorialEnds(String winner, ArrayList<Integer> openCoordinates) {
+		return ScreenTracker.level == 0 && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && (winner != null || openCoordinates.isEmpty());
+	}
+	private void unlockNextLevelIfOnMaxLevel() {
+		CortexPreferences preferences = CortexPreferences.getInstance();
+		int currentLevel = ScreenTracker.level;
+		int maxLevel = preferences.getCurrentLevel();
+		if (currentLevel == maxLevel) {
+			int raisedMaxLevel = ++maxLevel;
+			preferences.setCurrentLevel(raisedMaxLevel);
+			preferences.save();
+			Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
+		}
 	}
 }
