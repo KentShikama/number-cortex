@@ -21,6 +21,20 @@ public class BrainUtilities {
 		}
 		return openCoordinates;
 	}
+	
+	public int getTurnNumber(Map<Integer, Integer> coordinateNumberMap, int chosenNumber) {
+		int turnCount = 0;
+		int openCoordinatesSize = getOpenCoordinates(coordinateNumberMap).size();
+		int numberOfRows = settings.getNumberOfRows();
+		int boardSize = numberOfRows * numberOfRows;
+		int fullCoordinatesSize =  boardSize - openCoordinatesSize;
+		if (chosenNumber == -1) {
+			turnCount = fullCoordinatesSize * 2;
+		} else {
+			turnCount = fullCoordinatesSize * 2 + 1;
+		}
+		return turnCount;
+	}
 
 	public int assignWinningCoordinateIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> openCoordinates) {
