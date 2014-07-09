@@ -28,7 +28,7 @@ public class GameManagerImpl implements GameManager {
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger);
 		addPlayers(messenger, screen);
-		screen.setGameSettings(messenger.settings);
+		screen.setGameSettingsAndPreferences(messenger.settings, CortexPreferences.getInstance());
 		messenger.model = new DefaultCortexModel(messenger, messenger.settings);
 		return messenger;
 	}

@@ -35,6 +35,7 @@ public class PlayScreen implements Screen {
 	private Stage stage;
 
 	private GameSettings settings;
+	private CortexPreferences preferences;
 
 	private ImageButton settingsButton;
 	private ImageButton helpButton;
@@ -44,16 +45,14 @@ public class PlayScreen implements Screen {
 		stage = ((Launch) game).getStage();
 	}
 
-	public void setGameSettings(GameSettings settings) {
+	public void setGameSettingsAndPreferences(GameSettings settings, CortexPreferences preferences) {
 		this.settings = settings;
+		this.preferences = preferences;
 	}
 
 	@Override
 	public void show() {
-		stage.clear();
-
-		CortexPreferences preferences = CortexPreferences.getInstance();
-
+		stage.clear();		
 		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
