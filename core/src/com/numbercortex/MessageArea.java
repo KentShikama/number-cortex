@@ -141,9 +141,7 @@ public class MessageArea {
 		continueButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				/**
-				 * TODO: Update level
-				 */
+				ScreenTracker.level = ScreenTracker.level + 1;
 				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 			}
 		});
@@ -181,13 +179,10 @@ public class MessageArea {
 		return label;
 	}
 
-	/**
-	 * TODO: Add different message when unlocking new element
-	 */
 	public void showEndingMessageSequence(final String winner, float delay) {
 		Action showWinner = buildShowWinnerAction(winner);
 		DelayAction delayAction = Actions.delay(delay);
-		Action showNextOptions = buildShowNextOptionsAction();
+		Action showNextOptions = buildShowNextOptionsAction(winner);
 		stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
 	}
 	private Action buildShowWinnerAction(final String winner) {
@@ -204,23 +199,32 @@ public class MessageArea {
 		};
 		return showWinner;
 	}
-	private Action buildShowNextOptionsAction() {
+	private Action buildShowNextOptionsAction(final String winner) {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				updateMessageWithButtons("Do you wish to play again?");
+				if (winner.equals("Player") && ScreenTracker.level != 18) {
+					updateMessageWithButtons("continue");					
+				} else {
+					updateMessageWithButtons("replay");					
+				}
 				return true;
 			}
 		};
 		return showNextOptions;
 	}
 	private void updateMessageWithButtons(String message) {
-		messageLabelLong.setText(message);
 		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 225, Launch.SCREEN_WIDTH - 30 * 2, 145);
 		buttonTable.clear();
 		buttonTable.add(menuButton).pad(20).padTop(50);
-		buttonTable.add(playButton).pad(20).padTop(50);
 		stage.addActor(buttonTable);
+		if (message.equals("replay")) {
+			messageLabelLong.setText("Do you wish to play again?");
+			buttonTable.add(playButton).pad(20).padTop(50);	
+		} else {
+			messageLabelLong.setText("Do you wish to continue to the next level?");
+			buttonTable.add(continueButton).pad(20).padTop(50);				
+		}
 	}
 
 	public static void dispose() {

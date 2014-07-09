@@ -128,13 +128,13 @@ public class GameManagerImpl implements GameManager {
 	}
 	private void updateCurrentPlayerState(CortexState state) {
 		handleTutorialMessages(state);
+		handleLevelUnlockingIfApplicable(state);
 		for (Player player : players) {
 			String playerName = player.getName();
 			if (playerName.equals(currentPlayer)) {
 				player.updateState(state);
 			}
 		}
-		handleLevelUnlockingIfApplicable(state);
 	}
 	private void handleTutorialMessages(CortexState state) {
 		if (ScreenTracker.level == 0) {
