@@ -31,9 +31,7 @@ public class CortexDialog extends Dialog {
 		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
 		return textButtonStyle;
 	}
-
-	private Game game;
-
+	
 	private CortexDialog(String title, WindowStyle windowStyle) {
 		super(title, windowStyle);
 	}
@@ -41,29 +39,20 @@ public class CortexDialog extends Dialog {
 	@Override
 	protected void result(Object object) {}
 
-	public static CortexDialog createCortexDialog() {
+	public static Dialog createConfirmationDialog(String dialogMessage) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
-
 		CortexDialog dialog = new CortexDialog("", windowStyle);
-
-		addContentLabel("Do you wish to continue?", dialog);
-
-		addButton("Cancel", null, dialog);
-		addButton("Confirm", null, dialog);
-
+		addContentLabel(dialogMessage, dialog);
+		addButton("OK", null, dialog);
 		return dialog;
 	}
 
-	public static CortexDialog createQuitCancelDialog(ClickListener quitListener) {
+	public static Dialog createQuitCancelDialog(ClickListener quitListener) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
-
 		CortexDialog dialog = new CortexDialog("", windowStyle);
-
 		addContentLabel("Are you sure you want to quit? The current game data will be lost.", dialog);
-
 		addButton("Quit", quitListener, dialog);
 		addButton("Cancel", null, dialog);
-
 		return dialog;
 	}
 

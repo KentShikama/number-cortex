@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -187,7 +188,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 			private void handleQuitClick() {
 				if (ScreenTracker.isInPlay) {
-					CortexDialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+					Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
 						@Override
 						public void clicked(InputEvent event, float x, float y) {
 							ScreenTracker.isInPlay = false;

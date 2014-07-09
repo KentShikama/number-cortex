@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -60,7 +61,6 @@ public class PlayScreen implements Screen {
 		buildBottomButtons();
 		board.clearBoard();
 	}
-
 	private void buildBackground(CortexPreferences preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
 		PlayScreenBackground background = new PlayScreenBackground(backgroundProperty);
@@ -204,6 +204,11 @@ public class PlayScreen implements Screen {
 		AnimationUtilities.delayFadeAndRemoveActor(helpButton, delay);
 	}
 
+	public void showConfirmationDialog(String dialogMessage) {
+		Dialog dialog = CortexDialog.createConfirmationDialog(dialogMessage);
+		dialog.show(stage);
+	}
+	
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
 		int numberOfRows = board.getNumberOfRows();
