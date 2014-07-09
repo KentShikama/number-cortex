@@ -8,6 +8,8 @@ public class GameManagerImpl implements GameManager {
 
 	private static final String TAG = GameManagerImpl.class.getCanonicalName();
 
+	private PlayScreen screen;
+
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private CortexModel model;
 	private GameSettings settings;
@@ -24,11 +26,11 @@ public class GameManagerImpl implements GameManager {
 	}
 	public static GameManagerImpl createNewGameManager() {
 		GameManagerImpl messenger = Singleton.INSTANCE;
-		PlayScreen screen = ScreenTracker.playScreen;
+		messenger.screen = ScreenTracker.playScreen;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger);
-		addPlayers(messenger, screen);
-		screen.setGameSettingsAndPreferences(messenger.settings, CortexPreferences.getInstance());
+		addPlayers(messenger, messenger.screen);
+		messenger.screen.setGameSettingsAndPreferences(messenger.settings, CortexPreferences.getInstance());
 		messenger.model = new DefaultCortexModel(messenger, messenger.settings);
 		return messenger;
 	}
@@ -83,6 +85,7 @@ public class GameManagerImpl implements GameManager {
 		ScreenTracker.isInPlay = true;
 		registerPlayersAndStartGame();
 	}
+	
 	private void registerPlayersAndStartGame() {
 		for (Player player : players) {
 			model.register(player.getName());

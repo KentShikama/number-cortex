@@ -1,8 +1,12 @@
 package com.numbercortex;
 
+import java.util.Arrays;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -38,12 +42,24 @@ public class CortexDialog extends Dialog {
 
 	@Override
 	protected void result(Object object) {}
-
-	public static Dialog createConfirmationDialog(String dialogMessage) {
+	
+	public static Dialog createConfirmationDialogs(final Stage stage, String... dialogMessages) {
+		if (dialogMessages.length == 1) {
+			return createConfirmationDialog(dialogMessages[0], null).show(stage);
+		} else {
+			final String[] remainingDialogMessages = Arrays.copyOfRange(dialogMessages, 1, dialogMessages.length);
+			return createConfirmationDialog(dialogMessages[0], new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					createConfirmationDialogs(stage, remainingDialogMessages);
+				}
+			});			
+		}
+	}
+	private static Dialog createConfirmationDialog(String dialogMessage, ClickListener onConfirmListener) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
 		CortexDialog dialog = new CortexDialog("", windowStyle);
 		addContentLabel(dialogMessage, dialog);
-		addButton("OK", null, dialog);
+		addButton("OK", onConfirmListener, dialog);
 		return dialog;
 	}
 

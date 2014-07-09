@@ -204,9 +204,9 @@ public class PlayScreen implements Screen {
 		AnimationUtilities.delayFadeAndRemoveActor(helpButton, delay);
 	}
 
-	public void showConfirmationDialog(String dialogMessage) {
-		Dialog dialog = CortexDialog.createConfirmationDialog(dialogMessage);
-		dialog.show(stage);
+	public void showConfirmationDialog(String... dialogMessages) {
+		Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
+		confirmationDialogs.show(stage);
 	}
 	
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
