@@ -21,6 +21,6 @@ public class GameSettingsLoader {
 		if (array == null) {
 			GameSettingsLoader.load();
 		}
-		return array.get(level - 1);
+		return array.get(level);
 	}
 }

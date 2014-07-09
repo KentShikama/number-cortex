@@ -24,7 +24,7 @@ public class DefaultCortexModel implements CortexModel {
 	private GameManager messenger;
 	private GameSettings settings;
 
-	private int boardSize;
+	private int firstPlayerPosition = -1;
 
 	public DefaultCortexModel(GameManager messenger, GameSettings settings) {
 		this.messenger = messenger;
@@ -98,19 +98,38 @@ public class DefaultCortexModel implements CortexModel {
 	private boolean isCoordinateEmpty(int coordinate) {
 		return coordinateNumberMap.get(coordinate) == -1;
 	}
+	
+	@Override
+	public void setFirstPlayerPosition(int firstPlayerPosition) {
+		this.firstPlayerPosition = firstPlayerPosition;
+	}
 
 	@Override
 	public void register(String username) {
 		usernames.add(username);
 		if (usernames.size() == 2) {
+			setFirstPlayer();
 			startGame();
+		}
+	}
+	private void setFirstPlayer() {
+		if (firstPlayerPosition != -1) {
+			currentPlayer = usernames.get(firstPlayerPosition);
+		} else {
+			assignRandomFirstPlayer();	
+		}
+	}
+	private void assignRandomFirstPlayer() {
+		if (Math.random() > 0.5) {
+			currentPlayer = usernames.get(0);
+		} else {
+			currentPlayer = usernames.get(1);
 		}
 	}
 	private void startGame() {
 		clearVariables();
 		setInitialBoardState();
 		setInitialAvailableNumbers();
-		setFirstPlayer();
 		message = currentPlayer + " starts the game!";
 		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 				coordinateNumberMap, availableNumbers).build();
@@ -119,8 +138,8 @@ public class DefaultCortexModel implements CortexModel {
 	private void clearVariables() {
 		winner = null;
 		winningValues = null;
+		firstPlayerPosition = -1;
 	}
-
 	private void setInitialBoardState() {
 		int numberOfRows = settings.getNumberOfRows();
 		int boardSize = numberOfRows * numberOfRows;
@@ -138,12 +157,4 @@ public class DefaultCortexModel implements CortexModel {
 			availableNumbers.add(i);
 		}
 	}
-	private void setFirstPlayer() {
-		if (Math.random() > 0.5) {
-			currentPlayer = usernames.get(0);
-		} else {
-			currentPlayer = usernames.get(1);
-		}
-	}
-
 }

@@ -1,6 +1,19 @@
 [
 {
 	class: com.numbercortex.GameSettings,
+	level: 0,
+	time: 1000,
+	singleDouble: true,
+	evenOdd: true,
+	primeComposite: false,
+	middleExtreme: false,
+	numberOfRows: 3,
+	difficulty: 1,
+	diagonals: true,
+	fourSquare: false
+},
+{
+	class: com.numbercortex.GameSettings,
 	level: 1,
 	time: 1000,
 	singleDouble: true,

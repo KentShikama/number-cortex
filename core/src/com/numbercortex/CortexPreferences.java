@@ -65,7 +65,7 @@ public class CortexPreferences {
 	private void loadOtherPreferences() {
 		isBlue = preferences.getBoolean(BACKGROUND_COLOR, false);
 		isMusicEnabled = preferences.getBoolean(MUSIC, true);
-		currentLevel = preferences.getInteger(CURRENT_LEVEL, 1);
+		currentLevel = preferences.getInteger(CURRENT_LEVEL, 0);
 	}
 
 	public void save() {

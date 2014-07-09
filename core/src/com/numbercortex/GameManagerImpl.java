@@ -16,6 +16,10 @@ public class GameManagerImpl implements GameManager {
 
 	private CortexState state;
 	private String currentPlayer;
+	
+	private BrainUtilities utilities;
+
+	private CortexPreferences preferences;
 
 	private GameManagerImpl() {}
 	private static class Singleton {
@@ -26,11 +30,13 @@ public class GameManagerImpl implements GameManager {
 	}
 	public static GameManagerImpl createNewGameManager() {
 		GameManagerImpl messenger = Singleton.INSTANCE;
+		messenger.preferences = CortexPreferences.getInstance();
 		messenger.screen = ScreenTracker.playScreen;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger);
+		messenger.utilities = new BrainUtilities(messenger.settings);
 		addPlayers(messenger, messenger.screen);
-		messenger.screen.setGameSettingsAndPreferences(messenger.settings, CortexPreferences.getInstance());
+		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		messenger.model = new DefaultCortexModel(messenger, messenger.settings);
 		return messenger;
 	}
@@ -83,9 +89,21 @@ public class GameManagerImpl implements GameManager {
 			Gdx.app.log(TAG, "Deleting previous game data.");
 		}
 		ScreenTracker.isInPlay = true;
+		manuallySetFirstPlayer();
 		registerPlayersAndStartGame();
 	}
-	
+	private void manuallySetFirstPlayer() {
+		switch (ScreenTracker.level) {
+			case 0:
+				model.setFirstPlayerPosition(1);			
+				break;
+			case 18:
+				model.setFirstPlayerPosition(0);
+				break;
+			default:
+				break;
+		}
+	}
 	private void registerPlayersAndStartGame() {
 		for (Player player : players) {
 			model.register(player.getName());
@@ -108,11 +126,29 @@ public class GameManagerImpl implements GameManager {
 		updateCurrentPlayerState(state);
 	}
 	private void updateCurrentPlayerState(CortexState state) {
+		if (ScreenTracker.level == 0) {
+			int turnCount = utilities.getTurnNumber(state);
+			String[] messages = getTutorialMessage(turnCount);
+			if (messages != null) {
+				screen.showConfirmationDialog(messages);				
+			}
+			// TODO: Check if game ends and then ensure level up
+		}
 		for (Player player : players) {
 			String playerName = player.getName();
 			if (playerName.equals(currentPlayer)) {
 				player.updateState(state);
 			}
 		}
+	}
+	private String[] getTutorialMessage(int turnCount) {
+		if (turnCount == 1) {
+			return new String[] {"Welcome! Number Cortex is a board game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on a square grid.", "Go ahead and drag and drop the chosen number onto the board."};
+		} else if (turnCount == 2) {
+			return new String[] {"Number Cortex is unique because you get to choose which number your opponent will play next. Double tap your opponents next number from the scroller below."};
+		} else if (turnCount == 5) {
+			return new String[] {"Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits. Good luck!"};
+		}
+		return null;
 	}
 }

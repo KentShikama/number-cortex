@@ -70,7 +70,6 @@ public class LevelsScreen implements Screen {
 					GameManager manager = GameManagerImpl.createNewGameManager();
 					game.setScreen(ScreenTracker.playScreen);
 					manager.startNewGame();
-					ScreenTracker.playScreen.showConfirmationDialog("Welcome! Number Cortex is a board game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on a square grid.", "Go ahead and drag and drop the chosen number onto the board.");
 				}
 			}
 		};
