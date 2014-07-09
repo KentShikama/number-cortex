@@ -19,7 +19,7 @@ public class CortexDialog extends Dialog {
 
 	private static Label.LabelStyle labelStyle = buildLabelStyle();
 	private static Label.LabelStyle buildLabelStyle() {
-		BitmapFont font = FontGenerator.getMessageFont();
+		BitmapFont font = FontGenerator.getDialogFont();
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = font;
 		labelStyle.fontColor = Color.WHITE;

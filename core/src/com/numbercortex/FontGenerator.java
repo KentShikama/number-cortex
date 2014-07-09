@@ -12,16 +12,17 @@ public class FontGenerator {
 	private static BitmapFont numberScrollerFont;
 	private static BitmapFont boardNumberFont;
 	private static BitmapFont messageFont;
+	private static BitmapFont levelFont;
+	private static BitmapFont dialogFont;
 
 	private static Skin skin = Assets.gameSkin;
-	private static BitmapFont levelFont;
 
 	private static final String SCROLLER_RECTANGLE = "scroller_rectangle";
 
 	private FontGenerator() {}
 
 	public static boolean isNull() {
-		if (numberScrollerFont == null || boardNumberFont == null || messageFont == null) {
+		if (numberScrollerFont == null || boardNumberFont == null || messageFont == null || levelFont == null || dialogFont == null) {
 			return true;
 		} else {
 			return false;
@@ -40,14 +41,18 @@ public class FontGenerator {
 	public static BitmapFont getLevelFont() {
 		return levelFont;
 	}
+	public static BitmapFont getDialogFont() {
+		return dialogFont;
+	}
 
 	public static void load() {
 		int numberScrollerFontSize = calculateNumberScrollerFontSize();
 		int boardNumberFontSize = calculateBoardNumberFontSize();
 		int levelFontSize = (int) (numberScrollerFontSize * 0.7);
 		int messageFontSize = (int) (calculateBoardNumberFontSize() * 0.5);
+		int dialogFontSize = (int) (calculateBoardNumberFontSize() * 0.4);
 		createTahomaFonts(numberScrollerFontSize, boardNumberFontSize, levelFontSize);
-		createTimesFonts(messageFontSize);
+		createTimesFonts(messageFontSize, dialogFontSize);
 	}
 	private static int calculateBoardNumberFontSize() {
 		TextureRegion scrollerRectangle = skin.getRegion("red_rectangle");
@@ -71,12 +76,20 @@ public class FontGenerator {
 		levelFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		tahomaGenerator.dispose();
 	}
-	private static void createTimesFonts(int messageFontSize) {
+	private static void createTimesFonts(int messageFontSize, int dialogFontSize) {
 		FreeTypeFontGenerator timesGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Times.dfont"));
 		messageFont = timesGenerator.generateFont(messageFontSize);
 		messageFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		messageFont.getLineHeight();
+		dialogFont = timesGenerator.generateFont(dialogFontSize);
+		dialogFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		timesGenerator.dispose();
 	}
 
+	public static void dispose() {
+		numberScrollerFont = null;
+		boardNumberFont = null;
+		messageFont = null;
+		levelFont = null;
+		dialogFont = null;
+	}
 }
