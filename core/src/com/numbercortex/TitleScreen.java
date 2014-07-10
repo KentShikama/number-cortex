@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -90,7 +91,7 @@ public class TitleScreen implements Screen {
 
 	public static final String TAG = TitleScreen.class.getName();
 
-	private static final String TITLE_BACKGROUND = "title_background";
+	private static final String TITLE = "number_cortex_title";
 	private static final String PLAY_BUTTON = "play";
 	private static final String PASS_AND_PLAY_BUTTON = "pass_and_play";
 	private static final String PLAY_ONLINE = "play_online";
@@ -108,11 +109,18 @@ public class TitleScreen implements Screen {
 	public void show() {
 		stage.clear();
 		buildBackground();
+		buildTitle();
 		buildButtons();
 	}
 	private void buildBackground() {
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
+	}
+	private void buildTitle() {
+		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
+		Image title = new Image(titleTexture);
+		title.setBounds(63, Launch.SCREEN_HEIGHT - 682, titleTexture.getRegionWidth(), titleTexture.getRegionHeight());
+		stage.addActor(title);
 	}
 	private void buildButtons() {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
