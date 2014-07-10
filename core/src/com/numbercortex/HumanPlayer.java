@@ -25,9 +25,6 @@ class HumanPlayer implements Player {
 		this.winHandler = new WinHandler(messenger.getSettings());
 	}
 
-	/**
-	 * TODO: Eventually send the state along with a confirm dialog
-	 */
 	@Override
 	public void chooseNumber(String player, int nextNumber) {
 		if (state.getChosenNumber() == -1) {

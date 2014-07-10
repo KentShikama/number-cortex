@@ -21,7 +21,7 @@ public class ImpossibleBrain implements Brain {
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
 
 		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
@@ -48,63 +48,81 @@ public class ImpossibleBrain implements Brain {
 		if (safeNumbers.isEmpty()) {
 			nextNumber = utility.assignRandomNumberFromList(availableNumbers);
 		} else {
-			ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
-			if (openCoordinates.size() > 9) {
-				nextNumber = utility.assignRandomNumberFromList(safeNumbers);
-				return nextNumber;
-			}
-			int maxPoints = 0;
-			ArrayList<Integer> bestSafeNumberList = new ArrayList<Integer>();
-			for (Integer safeNumber : safeNumbers) {
-				int points = 0;
-				availableNumbers.remove(Integer.valueOf(safeNumber));
-				for (Integer openCoordinate : openCoordinates) {
-					coordinateNumberMap.put(openCoordinate, safeNumber); // Opponent places your number
-					ArrayList<Integer> safeNumbersOpponentCanChoose = utility.getSafeNumbersIfExistent(
-							coordinateNumberMap, availableNumbers);
-					if (safeNumbersOpponentCanChoose.isEmpty()) {
-						// Your opponent will not choose this coordinate
-					} else {
-						ArrayList<Integer> newAvailableNumbers = (ArrayList<Integer>) safeNumbersOpponentCanChoose
-								.clone();
-						for (Integer possibleNextNumber : safeNumbersOpponentCanChoose) { // Opponent chooses your number
-							boolean safe = false;
-							newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
-							ArrayList<Integer> newOpenCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
-							for (Integer newOpenCoordinate : newOpenCoordinates) {
-								coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
-								ArrayList<Integer> list = utility.getSafeNumbersIfExistent(coordinateNumberMap,
-										newAvailableNumbers); // Check if you can give a safe number
-								coordinateNumberMap.put(newOpenCoordinate, -1);
-								if (!list.isEmpty()) { // If you can give a safe number...then that number is good
-									safe = true;
-									break;
-								}
-							}
-							newAvailableNumbers.add(Integer.valueOf(possibleNextNumber));
-							if (safe) { // Safe for you if opponent decides to give you this possibleNextNumber
-								points++;
-							}
-						}
-					}
-					coordinateNumberMap.put(openCoordinate, -1);
-				}
-				availableNumbers.add(safeNumber);
-				if (points > maxPoints) {
-					maxPoints = points;
-					bestSafeNumberList.clear();
-					bestSafeNumberList.add(safeNumber);
-				} else if (points == maxPoints) {
-					bestSafeNumberList.add(safeNumber);
-				}
-			}
-			if (bestSafeNumberList.isEmpty()) {
-				nextNumber = utility.assignRandomNumberFromList(safeNumbers);
-			} else {
-				nextNumber = utility.assignRandomNumberFromList(bestSafeNumberList);
-			}
+			nextNumber = getSafestNumber(safeNumbers, coordinateNumberMap, availableNumbers);
 		}
 		return nextNumber;
 	}
-
+	private int getSafestNumber(ArrayList<Integer> safeNumbers, Map<Integer, Integer> coordinateNumberMap,
+			ArrayList<Integer> availableNumbers) {
+		int safestNumber;
+		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		if (openCoordinates.size() > 9) {
+			safestNumber = utility.assignRandomNumberFromList(safeNumbers);
+		} else {
+			int maxPoints = 0;
+			ArrayList<Integer> safestNumberList = new ArrayList<Integer>();
+			for (Integer safeNumber : safeNumbers) {
+				int points = calculatePoints(safeNumber, coordinateNumberMap, availableNumbers, openCoordinates);
+				maxPoints = updateSafestNumberListAndMaxPoints(safeNumber, points, safestNumberList, maxPoints);
+			}
+			safestNumber = utility.assignRandomNumberFromList(safestNumberList);
+		}
+		return safestNumber;
+	}
+	private int calculatePoints(Integer safeNumber, Map<Integer, Integer> coordinateNumberMap,
+			ArrayList<Integer> availableNumbers, ArrayList<Integer> openCoordinates) {
+		int points = 0;
+		availableNumbers.remove(Integer.valueOf(safeNumber));
+		for (Integer openCoordinate : openCoordinates) {
+			coordinateNumberMap.put(openCoordinate, safeNumber); // Opponent places my number
+			ArrayList<Integer> safeNumbersOpponentCanChoose = utility.getSafeNumbersIfExistent(
+					coordinateNumberMap, availableNumbers);
+			if (safeNumbersOpponentCanChoose.isEmpty()) {
+				// Your opponent will not choose this coordinate
+			} else {
+				@SuppressWarnings("unchecked")
+				ArrayList<Integer> newAvailableNumbers = (ArrayList<Integer>) safeNumbersOpponentCanChoose
+						.clone();
+				for (Integer possibleNextNumber : safeNumbersOpponentCanChoose) { // Opponent chooses my number
+					boolean safe = checkIfSafe(possibleNextNumber, coordinateNumberMap,
+							newAvailableNumbers);
+					if (safe) {
+						points++;
+					}
+				}
+			}
+			coordinateNumberMap.put(openCoordinate, -1);
+		}
+		availableNumbers.add(safeNumber);
+		return points;
+	}
+	private boolean checkIfSafe(Integer possibleNextNumber,
+			Map<Integer, Integer> coordinateNumberMap, ArrayList<Integer> newAvailableNumbers) {
+		boolean safe = false;
+		newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
+		ArrayList<Integer> newOpenCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		for (Integer newOpenCoordinate : newOpenCoordinates) {
+			coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
+			ArrayList<Integer> list = utility.getSafeNumbersIfExistent(coordinateNumberMap,
+					newAvailableNumbers); // Check if you can give a safe number
+			coordinateNumberMap.put(newOpenCoordinate, -1);
+			if (!list.isEmpty()) { // If you can give a safe number...then that number is good
+				safe = true;
+				break;
+			}
+		}
+		newAvailableNumbers.add(Integer.valueOf(possibleNextNumber));
+		return safe;
+	}
+	private int updateSafestNumberListAndMaxPoints(Integer safeNumber, int points, ArrayList<Integer> safestNumberList,
+			int maxPoints) {
+		if (points > maxPoints) {
+			maxPoints = points;
+			safestNumberList.clear();
+			safestNumberList.add(safeNumber);
+		} else if (points == maxPoints) {
+			safestNumberList.add(safeNumber);
+		}
+		return maxPoints;
+	}
 }
