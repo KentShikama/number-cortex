@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -39,9 +41,10 @@ public class PlayScreen implements Screen {
 
 	private GameSettings settings;
 	private CortexPreferences preferences;
-
-	private ImageButton settingsButton;
-	private ImageButton helpButton;
+	
+	private Image exitButton;
+	private Image settingsButton;
+	private Image helpButton;
 
 	PlayScreen(Game game) {
 		this.game = game;
@@ -86,13 +89,33 @@ public class PlayScreen implements Screen {
 		handler.notifyBoardConstruction(board);
 	}
 	private void buildBottomButtons() {
-		Drawable settingsRectangleSkin = Assets.gameSkin.getDrawable("settings");
-		Drawable helpRectangleSkin = Assets.gameSkin.getDrawable("help");
-		buildSettingsButton(settingsRectangleSkin);
-		buildHelpButton(helpRectangleSkin);
+		TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
+		TextureRegion settingsRectangleTexture = Assets.gameSkin.getRegion("settings");
+		TextureRegion helpRectangleTexture = Assets.gameSkin.getRegion("help");
+		bulidExitButton(exitRectangleTexture);
+		buildSettingsButton(settingsRectangleTexture);
+		buildHelpButton(helpRectangleTexture);
 	}
-	private void buildSettingsButton(Drawable settingsRectangleSkin) {
-		settingsButton = new ImageButton(settingsRectangleSkin, settingsRectangleSkin, settingsRectangleSkin);
+	private void bulidExitButton(TextureRegion exitRectangleTexture) {
+		exitButton = new Image(exitRectangleTexture);
+		exitButton.setBounds(44, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
+		exitButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						ScreenTracker.isInPlay = false;
+						game.setScreen(ScreenTracker.titleScreen);
+					}
+				});
+				dialog.show(stage);
+			}
+		});
+		stage.addActor(exitButton);		
+	}
+	private void buildSettingsButton(TextureRegion settingsRectangleTexture) {
+		settingsButton = new Image(settingsRectangleTexture);
 		settingsButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		settingsButton.addListener(new ClickListener() {
 			@Override
@@ -106,8 +129,8 @@ public class PlayScreen implements Screen {
 		});
 		stage.addActor(settingsButton);
 	}
-	private void buildHelpButton(Drawable helpRectangleSkin) {
-		helpButton = new ImageButton(helpRectangleSkin, helpRectangleSkin, helpRectangleSkin);
+	private void buildHelpButton(TextureRegion helpRectangleTexture) {
+		helpButton = new Image(helpRectangleTexture);
 		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
 		stage.addActor(helpButton);
 	}
@@ -200,8 +223,10 @@ public class PlayScreen implements Screen {
 	}
 	private void removeOtherElementsWithAnimation(float delay) {
 		numberScroller.removeScroller(delay);
+		exitButton.clearListeners();
 		settingsButton.clearListeners();
 		helpButton.clearListeners();
+		AnimationUtilities.delayFadeAndRemoveActor(exitButton, delay);
 		AnimationUtilities.delayFadeAndRemoveActor(settingsButton, delay);
 		AnimationUtilities.delayFadeAndRemoveActor(helpButton, delay);
 	}
