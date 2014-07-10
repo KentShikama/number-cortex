@@ -2,6 +2,7 @@ package com.numbercortex;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -24,15 +25,15 @@ public class NumberScroller {
 		return style;
 	}
 
-	private static NumberTextButton.NumberTextButtonStyle buttonStyle = buildButtonStyle();
+	private static NumberTextButton.NumberTextButtonStyle numberTextButtonStyle = buildButtonStyle();
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle() {
 		BitmapFont font = FontGenerator.getNumberScrollFont();
 		Drawable numberRectangle = Assets.gameSkin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
-		buttonStyle = new NumberTextButton.NumberTextButtonStyle();
-		buttonStyle.font = font;
-		buttonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		buttonStyle.up = numberRectangle;
-		return buttonStyle;
+		NumberTextButton.NumberTextButtonStyle numberTextButtonStyle = new NumberTextButton.NumberTextButtonStyle();
+		numberTextButtonStyle.font = font;
+		numberTextButtonStyle.fontColor = new Color(Launch.BRIGHT_YELLOW);
+		numberTextButtonStyle.up = numberRectangle;
+		return numberTextButtonStyle;
 	}
 
 	private ScrollPane numberScroller;
@@ -44,8 +45,18 @@ public class NumberScroller {
 	private class NumberButtonListener extends ClickListener {
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
-			int number = getClickedNumber(event);
-			messenger.chooseNumber(null, number);
+			int tapCount = this.getTapCount();
+			if (tapCount >= 2) {
+				int number = getClickedNumber(event);
+				messenger.chooseNumber(null, number);	
+			} else {
+				Label label = (Label) event.getTarget();
+				if (label.getStyle().fontColor.a < 0.75) {
+					label.getStyle().fontColor.a = 1;
+				} else {
+					label.getStyle().fontColor.a = 0.5f;
+				}
+			}
 		}
 
 		private int getClickedNumber(InputEvent event) {
@@ -99,11 +110,11 @@ public class NumberScroller {
 
 	public void update(ArrayList<Integer> numberList) {
 		numberTable.clearChildren();
-		if (buttonStyle == null) {
-			buttonStyle = buildButtonStyle();
+		if (numberTextButtonStyle == null) {
+			numberTextButtonStyle = buildButtonStyle();
 		}
 		for (Integer number : numberList) {
-			NumberTextButton button = new NumberTextButton(number.toString(), buttonStyle);
+			NumberTextButton button = new NumberTextButton(number.toString(), buildButtonStyle());
 			button.addListener(listener);
 			numberTable.add(button);
 		}
@@ -111,6 +122,6 @@ public class NumberScroller {
 
 	public static void dispose() {
 		style = null;
-		buttonStyle = null;
+		numberTextButtonStyle = null;
 	}
 }

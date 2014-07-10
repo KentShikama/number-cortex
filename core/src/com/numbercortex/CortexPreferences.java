@@ -63,7 +63,7 @@ public class CortexPreferences {
 		twoPlayerGameSettings.setDifficulty(difficulty);
 	}
 	private void loadOtherPreferences() {
-		isBlue = preferences.getBoolean(BACKGROUND_COLOR, false);
+		isBlue = preferences.getBoolean(BACKGROUND_COLOR, true);
 		isMusicEnabled = preferences.getBoolean(MUSIC, true);
 		currentLevel = preferences.getInteger(CURRENT_LEVEL, 0);
 	}
