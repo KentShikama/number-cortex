@@ -7,14 +7,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 
 public class LevelsScreen implements Screen {
 
@@ -104,7 +108,7 @@ public class LevelsScreen implements Screen {
 		addScrollPane();
 	}
 	private void addBackground() {
-		PlayScreenBackground background = new PlayScreenBackground(Launch.SEA_BLUE);
+		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE);
 		stage.addActor(background);
 	}
 	private void addTitle() {
@@ -153,9 +157,17 @@ public class LevelsScreen implements Screen {
 		return levelButton;
 	}
 	private void addScrollPane() {
-		ScrollPane pane = new ScrollPane(table);
+		ScrollPane.ScrollPaneStyle style = buildScrollPaneStyle();
+		ScrollPane pane = new ScrollPane(table, style);
 		pane.setBounds(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage.addActor(pane);
+	}
+	private ScrollPane.ScrollPaneStyle buildScrollPaneStyle() {
+		TextureRegion background = new TextureRegion(Assets.backgroundTexture);
+		Drawable backgroundDrawable = new TextureRegionDrawable(background);
+		ScrollPane.ScrollPaneStyle style = new ScrollPane.ScrollPaneStyle();
+		style.background = backgroundDrawable;
+		return style;
 	}
 
 	@Override

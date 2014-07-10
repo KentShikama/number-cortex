@@ -111,7 +111,7 @@ public class TitleScreen implements Screen {
 		buildButtons();
 	}
 	private void buildBackground() {
-		ScreenBackground background = new ScreenBackground(Assets.homeSkin, TITLE_BACKGROUND);
+		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
 	}
 	private void buildButtons() {

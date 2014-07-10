@@ -1,38 +1,47 @@
+
 home.png
+size: 825,692
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest,Nearest
 repeat: none
+line_extension
+  rotate: false
+  xy: 304, 130
+  size: 3, 40
+  orig: 3, 40
+  offset: 0, 0
+  index: -1
+number_cortex_title
+  rotate: false
+  xy: 2, 172
+  size: 521, 520
+  orig: 521, 520
+  offset: 0, 0
+  index: -1
 pass_and_play
   rotate: false
-  xy: 304, 1225
+  xy: 2, 87
   size: 300, 83
   orig: 300, 83
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 304, 1140
+  xy: 525, 609
   size: 300, 83
   orig: 300, 83
   offset: 0, 0
   index: -1
 play_online
   rotate: false
-  xy: 2, 1225
+  xy: 2, 2
   size: 300, 83
   orig: 300, 83
   offset: 0, 0
   index: -1
-title_background
-  rotate: false
-  xy: 2, 2
-  size: 640, 1136
-  orig: 640, 1136
-  offset: 0, 0
-  index: -1
 tutorial
   rotate: false
-  xy: 2, 1140
+  xy: 525, 524
   size: 300, 83
   orig: 300, 83
   offset: 0, 0

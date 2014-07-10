@@ -1,23 +1,33 @@
 package com.numbercortex;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class PlayScreenBackground extends Actor {
+public class BackgroundScreen extends Actor {
 
 	private Color backgroundProperty;
 	private ShapeRenderer shapeRenderer;
+	
+	private Texture backgroundTexture;
 
-	public PlayScreenBackground(Color backgroundProperty) {
+	public BackgroundScreen(Color backgroundProperty) {
 		this.backgroundProperty = backgroundProperty;
 		this.shapeRenderer = new ShapeRenderer();
 	}
+	
+	public BackgroundScreen(Color backgroundProperty, Texture backgroundTexture) {
+		this.backgroundProperty = backgroundProperty;
+		this.shapeRenderer = new ShapeRenderer();
+		this.backgroundTexture = backgroundTexture;
+	}
 
 	@Override
-	public void draw(Batch batch, float alpha) {
+	public void draw(Batch batch, float parentAlpha) {
 		batch.end();
 		shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 		shapeRenderer.begin(ShapeType.Filled);
@@ -25,6 +35,9 @@ public class PlayScreenBackground extends Actor {
 		shapeRenderer.rect(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		shapeRenderer.end();
 		batch.begin();
+		if (backgroundTexture != null) {
+			batch.draw(backgroundTexture, 0, 0);
+		}
 	}
 
 }

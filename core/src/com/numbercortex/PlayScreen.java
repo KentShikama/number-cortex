@@ -65,7 +65,7 @@ public class PlayScreen implements Screen {
 	}
 	private void buildBackground(CortexPreferences preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
-		PlayScreenBackground background = new PlayScreenBackground(backgroundProperty);
+		BackgroundScreen background = new BackgroundScreen(backgroundProperty);
 		stage.addActor(background);
 	}
 	private Color getBackgroundColor(CortexPreferences preferences) {

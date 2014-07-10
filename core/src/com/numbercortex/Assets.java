@@ -2,20 +2,24 @@ package com.numbercortex;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
 
 	public static AssetManager manager;
-
+	
+	public static Texture backgroundTexture;
 	public static Skin homeSkin;
 	public static Skin levelsSkin;
 	public static Skin gameSkin;
 	public static Skin dialogSkin;
 	public static Skin settingsSkin;
+	
+	private static final String BACKGROUND_TEXTURE = "background/number_background.png";
 
-	private static final String HOME_ATLAS = "home/home.txt";
+	private static final String HOME_ATLAS = "home/home.atlas";
 	private static final String HOME_SKIN = "home/home.json";
 
 	private static final String LEVEL_ATLAS = "levels/levels.atlas";
@@ -29,6 +33,14 @@ public class Assets {
 
 	private static final String SETTINGS_ATLAS = "settings/settings.txt";
 	private static final String SETTINGS_SKIN = "settings/settings.json";
+	
+	public static void loadBackground() {
+		manager.load(BACKGROUND_TEXTURE, Texture.class);		
+	}
+	
+	public static void assignBackgroundScreen() {
+		backgroundTexture = manager.get(BACKGROUND_TEXTURE, Texture.class);
+	}
 
 	public static void loadHome() {
 		manager.load(HOME_ATLAS, TextureAtlas.class);

@@ -24,8 +24,10 @@ public class Launch extends Game {
 		buildOtherScreens();
 	}
 	private void buildHomeScreen() {
+		Assets.loadBackground();
 		Assets.loadHome();
 		Assets.manager.finishLoading();
+		Assets.assignBackgroundScreen();
 		Assets.assignHomeScreen();
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);

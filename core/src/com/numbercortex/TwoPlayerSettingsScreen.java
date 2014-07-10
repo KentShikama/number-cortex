@@ -89,7 +89,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		CortexPreferences preferences = CortexPreferences.getInstance();
 		GameSettings twoPlayerGameSettings = preferences.getTwoPlayerGameSettings();
 
-		ScreenBackground background = new ScreenBackground(Assets.settingsSkin, SETTINGS_BACKGROUND);
+		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
 
 		SettingsTitle title = new SettingsTitle();
