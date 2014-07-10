@@ -162,7 +162,6 @@ public class GameManagerImpl implements GameManager {
 		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
 		if (playerWinsSinglePlayerGame(winner) || tutorialEnds(winner, openCoordinates)) {
 			unlockNextLevelIfOnMaxLevel();
-			// TODO: Show unlock message if applicable
 		}
 	}
 	private boolean playerWinsSinglePlayerGame(String winner) {
@@ -176,10 +175,31 @@ public class GameManagerImpl implements GameManager {
 		int currentLevel = ScreenTracker.level;
 		int maxLevel = preferences.getCurrentLevel();
 		if (currentLevel == maxLevel) {
+			String message = getUnlockMessage(currentLevel);
+			if (message != null) {
+				screen.showConfirmationDialog(4.1f, message);				
+			}
 			int raisedMaxLevel = ++maxLevel;
 			preferences.setCurrentLevel(raisedMaxLevel);
 			preferences.save();
 			Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
 		}
+	}
+	private String getUnlockMessage(int currentLevel) {
+		switch (currentLevel) {
+			case 0:
+				return "Adjustments unlocked! You can now adjust the placement of a number up to two times. Simply drag the placed number to a different square.";
+			case 1:
+				return "You can single tap a number on the scroller to fade it out. This can be a good visual reminder of the numbers you do not want to choose.";
+			case 3:
+				return "New rule: Primes and Composites! Adding to the current ruleset, you can make a 3-in-a-row of all primes (1*, 3, 5, 7, 9, 11, 13, 15, 17) or all evens (2, 4, 6, 8, 10, 12, 14, 16).";
+			case 6:
+				return "New rule: Middles and Extremes! Adding to the current ruleset, you can make a 3-in-a-row of all middles (5 ~ 12) or all extremes (1 ~ 4 and 13 ~ 17).";
+			case 9:
+				return "Board size increase! You must now make a 4-in-a-row of winning numbers in order to win.";
+			case 13:
+				return "Four squares unlocked! You may now make a 4-in-a-row by placing a set of winning numbers in a 2 x 2 square.";
+		}
+		return null;
 	}
 }

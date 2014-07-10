@@ -10,9 +10,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -209,6 +211,18 @@ public class PlayScreen implements Screen {
 	public void showConfirmationDialog(String... dialogMessages) {
 		Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
 		confirmationDialogs.show(stage);
+	}
+	public void showConfirmationDialog(float delay, final String... dialogMessages) {
+		DelayAction delayAction = Actions.delay(delay);
+		Action showConfirmationDialogAction = new Action() {
+			@Override
+			public boolean act(float delta) {
+				Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
+				confirmationDialogs.show(stage);
+				return true;
+			}		
+		};
+		stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
 	}
 	
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
