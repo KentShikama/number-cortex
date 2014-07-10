@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 public class NumberScroller {
 
@@ -43,19 +45,27 @@ public class NumberScroller {
 	private Table numberTable = new Table();
 	private NumberButtonListener listener = new NumberButtonListener();
 	private class NumberButtonListener extends ClickListener {
+		
 		@Override
-		public void clicked(InputEvent event, float x, float y) {
+		public void clicked(final InputEvent event, float x, float y) {
 			int tapCount = this.getTapCount();
 			if (tapCount >= 2) {
+				Timer.instance().clear();
 				int number = getClickedNumber(event);
 				messenger.chooseNumber(null, number);	
 			} else {
-				Label label = (Label) event.getTarget();
-				if (label.getStyle().fontColor.a < 0.75) {
-					label.getStyle().fontColor.a = 1;
-				} else {
-					label.getStyle().fontColor.a = 0.5f;
-				}
+				final Label label = (Label) event.getTarget();
+				Timer.schedule(new Task() {
+					@Override
+					public void run() {
+						Label.LabelStyle style = label.getStyle();
+						if (style.fontColor.a < 0.75) {
+							label.getStyle().fontColor.a = 1;
+						} else {
+							label.getStyle().fontColor.a = 0.5f;
+						}
+					}
+				}, 0.4f);
 			}
 		}
 
