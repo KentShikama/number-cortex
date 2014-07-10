@@ -77,8 +77,6 @@ public class PlayScreen implements Screen {
 	}
 	private void buildMessageArea(Game game) {
 		messageArea = MessageArea.createMessageArea(stage, game);
-		messageArea.updateMessage("New message");
-		messageArea.updateMessageWithNextNumber("Welcome to Number Quarto", 4);
 		handler.notifyMessageAreaConstrucion(messageArea);
 	}
 	private void buildBoard(GameSettings settings, CortexPreferences preferences) {
