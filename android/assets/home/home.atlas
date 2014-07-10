@@ -2,7 +2,7 @@
 home.png
 size: 825,692
 format: RGBA8888
-filter: Nearest,Nearest
+filter: MipMapLinearNearest, Nearest
 repeat: none
 line_extension
   rotate: false
