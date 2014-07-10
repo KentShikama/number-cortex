@@ -97,6 +97,7 @@ public class TitleScreen implements Screen {
 	private static final String PASS_AND_PLAY_BUTTON = "pass_and_play";
 	private static final String PLAY_ONLINE = "play_online";
 	private static final String TUTORIAL = "tutorial";
+	private static final String LINE_EXTENSION = "line_extension";
 
 	private Stage stage;
 	private Game game;
@@ -112,6 +113,7 @@ public class TitleScreen implements Screen {
 		buildBackground();
 		buildTitle();
 		buildButtons();
+		buildLineExtension();
 	}
 	private void buildBackground() {
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
@@ -135,6 +137,12 @@ public class TitleScreen implements Screen {
 		stage.addActor(passAndPlayButton.button);
 		stage.addActor(playOnlineButton.button);
 		stage.addActor(tutorialButton.button);
+	}
+	private void buildLineExtension() {
+		TextureRegion lineExtensionTexture = Assets.homeSkin.getRegion(LINE_EXTENSION);
+		Image lineExtension = new Image(lineExtensionTexture);
+		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - 1036, lineExtensionTexture.getRegionWidth(), lineExtensionTexture.getRegionHeight());
+		stage.addActor(lineExtension);		
 	}
 
 	@Override
