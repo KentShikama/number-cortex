@@ -79,7 +79,8 @@ public class DefaultCortexModel implements CortexModel {
 			if (winningValues != null) {
 				winningAttribute = winHandler.getWinningAttriute();
 				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
-						coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues).build();
+						coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues)
+						.build();
 			} else {
 				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 						coordinateNumberMap, availableNumbers).build();
@@ -103,7 +104,7 @@ public class DefaultCortexModel implements CortexModel {
 	private boolean isCoordinateEmpty(int coordinate) {
 		return coordinateNumberMap.get(coordinate) == -1;
 	}
-	
+
 	@Override
 	public void setFirstPlayerPosition(int firstPlayerPosition) {
 		this.firstPlayerPosition = firstPlayerPosition;
@@ -121,7 +122,7 @@ public class DefaultCortexModel implements CortexModel {
 		if (firstPlayerPosition != -1) {
 			currentPlayer = usernames.get(firstPlayerPosition);
 		} else {
-			assignRandomFirstPlayer();	
+			assignRandomFirstPlayer();
 		}
 	}
 	private void assignRandomFirstPlayer() {

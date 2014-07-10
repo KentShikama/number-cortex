@@ -55,7 +55,7 @@ public class PlayScreen implements Screen {
 
 	@Override
 	public void show() {
-		stage.clear();		
+		stage.clear();
 		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
@@ -218,11 +218,11 @@ public class PlayScreen implements Screen {
 				Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
 				confirmationDialogs.show(stage);
 				return true;
-			}		
+			}
 		};
 		stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
 	}
-	
+
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
 		int numberOfRows = board.getNumberOfRows();

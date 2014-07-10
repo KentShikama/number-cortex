@@ -2,7 +2,6 @@ package com.numbercortex;
 
 import java.util.Arrays;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -35,24 +34,25 @@ public class CortexDialog extends Dialog {
 		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
 		return textButtonStyle;
 	}
-	
+
 	private CortexDialog(String title, WindowStyle windowStyle) {
 		super(title, windowStyle);
 	}
 
 	@Override
 	protected void result(Object object) {}
-	
+
 	public static Dialog createConfirmationDialogs(final Stage stage, String... dialogMessages) {
 		if (dialogMessages.length == 1) {
 			return createConfirmationDialog(dialogMessages[0], null).show(stage);
 		} else {
 			final String[] remainingDialogMessages = Arrays.copyOfRange(dialogMessages, 1, dialogMessages.length);
 			return createConfirmationDialog(dialogMessages[0], new ClickListener() {
+				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					createConfirmationDialogs(stage, remainingDialogMessages);
 				}
-			});			
+			});
 		}
 	}
 	private static Dialog createConfirmationDialog(String dialogMessage, ClickListener onConfirmListener) {

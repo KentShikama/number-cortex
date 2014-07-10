@@ -70,7 +70,8 @@ public class TitleScreen implements Screen {
 					@Override
 					public boolean act(float delta) {
 						if (screen != null) {
-							if (mode == ScreenTracker.Mode.SINGLE_PLAYER && CortexPreferences.getInstance().getCurrentLevel() == 0) {
+							if (mode == ScreenTracker.Mode.SINGLE_PLAYER
+									&& CortexPreferences.getInstance().getCurrentLevel() == 0) {
 								ScreenTracker.mode = mode;
 								ScreenTracker.level = 0;
 								GameManager manager = GameManagerImpl.createNewGameManager();
@@ -78,7 +79,7 @@ public class TitleScreen implements Screen {
 								manager.startNewGame();
 							} else {
 								ScreenTracker.mode = mode;
-								game.setScreen(screen);	
+								game.setScreen(screen);
 							}
 						}
 						return true;

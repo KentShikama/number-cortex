@@ -192,8 +192,7 @@ public class MessageArea {
 				if (winner == null) {
 					updateMessage("Tie game!");
 				} else {
-					updateMessage(winner + " wins!\n" + 
-							"(" + winningAttribute + ")");					
+					updateMessage(winner + " wins!\n" + "(" + winningAttribute + ")");
 				}
 				return true;
 			}
@@ -205,9 +204,9 @@ public class MessageArea {
 			@Override
 			public boolean act(float delta) {
 				if (winner.equals("Player") && ScreenTracker.level != 18) {
-					updateMessageWithButtons("continue");					
+					updateMessageWithButtons("continue");
 				} else {
-					updateMessageWithButtons("replay");					
+					updateMessageWithButtons("replay");
 				}
 				return true;
 			}
@@ -221,10 +220,10 @@ public class MessageArea {
 		stage.addActor(buttonTable);
 		if (message.equals("replay")) {
 			messageLabelLong.setText("Do you wish to play again?");
-			buttonTable.add(playButton).pad(20).padTop(50);	
+			buttonTable.add(playButton).pad(20).padTop(50);
 		} else {
 			messageLabelLong.setText("Do you wish to continue to the next level?");
-			buttonTable.add(continueButton).pad(20).padTop(50);				
+			buttonTable.add(continueButton).pad(20).padTop(50);
 		}
 	}
 

@@ -21,7 +21,7 @@ public class BrainUtilities {
 		}
 		return openCoordinates;
 	}
-	
+
 	public int getTurnNumber(CortexState state, int numberOfRows) {
 		int fullCoordinatesSize = getFullCoordinates(state, numberOfRows);
 		int turnCount = 0;
@@ -36,7 +36,7 @@ public class BrainUtilities {
 	private int getFullCoordinates(CortexState state, int numberOfRows) {
 		int boardSize = getBoardSize(numberOfRows);
 		int openCoordinatesSize = getOpenCoordinateSize(state);
-		int fullCoordinatesSize =  boardSize - openCoordinatesSize;
+		int fullCoordinatesSize = boardSize - openCoordinatesSize;
 		return fullCoordinatesSize;
 	}
 	private int getBoardSize(int numberOfRows) {

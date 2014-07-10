@@ -9,14 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class Assets {
 
 	public static AssetManager manager;
-	
+
 	public static Texture backgroundTexture;
 	public static Skin homeSkin;
 	public static Skin levelsSkin;
 	public static Skin gameSkin;
 	public static Skin dialogSkin;
 	public static Skin settingsSkin;
-	
+
 	private static final String BACKGROUND_TEXTURE = "background/number_background.png";
 
 	private static final String HOME_ATLAS = "home/home.atlas";
@@ -33,11 +33,11 @@ public class Assets {
 
 	private static final String SETTINGS_ATLAS = "settings/settings.txt";
 	private static final String SETTINGS_SKIN = "settings/settings.json";
-	
+
 	public static void loadBackground() {
-		manager.load(BACKGROUND_TEXTURE, Texture.class);		
+		manager.load(BACKGROUND_TEXTURE, Texture.class);
 	}
-	
+
 	public static void assignBackgroundScreen() {
 		backgroundTexture = manager.get(BACKGROUND_TEXTURE, Texture.class);
 	}

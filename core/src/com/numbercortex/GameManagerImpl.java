@@ -17,7 +17,7 @@ public class GameManagerImpl implements GameManager {
 
 	private CortexState state;
 	private String currentPlayer;
-	
+
 	private BrainUtilities utilities;
 
 	private CortexPreferences preferences;
@@ -96,7 +96,7 @@ public class GameManagerImpl implements GameManager {
 	private void manuallySetFirstPlayer() {
 		switch (ScreenTracker.level) {
 			case 0:
-				model.setFirstPlayerPosition(1);			
+				model.setFirstPlayerPosition(1);
 				break;
 			case 18:
 				model.setFirstPlayerPosition(0);
@@ -142,17 +142,19 @@ public class GameManagerImpl implements GameManager {
 			int turnCount = utilities.getTurnNumber(state, numberOfRows);
 			String[] messages = getTutorialMessage(turnCount);
 			if (messages != null) {
-				screen.showConfirmationDialog(messages);				
+				screen.showConfirmationDialog(messages);
 			}
 		}
 	}
 	private String[] getTutorialMessage(int turnCount) {
 		if (turnCount == 1) {
-			return new String[] {"Welcome! Number Cortex is a board game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on a square grid.", "Go ahead and drag and drop the chosen number onto the board."};
+			return new String[] {
+					"Welcome! Number Cortex is a board game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on a square grid.",
+					"Go ahead and drag and drop the chosen number onto the board." };
 		} else if (turnCount == 2) {
-			return new String[] {"Number Cortex is unique because you get to choose which number your opponent will play next. Double tap your opponents next number from the scroller below."};
+			return new String[] { "Number Cortex is unique because you get to choose which number your opponent will play next. Double tap your opponents next number from the scroller below." };
 		} else if (turnCount == 5) {
-			return new String[] {"Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits. Good luck!"};
+			return new String[] { "Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits. Good luck!" };
 		}
 		return null;
 	}
@@ -168,7 +170,8 @@ public class GameManagerImpl implements GameManager {
 		return winner != null && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && winner.equals("Player");
 	}
 	private boolean tutorialEnds(String winner, ArrayList<Integer> openCoordinates) {
-		return ScreenTracker.level == 0 && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && (winner != null || openCoordinates.isEmpty());
+		return ScreenTracker.level == 0 && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER
+				&& (winner != null || openCoordinates.isEmpty());
 	}
 	private void unlockNextLevelIfOnMaxLevel() {
 		CortexPreferences preferences = CortexPreferences.getInstance();
@@ -177,7 +180,7 @@ public class GameManagerImpl implements GameManager {
 		if (currentLevel == maxLevel) {
 			String message = getUnlockMessage(currentLevel);
 			if (message != null) {
-				screen.showConfirmationDialog(4.1f, message);				
+				screen.showConfirmationDialog(4.1f, message);
 			}
 			int raisedMaxLevel = ++maxLevel;
 			preferences.setCurrentLevel(raisedMaxLevel);

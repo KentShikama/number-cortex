@@ -3,14 +3,14 @@ package com.numbercortex;
 import java.util.Map;
 
 public class WinHandler {
-	
+
 	private GameSettings settings;
 	private String winningAttribute;
-	
+
 	WinHandler(GameSettings settings) {
 		this.settings = settings;
 	}
-	
+
 	public String getWinningAttriute() {
 		return winningAttribute;
 	}

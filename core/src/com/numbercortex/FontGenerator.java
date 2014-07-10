@@ -3,7 +3,6 @@ package com.numbercortex;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -23,7 +22,8 @@ public class FontGenerator {
 	private FontGenerator() {}
 
 	public static boolean isNull() {
-		if (numberScrollerFont == null || boardNumberFont == null || messageFont == null || levelFont == null || dialogFont == null) {
+		if (numberScrollerFont == null || boardNumberFont == null || messageFont == null || levelFont == null
+				|| dialogFont == null) {
 			return true;
 		} else {
 			return false;

@@ -44,7 +44,7 @@ class HumanPlayer implements Player {
 			messenger.placeNumber(name, coordinate);
 		} else {
 			savePostPlaceState(coordinate);
-			postPlaceUpdate(coordinate);	
+			postPlaceUpdate(coordinate);
 		}
 	}
 	private void savePostPlaceState(int coordinate) {

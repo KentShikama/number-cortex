@@ -21,7 +21,7 @@ public class MediumBrain implements Brain {
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
 
 		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);

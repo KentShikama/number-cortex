@@ -14,7 +14,7 @@ public class CortexState implements Serializable {
 		private final int chosenNumber;
 		private final Map<Integer, Integer> coordinateNumberMap;
 		private final ArrayList<Integer> availableNumbers;
-		
+
 		private String winner; // Optional
 		private String winningAttribute; // Optional
 		private int[] winningValues; // Optional
@@ -49,7 +49,7 @@ public class CortexState implements Serializable {
 	private int chosenNumber;
 	private Map<Integer, Integer> coordinateNumberMap;
 	private ArrayList<Integer> availableNumbers;
-	
+
 	private String winner; // Optional
 	private String winningAttribute; // Optional
 	private int[] winningValues; // Optional
@@ -93,7 +93,7 @@ public class CortexState implements Serializable {
 	public String getWinner() {
 		return winner;
 	}
-	
+
 	public String getWinningAttribute() {
 		return winningAttribute;
 	}

@@ -20,7 +20,7 @@ public class RandomBrain implements Brain {
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = utility.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
 		int chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
 		return chosenCoordinate;
 	}
