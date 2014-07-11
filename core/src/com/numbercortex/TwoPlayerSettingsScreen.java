@@ -17,49 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class TwoPlayerSettingsScreen implements Screen {
 
-	class MenuBody extends Actor {
-		private TextureRegion menuBody;
-
-		MenuBody() {
-			menuBody = Assets.settingsSkin.getRegion(MENU_BODY);
-			this.setBounds(0, Launch.SCREEN_HEIGHT - 875, menuBody.getRegionWidth(), menuBody.getRegionHeight());
-		}
-
-		@Override
-		public void draw(Batch batch, float alpha) {
-			batch.draw(menuBody, this.getX(), this.getY());
-		}
-	}
-
-	class SettingsTitle extends Actor {
-		private TextureRegion settingsTitle;
-
-		SettingsTitle() {
-			settingsTitle = Assets.settingsSkin.getRegion(SETTINGS_TITLE);
-			this.setBounds(0, Launch.SCREEN_HEIGHT - 245, settingsTitle.getRegionWidth(),
-					settingsTitle.getRegionHeight());
-		}
-
-		@Override
-		public void draw(Batch batch, float alpha) {
-			batch.draw(settingsTitle, this.getX(), this.getY());
-		}
-	}
-
 	private static final String TAG = TwoPlayerSettingsScreen.class.getCanonicalName();
 
 	private Stage stage;
 	private Game game;
 
 	private static final int CHECKBOX_LENGTH = 84;
-
-	private static final TextureRegion PLAY_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("play_button");
-	private static final int RIGHT_BUTTON_WIDTH = PLAY_BUTTON_TEXTURE.getRegionWidth();
-	private static final int RIGHT_BUTTON_HEIGHT = PLAY_BUTTON_TEXTURE.getRegionHeight();
-
-	private static final TextureRegion QUIT_BUTTON_TEXTURE = Assets.settingsSkin.getRegion("quit_button");
-	private static final int LEFT_BUTTON_WIDTH = QUIT_BUTTON_TEXTURE.getRegionWidth();
-	private static final int LEFT_BUTTON_HEIGHT = QUIT_BUTTON_TEXTURE.getRegionHeight();
 
 	private static final String SETTINGS_BACKGROUND = "settings_background";
 	private static final String SETTINGS_TITLE = "settings_title";
@@ -92,12 +55,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
 
-		SettingsTitle title = new SettingsTitle();
-		stage.addActor(title);
-
-		MenuBody menuBody = new MenuBody();
-		stage.addActor(menuBody);
-
 		Drawable emptyCheckbox = Assets.settingsSkin.getDrawable("empty_checkbox");
 		Drawable checkedCheckbox = Assets.settingsSkin.getDrawable("checked_checkbox");
 
@@ -106,12 +63,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 		buildMusicCheckbox(preferences, emptyCheckbox, checkedCheckbox);
 
-		if (ScreenTracker.isInPlay) {
-			buildResumeButton();
-		} else {
-			buildPlayButton();
-		}
-		buildQuitButton();
 	}
 
 	private void buildDiagonalsCheckbox(final GameSettings gameSettings, Drawable emptyCheckbox,
@@ -160,64 +111,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 		});
 		stage.addActor(musicCheckbox);
-	}
-
-	private void buildPlayButton() {
-		Drawable playButtonSkin = Assets.settingsSkin.getDrawable("play_button");
-		final ImageButton playButton = new ImageButton(playButtonSkin);
-		playButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
-		playButton.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = GameManagerImpl.createNewGameManager();
-				game.setScreen(ScreenTracker.playScreen);
-				manager.startNewGame();
-			}
-		});
-		stage.addActor(playButton);
-	}
-
-	private void buildQuitButton() {
-		Drawable quitButtonSkin = Assets.settingsSkin.getDrawable("quit_button");
-		final ImageButton quitButton = new ImageButton(quitButtonSkin);
-		quitButton.setBounds(72, Launch.SCREEN_HEIGHT - 1045, LEFT_BUTTON_WIDTH, LEFT_BUTTON_HEIGHT);
-		quitButton.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				handleQuitClick();
-			}
-			private void handleQuitClick() {
-				if (ScreenTracker.isInPlay) {
-					Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
-						@Override
-						public void clicked(InputEvent event, float x, float y) {
-							ScreenTracker.isInPlay = false;
-							game.setScreen(ScreenTracker.titleScreen);
-						}
-					});
-					dialog.show(stage);
-				} else {
-					game.setScreen(ScreenTracker.titleScreen);
-				}
-			}
-		});
-		stage.addActor(quitButton);
-
-	}
-
-	private void buildResumeButton() {
-		Drawable resumeButtonSkin = Assets.settingsSkin.getDrawable("resume_button");
-		ImageButton resumeButton = new ImageButton(resumeButtonSkin);
-		resumeButton.setBounds(277, Launch.SCREEN_HEIGHT - 1045, RIGHT_BUTTON_WIDTH, RIGHT_BUTTON_HEIGHT);
-		resumeButton.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = GameManagerImpl.getInstance();
-				game.setScreen(ScreenTracker.playScreen);
-				manager.resumeGame();
-			}
-		});
-		stage.addActor(resumeButton);
 	}
 
 	@Override
