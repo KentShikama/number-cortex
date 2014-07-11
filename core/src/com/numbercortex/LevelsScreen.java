@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -102,6 +103,7 @@ public class LevelsScreen implements Screen {
 		addLevelButtons(1, 9);
 		addBoardSizeLabel(BOARD_SIZE_4_LABEL);
 		addLevelButtons(10, 18);
+		addBackButton();
 
 		addScrollPane();
 	}
@@ -153,6 +155,19 @@ public class LevelsScreen implements Screen {
 		levelButton.setText("");
 		levelButton.setDisabled(true);
 		return levelButton;
+	}
+	private void addBackButton() {
+		TextureRegion backButtonTexture = Assets.levelsSkin.getRegion("back_button");
+		Image backButton = new Image(backButtonTexture);
+		backButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(ScreenTracker.titleScreen);
+			}
+		});
+		table.add();
+		table.add(backButton).padTop(30).padBottom(30);
+		table.row();
 	}
 	private void addScrollPane() {
 		ScrollPane.ScrollPaneStyle style = buildScrollPaneStyle();
