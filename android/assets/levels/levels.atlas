@@ -1,6 +1,6 @@
 
 levels.png
-size: 922,208
+size: 989,208
 format: RGBA8888
 filter: MipMapLinearNearest, Nearest
 repeat: none
@@ -16,6 +16,13 @@ repeat: none
   xy: 2, 4
   size: 349, 98
   orig: 349, 98
+  offset: 0, 0
+  index: -1
+back_button
+  rotate: false
+  xy: 822, 108
+  size: 167, 100
+  orig: 167, 100
   offset: 0, 0
   index: -1
 empty_rectangle
@@ -34,7 +41,7 @@ level_selector
   index: -1
 locked_rectangle
   rotate: false
-  xy: 822, 108
+  xy: 455, 2
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
