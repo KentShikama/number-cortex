@@ -31,7 +31,7 @@ public class Assets {
 	private static final String DIALOG_ATLAS = "dialog/dialog.atlas";
 	private static final String DIALOG_SKIN = "dialog/dialog.json";
 
-	private static final String SETTINGS_ATLAS = "settings/settings.txt";
+	private static final String SETTINGS_ATLAS = "settings/settings.atlas";
 	private static final String SETTINGS_SKIN = "settings/settings.json";
 
 	public static void loadBackground() {
@@ -75,9 +75,6 @@ public class Assets {
 		dialogSkin = manager.get(DIALOG_SKIN, Skin.class);
 	}
 
-	/**
-	 * TODO: Delete once no longer needed
-	 */
 	public static void loadSettings() {
 		manager.load(SETTINGS_ATLAS, TextureAtlas.class);
 		manager.load(SETTINGS_SKIN, Skin.class, new SkinLoader.SkinParameter(SETTINGS_ATLAS));

@@ -1,0 +1,111 @@
+
+settings.png
+size: 990,246
+format: RGBA8888
+filter: MipMapLinearNearest, Nearest
+repeat: none
+board_size_icon
+  rotate: false
+  xy: 2, 2
+  size: 88, 73
+  orig: 88, 73
+  offset: 0, 0
+  index: -1
+button_rectangle
+  rotate: false
+  xy: 2, 77
+  size: 285, 94
+  orig: 285, 94
+  offset: 0, 0
+  index: -1
+checked_checkbox
+  rotate: false
+  xy: 289, 105
+  size: 78, 66
+  orig: 78, 66
+  offset: 0, 0
+  index: -1
+diagonals_icon
+  rotate: false
+  xy: 799, 131
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+down_arrow
+  rotate: false
+  xy: 92, 13
+  size: 62, 62
+  orig: 62, 62
+  offset: 0, 0
+  index: -1
+empty_checkbox
+  rotate: false
+  xy: 799, 180
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: -1
+empty_star
+  rotate: false
+  xy: 931, 190
+  size: 59, 56
+  orig: 59, 56
+  offset: 0, 0
+  index: -1
+four_square_icon
+  rotate: false
+  xy: 289, 61
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+full_star
+  rotate: false
+  xy: 220, 19
+  size: 59, 56
+  orig: 59, 56
+  offset: 0, 0
+  index: -1
+grid_line
+  rotate: false
+  xy: 2, 241
+  size: 646, 5
+  orig: 646, 5
+  offset: 0, 0
+  index: -1
+leve_info_label
+  rotate: false
+  xy: 2, 173
+  size: 390, 66
+  orig: 390, 66
+  offset: 0, 0
+  index: -1
+level_wrap
+  rotate: false
+  xy: 664, 123
+  size: 133, 123
+  orig: 133, 123
+  offset: 0, 0
+  index: -1
+name_texfield
+  rotate: false
+  xy: 394, 146
+  size: 268, 93
+  orig: 268, 93
+  offset: 0, 0
+  index: -1
+time_icon
+  rotate: false
+  xy: 867, 184
+  size: 62, 62
+  orig: 62, 62
+  offset: 0, 0
+  index: -1
+up_arrow
+  rotate: false
+  xy: 156, 13
+  size: 62, 62
+  orig: 62, 62
+  offset: 0, 0
+  index: -1
