@@ -29,7 +29,7 @@ public class LevelsScreen implements Screen {
 
 	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
 	private static TextButton.TextButtonStyle buildButtonStyle() {
-		BitmapFont font = FontGenerator.getLevelFont();
+		BitmapFont font = FontGenerator.getLevelNumberFont();
 		Drawable numberRectangle = Assets.levelsSkin.getDrawable(UNLOCKED_LEVEL);
 		Drawable numberRectangleDisabled = Assets.levelsSkin.getDrawable(LOCKED_LEVEL);
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();

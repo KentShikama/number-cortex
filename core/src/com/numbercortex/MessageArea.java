@@ -21,7 +21,7 @@ public class MessageArea {
 
 	private static TextButtonStyle textButtonStyle = buildLabelStyle();
 	private static TextButtonStyle buildLabelStyle() {
-		BitmapFont font = FontGenerator.getMessageFont();
+		BitmapFont font = FontGenerator.getGillSans60();
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
@@ -30,7 +30,7 @@ public class MessageArea {
 
 	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildTextButtonStyle();
 	private static TextButton.TextButtonStyle buildTextButtonStyle() {
-		BitmapFont font = FontGenerator.getMessageFont();
+		BitmapFont font = FontGenerator.getGillSans60();
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;

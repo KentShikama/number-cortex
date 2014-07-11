@@ -18,7 +18,7 @@ public class CortexDialog extends Dialog {
 
 	private static Label.LabelStyle labelStyle = buildLabelStyle();
 	private static Label.LabelStyle buildLabelStyle() {
-		BitmapFont font = FontGenerator.getDialogFont();
+		BitmapFont font = FontGenerator.getGillSans50();
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = font;
 		labelStyle.fontColor = Color.WHITE;
@@ -27,7 +27,7 @@ public class CortexDialog extends Dialog {
 
 	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle();
 	private static TextButton.TextButtonStyle buildTextButtonStyle() {
-		BitmapFont font = FontGenerator.getMessageFont();
+		BitmapFont font = FontGenerator.getGillSans60();
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
@@ -75,7 +75,7 @@ public class CortexDialog extends Dialog {
 	private static Window.WindowStyle buildWindowStyle() {
 		Window.WindowStyle windowStyle = new Window.WindowStyle();
 		windowStyle.background = Assets.dialogSkin.getDrawable("pop_up");
-		windowStyle.titleFont = FontGenerator.getMessageFont();
+		windowStyle.titleFont = FontGenerator.getGillSans60();
 		return windowStyle;
 	}
 	private static void addContentLabel(String labelText, Dialog dialog) {
