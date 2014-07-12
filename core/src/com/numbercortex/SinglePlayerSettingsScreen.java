@@ -80,7 +80,37 @@ public class SinglePlayerSettingsScreen implements Screen {
 			}
 		}
 	}	
+	
+	class DifficultyGroup extends SettingGroup {
 
+		public DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
+			super(groupState);
+			SnapshotArray<Actor> starButtons = starGroup.getChildren();
+			for (Actor starButton : starButtons) {
+				starButton.addListener(new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						if (groupState == GroupState.CLICKABLE) {
+							starGroup.toggleRating();
+							gameSettings.setDifficulty(starGroup.rating);	
+						}
+					}
+				});
+			}
+			this.addActor(label);
+			this.addActor(starGroup);
+		}
+		
+		public void draw(Batch batch, float parentAlpha) {
+			if (groupState == GroupState.TRANSPARENT) {
+				parentAlpha = 0.5f;
+			}
+			SnapshotArray<Actor> children = this.getChildren();
+			for (Actor child : children) {
+				child.draw(batch, parentAlpha);
+			}
+		}
+	}
 	class StarGroup extends Group {		
 		private int rating;
 
@@ -128,52 +158,19 @@ public class SinglePlayerSettingsScreen implements Screen {
 		}
 	}
 	
-	class DifficultyGroup extends SettingGroup {
-
-		public DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
-			super(groupState);
-			SnapshotArray<Actor> starButtons = starGroup.getChildren();
-			for (Actor starButton : starButtons) {
-				starButton.addListener(new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						if (groupState == GroupState.CLICKABLE) {
-							starGroup.toggleRating();
-							gameSettings.setDifficulty(starGroup.rating);	
-						}
-					}
-				});
-			}
-			this.addActor(label);
-			this.addActor(starGroup);
-		}
-		
-		public void draw(Batch batch, float parentAlpha) {
-			if (groupState == GroupState.TRANSPARENT) {
-				parentAlpha = 0.5f;
-			}
-			SnapshotArray<Actor> children = this.getChildren();
-			for (Actor child : children) {
-				child.draw(batch, parentAlpha);
-			}
-		}
-	}
-	
 	public SinglePlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
 	}
-
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
+	
+	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle();
+	private static TextButton.TextButtonStyle buildTextButtonStyle() {
+		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
+		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+		textButtonStyle.font = FontGenerator.getGillSans57();
+		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
+		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+		return textButtonStyle;
 	}
 
 	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
@@ -214,10 +211,10 @@ public class SinglePlayerSettingsScreen implements Screen {
 		addFourSquaresGroup();
 
 		if (ScreenTracker.isInPlay) {
-			buildResumeButton();
+			addResumeButton();
 		} else {
-			buildPlayButton();
-			buildBackButton();
+			addPlayButton();
+			addBackButton();
 		}
 	}
 
@@ -453,12 +450,10 @@ public class SinglePlayerSettingsScreen implements Screen {
 		return checkbox;
 	}
 
-	private void buildPlayButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+	private void addPlayButton() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle();
+		}
 		final TextButton playButton = new TextButton("Play", textButtonStyle);
 		playButton.setBounds(306, Launch.SCREEN_HEIGHT - 1096, 284, 94);
 		playButton.addListener(new ClickListener() {
@@ -469,12 +464,10 @@ public class SinglePlayerSettingsScreen implements Screen {
 		});
 		stage.addActor(playButton);
 	}
-	private void buildBackButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+	private void addBackButton() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle();
+		}
 		final TextButton backButton = new TextButton("Back", textButtonStyle);
 		backButton.setBounds(55, Launch.SCREEN_HEIGHT - 1096, 222, 94);
 		backButton.addListener(new ClickListener() {
@@ -485,12 +478,10 @@ public class SinglePlayerSettingsScreen implements Screen {
 		});
 		stage.addActor(backButton);
 	}
-	private void buildResumeButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+	private void addResumeButton() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle();
+		}
 		final TextButton resumeButton = new TextButton("Resume", textButtonStyle);
 		resumeButton.setBounds(178, Launch.SCREEN_HEIGHT - 1096, 284, 94);
 		resumeButton.addListener(new ClickListener() {
@@ -502,6 +493,19 @@ public class SinglePlayerSettingsScreen implements Screen {
 		stage.addActor(resumeButton);
 	}
 
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act(delta);
+		stage.draw();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
+	}
+	
 	@Override
 	public void hide() {
 		CortexPreferences.getInstance().save();
@@ -509,12 +513,15 @@ public class SinglePlayerSettingsScreen implements Screen {
 
 	@Override
 	public void resume() {
-		Assets.loadSettings();
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
+		}
 	}
 
 	@Override
-	public void dispose() {}
-
+	public void dispose() {
+		textButtonStyle = null;
+	}
 	@Override
 	public void pause() {}
 
