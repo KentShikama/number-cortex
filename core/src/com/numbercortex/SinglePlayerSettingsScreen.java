@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -40,16 +42,21 @@ public class SinglePlayerSettingsScreen implements Screen {
 		}
 	}
 	
-	class CheckBoxSettingGroup extends SettingGroup {
-		private Image icon;
+	class CheckboxSettingGroup extends SettingGroup {
 		private Label label;
 		private ImageButton checkbox;
 		
-		CheckBoxSettingGroup(Image icon, Label label, final ImageButton checkbox, final GroupState groupState) {
+		private Image icon; // Optional
+		
+		CheckboxSettingGroup(Label label, ImageButton checkbox, GroupState groupState) {
+			this(label, checkbox, null, groupState);
+		}
+				
+		CheckboxSettingGroup(Label label, final ImageButton checkbox, Image icon, final GroupState groupState) {
 			super(groupState);
-			this.icon = icon;
 			this.label = label;
 			this.checkbox = checkbox;
+			this.icon = icon;
 			setBounds(checkbox.getX(), checkbox.getY(), checkbox.getWidth(), checkbox.getHeight());
 			addListener(new ClickListener() {
 				public void clicked (InputEvent event, float x, float y) {
@@ -64,7 +71,9 @@ public class SinglePlayerSettingsScreen implements Screen {
 			if (groupState == GroupState.TRANSPARENT) {
 				parentAlpha = 0.5f;
 			}
-			icon.draw(batch, parentAlpha);
+			if (icon != null) {
+				icon.draw(batch, parentAlpha);				
+			}
 			label.draw(batch, parentAlpha);
 			checkbox.draw(batch, parentAlpha);
 		}
@@ -90,7 +99,8 @@ public class SinglePlayerSettingsScreen implements Screen {
 	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
 	private static Label.LabelStyle buildLabelStyle50() {
 		Label.LabelStyle labelStyle50 = new Label.LabelStyle();
-		labelStyle50.font = FontGenerator.getGillSans50();
+		BitmapFont gillSans50Compact = FontGenerator.getGillSans50Compact();
+		labelStyle50.font = gillSans50Compact;
 		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle50;
 	}
@@ -103,7 +113,14 @@ public class SinglePlayerSettingsScreen implements Screen {
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
 		
+		addEvenOdd();
+		addSingleDouble();
+		
+		addPrimeComposite();
+		addMiddleExtreme();
+		
 		addDiagonalsGroup();
+		addFourSquaresGroup();
 		
 		if (ScreenTracker.isInPlay) {
 			buildResumeButton();
@@ -112,29 +129,139 @@ public class SinglePlayerSettingsScreen implements Screen {
 			buildBackButton();
 		}
 	}
+	
+	private void addEvenOdd() {
+		Label evenOddLabel = buildEvenOddLabel();
+		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
+		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox, GroupState.VISIBLE);
+		stage.addActor(evenOddGroup);			
+	}
+	private Label buildEvenOddLabel() {
+		Label evenOddLabel = new Label("Even\nOdd", labelStyle50);
+		evenOddLabel.setAlignment(Align.center);
+		evenOddLabel.setPosition(65 - 6, Launch.SCREEN_HEIGHT - 621 - 12);
+		return evenOddLabel;
+	}
+	private ImageButton buildEvenOddCheckbox() {
+		int positionX = 206;
+		int positionY = Launch.SCREEN_HEIGHT - 606;
+		boolean isChecked = gameSettings.isEvenOdd();
+		final ImageButton evenOddCheckbox = buildCheckbox(positionX, positionY, isChecked);
+		evenOddCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				 gameSettings.setEvenOdd(evenOddCheckbox.isChecked());				
+			}
+		});
+		return evenOddCheckbox;
+	}
+
+	private void addSingleDouble() {
+		Label singleDoubleLabel = buildSingleDoubleLabel();
+		ImageButton singleDoubleCheckbox = buildSingleDoubleCheckbox();
+		CheckboxSettingGroup singleDoubleGroup = new CheckboxSettingGroup(singleDoubleLabel, singleDoubleCheckbox, GroupState.VISIBLE);
+		stage.addActor(singleDoubleGroup);		
+	}
+	private Label buildSingleDoubleLabel() {
+		Label singleDoubleLabel = new Label("Single\nDouble", labelStyle50);
+		singleDoubleLabel.setAlignment(Align.center);
+		singleDoubleLabel.setPosition(349 - 6, Launch.SCREEN_HEIGHT - 621 - 12);
+		return singleDoubleLabel;
+	}
+	private ImageButton buildSingleDoubleCheckbox() {
+		int positionX = 528;
+		int positionY = Launch.SCREEN_HEIGHT - 606;
+		boolean isChecked = gameSettings.isSingleDouble();
+		final ImageButton singleDoubleCheckbox = buildCheckbox(positionX, positionY, isChecked);
+		singleDoubleCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				 gameSettings.setSingleDouble(singleDoubleCheckbox.isChecked());				
+			}
+		});
+		return singleDoubleCheckbox;
+	}
+
+	private void addPrimeComposite() {
+		Label primeCompositeLabel = buildPrimeCompositeLabel();
+		ImageButton primeCompositeCheckbox = buildPrimeCompositeCheckbox();
+		GroupState state;
+		if (CortexPreferences.getInstance().getCurrentLevel() > 3) {
+			state = GroupState.VISIBLE;
+		} else {
+			state = GroupState.TRANSPARENT;
+		}
+		CheckboxSettingGroup primeCompositeGroup = new CheckboxSettingGroup(primeCompositeLabel, primeCompositeCheckbox, state);
+		stage.addActor(primeCompositeGroup);
+	}
+	private Label buildPrimeCompositeLabel() {
+		Label primeCompositeLabel = new Label("Prime\nComp.", labelStyle50);
+		primeCompositeLabel.setAlignment(Align.center);
+		primeCompositeLabel.setPosition(47 - 6, Launch.SCREEN_HEIGHT - 744 - 12);
+		return primeCompositeLabel;
+	}
+	private ImageButton buildPrimeCompositeCheckbox() {
+		int positionX = 206;
+		int positionY = Launch.SCREEN_HEIGHT - 729;
+		boolean isChecked = gameSettings.isPrimeComposite();
+		final ImageButton primeCompositeCheckbox = buildCheckbox(positionX, positionY, isChecked);
+		primeCompositeCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				 gameSettings.setPrimeComposite(primeCompositeCheckbox.isChecked());				
+			}
+		});
+		return primeCompositeCheckbox;
+	}
+
+	private void addMiddleExtreme() {
+		Label middleExtremeLabel = buildMiddleExtremeLabel();
+		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
+		GroupState state;
+		if (CortexPreferences.getInstance().getCurrentLevel() > 6) {
+			state = GroupState.VISIBLE;
+		} else {
+			state = GroupState.TRANSPARENT;
+		}
+		CheckboxSettingGroup middleExtremeGroup = new CheckboxSettingGroup(middleExtremeLabel, middleExtremeCheckbox, state);
+		stage.addActor(middleExtremeGroup);
+	}
+	private Label buildMiddleExtremeLabel() {
+		Label middleExtremeLabel = new Label("Middle\nExtreme", labelStyle50);
+		middleExtremeLabel.setAlignment(Align.center);
+		middleExtremeLabel.setPosition(339 - 6, Launch.SCREEN_HEIGHT - 744 - 12);
+		return middleExtremeLabel;
+	}
+	private ImageButton buildMiddleExtremeCheckbox() {
+		int positionX = 528;
+		int positionY = Launch.SCREEN_HEIGHT - 729;
+		boolean isChecked = gameSettings.isMiddleExtreme();
+		final ImageButton middleExtremeCheckbox = buildCheckbox(positionX, positionY, isChecked);
+		middleExtremeCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				 gameSettings.setMiddleExtreme(middleExtremeCheckbox.isChecked());				
+			}
+		});
+		return middleExtremeCheckbox;
+	}
 
 	private void addDiagonalsGroup() {
-		Image diagonalsIcon = buildDiagonalsIcon();
 		Label diagonalsLabel = buildDiagonalsLabel();
 		ImageButton diagonalsCheckbox = buildDiagonalsCheckbox();
-		CheckBoxSettingGroup diagonalsGroup = new CheckBoxSettingGroup(diagonalsIcon, diagonalsLabel, diagonalsCheckbox, GroupState.TRANSPARENT);
+		Image diagonalsIcon = buildDiagonalsIcon();
+		CheckboxSettingGroup diagonalsGroup = new CheckboxSettingGroup(diagonalsLabel, diagonalsCheckbox, diagonalsIcon, GroupState.VISIBLE);
 		stage.addActor(diagonalsGroup);
 	}
-	private Image buildDiagonalsIcon() {
-		int positionX = 94;
-		int positionY = Launch.SCREEN_HEIGHT - 862;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("diagonals_icon");
-		Image diagonalsIcon = buildIcon(iconTexture, positionX, positionY);
-		return diagonalsIcon;
-	}
 	private Label buildDiagonalsLabel() {
-		Label diagonalsLabel = new Label("Diags.", labelStyle50);
-		diagonalsLabel.setPosition(71, Launch.SCREEN_HEIGHT - 929);
+		Label diagonalsLabel = new Label("Diag.", labelStyle50);
+		diagonalsLabel.setAlignment(Align.center);
+		diagonalsLabel.setPosition(71, Launch.SCREEN_HEIGHT - 929 - 6);
 		return diagonalsLabel;
 	}
 	private ImageButton buildDiagonalsCheckbox() {
 		int positionX = 206;
-		int positionY = Launch.SCREEN_HEIGHT - 898;
+		int positionY = Launch.SCREEN_HEIGHT - 902;
 		boolean isChecked = gameSettings.isDiagonals();
 		final ImageButton diagonalsCheckbox = buildCheckbox(positionX, positionY, isChecked);
 		diagonalsCheckbox.addListener(new ChangeListener() {
@@ -144,6 +271,53 @@ public class SinglePlayerSettingsScreen implements Screen {
 			}
 		});
 		return diagonalsCheckbox;
+	}
+	private Image buildDiagonalsIcon() {
+		int positionX = 94;
+		int positionY = Launch.SCREEN_HEIGHT - 862;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("diagonals_icon");
+		Image diagonalsIcon = buildIcon(iconTexture, positionX, positionY);
+		return diagonalsIcon;
+	}
+	
+	private void addFourSquaresGroup() {
+		Label fourSquareLabel = buildFourSquareLabel();
+		ImageButton fourSquareCheckbox = buildFourSquareCheckbox();
+		Image fourSquareIcon = buildFourSquareIcon();
+		GroupState state;
+		if (CortexPreferences.getInstance().getCurrentLevel() > 13) {
+			state = GroupState.VISIBLE;
+		} else {
+			state = GroupState.TRANSPARENT;
+		}
+		CheckboxSettingGroup fourSquareGroup = new CheckboxSettingGroup(fourSquareLabel, fourSquareCheckbox, fourSquareIcon, state);
+		stage.addActor(fourSquareGroup);
+	}
+	private Label buildFourSquareLabel() {
+		Label fourSquareLabel = new Label("Four\nSquare", labelStyle50);
+		fourSquareLabel.setAlignment(Align.center);
+		fourSquareLabel.setPosition(350, Launch.SCREEN_HEIGHT - 961);
+		return fourSquareLabel;
+	}
+	private ImageButton buildFourSquareCheckbox() {
+		int positionX = 528;
+		int positionY = Launch.SCREEN_HEIGHT - 902;
+		boolean isChecked = gameSettings.isFourSquare();
+		final ImageButton fourSquareCheckbox = buildCheckbox(positionX, positionY, isChecked);
+		fourSquareCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				 gameSettings.setFourSquare(fourSquareCheckbox.isChecked());				
+			}
+		});
+		return fourSquareCheckbox;
+	}
+	private Image buildFourSquareIcon() {
+		int positionX = 398;
+		int positionY = Launch.SCREEN_HEIGHT - 840;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("four_square_icon");
+		Image diagonalsIcon = buildIcon(iconTexture, positionX, positionY);
+		return diagonalsIcon;
 	}
 
 	private static Image buildIcon(TextureRegion iconTexture, int positionX, int positionY) {
@@ -167,7 +341,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	private void buildPlayButton() {
 		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans60();
+		textButtonStyle.font = FontGenerator.getGillSans57();
 		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
 		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
 		final TextButton playButton = new TextButton("Play", textButtonStyle);
@@ -183,7 +357,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	private void buildBackButton() {
 		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans60();
+		textButtonStyle.font = FontGenerator.getGillSans57();
 		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
 		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
 		final TextButton backButton = new TextButton("Back", textButtonStyle);
@@ -199,7 +373,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	private void buildResumeButton() {
 		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans60();
+		textButtonStyle.font = FontGenerator.getGillSans57();
 		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
 		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
 		final TextButton resumeButton = new TextButton("Resume", textButtonStyle);

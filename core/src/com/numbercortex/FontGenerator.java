@@ -11,15 +11,17 @@ public class FontGenerator {
 
 	private static BitmapFont numberScrollerFont;
 	private static BitmapFont boardNumberFont;
-	private static BitmapFont gillSans60;
 	private static BitmapFont levelNumberFont;
+	
+	private static BitmapFont gillSans57;
 	private static BitmapFont gillSans50;
+	private static BitmapFont gillSans50Compact;
 
 	private FontGenerator() {}
 
 	public static boolean isNull() {
-		if (numberScrollerFont == null || boardNumberFont == null || levelNumberFont == null || gillSans60 == null
-				|| gillSans50 == null) {
+		if (numberScrollerFont == null || boardNumberFont == null || levelNumberFont == null || gillSans57 == null
+				|| gillSans50 == null || gillSans50Compact == null) {
 			return true;
 		} else {
 			return false;
@@ -36,11 +38,14 @@ public class FontGenerator {
 		return levelNumberFont;
 	}
 	
-	public static BitmapFont getGillSans60() {
-		return gillSans60;
+	public static BitmapFont getGillSans57() {
+		return gillSans57;
 	}
 	public static BitmapFont getGillSans50() {
 		return gillSans50;
+	}
+	public static BitmapFont getGillSans50Compact() {
+		return gillSans50Compact;
 	}
 
 	public static void load() {
@@ -63,11 +68,14 @@ public class FontGenerator {
 	}
 	private static void createGillSansFonts() {
 		FreeTypeFontGenerator timesGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GillSans.ttc"));
-		gillSans60 = timesGenerator.generateFont(60);
-		gillSans60.getData().down = (float) (-60 * 1.1);
-		gillSans60.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		gillSans57 = timesGenerator.generateFont(57);
+		gillSans57.getData().down = (float) (-57 * 1.1);
+		gillSans57.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		gillSans50 = timesGenerator.generateFont(50);
 		gillSans50.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		gillSans50Compact = timesGenerator.generateFont(50);
+		gillSans50Compact.getData().down = -48f;
+		gillSans50Compact.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		timesGenerator.dispose();
 	}
 
@@ -76,7 +84,8 @@ public class FontGenerator {
 		boardNumberFont = null;
 		levelNumberFont = null;
 		
-		gillSans60 = null;
+		gillSans57 = null;
 		gillSans50 = null;
+		gillSans50Compact = null;
 	}
 }

@@ -21,7 +21,7 @@ public class MessageArea {
 
 	private static TextButtonStyle textButtonStyle = buildLabelStyle();
 	private static TextButtonStyle buildLabelStyle() {
-		BitmapFont font = FontGenerator.getGillSans60();
+		BitmapFont font = FontGenerator.getGillSans57();
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
@@ -30,7 +30,7 @@ public class MessageArea {
 
 	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildTextButtonStyle();
 	private static TextButton.TextButtonStyle buildTextButtonStyle() {
-		BitmapFont font = FontGenerator.getGillSans60();
+		BitmapFont font = FontGenerator.getGillSans57();
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
@@ -220,10 +220,10 @@ public class MessageArea {
 		stage.addActor(buttonTable);
 		if (message.equals("replay")) {
 			messageLabelLong.setText("Do you wish to play again?");
-			buttonTable.add(playButton).pad(20).padTop(50);
+			buttonTable.add(playButton).width(300).pad(15).padTop(50);
 		} else {
 			messageLabelLong.setText("Do you wish to continue to the next level?");
-			buttonTable.add(continueButton).pad(20).padTop(50);
+			buttonTable.add(continueButton).width(300).pad(15).padTop(50);
 		}
 	}
 
