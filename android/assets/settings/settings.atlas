@@ -74,7 +74,7 @@ grid_line
   orig: 646, 5
   offset: 0, 0
   index: -1
-leve_info_label
+level_info_label
   rotate: false
   xy: 2, 173
   size: 390, 66

@@ -186,7 +186,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 			this.addActor(icon);
 			this.addActor(label);
 		}
-		
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			if (groupState == GroupState.TRANSPARENT) {
@@ -198,7 +198,18 @@ public class SinglePlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	
+
+	class GridLines extends Group {
+		GridLines(int[] position) {
+			TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
+			for (int i = 0; i < position.length; i++) {
+				Image gridLine = new Image(gridLineTexture);
+				gridLine.setPosition(0, Launch.SCREEN_HEIGHT - position[i]);
+				this.addActor(gridLine);
+			}
+		}
+	}
+
 	public SinglePlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
@@ -211,9 +222,12 @@ public class SinglePlayerSettingsScreen implements Screen {
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
-		
+
+		addGridLines();
+
+		addTitle();
 		addLevelWrap();
-		
+
 		addTime();
 		addBoardSizeGroup();
 
@@ -236,11 +250,24 @@ public class SinglePlayerSettingsScreen implements Screen {
 		}
 	}
 
+	private void addGridLines() {
+		int[] position = { 230, 366, 496, 778, 962 };
+		GridLines gridLines = new GridLines(position);
+		stage.addActor(gridLines);
+	}
+
+	private void addTitle() {
+		TextureRegion titleTexture = Assets.settingsSkin.getRegion("level_info_label");
+		Image title = new Image(titleTexture);
+		title.setPosition(64, Launch.SCREEN_HEIGHT - 152);
+		stage.addActor(title);
+	}
+
 	private void addLevelWrap() {
 		Image levelWrap = buildLevelWrap();
 		Label levelLabel = buildLevelLabel();
 		LabelSettingGroup timeGroup = new LabelSettingGroup(levelWrap, levelLabel, GroupState.VISIBLE);
-		stage.addActor(timeGroup);	
+		stage.addActor(timeGroup);
 	}
 	private Image buildLevelWrap() {
 		int positionX = 507;
@@ -265,7 +292,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		Image timeIcon = buildTimeIcon();
 		Label timeLabel = buildTimeLabel();
 		LabelSettingGroup timeGroup = new LabelSettingGroup(timeIcon, timeLabel, GroupState.VISIBLE);
-		stage.addActor(timeGroup);		
+		stage.addActor(timeGroup);
 	}
 	private Image buildTimeIcon() {
 		int positionX = 78;
@@ -276,7 +303,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 	private Label buildTimeLabel() {
 		int time = gameSettings.getTime();
-		Label boardSizeLabel = new Label(time + "s", labelStyle57);
+		Label boardSizeLabel = new Label("N/A", labelStyle57); // TODO: Implement time in levels
 		boardSizeLabel.setAlignment(Align.center);
 		boardSizeLabel.setPosition(168 - 6, Launch.SCREEN_HEIGHT - 330 - 6);
 		return boardSizeLabel;
@@ -543,7 +570,9 @@ public class SinglePlayerSettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				GameManager manager = GameManagerImpl.createNewGameManager();
 				game.setScreen(ScreenTracker.playScreen);
+				manager.startNewGame();
 			}
 		});
 		stage.addActor(playButton);
@@ -571,7 +600,9 @@ public class SinglePlayerSettingsScreen implements Screen {
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				GameManager manager = GameManagerImpl.getInstance();
 				game.setScreen(ScreenTracker.playScreen);
+				manager.resumeGame();	
 			}
 		});
 		stage.addActor(resumeButton);

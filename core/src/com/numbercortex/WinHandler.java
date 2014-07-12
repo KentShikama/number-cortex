@@ -195,9 +195,9 @@ public class WinHandler {
 			}
 		}
 		if (isMiddle(set[0]) == true) {
-			winningAttribute = "middle";
+			winningAttribute = "Middles";
 		} else {
-			winningAttribute = "extreme";
+			winningAttribute = "Extremes";
 		}
 		return true;
 	}
