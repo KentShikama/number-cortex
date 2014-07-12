@@ -50,11 +50,9 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 
 	class CheckboxSettingGroup extends SettingGroup {
-
 		CheckboxSettingGroup(Label label, ImageButton checkbox, GroupState groupState) {
 			this(label, checkbox, null, groupState);
 		}
-
 		CheckboxSettingGroup(Label label, final ImageButton checkbox, Image icon, final GroupState groupState) {
 			super(groupState);
 			this.addActor(label);
@@ -73,16 +71,94 @@ public class SinglePlayerSettingsScreen implements Screen {
 		}
 
 		public void draw(Batch batch, float parentAlpha) {
-			SnapshotArray<Actor> children = this.getChildren();
 			if (groupState == GroupState.TRANSPARENT) {
 				parentAlpha = 0.5f;
 			}
+			SnapshotArray<Actor> children = this.getChildren();
+			for (Actor child : children) {
+				child.draw(batch, parentAlpha);
+			}
+		}
+	}	
+
+	class StarGroup extends Group {		
+		private int rating;
+
+		public StarGroup(int startPositionX, int startPositionY, int rating) {
+			this(startPositionX, startPositionY, 68, rating, 5);
+		}		
+		public StarGroup(int startPositionX, int startPositionY, int offsetX, int rating, int ratingCount) {
+			for (int i = 0; i < ratingCount; i++) {
+				TextureRegion checkedStarTexture = Assets.settingsSkin.getRegion("full_star");
+				Drawable checkedStarDrawable = new TextureRegionDrawable(checkedStarTexture);
+				TextureRegion emptyStarTexture = Assets.settingsSkin.getRegion("empty_star");
+				Drawable emptyStarDrawable = new TextureRegionDrawable(emptyStarTexture);
+				ImageButton starButton = new ImageButton(emptyStarDrawable, emptyStarDrawable,
+						checkedStarDrawable);
+				starButton.setBounds(startPositionX + (i * offsetX), startPositionY, checkedStarTexture.getRegionWidth(),
+						checkedStarTexture.getRegionHeight());
+				starButton.center();
+				starButton.clearListeners();
+				this.addActor(starButton);
+			}
+			for (int i = 0; i < rating; i++) {
+				toggleRating();
+			}
+		}
+		public void toggleRating() {
+			updateRating();
+			updateButtons();
+		}
+		private void updateRating() {
+			if (rating == this.getChildren().size) {
+				rating = 1;
+			} else {
+				rating++;
+			}
+		}
+		private void updateButtons() {
+			for (int i = 0; i < rating; i++) {
+				ImageButton starButton = (ImageButton) this.getChildren().get(i);
+				starButton.setChecked(true);
+			}
+			for (int j = rating; j < this.getChildren().size; j++) {
+				ImageButton starButton = (ImageButton) this.getChildren().get(j);
+				starButton.setChecked(false);
+			}
+		}
+	}
+	
+	class DifficultyGroup extends SettingGroup {
+
+		public DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
+			super(groupState);
+			SnapshotArray<Actor> starButtons = starGroup.getChildren();
+			for (Actor starButton : starButtons) {
+				starButton.addListener(new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						if (groupState == GroupState.CLICKABLE) {
+							starGroup.toggleRating();
+							gameSettings.setDifficulty(starGroup.rating);	
+						}
+					}
+				});
+			}
+			this.addActor(label);
+			this.addActor(starGroup);
+		}
+		
+		public void draw(Batch batch, float parentAlpha) {
+			if (groupState == GroupState.TRANSPARENT) {
+				parentAlpha = 0.5f;
+			}
+			SnapshotArray<Actor> children = this.getChildren();
 			for (Actor child : children) {
 				child.draw(batch, parentAlpha);
 			}
 		}
 	}
-
+	
 	public SinglePlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
@@ -108,6 +184,15 @@ public class SinglePlayerSettingsScreen implements Screen {
 		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle50;
 	}
+	
+	private static Label.LabelStyle labelStyle57 = buildLabelStyle57();
+	private static Label.LabelStyle buildLabelStyle57() {
+		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
+		BitmapFont gillSans57 = FontGenerator.getGillSans57();
+		labelStyle57.font = gillSans57;
+		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
+		return labelStyle57;
+	}
 
 	@Override
 	public void show() {
@@ -116,6 +201,8 @@ public class SinglePlayerSettingsScreen implements Screen {
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
+		
+		addDifficultyGroup();
 
 		addEvenOdd();
 		addSingleDouble();
@@ -132,6 +219,20 @@ public class SinglePlayerSettingsScreen implements Screen {
 			buildPlayButton();
 			buildBackButton();
 		}
+	}
+
+	private void addDifficultyGroup() {
+		Label difficultyLabel = buildDifficultyLabel();
+		int difficultyRating = gameSettings.getDifficulty();
+		StarGroup starGroup = new StarGroup(276, Launch.SCREEN_HEIGHT - 456, difficultyRating);
+		DifficultyGroup difficultyGroup = new DifficultyGroup(difficultyLabel, starGroup, GroupState.VISIBLE);
+		stage.addActor(difficultyGroup);
+	}
+	private Label buildDifficultyLabel() {
+		Label difficultyLabel = new Label("Difficulty", labelStyle57);
+		difficultyLabel.setAlignment(Align.center);
+		difficultyLabel.setPosition(41 - 6, Launch.SCREEN_HEIGHT - 447 - 12);
+		return difficultyLabel;
 	}
 
 	private void addEvenOdd() {
