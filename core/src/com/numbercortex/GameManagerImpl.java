@@ -85,6 +85,15 @@ public class GameManagerImpl implements GameManager {
 	}
 
 	@Override
+	public void resumeGame() {
+		if (ScreenTracker.isInPlay) {
+			updateState(state);
+		} else {
+			Gdx.app.log(TAG, "There is no saved game to resume.");
+		}
+	}
+	
+	@Override
 	public void startNewGame() {
 		if (ScreenTracker.isInPlay) {
 			Gdx.app.log(TAG, "Deleting previous game data.");
@@ -94,29 +103,20 @@ public class GameManagerImpl implements GameManager {
 		registerPlayersAndStartGame();
 	}
 	private void manuallySetFirstPlayer() {
-		switch (ScreenTracker.level) {
-			case 0:
-				model.setFirstPlayerPosition(1);
-				break;
-			case 18:
-				model.setFirstPlayerPosition(0);
-				break;
-			default:
-				break;
+		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+			switch (ScreenTracker.level) {
+				case 0:
+					model.setFirstPlayerPosition(1);
+					break;
+				case 18:
+					model.setFirstPlayerPosition(0);
+					break;
+			}	
 		}
 	}
 	private void registerPlayersAndStartGame() {
 		for (Player player : players) {
 			model.register(player.getName());
-		}
-	}
-
-	@Override
-	public void resumeGame() {
-		if (ScreenTracker.isInPlay) {
-			updateState(state);
-		} else {
-			Gdx.app.log(TAG, "There is no saved game to resume.");
 		}
 	}
 
@@ -137,7 +137,7 @@ public class GameManagerImpl implements GameManager {
 		}
 	}
 	private void handleTutorialMessages(CortexState state) {
-		if (ScreenTracker.level == 0) {
+		if (ScreenTracker.level == 0 && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
 			int numberOfRows = settings.getNumberOfRows();
 			int turnCount = utilities.getTurnNumber(state, numberOfRows);
 			String[] messages = getTutorialMessage(turnCount);
