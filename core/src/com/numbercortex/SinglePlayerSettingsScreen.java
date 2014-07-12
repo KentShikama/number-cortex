@@ -212,6 +212,8 @@ public class SinglePlayerSettingsScreen implements Screen {
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
 		
+		addLevelWrap();
+		
 		addTime();
 		addBoardSizeGroup();
 
@@ -232,6 +234,31 @@ public class SinglePlayerSettingsScreen implements Screen {
 			addPlayButton();
 			addBackButton();
 		}
+	}
+
+	private void addLevelWrap() {
+		Image levelWrap = buildLevelWrap();
+		Label levelLabel = buildLevelLabel();
+		LabelSettingGroup timeGroup = new LabelSettingGroup(levelWrap, levelLabel, GroupState.VISIBLE);
+		stage.addActor(timeGroup);	
+	}
+	private Image buildLevelWrap() {
+		int positionX = 507;
+		int positionY = Launch.SCREEN_HEIGHT - 123;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("level_wrap");
+		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
+		return timeIcon;
+	}
+	private Label buildLevelLabel() {
+		int level = gameSettings.getLevel();
+		Label.LabelStyle tahoma86Style = new Label.LabelStyle();
+		BitmapFont tahoma86 = FontGenerator.getNumberScrollerFont();
+		tahoma86Style.font = tahoma86;
+		tahoma86Style.fontColor = Launch.BRIGHT_YELLOW;
+		Label levelLabel = new Label("" + level, tahoma86Style);
+		levelLabel.setAlignment(Align.center);
+		levelLabel.setBounds(535 - 6, Launch.SCREEN_HEIGHT - 84 - 6, 94, 64);
+		return levelLabel;
 	}
 
 	private void addTime() {
