@@ -179,6 +179,26 @@ public class SinglePlayerSettingsScreen implements Screen {
 		}
 	}
 
+	class LabelSettingGroup extends SettingGroup {
+
+		public LabelSettingGroup(Image icon, Label label, GroupState groupState) {
+			super(groupState);
+			this.addActor(icon);
+			this.addActor(label);
+		}
+		
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			if (groupState == GroupState.TRANSPARENT) {
+				parentAlpha = 0.5f;
+			}
+			SnapshotArray<Actor> children = this.getChildren();
+			for (Actor child : children) {
+				child.draw(batch, parentAlpha);
+			}
+		}
+	}
+	
 	public SinglePlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
@@ -191,6 +211,9 @@ public class SinglePlayerSettingsScreen implements Screen {
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
+		
+		addTime();
+		addBoardSizeGroup();
 
 		addDifficultyGroup();
 
@@ -209,6 +232,48 @@ public class SinglePlayerSettingsScreen implements Screen {
 			addPlayButton();
 			addBackButton();
 		}
+	}
+
+	private void addTime() {
+		Image timeIcon = buildTimeIcon();
+		Label timeLabel = buildTimeLabel();
+		LabelSettingGroup timeGroup = new LabelSettingGroup(timeIcon, timeLabel, GroupState.VISIBLE);
+		stage.addActor(timeGroup);		
+	}
+	private Image buildTimeIcon() {
+		int positionX = 78;
+		int positionY = Launch.SCREEN_HEIGHT - 332;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("time_icon");
+		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
+		return timeIcon;
+	}
+	private Label buildTimeLabel() {
+		int time = gameSettings.getTime();
+		Label boardSizeLabel = new Label(time + "s", labelStyle57);
+		boardSizeLabel.setAlignment(Align.center);
+		boardSizeLabel.setPosition(168 - 6, Launch.SCREEN_HEIGHT - 330 - 6);
+		return boardSizeLabel;
+	}
+
+	private void addBoardSizeGroup() {
+		Image boardSizeIcon = buildBoardSizeIcon();
+		Label boardSizeLabel = buildBoardSizeLabel();
+		LabelSettingGroup boardSizeGroup = new LabelSettingGroup(boardSizeIcon, boardSizeLabel, GroupState.VISIBLE);
+		stage.addActor(boardSizeGroup);
+	}
+	private Image buildBoardSizeIcon() {
+		int positionX = 341;
+		int positionY = Launch.SCREEN_HEIGHT - 336;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("board_size_icon");
+		Image boardSizeIcon = buildIcon(iconTexture, positionX, positionY);
+		return boardSizeIcon;
+	}
+	private Label buildBoardSizeLabel() {
+		int numberOfRows = gameSettings.getNumberOfRows();
+		Label boardSizeLabel = new Label(numberOfRows + "x" + numberOfRows, labelStyle57);
+		boardSizeLabel.setAlignment(Align.center);
+		boardSizeLabel.setPosition(458 - 6, Launch.SCREEN_HEIGHT - 330 - 6);
+		return boardSizeLabel;
 	}
 
 	private void addDifficultyGroup() {
