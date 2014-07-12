@@ -1,23 +1,16 @@
 package com.numbercortex;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -27,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.SnapshotArray;
 
 public class SinglePlayerSettingsScreen implements Screen {
@@ -37,6 +29,34 @@ public class SinglePlayerSettingsScreen implements Screen {
 	private Stage stage;
 	private Game game;
 	private GameSettings gameSettings;
+
+	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle();
+	private static TextButton.TextButtonStyle buildTextButtonStyle() {
+		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
+		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+		textButtonStyle.font = FontGenerator.getGillSans57();
+		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
+		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+		return textButtonStyle;
+	}
+
+	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
+	private static Label.LabelStyle buildLabelStyle50() {
+		Label.LabelStyle labelStyle50 = new Label.LabelStyle();
+		BitmapFont gillSans50Compact = FontGenerator.getGillSans50Compact();
+		labelStyle50.font = gillSans50Compact;
+		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
+		return labelStyle50;
+	}
+
+	private static Label.LabelStyle labelStyle57 = buildLabelStyle57();
+	private static Label.LabelStyle buildLabelStyle57() {
+		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
+		BitmapFont gillSans57 = FontGenerator.getGillSans57();
+		labelStyle57.font = gillSans57;
+		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
+		return labelStyle57;
+	}
 
 	enum GroupState {
 		CLICKABLE, VISIBLE, TRANSPARENT;
@@ -70,6 +90,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 			});
 		}
 
+		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			if (groupState == GroupState.TRANSPARENT) {
 				parentAlpha = 0.5f;
@@ -79,8 +100,8 @@ public class SinglePlayerSettingsScreen implements Screen {
 				child.draw(batch, parentAlpha);
 			}
 		}
-	}	
-	
+	}
+
 	class DifficultyGroup extends SettingGroup {
 
 		public DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
@@ -92,7 +113,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 					public void clicked(InputEvent event, float x, float y) {
 						if (groupState == GroupState.CLICKABLE) {
 							starGroup.toggleRating();
-							gameSettings.setDifficulty(starGroup.rating);	
+							gameSettings.setDifficulty(starGroup.rating);
 						}
 					}
 				});
@@ -100,7 +121,8 @@ public class SinglePlayerSettingsScreen implements Screen {
 			this.addActor(label);
 			this.addActor(starGroup);
 		}
-		
+
+		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			if (groupState == GroupState.TRANSPARENT) {
 				parentAlpha = 0.5f;
@@ -111,22 +133,21 @@ public class SinglePlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	class StarGroup extends Group {		
+	class StarGroup extends Group {
 		private int rating;
 
 		public StarGroup(int startPositionX, int startPositionY, int rating) {
 			this(startPositionX, startPositionY, 68, rating, 5);
-		}		
+		}
 		public StarGroup(int startPositionX, int startPositionY, int offsetX, int rating, int ratingCount) {
 			for (int i = 0; i < ratingCount; i++) {
 				TextureRegion checkedStarTexture = Assets.settingsSkin.getRegion("full_star");
 				Drawable checkedStarDrawable = new TextureRegionDrawable(checkedStarTexture);
 				TextureRegion emptyStarTexture = Assets.settingsSkin.getRegion("empty_star");
 				Drawable emptyStarDrawable = new TextureRegionDrawable(emptyStarTexture);
-				ImageButton starButton = new ImageButton(emptyStarDrawable, emptyStarDrawable,
-						checkedStarDrawable);
-				starButton.setBounds(startPositionX + (i * offsetX), startPositionY, checkedStarTexture.getRegionWidth(),
-						checkedStarTexture.getRegionHeight());
+				ImageButton starButton = new ImageButton(emptyStarDrawable, emptyStarDrawable, checkedStarDrawable);
+				starButton.setBounds(startPositionX + (i * offsetX), startPositionY,
+						checkedStarTexture.getRegionWidth(), checkedStarTexture.getRegionHeight());
 				starButton.center();
 				starButton.clearListeners();
 				this.addActor(starButton);
@@ -157,38 +178,10 @@ public class SinglePlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	
+
 	public SinglePlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
-	}
-	
-	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle();
-	private static TextButton.TextButtonStyle buildTextButtonStyle() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
-		return textButtonStyle;
-	}
-
-	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
-	private static Label.LabelStyle buildLabelStyle50() {
-		Label.LabelStyle labelStyle50 = new Label.LabelStyle();
-		BitmapFont gillSans50Compact = FontGenerator.getGillSans50Compact();
-		labelStyle50.font = gillSans50Compact;
-		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
-		return labelStyle50;
-	}
-	
-	private static Label.LabelStyle labelStyle57 = buildLabelStyle57();
-	private static Label.LabelStyle buildLabelStyle57() {
-		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
-		BitmapFont gillSans57 = FontGenerator.getGillSans57();
-		labelStyle57.font = gillSans57;
-		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
-		return labelStyle57;
 	}
 
 	@Override
@@ -198,7 +191,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
-		
+
 		addDifficultyGroup();
 
 		addEvenOdd();
@@ -235,8 +228,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	private void addEvenOdd() {
 		Label evenOddLabel = buildEvenOddLabel();
 		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
-		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox,
-				GroupState.VISIBLE);
+		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox, GroupState.VISIBLE);
 		stage.addActor(evenOddGroup);
 	}
 	private Label buildEvenOddLabel() {
@@ -493,7 +485,6 @@ public class SinglePlayerSettingsScreen implements Screen {
 		stage.addActor(resumeButton);
 	}
 
-
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -505,7 +496,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
-	
+
 	@Override
 	public void hide() {
 		CortexPreferences.getInstance().save();
