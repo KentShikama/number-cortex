@@ -39,8 +39,10 @@ public class TitleScreen implements Screen {
 			button = new Button(buttonStyle);
 			button.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80), buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
-			ClickListener listener = new TitleScreenListener();
-			button.addListener(listener);
+			if (screen != null) {
+				ClickListener listener = new TitleScreenListener();
+				button.addListener(listener);	
+			}
 		}
 
 		class TitleScreenListener extends ClickListener {
@@ -129,9 +131,9 @@ public class TitleScreen implements Screen {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
 				ScreenTracker.Mode.SINGLE_PLAYER);
 		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
-				ScreenTracker.twoPlayerSettingsScreen, ScreenTracker.Mode.TWO_PLAYER);
+				null, ScreenTracker.Mode.TWO_PLAYER);
 		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2,
-				ScreenTracker.twoPlayerSettingsScreen, ScreenTracker.Mode.ONLINE);
+				null, ScreenTracker.Mode.ONLINE);
 		TitleScreenButton tutorialButton = new TitleScreenButton(TUTORIAL, 3, null, null);
 		stage.addActor(playButton.button);
 		stage.addActor(passAndPlayButton.button);
