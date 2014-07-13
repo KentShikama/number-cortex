@@ -37,7 +37,7 @@ public class TitleScreen implements Screen {
 			TextureRegion buttonTexture = Assets.homeSkin.getRegion(buttonName);
 			Button.ButtonStyle buttonStyle = new Button.ButtonStyle(buttonDrawable, buttonDrawable, buttonDrawable);
 			button = new Button(buttonStyle);
-			button.setBounds(175, Launch.SCREEN_HEIGHT - (756 + index * 80), buttonTexture.getRegionWidth(),
+			button.setBounds(175, Launch.SCREEN_HEIGHT - (836 + index * 80) + 30, buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
 			if (screen != null) {
 				ClickListener listener = new TitleScreenListener();
@@ -56,7 +56,7 @@ public class TitleScreen implements Screen {
 					SequenceAction sequence = Actions.sequence(delayAction, fadeOutAction);
 					if (actor == button) {
 						MoveToAction moveToAction = Actions.moveTo(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT
-								- (756 + index * 80), moveTime);
+								- (836 + index * 80) + 30, moveTime);
 						Action screenSwitchAction = buildScreenSwitchAction();
 						SequenceAction clickedButtonSequence = Actions.sequence(delayAction, fadeOutAction,
 								screenSwitchAction);
@@ -97,8 +97,7 @@ public class TitleScreen implements Screen {
 	private static final String TITLE = "number_cortex_title";
 	private static final String PLAY_BUTTON = "play";
 	private static final String PASS_AND_PLAY_BUTTON = "pass_and_play";
-	private static final String PLAY_ONLINE = "play_online";
-	private static final String TUTORIAL = "tutorial";
+	private static final String OPTIONS = "options";
 	private static final String LINE_EXTENSION = "line_extension";
 
 	private Stage stage;
@@ -124,25 +123,23 @@ public class TitleScreen implements Screen {
 	private void buildTitle() {
 		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
 		Image title = new Image(titleTexture);
-		title.setBounds(63, Launch.SCREEN_HEIGHT - 682, titleTexture.getRegionWidth(), titleTexture.getRegionHeight());
+		title.setBounds(63, Launch.SCREEN_HEIGHT - 762 + 30, titleTexture.getRegionWidth(), titleTexture.getRegionHeight());
 		stage.addActor(title);
 	}
 	private void buildButtons() {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
 				ScreenTracker.Mode.SINGLE_PLAYER);
-		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1, null,
+		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1, ScreenTracker.twoPlayerSettingsScreen,
 				ScreenTracker.Mode.TWO_PLAYER);
-		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2, null, ScreenTracker.Mode.ONLINE);
-		TitleScreenButton tutorialButton = new TitleScreenButton(TUTORIAL, 3, null, null);
+		TitleScreenButton optionsButton = new TitleScreenButton(OPTIONS, 2, null, null);
 		stage.addActor(playButton.button);
 		stage.addActor(passAndPlayButton.button);
-		stage.addActor(playOnlineButton.button);
-		stage.addActor(tutorialButton.button);
+		stage.addActor(optionsButton.button);
 	}
 	private void buildLineExtension() {
 		TextureRegion lineExtensionTexture = Assets.homeSkin.getRegion(LINE_EXTENSION);
 		Image lineExtension = new Image(lineExtensionTexture);
-		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - 1036, lineExtensionTexture.getRegionWidth(),
+		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - 1036 + 30, lineExtensionTexture.getRegionWidth(),
 				lineExtensionTexture.getRegionHeight());
 		stage.addActor(lineExtension);
 	}
