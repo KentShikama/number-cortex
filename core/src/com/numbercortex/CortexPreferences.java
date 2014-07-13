@@ -70,7 +70,7 @@ public class CortexPreferences {
 		isBlue = preferences.getBoolean(BACKGROUND_COLOR, true);
 		isMusicEnabled = preferences.getBoolean(MUSIC, true);
 		currentLevel = preferences.getInteger(CURRENT_LEVEL, 0);
-		playerOneName = preferences.getString(PLAYER_ONE_NAME, "Edit...");
+		playerOneName = preferences.getString(PLAYER_ONE_NAME, "One");
 		playerTwoName = preferences.getString(PLAYER_TWO_NAME, "Two");
 	}
 

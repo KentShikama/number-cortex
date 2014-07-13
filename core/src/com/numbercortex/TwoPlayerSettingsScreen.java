@@ -3,7 +3,11 @@ package com.numbercortex;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,12 +21,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.numbercortex.SinglePlayerSettingsScreen.GridLines;
 
 public class TwoPlayerSettingsScreen implements Screen {
 
@@ -45,10 +51,44 @@ public class TwoPlayerSettingsScreen implements Screen {
 		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle57;
 	}
+	
+	private static TextField.TextFieldStyle textFieldStyle = buildTextFieldStyle();
+	private static TextField.TextFieldStyle buildTextFieldStyle() {
+		TextureRegion textFieldTexture = Assets.settingsSkin.getRegion("name_texfield");
+		Drawable textFieldDrawable = new TextureRegionDrawable(textFieldTexture);
+		TextField.TextFieldStyle style = new TextField.TextFieldStyle();
+		style.background = textFieldDrawable;
+		style.font = FontGenerator.getGillSans57();
+		style.fontColor = Launch.BRIGHT_YELLOW;
+		style.messageFont = FontGenerator.getGillSans57();
+		style.messageFontColor = new Color(Launch.SEA_BLUE).add(0.2f, 0.2f, 0.2f, 0);
+		style.background.setLeftWidth(style.background.getLeftWidth() + 15);
+		style.background.setRightWidth(style.background.getRightWidth() + 15);
+		
+		Pixmap bluePixmap = new Pixmap(1, 1, Format.RGBA8888);
+		bluePixmap.setColor(new Color(Launch.SEA_BLUE).sub(0.5f, 0.5f, 0.5f, 0.5f));
+		bluePixmap.fill();
+		Assets.settingsSkin.add("selection", new Texture(bluePixmap));
+		Drawable selectionDrawable = Assets.settingsSkin.getDrawable("selection");
+		style.selection = selectionDrawable;
+		
+		Pixmap pixmap = new Pixmap(2, 70, Format.RGBA8888);
+		pixmap.setColor(Launch.BRIGHT_YELLOW);
+		pixmap.fill();
+		Assets.settingsSkin.add("cursor", new Texture(pixmap));
+		TextureRegion cursorTexture = Assets.settingsSkin.getRegion("cursor");
+		Drawable cursorDrawable = new TextureRegionDrawable(cursorTexture);
+		style.cursor = cursorDrawable;
+		style.cursor.setMinWidth(2f);
+		return style;
+	}
 
 	private Stage stage;
 	private Game game;
 	private GameSettings gameSettings;
+	
+	private TextField playerOneNameField;
+	private TextField playerTwoNameField;
 
 	enum GroupState {
 		CLICKABLE, VISIBLE, TRANSPARENT;
@@ -179,6 +219,37 @@ public class TwoPlayerSettingsScreen implements Screen {
 		}
 	}
 	
+	class TextFieldSettingGroup extends SettingGroup {
+
+		public TextFieldSettingGroup(Label label, TextField textField, GroupState groupState) {
+			super(groupState);
+			this.addActor(label);
+			this.addActor(textField);
+		}
+		
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			SnapshotArray<Actor> children = this.getChildren();
+			if (groupState == GroupState.TRANSPARENT) {
+				parentAlpha = 0.5f;
+			}
+			for (Actor child : children) {
+				child.draw(batch, parentAlpha);
+			}
+		}
+	}
+	
+	class GridLines extends Group {
+		GridLines(int[] position) {
+			TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
+			for (int i = 0; i < position.length; i++) {
+				Image gridLine = new Image(gridLineTexture);
+				gridLine.setPosition(0, Launch.SCREEN_HEIGHT - position[i]);
+				this.addActor(gridLine);
+			}
+		}
+	}
+	
  	public TwoPlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
@@ -191,6 +262,11 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
+		
+		addGridLines();
+		
+		addPlayerOneName();
+		addPlayerTwoName();
 		
 		addTime();
 		addBoardSize();
@@ -211,6 +287,59 @@ public class TwoPlayerSettingsScreen implements Screen {
 			buildBackButton();
 		}
 	}
+	
+	private void addGridLines() {
+		int[] position = { 276, 496, 778, 962 };
+		GridLines gridLines = new GridLines(position);
+		stage.addActor(gridLines);
+	}
+
+	private void addPlayerOneName() {
+		Label playerOneNameLabel = buildPlayerOneNameLabel();
+		TextField playerOneNameField = buildPlayerOneNameField();
+		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField, GroupState.CLICKABLE);
+		stage.addActor(playerOneNameGroup);
+	}
+	private Label buildPlayerOneNameLabel() {
+		Label label = new Label("Name (P1)", labelStyle57);
+		label.setAlignment(Align.center);
+		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 111);
+		return label;
+	}
+	private TextField buildPlayerOneNameField() {
+		String playerOneName = CortexPreferences.getInstance().getPlayerOneName();
+		if (textFieldStyle == null) {
+			textFieldStyle = buildTextFieldStyle();
+		}
+		playerOneNameField = new TextField(playerOneName, textFieldStyle);
+		playerOneNameField.setBounds(324, Launch.SCREEN_HEIGHT - 130, 268, 93);
+		playerOneNameField.setMessageText("Edit...");
+		return playerOneNameField;
+	}
+
+	private void addPlayerTwoName() {
+		Label playerTwoNameLabel = buildPlayerTwoNameLabel();
+		TextField playerTwoNameField = buildPlayerTwoNameField();
+		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField, GroupState.CLICKABLE);
+		stage.addActor(playerTwoNameGroup);
+	}
+	private Label buildPlayerTwoNameLabel() {
+		Label label = new Label("Name (P2)", labelStyle57);
+		label.setAlignment(Align.center);
+		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 228);
+		return label;
+	}
+	private TextField buildPlayerTwoNameField() {
+		String playerTwoName = CortexPreferences.getInstance().getPlayerTwoName();
+		if (textFieldStyle == null) {
+			textFieldStyle = buildTextFieldStyle();
+		}
+		playerTwoNameField = new TextField(playerTwoName, textFieldStyle);
+		playerTwoNameField.setBounds(324, Launch.SCREEN_HEIGHT - 247, 268, 93);
+		playerTwoNameField.setMessageText("Edit...");
+		return playerTwoNameField;
+	}
+
 	private void addTime() {
 		Image icon = buildTimeIcon();
 		Label label = buildTimeLabel();
@@ -551,7 +680,10 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 	@Override
 	public void hide() {
-		CortexPreferences.getInstance().save();
+		CortexPreferences preferences = CortexPreferences.getInstance();
+		preferences.setPlayerOneName(playerOneNameField.getText());
+		preferences.setPlayerTwoName(playerTwoNameField.getText());
+		preferences.save();
 	}
 
 	@Override
@@ -572,7 +704,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		textFieldStyle = null;
+	}
 
 	@Override
 	public void pause() {}
