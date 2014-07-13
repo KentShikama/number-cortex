@@ -68,13 +68,13 @@ public class Launch extends Game {
 		super.dispose();
 		getScreen().dispose();
 		ScreenTracker.levelsScreen.dispose();
+		ScreenTracker.singlePlayerSettingsScreen.dispose();
+		ScreenTracker.twoPlayerSettingsScreen.dispose();
 		CortexDialog.dispose();
 		MessageArea.dispose();
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
 		FontGenerator.dispose();
-		ScreenTracker.singlePlayerSettingsScreen.dispose();
-		ScreenTracker.twoPlayerSettingsScreen.dispose();
 		Assets.manager.dispose();
 	}
 
