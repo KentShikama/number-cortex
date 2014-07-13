@@ -203,7 +203,7 @@ public class MessageArea {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner.equals("Player") && ScreenTracker.level != 18) {
+				if (winner != null && winner.equals("Player") && ScreenTracker.level != 18) {
 					updateMessageWithButtons("continue");
 				} else {
 					updateMessageWithButtons("replay");
