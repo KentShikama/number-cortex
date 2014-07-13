@@ -180,7 +180,7 @@ public class GameManagerImpl implements GameManager {
 		if (currentLevel == maxLevel) {
 			String message = getUnlockMessage(currentLevel);
 			if (message != null) {
-				screen.showConfirmationDialog(4.1f, message);
+				screen.showConfirmationDialog(5.1f, message); // Delay depends on winning animation
 			}
 			int raisedMaxLevel = ++maxLevel;
 			preferences.setCurrentLevel(raisedMaxLevel);
