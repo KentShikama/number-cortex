@@ -43,7 +43,7 @@ public class CortexPreferences {
 	}
 	private void loadTwoPlayerGameSettings() {
 		twoPlayerGameSettings = new GameSettings();
-		int time = preferences.getInteger(TIME, 1000);
+		int time = preferences.getInteger(TIME, 500);
 		int numberOfRows = preferences.getInteger(NUMBER_OF_ROWS, 4);
 		boolean isEvenOddEnabled = preferences.getBoolean(EVEN_ODD, true);
 		boolean isSingleDoubleEnabled = preferences.getBoolean(SINGLE_DOUBLE, true);

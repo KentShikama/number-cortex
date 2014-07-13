@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -25,6 +27,24 @@ import com.badlogic.gdx.utils.SnapshotArray;
 public class TwoPlayerSettingsScreen implements Screen {
 
 	private static final String TAG = TwoPlayerSettingsScreen.class.getCanonicalName();
+
+	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
+	private static Label.LabelStyle buildLabelStyle50() {
+		Label.LabelStyle labelStyle50 = new Label.LabelStyle();
+		BitmapFont gillSans50Compact = FontGenerator.getGillSans50Compact();
+		labelStyle50.font = gillSans50Compact;
+		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
+		return labelStyle50;
+	}
+	
+	private static Label.LabelStyle labelStyle57 = buildLabelStyle57();
+	private static Label.LabelStyle buildLabelStyle57() {
+		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
+		BitmapFont gillSans57 = FontGenerator.getGillSans57();
+		labelStyle57.font = gillSans57;
+		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
+		return labelStyle57;
+	}
 
 	private Stage stage;
 	private Game game;
@@ -76,18 +96,92 @@ public class TwoPlayerSettingsScreen implements Screen {
 		}
 	}
 
-	public TwoPlayerSettingsScreen(Game game) {
+	class TwoChoiceRadioSettingGroup extends SettingGroup {
+		public TwoChoiceRadioSettingGroup(Label choiceOneLabel, Label choiceTwoLabel, ImageButton choiceOneCheckbox, ImageButton choiceTwoCheckbox, final GroupState groupState) {
+			super(groupState);
+			this.addActor(choiceOneLabel);
+			this.addActor(choiceTwoLabel);
+			this.addActor(choiceOneCheckbox);
+			this.addActor(choiceTwoCheckbox);
+			ButtonGroup group = new ButtonGroup(choiceOneCheckbox, choiceTwoCheckbox);
+			for (final Button button : group.getButtons()) {
+				button.addListener(new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						if (groupState == GroupState.CLICKABLE) {
+							button.setChecked(!button.isChecked());
+						}
+					}
+				});
+			}
+		}
+		
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			SnapshotArray<Actor> children = this.getChildren();
+			if (groupState == GroupState.TRANSPARENT) {
+				parentAlpha = 0.5f;
+			}
+			for (Actor child : children) {
+				child.draw(batch, parentAlpha);
+			}
+		}
+	}
+	
+	class SpinnerSettingGroup extends SettingGroup {
+
+		public SpinnerSettingGroup(Image icon, SpinnerGroup spinner, GroupState groupState) {
+			super(groupState);
+			this.addActor(icon);
+			this.addActor(spinner);
+		}
+		
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			SnapshotArray<Actor> children = this.getChildren();
+			if (groupState == GroupState.TRANSPARENT) {
+				parentAlpha = 0.5f;
+			}
+			for (Actor child : children) {
+				child.draw(batch, parentAlpha);
+			}
+		}
+	}
+	
+	class SpinnerGroup extends Group {
+		private int value;
+		public SpinnerGroup(int initialValue, final Label label, Image increaseValue, Image decreaseValue) {
+			value = initialValue;
+			label.setText(value + "s");
+			this.addActor(label);
+			this.addActor(increaseValue);
+			this.addActor(decreaseValue);
+			increaseValue.addListener(new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					if (value >= 999) {
+						return;
+					}
+					value++;
+					label.setText(value + "s");
+					gameSettings.setTime(value);
+				}
+			});
+			decreaseValue.addListener(new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					if (value <= 1) {
+						return;
+					}
+					value--;
+					label.setText(value + "s");
+					gameSettings.setTime(value);
+				}
+			});
+		}
+	}
+	
+ 	public TwoPlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
-	}
-
-	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
-	private static Label.LabelStyle buildLabelStyle50() {
-		Label.LabelStyle labelStyle50 = new Label.LabelStyle();
-		BitmapFont gillSans50Compact = FontGenerator.getGillSans50Compact();
-		labelStyle50.font = gillSans50Compact;
-		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
-		return labelStyle50;
 	}
 
 	@Override
@@ -97,6 +191,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
+		
+		addTime();
+		addBoardSize();
 
 		addEvenOdd();
 		addSingleDouble();
@@ -113,6 +210,90 @@ public class TwoPlayerSettingsScreen implements Screen {
 			buildPlayButton();
 			buildBackButton();
 		}
+	}
+	private void addTime() {
+		Image icon = buildTimeIcon();
+		Label label = buildTimeLabel();
+		Image increaseValueControlImage = buildIncreaseValueControlImage();
+		Image decreaseValueControlImage = buildDecreaseValueControlImage();
+		int initialValue = gameSettings.getTime();
+		SpinnerGroup spinnerGroup = new SpinnerGroup(initialValue, label, increaseValueControlImage, decreaseValueControlImage);
+		SpinnerSettingGroup timeGroup = new SpinnerSettingGroup(icon, spinnerGroup, GroupState.CLICKABLE);
+		stage.addActor(timeGroup);
+	}
+	private Image buildTimeIcon() {
+		int positionX = 90;
+		int positionY = Launch.SCREEN_HEIGHT - 380;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("time_icon");
+		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
+		return timeIcon;
+	}
+	private Label buildTimeLabel() {
+		Label label = new Label("", labelStyle57);
+		label.setAlignment(Align.center);
+		label.setBounds(76, Launch.SCREEN_HEIGHT - 456, 100, 60);
+		return label;
+	}
+	private Image buildIncreaseValueControlImage() {
+		int positionX = 209;
+		int positionY = Launch.SCREEN_HEIGHT - 376;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("up_arrow");
+		Image increaseValueControlImage = buildIcon(iconTexture, positionX, positionY);
+		return increaseValueControlImage;
+	}
+	private Image buildDecreaseValueControlImage() {
+		int positionX = 209;
+		int positionY = Launch.SCREEN_HEIGHT - 454;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("down_arrow");
+		Image decreaseValueControlImage = buildIcon(iconTexture, positionX, positionY);
+		return decreaseValueControlImage;
+	}
+
+	private void addBoardSize() {
+		Label label3x3 = buildLabel3x3();
+		Label label4x4 = buildLabel4x4();
+		ImageButton checkbox3x3 = buildCheckbox3x3();
+		ImageButton checkbox4x4 = buildCheckbox4x4();
+		TwoChoiceRadioSettingGroup boardSizeGroup = new TwoChoiceRadioSettingGroup(label3x3, label4x4, checkbox3x3, checkbox4x4, GroupState.CLICKABLE);
+		stage.addActor(boardSizeGroup);
+	}
+	private Label buildLabel3x3() {
+		Label label = new Label("3x3", labelStyle57);
+		label.setAlignment(Align.center);
+		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 368);
+		return label;
+	}
+	private Label buildLabel4x4() {
+		Label label = new Label("4x4", labelStyle57);
+		label.setAlignment(Align.center);
+		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 470);
+		return label;
+	}
+	private ImageButton buildCheckbox3x3() {
+		int positionX = 364;
+		int positionY = Launch.SCREEN_HEIGHT - 366;
+		boolean isChecked = (gameSettings.getNumberOfRows() == 3);
+		final ImageButton checkbox3x3 = buildCheckbox(positionX, positionY, isChecked);
+		checkbox3x3.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				gameSettings.setNumberOfRows(checkbox3x3.isChecked() ? 3 : 4);
+			}
+		});
+		return checkbox3x3;
+	}
+	private ImageButton buildCheckbox4x4() {
+		int positionX = 364;
+		int positionY = Launch.SCREEN_HEIGHT - 469;
+		boolean isChecked = (gameSettings.getNumberOfRows() == 4);
+		final ImageButton checkbox4x4 = buildCheckbox(positionX, positionY, isChecked);
+		checkbox4x4.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				gameSettings.setNumberOfRows(checkbox4x4.isChecked() ? 4 : 3);
+			}
+		});
+		return checkbox4x4;
 	}
 
 	private void addEvenOdd() {
