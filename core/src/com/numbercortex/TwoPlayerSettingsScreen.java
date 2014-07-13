@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,11 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.numbercortex.SinglePlayerSettingsScreen.CheckboxSettingGroup;
-import com.numbercortex.SinglePlayerSettingsScreen.GroupState;
-import com.numbercortex.SinglePlayerSettingsScreen.SettingGroup;
 
 public class TwoPlayerSettingsScreen implements Screen {
 
@@ -69,6 +64,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 			});
 		}
 
+		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			SnapshotArray<Actor> children = this.getChildren();
 			if (groupState == GroupState.TRANSPARENT) {
@@ -371,12 +367,12 @@ public class TwoPlayerSettingsScreen implements Screen {
 		});
 		stage.addActor(resumeButton);
 	}
-	
+
 	@Override
 	public void hide() {
 		CortexPreferences.getInstance().save();
 	}
-	
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

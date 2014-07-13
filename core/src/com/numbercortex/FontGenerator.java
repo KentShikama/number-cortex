@@ -3,16 +3,14 @@ package com.numbercortex;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class FontGenerator {
 
 	private static BitmapFont numberScrollerFont;
 	private static BitmapFont boardNumberFont;
 	private static BitmapFont levelNumberFont;
-	
+
 	private static BitmapFont gillSans57;
 	private static BitmapFont gillSans50;
 	private static BitmapFont gillSans50Compact;
@@ -37,7 +35,7 @@ public class FontGenerator {
 	public static BitmapFont getLevelNumberFont() {
 		return levelNumberFont;
 	}
-	
+
 	public static BitmapFont getGillSans57() {
 		return gillSans57;
 	}
@@ -52,7 +50,7 @@ public class FontGenerator {
 		int numberScrollerFontSize = 86;
 		int boardNumberFontSize = 112;
 		int levelNumberFontSize = 60;
-		
+
 		createNumberFonts(numberScrollerFontSize, boardNumberFontSize, levelNumberFontSize);
 		createGillSansFonts();
 	}
@@ -83,7 +81,7 @@ public class FontGenerator {
 		numberScrollerFont = null;
 		boardNumberFont = null;
 		levelNumberFont = null;
-		
+
 		gillSans57 = null;
 		gillSans50 = null;
 		gillSans50Compact = null;

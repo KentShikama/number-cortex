@@ -41,7 +41,7 @@ public class TitleScreen implements Screen {
 					buttonTexture.getRegionHeight());
 			if (screen != null) {
 				ClickListener listener = new TitleScreenListener();
-				button.addListener(listener);	
+				button.addListener(listener);
 			}
 		}
 
@@ -130,10 +130,9 @@ public class TitleScreen implements Screen {
 	private void buildButtons() {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
 				ScreenTracker.Mode.SINGLE_PLAYER);
-		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
-				null, ScreenTracker.Mode.TWO_PLAYER);
-		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2,
-				null, ScreenTracker.Mode.ONLINE);
+		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1, null,
+				ScreenTracker.Mode.TWO_PLAYER);
+		TitleScreenButton playOnlineButton = new TitleScreenButton(PLAY_ONLINE, 2, null, ScreenTracker.Mode.ONLINE);
 		TitleScreenButton tutorialButton = new TitleScreenButton(TUTORIAL, 3, null, null);
 		stage.addActor(playButton.button);
 		stage.addActor(passAndPlayButton.button);
@@ -143,8 +142,9 @@ public class TitleScreen implements Screen {
 	private void buildLineExtension() {
 		TextureRegion lineExtensionTexture = Assets.homeSkin.getRegion(LINE_EXTENSION);
 		Image lineExtension = new Image(lineExtensionTexture);
-		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - 1036, lineExtensionTexture.getRegionWidth(), lineExtensionTexture.getRegionHeight());
-		stage.addActor(lineExtension);		
+		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - 1036, lineExtensionTexture.getRegionWidth(),
+				lineExtensionTexture.getRegionHeight());
+		stage.addActor(lineExtension);
 	}
 
 	@Override

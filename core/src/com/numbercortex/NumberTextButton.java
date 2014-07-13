@@ -29,18 +29,24 @@ public class NumberTextButton extends HighlightableButton {
 		public NumberTextButtonStyle(NumberTextButtonStyle style) {
 			super(style);
 			this.font = style.font;
-			if (style.fontColor != null)
+			if (style.fontColor != null) {
 				this.fontColor = new Color(style.fontColor);
-			if (style.downFontColor != null)
+			}
+			if (style.downFontColor != null) {
 				this.downFontColor = new Color(style.downFontColor);
-			if (style.overFontColor != null)
+			}
+			if (style.overFontColor != null) {
 				this.overFontColor = new Color(style.overFontColor);
-			if (style.checkedFontColor != null)
+			}
+			if (style.checkedFontColor != null) {
 				this.checkedFontColor = new Color(style.checkedFontColor);
-			if (style.checkedOverFontColor != null)
+			}
+			if (style.checkedOverFontColor != null) {
 				this.checkedFontColor = new Color(style.checkedOverFontColor);
-			if (style.disabledFontColor != null)
+			}
+			if (style.disabledFontColor != null) {
 				this.disabledFontColor = new Color(style.disabledFontColor);
+			}
 		}
 	}
 
@@ -74,16 +80,18 @@ public class NumberTextButton extends HighlightableButton {
 	public void draw(Batch batch, float parentAlpha) {
 		Color fontColor;
 		if (label != null) {
-			if (isDisabled() && style.disabledFontColor != null)
+			if (isDisabled() && style.disabledFontColor != null) {
 				fontColor = style.disabledFontColor;
-			else if (isPressed() && style.downFontColor != null)
+			} else if (isPressed() && style.downFontColor != null) {
 				fontColor = style.downFontColor;
-			else if (isOver() && style.overFontColor != null)
+			} else if (isOver() && style.overFontColor != null) {
 				fontColor = style.overFontColor;
-			else
+			} else {
 				fontColor = style.fontColor;
-			if (fontColor != null)
+			}
+			if (fontColor != null) {
 				label.getStyle().fontColor = fontColor;
+			}
 		}
 		super.draw(batch, parentAlpha);
 	}
@@ -128,8 +136,9 @@ public class NumberTextButton extends HighlightableButton {
 		if (style == null) {
 			throw new NullPointerException("style cannot be null");
 		}
-		if (!(style instanceof NumberTextButtonStyle))
+		if (!(style instanceof NumberTextButtonStyle)) {
 			throw new IllegalArgumentException("style must be a NumberTextButtonStyle.");
+		}
 		super.setStyle(style);
 		this.style = (NumberTextButtonStyle) style;
 		if (label != null) {

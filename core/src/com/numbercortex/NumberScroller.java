@@ -45,14 +45,14 @@ public class NumberScroller {
 	private Table numberTable = new Table();
 	private NumberButtonListener listener = new NumberButtonListener();
 	private class NumberButtonListener extends ClickListener {
-		
+
 		@Override
 		public void clicked(final InputEvent event, float x, float y) {
 			int tapCount = this.getTapCount();
 			if (tapCount >= 2) {
 				Timer.instance().clear();
 				int number = getClickedNumber(event);
-				messenger.chooseNumber(null, number);	
+				messenger.chooseNumber(null, number);
 			} else {
 				final Label label = (Label) event.getTarget();
 				Timer.schedule(new Task() {

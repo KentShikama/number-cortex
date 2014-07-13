@@ -602,7 +602,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				GameManager manager = GameManagerImpl.getInstance();
 				game.setScreen(ScreenTracker.playScreen);
-				manager.resumeGame();	
+				manager.resumeGame();
 			}
 		});
 		stage.addActor(resumeButton);

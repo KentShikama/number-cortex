@@ -60,8 +60,9 @@ public class HighlightableButton extends Table implements Disableable {
 		addListener(clickListener = new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (isDisabled)
+				if (isDisabled) {
 					return;
+				}
 			}
 		});
 	}
@@ -113,15 +114,17 @@ public class HighlightableButton extends Table implements Disableable {
 	}
 
 	public void setStyle(ButtonStyle style) {
-		if (style == null)
+		if (style == null) {
 			throw new IllegalArgumentException("style cannot be null.");
+		}
 		this.style = style;
 
 		Drawable background = style.up;
 		if (background == null) {
 			background = style.down;
-			if (background == null)
+			if (background == null) {
 				background = style.checked;
+			}
 		}
 		if (background != null) {
 			padBottom(background.getBottomHeight());
@@ -150,50 +153,59 @@ public class HighlightableButton extends Table implements Disableable {
 			offsetX = style.pressedOffsetX;
 			offsetY = style.pressedOffsetY;
 		} else {
-			if (isDisabled && style.disabled != null)
+			if (isDisabled && style.disabled != null) {
 				background = style.disabled;
-			else if (isChecked && style.checked != null)
+			} else if (isChecked && style.checked != null) {
 				background = (isOver() && style.checkedOver != null) ? style.checkedOver : style.checked;
-			else if (isOver() && style.over != null)
+			} else if (isOver() && style.over != null) {
 				background = style.over;
-			else if (isHighlighted && style.highlighted != null)
+			} else if (isHighlighted && style.highlighted != null) {
 				background = style.highlighted;
-			else
+			} else {
 				background = style.up;
+			}
 			offsetX = style.unpressedOffsetX;
 			offsetY = style.unpressedOffsetY;
 		}
 		setBackground(background, false);
 
 		Array<Actor> children = getChildren();
-		for (int i = 0; i < children.size; i++)
+		for (int i = 0; i < children.size; i++) {
 			children.get(i).moveBy(offsetX, offsetY);
+		}
 		super.draw(batch, parentAlpha);
-		for (int i = 0; i < children.size; i++)
+		for (int i = 0; i < children.size; i++) {
 			children.get(i).moveBy(-offsetX, -offsetY);
+		}
 	}
 
 	@Override
 	public float getPrefWidth() {
 		float width = super.getPrefWidth();
-		if (style.up != null)
+		if (style.up != null) {
 			width = Math.max(width, style.up.getMinWidth());
-		if (style.down != null)
+		}
+		if (style.down != null) {
 			width = Math.max(width, style.down.getMinWidth());
-		if (style.checked != null)
+		}
+		if (style.checked != null) {
 			width = Math.max(width, style.checked.getMinWidth());
+		}
 		return width;
 	}
 
 	@Override
 	public float getPrefHeight() {
 		float height = super.getPrefHeight();
-		if (style.up != null)
+		if (style.up != null) {
 			height = Math.max(height, style.up.getMinHeight());
-		if (style.down != null)
+		}
+		if (style.down != null) {
 			height = Math.max(height, style.down.getMinHeight());
-		if (style.checked != null)
+		}
+		if (style.checked != null) {
 			height = Math.max(height, style.checked.getMinHeight());
+		}
 		return height;
 	}
 

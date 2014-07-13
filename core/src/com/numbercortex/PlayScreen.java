@@ -19,10 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class PlayScreen implements Screen {
 
@@ -41,7 +39,7 @@ public class PlayScreen implements Screen {
 
 	private GameSettings settings;
 	private CortexPreferences preferences;
-	
+
 	private Image exitButton;
 	private Image settingsButton;
 	private Image helpButton;
@@ -112,7 +110,7 @@ public class PlayScreen implements Screen {
 				dialog.show(stage);
 			}
 		});
-		stage.addActor(exitButton);		
+		stage.addActor(exitButton);
 	}
 	private void buildSettingsButton(TextureRegion settingsRectangleTexture) {
 		settingsButton = new Image(settingsRectangleTexture);

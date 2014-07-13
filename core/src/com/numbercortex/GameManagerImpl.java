@@ -92,7 +92,7 @@ public class GameManagerImpl implements GameManager {
 			Gdx.app.log(TAG, "There is no saved game to resume.");
 		}
 	}
-	
+
 	@Override
 	public void startNewGame() {
 		if (ScreenTracker.isInPlay) {
@@ -111,7 +111,7 @@ public class GameManagerImpl implements GameManager {
 				case 18:
 					model.setFirstPlayerPosition(0);
 					break;
-			}	
+			}
 		}
 	}
 	private void registerPlayersAndStartGame() {
