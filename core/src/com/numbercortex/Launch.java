@@ -73,6 +73,8 @@ public class Launch extends Game {
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
 		FontGenerator.dispose();
+		ScreenTracker.singlePlayerSettingsScreen.dispose();
+		ScreenTracker.twoPlayerSettingsScreen.dispose();
 		Assets.manager.dispose();
 	}
 
