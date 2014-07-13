@@ -14,6 +14,8 @@ public class CortexPreferences {
 	private static final String BACKGROUND_COLOR = "background_color";
 	private static final String MUSIC = "music";
 	private static final String CURRENT_LEVEL = "level";
+	private static final String PLAYER_ONE_NAME = "player_one_name";
+	private static final String PLAYER_TWO_NAME = "player_two_name";
 
 	private static final String TIME = "time";
 	private static final String NUMBER_OF_ROWS = "number_of_rows";
@@ -28,6 +30,8 @@ public class CortexPreferences {
 	private boolean isBlue;
 	private boolean isMusicEnabled;
 	private int currentLevel;
+	private String playerOneName;
+	private String playerTwoName;
 	private GameSettings twoPlayerGameSettings;
 
 	private CortexPreferences() {}
@@ -66,6 +70,8 @@ public class CortexPreferences {
 		isBlue = preferences.getBoolean(BACKGROUND_COLOR, true);
 		isMusicEnabled = preferences.getBoolean(MUSIC, true);
 		currentLevel = preferences.getInteger(CURRENT_LEVEL, 0);
+		playerOneName = preferences.getString(PLAYER_ONE_NAME, "Edit...");
+		playerTwoName = preferences.getString(PLAYER_TWO_NAME, "Two");
 	}
 
 	public void save() {
@@ -77,6 +83,8 @@ public class CortexPreferences {
 		preferences.putBoolean(BACKGROUND_COLOR, isBlue);
 		preferences.putBoolean(MUSIC, isMusicEnabled);
 		preferences.putInteger(CURRENT_LEVEL, currentLevel);
+		preferences.putString(PLAYER_ONE_NAME, playerOneName);
+		preferences.putString(PLAYER_TWO_NAME, playerTwoName);
 	}
 	private void saveTwoPlayerGameSettings() {
 		int time = twoPlayerGameSettings.getTime();
@@ -120,7 +128,21 @@ public class CortexPreferences {
 	public void setCurrentLevel(int currentLevel) {
 		this.currentLevel = currentLevel;
 	}
+	
+	public String getPlayerOneName() {
+		return playerOneName;
+	}
+	public void setPlayerOneName(String playerOneName) {
+		this.playerOneName = playerOneName;
+	}
 
+	public String getPlayerTwoName() {
+		return playerTwoName;
+	}
+	public void setPlayerTwoName(String playerTwoName) {
+		this.playerTwoName = playerTwoName;
+	}
+	
 	public GameSettings getTwoPlayerGameSettings() {
 		return twoPlayerGameSettings;
 	}
