@@ -21,7 +21,7 @@ public class GameManagerImpl implements GameManager {
 	private BrainUtilities utilities;
 
 	private CortexPreferences preferences;
-
+	
 	private GameManagerImpl() {}
 	private static class Singleton {
 		private static final GameManagerImpl INSTANCE = new GameManagerImpl();
@@ -29,23 +29,26 @@ public class GameManagerImpl implements GameManager {
 	public static GameManager getInstance() {
 		return Singleton.INSTANCE;
 	}
-	public static GameManagerImpl createNewGameManager() {
+	public static GameManager createNewGameManager() {
+		return createNewGameManager(null, null);
+	}
+	public static GameManager createNewGameManager(String playerOneName, String playerTwoName) {
 		GameManagerImpl messenger = Singleton.INSTANCE;
 		messenger.preferences = CortexPreferences.getInstance();
 		messenger.screen = ScreenTracker.playScreen;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger);
 		messenger.utilities = new BrainUtilities(messenger.settings);
-		addPlayers(messenger, messenger.screen);
+		addPlayers(messenger, messenger.screen, playerOneName, playerTwoName);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		messenger.model = new DefaultCortexModel(messenger, messenger.settings);
 		return messenger;
 	}
-	private static void addPlayers(GameManagerImpl messenger, PlayScreen screen) {
+	private static void addPlayers(GameManagerImpl messenger, PlayScreen screen, String playerOneName, String playerTwoName) {
 		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
 			addPlayersForSinglePlayerMode(messenger, screen);
 		} else {
-			addPlayersForTwoPlayerMode(messenger, screen);
+			addPlayersForTwoPlayerMode(messenger, screen, playerOneName, playerTwoName);
 		}
 	}
 	private static void addPlayersForSinglePlayerMode(GameManagerImpl messenger, PlayScreen screen) {
@@ -54,9 +57,9 @@ public class GameManagerImpl implements GameManager {
 		messenger.players.add(human);
 		messenger.players.add(computer);
 	}
-	private static void addPlayersForTwoPlayerMode(GameManagerImpl messenger, PlayScreen screen) {
-		Player playerOne = new HumanPlayer("Player 1", screen, messenger);
-		Player playerTwo = new HumanPlayer("Player 2", screen, messenger);
+	private static void addPlayersForTwoPlayerMode(GameManagerImpl messenger, PlayScreen screen, String playerOneName, String playerTwoName) {
+		Player playerOne = new HumanPlayer(playerOneName, screen, messenger);
+		Player playerTwo = new HumanPlayer(playerTwoName, screen, messenger);
 		messenger.players.add(playerOne);
 		messenger.players.add(playerTwo);
 	}
