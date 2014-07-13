@@ -137,7 +137,7 @@ public class NumberCortexBoard {
 		for (Map.Entry<Integer, Integer> winningEntry : winningMap.entrySet()) {
 			buildWinningAction(winningEntry);
 		}
-		return 3f;
+		return 4f;
 	}
 	private void buildWinningAction(Map.Entry<Integer, Integer> winningEntry) {
 		int winningCoordinate = winningEntry.getKey();
@@ -154,7 +154,7 @@ public class NumberCortexBoard {
 		SequenceAction sequence = Actions.sequence(toggleAction, delayAction);
 		RepeatAction repeatAction = new RepeatAction();
 		repeatAction.setAction(sequence);
-		repeatAction.setCount(6);
+		repeatAction.setCount(8);
 		return repeatAction;
 	}
 	private Action buildToggleAction(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
