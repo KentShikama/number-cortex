@@ -1,6 +1,6 @@
 
 home.png
-size: 825,692
+size: 825,718
 format: RGBA8888
 filter: MipMapLinearNearest, Nearest
 repeat: none
@@ -14,34 +14,27 @@ line_extension
 number_cortex_title
   rotate: false
   xy: 2, 172
-  size: 521, 520
-  orig: 521, 520
+  size: 521, 546
+  orig: 521, 546
   offset: 0, 0
   index: -1
-pass_and_play
+options
   rotate: false
   xy: 2, 87
   size: 300, 83
   orig: 300, 83
   offset: 0, 0
   index: -1
+pass_and_play
+  rotate: false
+  xy: 525, 635
+  size: 300, 83
+  orig: 300, 83
+  offset: 0, 0
+  index: -1
 play
   rotate: false
-  xy: 525, 609
-  size: 300, 83
-  orig: 300, 83
-  offset: 0, 0
-  index: -1
-play_online
-  rotate: false
   xy: 2, 2
-  size: 300, 83
-  orig: 300, 83
-  offset: 0, 0
-  index: -1
-tutorial
-  rotate: false
-  xy: 525, 524
   size: 300, 83
   orig: 300, 83
   offset: 0, 0

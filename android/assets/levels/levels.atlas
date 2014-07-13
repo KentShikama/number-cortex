@@ -2,7 +2,7 @@
 levels.png
 size: 989,208
 format: RGBA8888
-filter: MipMapLinearNearest, Nearest
+filter: Nearest,Nearest
 repeat: none
 3x3
   rotate: false
