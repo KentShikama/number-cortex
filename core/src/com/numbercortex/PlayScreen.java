@@ -26,9 +26,6 @@ public class PlayScreen implements Screen {
 
 	public static final String TAG = PlayScreen.class.getCanonicalName();
 
-	private static final int BOTTOM_RECTANGLE_WIDTH = Assets.gameSkin.getRegion("settings").getRegionWidth();
-	private static final int BOTTOM_RECTANGLE_HEIGHT = Assets.gameSkin.getRegion("settings").getRegionHeight();
-
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
 	private MessageArea messageArea;
@@ -41,7 +38,7 @@ public class PlayScreen implements Screen {
 	private CortexPreferences preferences;
 
 	private Image exitButton;
-	private Image settingsButton;
+	private Image informationButton;
 	private Image helpButton;
 
 	PlayScreen(Game game) {
@@ -88,15 +85,15 @@ public class PlayScreen implements Screen {
 	}
 	private void buildBottomButtons() {
 		TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
-		TextureRegion settingsRectangleTexture = Assets.gameSkin.getRegion("settings");
+		TextureRegion informationRectangleTexture = Assets.gameSkin.getRegion("information");
 		TextureRegion helpRectangleTexture = Assets.gameSkin.getRegion("help");
 		bulidExitButton(exitRectangleTexture);
-		buildSettingsButton(settingsRectangleTexture);
+		buildInformationButton(informationRectangleTexture);
 		buildHelpButton(helpRectangleTexture);
 	}
 	private void bulidExitButton(TextureRegion exitRectangleTexture) {
 		exitButton = new Image(exitRectangleTexture);
-		exitButton.setBounds(44, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
+		exitButton.setBounds(44, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(), exitRectangleTexture.getRegionHeight());
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -112,10 +109,10 @@ public class PlayScreen implements Screen {
 		});
 		stage.addActor(exitButton);
 	}
-	private void buildSettingsButton(TextureRegion settingsRectangleTexture) {
-		settingsButton = new Image(settingsRectangleTexture);
-		settingsButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
-		settingsButton.addListener(new ClickListener() {
+	private void buildInformationButton(TextureRegion informationRectangleTexture) {
+		informationButton = new Image(informationRectangleTexture);
+		informationButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136, informationRectangleTexture.getRegionWidth(), informationRectangleTexture.getRegionHeight());
+		informationButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
@@ -125,11 +122,11 @@ public class PlayScreen implements Screen {
 				}
 			}
 		});
-		stage.addActor(settingsButton);
+		stage.addActor(informationButton);
 	}
 	private void buildHelpButton(TextureRegion helpRectangleTexture) {
 		helpButton = new Image(helpRectangleTexture);
-		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136, BOTTOM_RECTANGLE_WIDTH, BOTTOM_RECTANGLE_HEIGHT);
+		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136, helpRectangleTexture.getRegionWidth(), helpRectangleTexture.getRegionHeight());
 		stage.addActor(helpButton);
 	}
 	private void buildNumberScroller() {
@@ -222,10 +219,10 @@ public class PlayScreen implements Screen {
 	private void removeOtherElementsWithAnimation(float delay) {
 		numberScroller.removeScroller(delay);
 		exitButton.clearListeners();
-		settingsButton.clearListeners();
+		informationButton.clearListeners();
 		helpButton.clearListeners();
 		AnimationUtilities.delayFadeAndRemoveActor(exitButton, delay);
-		AnimationUtilities.delayFadeAndRemoveActor(settingsButton, delay);
+		AnimationUtilities.delayFadeAndRemoveActor(informationButton, delay);
 		AnimationUtilities.delayFadeAndRemoveActor(helpButton, delay);
 	}
 
