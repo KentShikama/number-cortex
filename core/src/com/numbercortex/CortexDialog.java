@@ -94,7 +94,7 @@ public class CortexDialog extends Dialog {
 		if (listener != null) {
 			button.addListener(listener);
 		}
-		buttonTable.add(button).height(94).padRight(14).padBottom(36).padTop(20);
+		buttonTable.add(button).height(94).padRight(14).padBottom(42).padTop(20);
 		dialog.setObject(button, buttonText);
 	}
 

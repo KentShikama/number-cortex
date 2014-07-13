@@ -90,6 +90,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 	private TextField playerOneNameField;
 	private TextField playerTwoNameField;
 
+	private GroupState groupState;
+	
 	enum GroupState {
 		CLICKABLE, VISIBLE, TRANSPARENT;
 	}
@@ -174,6 +176,11 @@ public class TwoPlayerSettingsScreen implements Screen {
 			super(groupState);
 			this.addActor(icon);
 			this.addActor(spinner);
+			if (groupState != GroupState.CLICKABLE) {
+				for (Actor actor : spinner.getChildren()) {
+					actor.clearListeners();
+				}
+			}
 		}
 		
 		@Override
@@ -225,6 +232,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 			super(groupState);
 			this.addActor(label);
 			this.addActor(textField);
+			if (groupState != GroupState.CLICKABLE) {
+				textField.setDisabled(true);				
+			}
 		}
 		
 		@Override
@@ -259,6 +269,11 @@ public class TwoPlayerSettingsScreen implements Screen {
 	public void show() {
 		stage.clear();
 		gameSettings = CortexPreferences.getInstance().getTwoPlayerGameSettings();
+		if (ScreenTracker.isInPlay) {
+			groupState = GroupState.VISIBLE;
+		} else {
+			groupState = GroupState.CLICKABLE;
+		}
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
@@ -296,8 +311,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 	private void addPlayerOneName() {
 		Label playerOneNameLabel = buildPlayerOneNameLabel();
-		TextField playerOneNameField = buildPlayerOneNameField();
-		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField, GroupState.CLICKABLE);
+		playerOneNameField = buildPlayerOneNameField();
+		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField, groupState);
 		stage.addActor(playerOneNameGroup);
 	}
 	private Label buildPlayerOneNameLabel() {
@@ -311,16 +326,17 @@ public class TwoPlayerSettingsScreen implements Screen {
 		if (textFieldStyle == null) {
 			textFieldStyle = buildTextFieldStyle();
 		}
-		playerOneNameField = new TextField(playerOneName, textFieldStyle);
+		TextField playerOneNameField = new TextField(playerOneName, textFieldStyle);
 		playerOneNameField.setBounds(324, Launch.SCREEN_HEIGHT - 130, 268, 93);
+		playerOneNameField.setMaxLength(20);
 		playerOneNameField.setMessageText("Edit...");
 		return playerOneNameField;
 	}
 
 	private void addPlayerTwoName() {
 		Label playerTwoNameLabel = buildPlayerTwoNameLabel();
-		TextField playerTwoNameField = buildPlayerTwoNameField();
-		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField, GroupState.CLICKABLE);
+		playerTwoNameField = buildPlayerTwoNameField();
+		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField, groupState);
 		stage.addActor(playerTwoNameGroup);
 	}
 	private Label buildPlayerTwoNameLabel() {
@@ -334,8 +350,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 		if (textFieldStyle == null) {
 			textFieldStyle = buildTextFieldStyle();
 		}
-		playerTwoNameField = new TextField(playerTwoName, textFieldStyle);
+		TextField playerTwoNameField = new TextField(playerTwoName, textFieldStyle);
 		playerTwoNameField.setBounds(324, Launch.SCREEN_HEIGHT - 247, 268, 93);
+		playerTwoNameField.setMaxLength(20);
 		playerTwoNameField.setMessageText("Edit...");
 		return playerTwoNameField;
 	}
@@ -347,7 +364,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Image decreaseValueControlImage = buildDecreaseValueControlImage();
 		int initialValue = gameSettings.getTime();
 		SpinnerGroup spinnerGroup = new SpinnerGroup(initialValue, label, increaseValueControlImage, decreaseValueControlImage);
-		SpinnerSettingGroup timeGroup = new SpinnerSettingGroup(icon, spinnerGroup, GroupState.CLICKABLE);
+		SpinnerSettingGroup timeGroup = new SpinnerSettingGroup(icon, spinnerGroup, GroupState.TRANSPARENT);
 		stage.addActor(timeGroup);
 	}
 	private Image buildTimeIcon() {
@@ -383,7 +400,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label label4x4 = buildLabel4x4();
 		ImageButton checkbox3x3 = buildCheckbox3x3();
 		ImageButton checkbox4x4 = buildCheckbox4x4();
-		TwoChoiceRadioSettingGroup boardSizeGroup = new TwoChoiceRadioSettingGroup(label3x3, label4x4, checkbox3x3, checkbox4x4, GroupState.CLICKABLE);
+		TwoChoiceRadioSettingGroup boardSizeGroup = new TwoChoiceRadioSettingGroup(label3x3, label4x4, checkbox3x3, checkbox4x4, groupState);
 		stage.addActor(boardSizeGroup);
 	}
 	private Label buildLabel3x3() {
@@ -429,7 +446,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label evenOddLabel = buildEvenOddLabel();
 		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
 		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox,
-				GroupState.CLICKABLE);
+				groupState);
 		stage.addActor(evenOddGroup);
 	}
 	private Label buildEvenOddLabel() {
@@ -456,7 +473,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label singleDoubleLabel = buildSingleDoubleLabel();
 		ImageButton singleDoubleCheckbox = buildSingleDoubleCheckbox();
 		CheckboxSettingGroup singleDoubleGroup = new CheckboxSettingGroup(singleDoubleLabel, singleDoubleCheckbox,
-				GroupState.CLICKABLE);
+				groupState);
 		stage.addActor(singleDoubleGroup);
 	}
 	private Label buildSingleDoubleLabel() {
@@ -483,7 +500,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label primeCompositeLabel = buildPrimeCompositeLabel();
 		ImageButton primeCompositeCheckbox = buildPrimeCompositeCheckbox();
 		CheckboxSettingGroup primeCompositeGroup = new CheckboxSettingGroup(primeCompositeLabel,
-				primeCompositeCheckbox, GroupState.CLICKABLE);
+				primeCompositeCheckbox, groupState);
 		stage.addActor(primeCompositeGroup);
 	}
 	private Label buildPrimeCompositeLabel() {
@@ -510,7 +527,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label middleExtremeLabel = buildMiddleExtremeLabel();
 		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
 		CheckboxSettingGroup middleExtremeGroup = new CheckboxSettingGroup(middleExtremeLabel, middleExtremeCheckbox,
-				GroupState.CLICKABLE);
+				groupState);
 		stage.addActor(middleExtremeGroup);
 	}
 	private Label buildMiddleExtremeLabel() {
@@ -538,7 +555,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		ImageButton diagonalsCheckbox = buildDiagonalsCheckbox();
 		Image diagonalsIcon = buildDiagonalsIcon();
 		CheckboxSettingGroup diagonalsGroup = new CheckboxSettingGroup(diagonalsLabel, diagonalsCheckbox,
-				diagonalsIcon, GroupState.CLICKABLE);
+				diagonalsIcon, groupState);
 		stage.addActor(diagonalsGroup);
 	}
 	private Label buildDiagonalsLabel() {
@@ -573,7 +590,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		ImageButton fourSquareCheckbox = buildFourSquareCheckbox();
 		Image fourSquareIcon = buildFourSquareIcon();
 		CheckboxSettingGroup fourSquareGroup = new CheckboxSettingGroup(fourSquareLabel, fourSquareCheckbox,
-				fourSquareIcon, GroupState.CLICKABLE);
+				fourSquareIcon, groupState);
 		stage.addActor(fourSquareGroup);
 	}
 	private Label buildFourSquareLabel() {

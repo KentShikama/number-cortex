@@ -136,7 +136,7 @@ public class DefaultCortexModel implements CortexModel {
 		clearVariables();
 		setInitialBoardState();
 		setInitialAvailableNumbers();
-		message = currentPlayer + " starts the game!";
+		message = currentPlayer + " starts!";
 		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
 				coordinateNumberMap, availableNumbers).build();
 		messenger.updateState(state);
