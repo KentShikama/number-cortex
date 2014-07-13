@@ -149,7 +149,7 @@ public class GameManagerImpl implements GameManager {
 	private String[] getTutorialMessage(int turnCount) {
 		if (turnCount == 1) {
 			return new String[] {
-					"Welcome! Number Cortex is a board game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on a square grid.",
+					"Welcome! Number Cortex is a game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on the board.",
 					"Go ahead and drag and drop the chosen number onto the board." };
 		} else if (turnCount == 2) {
 			return new String[] { "Number Cortex is unique because you get to choose which number your opponent will play next. Double tap your opponents next number from the scroller below." };
@@ -195,7 +195,7 @@ public class GameManagerImpl implements GameManager {
 			case 1:
 				return "You can single tap a number on the scroller to fade it out. This can be a good visual reminder of the numbers you do not want to choose.";
 			case 3:
-				return "New rule: Primes and Composites! Adding to the current ruleset, you can make a 3-in-a-row of all primes (1*, 3, 5, 7, 9, 11, 13, 15, 17) or all evens (2, 4, 6, 8, 10, 12, 14, 16).";
+				return "New rule: Primes and Composites! Adding to the current ruleset, you can make a 3-in-a-row of all primes (1*, 3, 5, 7, 9, 11, 13, 15, 17) or all composites (2, 4, 6, 8, 10, 12, 14, 16).";
 			case 6:
 				return "New rule: Middles and Extremes! Adding to the current ruleset, you can make a 3-in-a-row of all middles (5 ~ 12) or all extremes (1 ~ 4 and 13 ~ 17).";
 			case 9:
