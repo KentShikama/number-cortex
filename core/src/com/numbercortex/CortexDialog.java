@@ -83,7 +83,7 @@ public class CortexDialog extends Dialog {
 		Label contentLabel = new Label(labelText, labelStyle);
 		contentLabel.setWrap(true);
 		contentLabel.setAlignment(Align.center);
-		contentTable.add(contentLabel).width(495).padRight(14);
+		contentTable.add(contentLabel).width(495).padRight(14).padTop(26);
 	}
 	private static void addButton(String buttonText, ClickListener listener, Dialog dialog) {
 		Table buttonTable = dialog.getButtonTable();
@@ -94,7 +94,7 @@ public class CortexDialog extends Dialog {
 		if (listener != null) {
 			button.addListener(listener);
 		}
-		buttonTable.add(button).padRight(14).padBottom(58);
+		buttonTable.add(button).height(90).padRight(14).padBottom(36).padTop(20);
 		dialog.setObject(button, buttonText);
 	}
 
