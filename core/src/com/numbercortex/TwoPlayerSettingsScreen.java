@@ -64,14 +64,19 @@ public class TwoPlayerSettingsScreen implements Screen {
 		style.messageFontColor = new Color(Launch.SEA_BLUE).add(0.2f, 0.2f, 0.2f, 0);
 		style.background.setLeftWidth(style.background.getLeftWidth() + 15);
 		style.background.setRightWidth(style.background.getRightWidth() + 15);
-		
+		addSelectionStyle(style);
+		addCursorStyle(style);
+		return style;
+	}
+	private static void addSelectionStyle(TextField.TextFieldStyle style) {
 		Pixmap bluePixmap = new Pixmap(1, 1, Format.RGBA8888);
 		bluePixmap.setColor(new Color(Launch.SEA_BLUE).sub(0.5f, 0.5f, 0.5f, 0.5f));
 		bluePixmap.fill();
 		Assets.settingsSkin.add("selection", new Texture(bluePixmap));
 		Drawable selectionDrawable = Assets.settingsSkin.getDrawable("selection");
 		style.selection = selectionDrawable;
-		
+	}
+	private static void addCursorStyle(TextField.TextFieldStyle style) {
 		Pixmap pixmap = new Pixmap(2, 70, Format.RGBA8888);
 		pixmap.setColor(Launch.BRIGHT_YELLOW);
 		pixmap.fill();
@@ -80,7 +85,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Drawable cursorDrawable = new TextureRegionDrawable(cursorTexture);
 		style.cursor = cursorDrawable;
 		style.cursor.setMinWidth(2f);
-		return style;
 	}
 
 	private Stage stage;
@@ -194,7 +198,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	
 	class SpinnerGroup extends Group {
 		private int value;
 		public SpinnerGroup(int initialValue, final Label label, Image increaseValue, Image decreaseValue) {
