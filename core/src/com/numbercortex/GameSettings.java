@@ -3,7 +3,7 @@ package com.numbercortex;
 public class GameSettings {
 
 	private int level;
-
+	
 	private int numberOfRows;
 	private int time;
 
@@ -20,7 +20,6 @@ public class GameSettings {
 	public int getLevel() {
 		return level;
 	}
-
 	public void setLevel(int level) {
 		this.level = level;
 	}
