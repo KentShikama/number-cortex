@@ -52,7 +52,7 @@ public class Launch extends Game {
 		Assets.assignDialogScreen();
 
 		FontGenerator.load();
-		CortexPreferences.getInstance().load();
+		Persistence.getInstance().load();
 		ScreenTracker.singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(this);
 		ScreenTracker.twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(this);
 		ScreenTracker.levelsScreen = new LevelsScreen(this);

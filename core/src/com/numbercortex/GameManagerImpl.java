@@ -20,7 +20,7 @@ public class GameManagerImpl implements GameManager {
 
 	private BrainUtilities utilities;
 
-	private CortexPreferences preferences;
+	private Persistence preferences;
 	
 	private GameManagerImpl() {}
 	private static class Singleton {
@@ -34,7 +34,7 @@ public class GameManagerImpl implements GameManager {
 	}
 	public static GameManager createNewGameManager(String playerOneName, String playerTwoName) {
 		GameManagerImpl messenger = Singleton.INSTANCE;
-		messenger.preferences = CortexPreferences.getInstance();
+		messenger.preferences = Persistence.getInstance();
 		messenger.screen = ScreenTracker.playScreen;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger);
@@ -68,7 +68,7 @@ public class GameManagerImpl implements GameManager {
 			int level = ScreenTracker.level;
 			return GameSettingsLoader.loadLevel(level);
 		} else {
-			return CortexPreferences.getInstance().getTwoPlayerGameSettings();
+			return Persistence.getInstance().getTwoPlayerGameSettings();
 		}
 	}
 
@@ -177,7 +177,7 @@ public class GameManagerImpl implements GameManager {
 				&& (winner != null || openCoordinates.isEmpty());
 	}
 	private void unlockNextLevelIfOnMaxLevel() {
-		CortexPreferences preferences = CortexPreferences.getInstance();
+		Persistence preferences = Persistence.getInstance();
 		int currentLevel = ScreenTracker.level;
 		int maxLevel = preferences.getCurrentLevel();
 		if (currentLevel == maxLevel) {

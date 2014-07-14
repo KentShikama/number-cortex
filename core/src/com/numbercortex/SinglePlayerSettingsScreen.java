@@ -402,7 +402,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		Label primeCompositeLabel = buildPrimeCompositeLabel();
 		ImageButton primeCompositeCheckbox = buildPrimeCompositeCheckbox();
 		GroupState state;
-		if (CortexPreferences.getInstance().getCurrentLevel() > 3) {
+		if (Persistence.getInstance().getCurrentLevel() > 3) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -435,7 +435,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		Label middleExtremeLabel = buildMiddleExtremeLabel();
 		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
 		GroupState state;
-		if (CortexPreferences.getInstance().getCurrentLevel() > 6) {
+		if (Persistence.getInstance().getCurrentLevel() > 6) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -504,7 +504,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		ImageButton fourSquareCheckbox = buildFourSquareCheckbox();
 		Image fourSquareIcon = buildFourSquareIcon();
 		GroupState state;
-		if (CortexPreferences.getInstance().getCurrentLevel() > 13) {
+		if (Persistence.getInstance().getCurrentLevel() > 13) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -622,7 +622,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 
 	@Override
 	public void hide() {
-		CortexPreferences.getInstance().save();
+		Persistence.getInstance().save();
 	}
 
 	@Override

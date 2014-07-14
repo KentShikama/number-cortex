@@ -82,7 +82,7 @@ public class LevelsScreen implements Screen {
 	private static final String UNLOCKED_LEVEL = "empty_rectangle";
 	private static final String LOCKED_LEVEL = "locked_rectangle";
 
-	private static CortexPreferences preferences = CortexPreferences.getInstance();
+	private static Persistence preferences = Persistence.getInstance();
 
 	LevelsScreen(Game game) {
 		this.game = game;

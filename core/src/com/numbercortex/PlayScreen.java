@@ -35,7 +35,7 @@ public class PlayScreen implements Screen {
 	private Stage stage;
 
 	private GameSettings settings;
-	private CortexPreferences preferences;
+	private Persistence preferences;
 
 	private Image exitButton;
 	private Image informationButton;
@@ -46,7 +46,7 @@ public class PlayScreen implements Screen {
 		stage = ((Launch) game).getStage();
 	}
 
-	public void setGameSettingsAndPreferences(GameSettings settings, CortexPreferences preferences) {
+	public void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences) {
 		this.settings = settings;
 		this.preferences = preferences;
 	}
@@ -61,12 +61,12 @@ public class PlayScreen implements Screen {
 		buildBottomButtons();
 		board.clearBoard();
 	}
-	private void buildBackground(CortexPreferences preferences) {
+	private void buildBackground(Persistence preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
 		BackgroundScreen background = new BackgroundScreen(backgroundProperty);
 		stage.addActor(background);
 	}
-	private Color getBackgroundColor(CortexPreferences preferences) {
+	private Color getBackgroundColor(Persistence preferences) {
 		if (preferences.isBlue()) {
 			return Launch.SEA_BLUE;
 		} else {
@@ -77,7 +77,7 @@ public class PlayScreen implements Screen {
 		messageArea = MessageArea.createMessageArea(stage, game);
 		handler.notifyMessageAreaConstrucion(messageArea);
 	}
-	private void buildBoard(GameSettings settings, CortexPreferences preferences) {
+	private void buildBoard(GameSettings settings, Persistence preferences) {
 		boolean isBlue = preferences.isBlue();
 		int numberOfRows = settings.getNumberOfRows();
 		board = NumberCortexBoard.createNumberCortexBoard(stage, isBlue, numberOfRows);

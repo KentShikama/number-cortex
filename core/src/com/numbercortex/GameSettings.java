@@ -1,6 +1,8 @@
 package com.numbercortex;
 
-public class GameSettings {
+import java.io.Serializable;
+
+public class GameSettings implements Serializable {
 
 	private int level;
 	

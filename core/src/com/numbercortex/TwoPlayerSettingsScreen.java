@@ -271,7 +271,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		gameSettings = CortexPreferences.getInstance().getTwoPlayerGameSettings();
+		gameSettings = Persistence.getInstance().getTwoPlayerGameSettings();
 		if (ScreenTracker.isInPlay) {
 			groupState = GroupState.VISIBLE;
 		} else {
@@ -325,7 +325,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		return label;
 	}
 	private TextField buildPlayerOneNameField() {
-		String playerOneName = CortexPreferences.getInstance().getPlayerOneName();
+		String playerOneName = Persistence.getInstance().getPlayerOneName();
 		if (textFieldStyle == null) {
 			textFieldStyle = buildTextFieldStyle();
 		}
@@ -349,7 +349,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		return label;
 	}
 	private TextField buildPlayerTwoNameField() {
-		String playerTwoName = CortexPreferences.getInstance().getPlayerTwoName();
+		String playerTwoName = Persistence.getInstance().getPlayerTwoName();
 		if (textFieldStyle == null) {
 			textFieldStyle = buildTextFieldStyle();
 		}
@@ -700,7 +700,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 	@Override
 	public void hide() {
-		CortexPreferences preferences = CortexPreferences.getInstance();
+		Persistence preferences = Persistence.getInstance();
 		preferences.setPlayerOneName(playerOneNameField.getText());
 		preferences.setPlayerTwoName(playerTwoNameField.getText());
 		preferences.save();
