@@ -40,7 +40,7 @@ class HumanPlayer implements Player {
 
 	@Override
 	public void placeNumber(String player, int coordinate) {
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && ScreenTracker.level == 0) {
+		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && ScreenTracker.currentLevel == 0) {
 			messenger.placeNumber(name, coordinate);
 		} else {
 			savePostPlaceState(coordinate);

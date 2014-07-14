@@ -24,7 +24,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 
 public class SinglePlayerSettingsScreen implements Screen {
 
-	private static final String TAG = SinglePlayerSettingsScreen.class.getCanonicalName();
+	public static final String TAG = "Single Player Settings Screen";
 
 	private Stage stage;
 	private Game game;
@@ -218,7 +218,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		gameSettings = GameSettingsLoader.loadLevel(ScreenTracker.level);
+		gameSettings = GameSettingsLoader.loadLevel(ScreenTracker.currentLevel);
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
@@ -402,7 +402,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		Label primeCompositeLabel = buildPrimeCompositeLabel();
 		ImageButton primeCompositeCheckbox = buildPrimeCompositeCheckbox();
 		GroupState state;
-		if (Persistence.getInstance().getCurrentLevel() > 3) {
+		if (Persistence.getInstance().getMaxLevel() > 3) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -435,7 +435,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		Label middleExtremeLabel = buildMiddleExtremeLabel();
 		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
 		GroupState state;
-		if (Persistence.getInstance().getCurrentLevel() > 6) {
+		if (Persistence.getInstance().getMaxLevel() > 6) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -504,7 +504,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		ImageButton fourSquareCheckbox = buildFourSquareCheckbox();
 		Image fourSquareIcon = buildFourSquareIcon();
 		GroupState state;
-		if (Persistence.getInstance().getCurrentLevel() > 13) {
+		if (Persistence.getInstance().getMaxLevel() > 13) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -637,6 +637,18 @@ public class SinglePlayerSettingsScreen implements Screen {
 		textButtonStyle = null;
 	}
 	@Override
-	public void pause() {}
+	public void pause() {
+		Persistence persistence = Persistence.getInstance();
+		persistence.setCurrentScreen(TAG);
+		persistence.setMode(ScreenTracker.mode.name());
+		persistence.setInPlay(ScreenTracker.isInPlay);
+		if (ScreenTracker.isInPlay) {
+			GameManager gameManager = GameManagerImpl.getInstance();
+			CortexState currentState = gameManager.getState();
+			persistence.setCurrentCortexState(currentState);
+		}
+		persistence.setCurrentLevel(ScreenTracker.currentLevel);
+		persistence.save();
+	}
 
 }

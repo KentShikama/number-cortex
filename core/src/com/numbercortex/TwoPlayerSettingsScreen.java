@@ -32,7 +32,7 @@ import com.numbercortex.SinglePlayerSettingsScreen.GridLines;
 
 public class TwoPlayerSettingsScreen implements Screen {
 
-	private static final String TAG = TwoPlayerSettingsScreen.class.getCanonicalName();
+	public static final String TAG = "Two Player Settings Screen";
 
 	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
 	private static Label.LabelStyle buildLabelStyle50() {
@@ -655,7 +655,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = GameManagerImpl.createNewGameManager(playerOneNameField.getText(), playerTwoNameField.getText());
+				GameManager manager = GameManagerImpl.createNewGameManager();
 				game.setScreen(ScreenTracker.playScreen);
 				manager.startNewGame();
 			}
@@ -729,6 +729,17 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {}
+	public void pause() {
+		Persistence persistence = Persistence.getInstance();
+		persistence.setCurrentScreen(TAG);
+		persistence.setMode(ScreenTracker.mode.name());
+		persistence.setInPlay(ScreenTracker.isInPlay);
+		if (ScreenTracker.isInPlay) {
+			GameManager gameManager = GameManagerImpl.getInstance();
+			CortexState currentState = gameManager.getState();
+			persistence.setCurrentCortexState(currentState);
+		}
+		persistence.save();
+	}
 
 }

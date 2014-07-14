@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class PlayScreen implements Screen {
 
-	public static final String TAG = PlayScreen.class.getCanonicalName();
+	public static final String TAG = "Play Screen";
 
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;
@@ -280,10 +280,28 @@ public class PlayScreen implements Screen {
 		stage.getViewport().update(width, height, true);
 	}
 	@Override
+	public void pause() {
+		Persistence persistence = Persistence.getInstance();
+		if (ScreenTracker.isInPlay == false) {
+			persistence.setCurrentScreen(TitleScreen.TAG); // Show title screen if game had ended
+		} else {
+			persistence.setCurrentScreen(TAG);
+		}
+		persistence.setMode(ScreenTracker.mode.name());
+		persistence.setInPlay(ScreenTracker.isInPlay);
+		if (ScreenTracker.isInPlay) {
+			GameManager gameManager = GameManagerImpl.getInstance();
+			CortexState currentState = gameManager.getState();
+			persistence.setCurrentCortexState(currentState);
+		}
+		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+			persistence.setCurrentLevel(ScreenTracker.currentLevel);
+		}
+		persistence.save();
+	}
+	@Override
 	public void hide() {}
 	@Override
 	public void dispose() {}
-	@Override
-	public void pause() {}
 
 }

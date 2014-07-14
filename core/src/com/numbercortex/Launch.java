@@ -2,6 +2,7 @@ package com.numbercortex;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,43 +21,54 @@ public class Launch extends Game {
 	@Override
 	public void create() {
 		Assets.manager = new AssetManager();
-		buildHomeScreen();
-		buildOtherScreens();
-	}
-	private void buildHomeScreen() {
 		Assets.loadBackground();
 		Assets.loadHome();
-		Assets.manager.finishLoading();
-		Assets.assignBackgroundScreen();
-		Assets.assignHomeScreen();
-		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
-		stage = new Stage(fitViewport);
-		Gdx.input.setInputProcessor(stage);
-		ScreenTracker.titleScreen = new TitleScreen(Launch.this);
-		Gdx.app.postRunnable(new Runnable() {
-			@Override
-			public void run() {
-				setScreen(ScreenTracker.titleScreen);
-			}
-		});
-	}
-	private void buildOtherScreens() {
 		Assets.loadSettings();
 		Assets.loadGame();
 		Assets.loadLevels();
 		Assets.loadDialog();
 		Assets.manager.finishLoading();
+		Assets.assignBackgroundScreen();
+		Assets.assignHomeScreen();
 		Assets.assignSettingsScreen();
 		Assets.assignPlayScreen();
 		Assets.assignLevelsScreen();
 		Assets.assignDialogScreen();
+		
+		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		stage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(stage);
 
 		FontGenerator.load();
-		Persistence.getInstance().load();
+		Persistence persistence = Persistence.getInstance().load();
+		
+		String currentModeString = persistence.getMode();
+		ScreenTracker.mode = ScreenTracker.getMode(currentModeString);
+		
+		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+			ScreenTracker.currentLevel = persistence.getCurrentLevel();
+		}
+		
+		ScreenTracker.titleScreen = new TitleScreen(this);
 		ScreenTracker.singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(this);
 		ScreenTracker.twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(this);
 		ScreenTracker.levelsScreen = new LevelsScreen(this);
 		ScreenTracker.playScreen = new PlayScreen(this);
+		
+		ScreenTracker.isInPlay = persistence.isInPlay();
+		GameManager gameManager = null;
+		if (ScreenTracker.isInPlay) {
+			CortexState currentCortexState = persistence.getCurrentCortexState();
+			gameManager = GameManagerImpl.createNewGameManager(currentCortexState);
+		}
+		
+		String currentScreenString = persistence.getCurrentScreen();
+		Screen screen = ScreenTracker.getScreen(currentScreenString);
+		setScreen(screen);
+		
+		if (screen instanceof PlayScreen) {
+			gameManager.resumeGame();
+		}
 	}
 
 	public Stage getStage() {

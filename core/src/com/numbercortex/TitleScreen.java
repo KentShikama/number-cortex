@@ -73,9 +73,9 @@ public class TitleScreen implements Screen {
 					public boolean act(float delta) {
 						if (screen != null) {
 							if (mode == ScreenTracker.Mode.SINGLE_PLAYER
-									&& Persistence.getInstance().getCurrentLevel() == 0) {
+									&& Persistence.getInstance().getMaxLevel() == 0) {
 								ScreenTracker.mode = mode;
-								ScreenTracker.level = 0;
+								ScreenTracker.currentLevel = 0;
 								GameManager manager = GameManagerImpl.createNewGameManager();
 								game.setScreen(ScreenTracker.playScreen);
 								manager.startNewGame();
@@ -92,7 +92,7 @@ public class TitleScreen implements Screen {
 		}
 	}
 
-	public static final String TAG = TitleScreen.class.getName();
+	public static final String TAG = "Title Screen";
 
 	private static final String TITLE = "number_cortex_title";
 	private static final String PLAY_BUTTON = "play";
@@ -155,11 +155,16 @@ public class TitleScreen implements Screen {
 		stage.getViewport().update(width, height, true);
 	}
 	@Override
+	public void pause() {
+		Persistence persistence = Persistence.getInstance();
+		persistence.setCurrentScreen(TAG);
+		persistence.setInPlay(ScreenTracker.isInPlay);
+		persistence.save();
+	}
+	@Override
 	public void resume() {}
 	@Override
 	public void dispose() {}
 	@Override
 	public void hide() {}
-	@Override
-	public void pause() {}
 }

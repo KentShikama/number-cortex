@@ -141,7 +141,7 @@ public class MessageArea {
 		continueButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScreenTracker.level = ScreenTracker.level + 1;
+				ScreenTracker.currentLevel = ScreenTracker.currentLevel + 1;
 				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 			}
 		});
@@ -203,7 +203,7 @@ public class MessageArea {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner != null && winner.equals("Player") && ScreenTracker.level != 18) {
+				if (winner != null && winner.equals("Player") && ScreenTracker.currentLevel != 18) {
 					updateMessageWithButtons("continue");
 				} else {
 					updateMessageWithButtons("replay");

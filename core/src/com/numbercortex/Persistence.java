@@ -1,11 +1,13 @@
 package com.numbercortex;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class Persistence {
@@ -13,13 +15,14 @@ public class Persistence {
 	private static final String BACKGROUND_COLOR = "background_color";
 	private static final String SOUND = "sound";
 	private static final String MUSIC = "music";
-	private static final String MAX_LEVEL = "level";
 
 	private static final String CURRENT_SCREEN = "currentScreen";
 	private static final String MODE = "mode";
-	
 	private static final String IS_IN_PLAY = "isInPlay";
 	private static final String CURRENT_CORTEX_STATE = "currentCortexState";
+	
+	private static final String CURRENT_LEVEL = "currentLevel";
+	private static final String MAX_LEVEL = "maxLevel";
 	
 	private static final String PLAYER_ONE_NAME = "player_one_name";
 	private static final String PLAYER_TWO_NAME = "player_two_name";
@@ -28,12 +31,14 @@ public class Persistence {
 	private boolean blue;
 	private boolean sound;
 	private boolean music;
-	private int currentLevel;
 	
 	private String currentScreen;
 	private String mode;
 	private boolean isInPlay;
 	private CortexState currentCortexState;
+	
+	private int currentLevel;
+	private int maxLevel;
 	
 	private String playerOneName;
 	private String playerTwoName;
@@ -50,10 +55,11 @@ public class Persistence {
 		return Singleton.instance;
 	}
 
-	public void load() {
+	public Persistence load() {
 		preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
 		loadCusomizationPreferences();
 		loadApplicationState();
+		return Singleton.instance;
 	}
 	private void loadCusomizationPreferences() {
 		blue = preferences.getBoolean(BACKGROUND_COLOR, true);
@@ -73,19 +79,35 @@ public class Persistence {
 			String currentCortexStateJson = preferences.getString(CURRENT_CORTEX_STATE, "");
 			if (!currentCortexStateJson.isEmpty()) {
 				Json json = new Json();
-				JsonValue root = new JsonValue(currentCortexStateJson);
+				JsonValue root = new JsonReader().parse(currentCortexStateJson);
 				String message = json.readValue("message", String.class, root);
 				String currentPlayer = json.readValue("currentPlayer", String.class, root);
-				ArrayList<String> players = json.readValue("players", ArrayList.class, root);
+				ArrayList<String> players = json.readValue("players", ArrayList.class, String.class, root);
 				int chosenNumber = json.readValue("chosenNumber", Integer.class, root);
-				Map<Integer, Integer> coordinateNumberMap = json.readValue("coordinateNumberMap", Map.class, root);
-				ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class, root);
-				currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber, coordinateNumberMap, availableNumbers).build();			
+				Map<Integer, Integer> coordinateNumberMap = json.readValue("coordinateNumberMap", Map.class, Integer.class, root);
+				Map<Integer, Integer> properlyCastCoordinateNumberMap = new HashMap<Integer, Integer>();
+				for (Map.Entry entry : coordinateNumberMap.entrySet()) {
+					String key = (String) entry.getKey();
+					Integer value = (Integer) entry.getValue();
+					properlyCastCoordinateNumberMap.put(Integer.valueOf(key), value);
+				}
+				ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class, Integer.class, root);
+				
+				JsonValue winnerJsonValue = root.get("winner");
+				if (winnerJsonValue != null) {
+					String winner = json.readValue("winner", String.class, root);
+					String winningAttribute = json.readValue("winningAttribute", String.class, root);
+					int[] winningValues = json.readValue("winningValues", int[].class, root);	
+					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).win(winner, winningAttribute, winningValues).build();			
+				} else {
+					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).build();			
+				}
 			}
 		}
 	}
 	private void loadSinglePlayerSettings() {
-		currentLevel = preferences.getInteger(MAX_LEVEL, 0);		
+		currentLevel = preferences.getInteger(CURRENT_LEVEL, 0);
+		maxLevel = preferences.getInteger(MAX_LEVEL, 0);		
 	}
 	private void loadTwoPlayerSettings() {
 		playerOneName = preferences.getString(PLAYER_ONE_NAME, "One");
@@ -97,6 +119,8 @@ public class Persistence {
 		String twoPlayerGameSettingsJson = preferences.getString(TWO_PLAYER_GAME_SETTINGS, "");
 		if (!twoPlayerGameSettingsJson.isEmpty()) {
 			twoPlayerGameSettings = json.fromJson(GameSettings.class, twoPlayerGameSettingsJson);
+		} else {
+			twoPlayerGameSettings = new GameSettings();
 		}
 	}
 	
@@ -129,7 +153,8 @@ public class Persistence {
 		}
 	}
 	private void saveSinglePlayerSettings() {
-		preferences.putInteger(MAX_LEVEL, currentLevel);		
+		preferences.putInteger(CURRENT_LEVEL, currentLevel);
+		preferences.putInteger(MAX_LEVEL, maxLevel);	
 	}
 	private void saveTwoPlayerSettings() {
 		preferences.putString(PLAYER_ONE_NAME, playerOneName);
@@ -170,6 +195,13 @@ public class Persistence {
 	}
 	public void setCurrentLevel(int currentLevel) {
 		this.currentLevel = currentLevel;
+	}
+	
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+	public void setMaxLevel(int maxLevel) {
+		this.maxLevel = maxLevel;
 	}
 
 	public String getCurrentScreen() {

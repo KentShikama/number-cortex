@@ -20,7 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class LevelsScreen implements Screen {
 
-	public static final String TAG = PlayScreen.class.getCanonicalName();
+	public static final String TAG = "Levels Screen";
 
 	private Game game;
 	private Stage stage;
@@ -68,7 +68,7 @@ public class LevelsScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				TextButton button = (TextButton) event.getListenerActor();
 				if (!button.isDisabled()) {
-					ScreenTracker.level = level;
+					ScreenTracker.currentLevel = level;
 					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 				}
 			}
@@ -124,7 +124,7 @@ public class LevelsScreen implements Screen {
 		for (int i = startingLevel - 1; i < endingLevel; i++) {
 			int level = i + 1;
 			TextButton levelButton;
-			if (level <= preferences.getCurrentLevel()) {
+			if (level <= preferences.getMaxLevel()) {
 				levelButton = buildEnabledLevel(level);
 			} else {
 				levelButton = buildDisabledLevel(level);
@@ -197,7 +197,13 @@ public class LevelsScreen implements Screen {
 		stage.getViewport().update(width, height, true);
 	}
 	@Override
-	public void pause() {}
+	public void pause() {
+		Persistence persistence = Persistence.getInstance();
+		persistence.setCurrentScreen(TAG);
+		persistence.setMode(ScreenTracker.mode.name());
+		persistence.setInPlay(ScreenTracker.isInPlay);
+		persistence.save();
+	}
 	@Override
 	public void hide() {}
 	@Override

@@ -15,8 +15,7 @@ public class DefaultCortexModel implements CortexModel {
 	private Map<Integer, Integer> coordinateNumberMap = new HashMap<Integer, Integer>();
 	private String message;
 	private int chosenNumber = -1;
-
-	private ArrayList<String> usernames = new ArrayList<String>();
+	private ArrayList<String> players = new ArrayList<String>();
 
 	private String winner; // Optional
 	private String winningAttribute; // Optional
@@ -34,15 +33,31 @@ public class DefaultCortexModel implements CortexModel {
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);
 	}
+	
+	public DefaultCortexModel(GameManager messenger, GameSettings settings, CortexState currentState) {
+		this.messenger = messenger;
+		this.settings = settings;
+		this.winHandler = new WinHandler(settings);
+		
+		this.currentPlayer = currentState.getCurrentPlayer();
+		this.availableNumbers = currentState.getAvailableNumbers();
+		this.coordinateNumberMap = currentState.getCoordinateNumberMap();
+		this.message = currentState.getMessage();
+		this.chosenNumber = currentState.getChosenNumber();
+		this.players = currentState.getPlayers();
+		this.winner = currentState.getWinner();
+		this.winningAttribute = currentState.getWinningAttribute();
+		this.winningValues = currentState.getWinningValues();
+	}
 
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
 		if (isChosenNumberValid(playerName, nextNumber)) {
 			chosenNumber = nextNumber;
 			availableNumbers.remove(Integer.valueOf(nextNumber));
-			currentPlayer = (currentPlayer == usernames.get(0) ? usernames.get(1) : usernames.get(0));
+			currentPlayer = (currentPlayer == players.get(0) ? players.get(1) : players.get(0));
 			message = currentPlayer;
-			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
+			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
 					coordinateNumberMap, availableNumbers).build();
 			messenger.updateState(state);
 		} else {
@@ -78,11 +93,11 @@ public class DefaultCortexModel implements CortexModel {
 			CortexState state;
 			if (winningValues != null) {
 				winningAttribute = winHandler.getWinningAttriute();
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
+				state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
 						coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues)
 						.build();
 			} else {
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
+				state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
 						coordinateNumberMap, availableNumbers).build();
 			}
 			messenger.updateState(state);
@@ -112,24 +127,24 @@ public class DefaultCortexModel implements CortexModel {
 
 	@Override
 	public void register(String username) {
-		usernames.add(username);
-		if (usernames.size() == 2) {
+		players.add(username);
+		if (players.size() == 2) {
 			setFirstPlayer();
 			startGame();
 		}
 	}
 	private void setFirstPlayer() {
 		if (firstPlayerPosition != -1) {
-			currentPlayer = usernames.get(firstPlayerPosition);
+			currentPlayer = players.get(firstPlayerPosition);
 		} else {
 			assignRandomFirstPlayer();
 		}
 	}
 	private void assignRandomFirstPlayer() {
 		if (Math.random() > 0.5) {
-			currentPlayer = usernames.get(0);
+			currentPlayer = players.get(0);
 		} else {
-			currentPlayer = usernames.get(1);
+			currentPlayer = players.get(1);
 		}
 	}
 	private void startGame() {
@@ -137,7 +152,7 @@ public class DefaultCortexModel implements CortexModel {
 		setInitialBoardState();
 		setInitialAvailableNumbers();
 		message = currentPlayer + " starts!";
-		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, usernames, chosenNumber,
+		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
 				coordinateNumberMap, availableNumbers).build();
 		messenger.updateState(state);
 	}
