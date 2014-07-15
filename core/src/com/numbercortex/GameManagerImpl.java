@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.view.PlayScreen;
+import com.numbercortex.view.ScreenTracker;
 
 public class GameManagerImpl implements GameManager {
 
@@ -49,7 +51,7 @@ public class GameManagerImpl implements GameManager {
 		return messenger;	
 	}
 	private static void addPlayers(GameManagerImpl messenger, PlayScreen screen, Persistence preferences) {
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 			addPlayersForSinglePlayerMode(messenger, screen);
 		} else {
 			addPlayersForTwoPlayerMode(messenger, screen, preferences);
@@ -70,7 +72,7 @@ public class GameManagerImpl implements GameManager {
 		messenger.players.add(playerTwo);
 	}
 	private static GameSettings buildSettings(GameManagerImpl messenger, Persistence preferences) {
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 			int level = preferences.getCurrentLevel();
 			messenger.currentLevel = level;
 			return GameSettingsLoader.loadLevel(messenger.currentLevel);
@@ -114,7 +116,7 @@ public class GameManagerImpl implements GameManager {
 		registerPlayersAndStartGame();
 	}
 	private void manuallySetFirstPlayer() {
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 			switch (currentLevel) {
 				case 0:
 					model.setFirstPlayerPosition(1);
@@ -148,7 +150,7 @@ public class GameManagerImpl implements GameManager {
 		}
 	}
 	private void handleTutorialMessages(CortexState state) {
-		if (currentLevel == 0 && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+		if (currentLevel == 0 && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 			int numberOfRows = settings.getNumberOfRows();
 			int turnCount = BoardUtilities.getTurnNumber(state, numberOfRows);
 			String[] messages = getTutorialMessage(turnCount);
@@ -178,10 +180,10 @@ public class GameManagerImpl implements GameManager {
 		}
 	}
 	private boolean playerWinsSinglePlayerGame(String winner) {
-		return winner != null && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && winner.equals("Player");
+		return winner != null && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER && winner.equals("Player");
 	}
 	private boolean tutorialEnds(String winner, ArrayList<Integer> openCoordinates) {
-		return currentLevel == 0 && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER
+		return currentLevel == 0 && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER
 				&& (winner != null || openCoordinates.isEmpty());
 	}
 	private void unlockNextLevelIfOnMaxLevel() {

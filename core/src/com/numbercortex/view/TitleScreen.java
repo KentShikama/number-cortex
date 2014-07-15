@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -19,6 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.numbercortex.GameManager;
+import com.numbercortex.GameManagerImpl;
+import com.numbercortex.Launch;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
+import com.numbercortex.ModeTracker.Mode;
 
 public class TitleScreen implements Screen {
 	class TitleScreenButton {
@@ -26,9 +32,9 @@ public class TitleScreen implements Screen {
 		private Button button;
 		private int index;
 		private Screen screen;
-		private ScreenTracker.Mode mode;
+		private ModeTracker.Mode mode;
 
-		TitleScreenButton(String buttonName, int index, Screen screen, ScreenTracker.Mode mode) {
+		TitleScreenButton(String buttonName, int index, Screen screen, ModeTracker.Mode mode) {
 			this.index = index;
 			this.screen = screen;
 			this.mode = mode;
@@ -72,14 +78,14 @@ public class TitleScreen implements Screen {
 					@Override
 					public boolean act(float delta) {
 						if (screen != null) {
-							if (mode == ScreenTracker.Mode.SINGLE_PLAYER
+							if (mode == ModeTracker.Mode.SINGLE_PLAYER
 									&& Persistence.getInstance().getMaxLevel() == 0) {
-								ScreenTracker.mode = mode;
+								ModeTracker.mode = mode;
 								GameManager manager = GameManagerImpl.createNewGameManager();
 								game.setScreen(ScreenTracker.playScreen);
 								manager.startNewGame();
 							} else {
-								ScreenTracker.mode = mode;
+								ModeTracker.mode = mode;
 								game.setScreen(screen);
 							}
 						}
@@ -127,9 +133,9 @@ public class TitleScreen implements Screen {
 	}
 	private void buildButtons() {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
-				ScreenTracker.Mode.SINGLE_PLAYER);
+				ModeTracker.Mode.SINGLE_PLAYER);
 		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1, ScreenTracker.twoPlayerSettingsScreen,
-				ScreenTracker.Mode.TWO_PLAYER);
+				ModeTracker.Mode.TWO_PLAYER);
 		TitleScreenButton optionsButton = new TitleScreenButton(OPTIONS, 2, null, null);
 		stage.addActor(playButton.button);
 		stage.addActor(passAndPlayButton.button);

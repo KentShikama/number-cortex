@@ -7,6 +7,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.numbercortex.view.Assets;
+import com.numbercortex.view.CortexDialog;
+import com.numbercortex.view.FontGenerator;
+import com.numbercortex.view.PlayScreen;
+import com.numbercortex.view.ScreenTracker;
 
 public class Launch extends Game {
 	private Stage stage;
@@ -43,13 +48,9 @@ public class Launch extends Game {
 		Persistence persistence = Persistence.getInstance().load();
 		
 		String currentModeString = persistence.getMode();
-		ScreenTracker.mode = ScreenTracker.getMode(currentModeString);
+		ModeTracker.mode = ModeTracker.getMode(currentModeString);
 		
-		ScreenTracker.titleScreen = new TitleScreen(this);
-		ScreenTracker.singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(this);
-		ScreenTracker.twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(this);
-		ScreenTracker.levelsScreen = new LevelsScreen(this);
-		ScreenTracker.playScreen = new PlayScreen(this);
+		ScreenTracker.initializeScreens(this);
 		
 		GameManager gameManager = null;
 		if (persistence.isInPlay()) {
@@ -75,9 +76,6 @@ public class Launch extends Game {
 		super.dispose();
 		ScreenTracker.dispose();
 		CortexDialog.dispose();
-		MessageArea.dispose();
-		NumberCortexBoard.dispose();
-		NumberScroller.dispose();
 		FontGenerator.dispose();
 		Assets.manager.dispose();
 	}

@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,12 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.esotericsoftware.tablelayout.Cell;
+import com.numbercortex.view.HighlightableButton.ButtonStyle;
 
 /**
  * An extension of the com.badlogic.gdx.scenes.scene2d.ui.TextButton class allowing for the label to directly be modified
  */
 public class NumberTextButton extends HighlightableButton {
-	static public class NumberTextButtonStyle extends ButtonStyle {
+	static class NumberTextButtonStyle extends ButtonStyle {
 		public BitmapFont font;
 		public Color fontColor, downFontColor, overFontColor, checkedFontColor, checkedOverFontColor,
 				disabledFontColor;
@@ -55,19 +56,19 @@ public class NumberTextButton extends HighlightableButton {
 
 	private String name;
 
-	public NumberTextButton(String text, NumberTextButtonStyle style) {
+	NumberTextButton(String text, NumberTextButtonStyle style) {
 		super();
 		setStyle(style);
 		this.style = style;
 		setLabel(new Label(text, new LabelStyle(style.font, style.fontColor)));
 	}
 
-	public NumberTextButton(String text, Skin skin) {
+	NumberTextButton(String text, Skin skin) {
 		this(text, skin.get(NumberTextButtonStyle.class));
 		setSkin(skin);
 	}
 
-	public NumberTextButton(String text, Skin skin, String styleName) {
+	NumberTextButton(String text, Skin skin, String styleName) {
 		this(text, skin.get(styleName, NumberTextButtonStyle.class));
 		setSkin(skin);
 	}

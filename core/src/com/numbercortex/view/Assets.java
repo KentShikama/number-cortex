@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
@@ -10,12 +10,12 @@ public class Assets {
 
 	public static AssetManager manager;
 
-	public static Texture backgroundTexture;
-	public static Skin homeSkin;
-	public static Skin levelsSkin;
-	public static Skin gameSkin;
-	public static Skin dialogSkin;
-	public static Skin settingsSkin;
+	static Texture backgroundTexture;
+	static Skin homeSkin;
+	static Skin levelsSkin;
+	static Skin gameSkin;
+	static Skin dialogSkin;
+	static Skin settingsSkin;
 
 	private static final String BACKGROUND_TEXTURE = "background/number_background.png";
 

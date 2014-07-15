@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.numbercortex.brain.Brain;
 import com.numbercortex.brain.BrainFactory;
+import com.numbercortex.view.PlayScreen;
 
 public class ComputerPlayer implements Player {
 

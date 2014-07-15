@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
+import com.numbercortex.view.MessageArea;
+import com.numbercortex.view.NumberCortexBoard;
+import com.numbercortex.view.NumberTextButton;
 
 public class DragAndDropHandler {
 

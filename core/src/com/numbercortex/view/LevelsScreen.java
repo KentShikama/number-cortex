@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.numbercortex.Launch;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
 
 public class LevelsScreen implements Screen {
 
@@ -201,7 +204,7 @@ public class LevelsScreen implements Screen {
 	public void pause() {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
-		persistence.setMode(ScreenTracker.mode.name());
+		persistence.setMode(ModeTracker.mode.name());
 		persistence.save();
 	}
 	@Override

@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.numbercortex.Launch;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
+import com.numbercortex.ModeTracker.Mode;
+import com.numbercortex.view.NumberTextButton.NumberTextButtonStyle;
 
 public class MessageArea {
 	
@@ -75,7 +80,7 @@ public class MessageArea {
 
 	private MessageArea() {}
 
-	public static MessageArea createMessageArea(Stage stage, Game game) {
+	static MessageArea createMessageArea(Stage stage, Game game) {
 		MessageArea instance = Singleton.INSTANCE;
 		instance.stage = stage;
 		instance.messageLabelLong = buildMessageLabelLong();
@@ -134,7 +139,7 @@ public class MessageArea {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 				} else {
 					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);

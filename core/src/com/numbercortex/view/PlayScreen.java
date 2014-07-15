@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +21,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.numbercortex.BoardUtilities;
+import com.numbercortex.CortexState;
+import com.numbercortex.DragAndDropHandler;
+import com.numbercortex.GameManager;
+import com.numbercortex.GameManagerImpl;
+import com.numbercortex.GameSettings;
+import com.numbercortex.Launch;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
+import com.numbercortex.Player;
+import com.numbercortex.ModeTracker.Mode;
 
 public class PlayScreen implements Screen {
 
@@ -115,7 +126,7 @@ public class PlayScreen implements Screen {
 		informationButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
+				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 				} else {
 					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);
@@ -290,12 +301,16 @@ public class PlayScreen implements Screen {
 		} else {
 			persistence.setCurrentScreen(TitleScreen.TAG); // Show title screen if game had ended
 		}
-		persistence.setMode(ScreenTracker.mode.name());
+		persistence.setMode(ModeTracker.mode.name());
 		persistence.save();
 	}
 	@Override
 	public void hide() {}
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		MessageArea.dispose();
+		NumberCortexBoard.dispose();
+		NumberScroller.dispose();
+	}
 
 }

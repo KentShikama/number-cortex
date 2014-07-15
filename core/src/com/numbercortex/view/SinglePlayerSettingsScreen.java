@@ -1,13 +1,9 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,24 +11,43 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.numbercortex.SinglePlayerSettingsScreen.GridLines;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameManager;
+import com.numbercortex.GameManagerImpl;
+import com.numbercortex.GameSettings;
+import com.numbercortex.GameSettingsLoader;
+import com.numbercortex.Launch;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
 
-public class TwoPlayerSettingsScreen implements Screen {
+public class SinglePlayerSettingsScreen implements Screen {
 
-	public static final String TAG = "Two Player Settings Screen";
+	public static final String TAG = "Single Player Settings Screen";
+
+	private Stage stage;
+	private Game game;
+	private GameSettings gameSettings;
+
+	private static final String TEXT_BUTTON_BORDER_TEXTURE_NAME = "button_rectangle";
+	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
+	private static TextButton.TextButtonStyle buildTextButtonStyle(String textureButtonTextureName) {
+		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion(textureButtonTextureName);
+		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+		textButtonStyle.font = FontGenerator.getGillSans57();
+		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
+		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+		return textButtonStyle;
+	}
 
 	private static Label.LabelStyle labelStyle50 = buildLabelStyle50();
 	private static Label.LabelStyle buildLabelStyle50() {
@@ -42,7 +57,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle50;
 	}
-	
+
 	private static Label.LabelStyle labelStyle57 = buildLabelStyle57();
 	private static Label.LabelStyle buildLabelStyle57() {
 		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
@@ -51,51 +66,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle57;
 	}
-	
-	private static TextField.TextFieldStyle textFieldStyle = buildTextFieldStyle();
-	private static TextField.TextFieldStyle buildTextFieldStyle() {
-		TextureRegion textFieldTexture = Assets.settingsSkin.getRegion("name_texfield");
-		Drawable textFieldDrawable = new TextureRegionDrawable(textFieldTexture);
-		TextField.TextFieldStyle style = new TextField.TextFieldStyle();
-		style.background = textFieldDrawable;
-		style.font = FontGenerator.getGillSans57();
-		style.fontColor = Launch.BRIGHT_YELLOW;
-		style.messageFont = FontGenerator.getGillSans57();
-		style.messageFontColor = new Color(Launch.SEA_BLUE).add(0.2f, 0.2f, 0.2f, 0);
-		style.background.setLeftWidth(style.background.getLeftWidth() + 15);
-		style.background.setRightWidth(style.background.getRightWidth() + 15);
-		addSelectionStyle(style);
-		addCursorStyle(style);
-		return style;
-	}
-	private static void addSelectionStyle(TextField.TextFieldStyle style) {
-		Pixmap bluePixmap = new Pixmap(1, 1, Format.RGBA8888);
-		bluePixmap.setColor(new Color(Launch.SEA_BLUE).sub(0.5f, 0.5f, 0.5f, 0.5f));
-		bluePixmap.fill();
-		Assets.settingsSkin.add("selection", new Texture(bluePixmap));
-		Drawable selectionDrawable = Assets.settingsSkin.getDrawable("selection");
-		style.selection = selectionDrawable;
-	}
-	private static void addCursorStyle(TextField.TextFieldStyle style) {
-		Pixmap pixmap = new Pixmap(2, 70, Format.RGBA8888);
-		pixmap.setColor(Launch.BRIGHT_YELLOW);
-		pixmap.fill();
-		Assets.settingsSkin.add("cursor", new Texture(pixmap));
-		TextureRegion cursorTexture = Assets.settingsSkin.getRegion("cursor");
-		Drawable cursorDrawable = new TextureRegionDrawable(cursorTexture);
-		style.cursor = cursorDrawable;
-		style.cursor.setMinWidth(2f);
-	}
 
-	private Stage stage;
-	private Game game;
-	private GameSettings gameSettings;
-	
-	private TextField playerOneNameField;
-	private TextField playerTwoNameField;
-
-	private GroupState groupState;
-	
 	enum GroupState {
 		CLICKABLE, VISIBLE, TRANSPARENT;
 	}
@@ -108,11 +79,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	class CheckboxSettingGroup extends SettingGroup {
-
 		CheckboxSettingGroup(Label label, ImageButton checkbox, GroupState groupState) {
 			this(label, checkbox, null, groupState);
 		}
-
 		CheckboxSettingGroup(Label label, final ImageButton checkbox, Image icon, final GroupState groupState) {
 			super(groupState);
 			this.addActor(label);
@@ -132,126 +101,113 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
-			SnapshotArray<Actor> children = this.getChildren();
 			if (groupState == GroupState.TRANSPARENT) {
 				parentAlpha = 0.5f;
 			}
+			SnapshotArray<Actor> children = this.getChildren();
 			for (Actor child : children) {
 				child.draw(batch, parentAlpha);
 			}
 		}
 	}
 
-	class TwoChoiceRadioSettingGroup extends SettingGroup {
-		public TwoChoiceRadioSettingGroup(Label choiceOneLabel, Label choiceTwoLabel, ImageButton choiceOneCheckbox, ImageButton choiceTwoCheckbox, final GroupState groupState) {
+	class DifficultyGroup extends SettingGroup {
+
+		public DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
 			super(groupState);
-			this.addActor(choiceOneLabel);
-			this.addActor(choiceTwoLabel);
-			this.addActor(choiceOneCheckbox);
-			this.addActor(choiceTwoCheckbox);
-			ButtonGroup group = new ButtonGroup(choiceOneCheckbox, choiceTwoCheckbox);
-			for (final Button button : group.getButtons()) {
-				button.addListener(new ClickListener() {
+			SnapshotArray<Actor> starButtons = starGroup.getChildren();
+			for (Actor starButton : starButtons) {
+				starButton.addListener(new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						if (groupState == GroupState.CLICKABLE) {
-							button.setChecked(!button.isChecked());
+							starGroup.toggleRating();
+							gameSettings.setDifficulty(starGroup.rating);
 						}
 					}
 				});
 			}
+			this.addActor(label);
+			this.addActor(starGroup);
 		}
-		
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
-			SnapshotArray<Actor> children = this.getChildren();
 			if (groupState == GroupState.TRANSPARENT) {
 				parentAlpha = 0.5f;
 			}
+			SnapshotArray<Actor> children = this.getChildren();
 			for (Actor child : children) {
 				child.draw(batch, parentAlpha);
 			}
 		}
 	}
-	
-	class SpinnerSettingGroup extends SettingGroup {
+	class StarGroup extends Group {
+		private int rating;
 
-		public SpinnerSettingGroup(Image icon, SpinnerGroup spinner, GroupState groupState) {
+		public StarGroup(int startPositionX, int startPositionY, int rating) {
+			this(startPositionX, startPositionY, 68, rating, 5);
+		}
+		public StarGroup(int startPositionX, int startPositionY, int offsetX, int rating, int ratingCount) {
+			for (int i = 0; i < ratingCount; i++) {
+				TextureRegion checkedStarTexture = Assets.settingsSkin.getRegion("full_star");
+				Drawable checkedStarDrawable = new TextureRegionDrawable(checkedStarTexture);
+				TextureRegion emptyStarTexture = Assets.settingsSkin.getRegion("empty_star");
+				Drawable emptyStarDrawable = new TextureRegionDrawable(emptyStarTexture);
+				ImageButton starButton = new ImageButton(emptyStarDrawable, emptyStarDrawable, checkedStarDrawable);
+				starButton.setBounds(startPositionX + (i * offsetX), startPositionY,
+						checkedStarTexture.getRegionWidth(), checkedStarTexture.getRegionHeight());
+				starButton.center();
+				starButton.clearListeners();
+				this.addActor(starButton);
+			}
+			for (int i = 0; i < rating; i++) {
+				toggleRating();
+			}
+		}
+		public void toggleRating() {
+			updateRating();
+			updateButtons();
+		}
+		private void updateRating() {
+			if (rating == this.getChildren().size) {
+				rating = 1;
+			} else {
+				rating++;
+			}
+		}
+		private void updateButtons() {
+			for (int i = 0; i < rating; i++) {
+				ImageButton starButton = (ImageButton) this.getChildren().get(i);
+				starButton.setChecked(true);
+			}
+			for (int j = rating; j < this.getChildren().size; j++) {
+				ImageButton starButton = (ImageButton) this.getChildren().get(j);
+				starButton.setChecked(false);
+			}
+		}
+	}
+
+	class LabelSettingGroup extends SettingGroup {
+
+		public LabelSettingGroup(Image icon, Label label, GroupState groupState) {
 			super(groupState);
 			this.addActor(icon);
-			this.addActor(spinner);
-			if (groupState != GroupState.CLICKABLE) {
-				for (Actor actor : spinner.getChildren()) {
-					actor.clearListeners();
-				}
-			}
-		}
-		
-		@Override
-		public void draw(Batch batch, float parentAlpha) {
-			SnapshotArray<Actor> children = this.getChildren();
-			if (groupState == GroupState.TRANSPARENT) {
-				parentAlpha = 0.5f;
-			}
-			for (Actor child : children) {
-				child.draw(batch, parentAlpha);
-			}
-		}
-	}
-	class SpinnerGroup extends Group {
-		private int value;
-		public SpinnerGroup(int initialValue, final Label label, Image increaseValue, Image decreaseValue) {
-			value = initialValue;
-			label.setText(value + "s");
 			this.addActor(label);
-			this.addActor(increaseValue);
-			this.addActor(decreaseValue);
-			increaseValue.addListener(new ClickListener() {
-				public void clicked(InputEvent event, float x, float y) {
-					if (value >= 999) {
-						return;
-					}
-					value++;
-					label.setText(value + "s");
-					gameSettings.setTime(value);
-				}
-			});
-			decreaseValue.addListener(new ClickListener() {
-				public void clicked(InputEvent event, float x, float y) {
-					if (value <= 1) {
-						return;
-					}
-					value--;
-					label.setText(value + "s");
-					gameSettings.setTime(value);
-				}
-			});
 		}
-	}
-	
-	class TextFieldSettingGroup extends SettingGroup {
 
-		public TextFieldSettingGroup(Label label, TextField textField, GroupState groupState) {
-			super(groupState);
-			this.addActor(label);
-			this.addActor(textField);
-			if (groupState != GroupState.CLICKABLE) {
-				textField.setDisabled(true);				
-			}
-		}
-		
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
-			SnapshotArray<Actor> children = this.getChildren();
 			if (groupState == GroupState.TRANSPARENT) {
 				parentAlpha = 0.5f;
 			}
+			SnapshotArray<Actor> children = this.getChildren();
 			for (Actor child : children) {
 				child.draw(batch, parentAlpha);
 			}
 		}
 	}
-	
+
 	class GridLines extends Group {
 		GridLines(int[] position) {
 			TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
@@ -262,8 +218,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	
- 	public TwoPlayerSettingsScreen(Game game) {
+
+	SinglePlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
 	}
@@ -272,23 +228,20 @@ public class TwoPlayerSettingsScreen implements Screen {
 	public void show() {
 		stage.clear();
 		Persistence persistence = Persistence.getInstance();
-		gameSettings = persistence.getTwoPlayerGameSettings();
-		if (persistence.isInPlay()) {
-			groupState = GroupState.VISIBLE;
-		} else {
-			groupState = GroupState.CLICKABLE;
-		}
+		gameSettings = GameSettingsLoader.loadLevel(persistence.getCurrentLevel());
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
-		
+
 		addGridLines();
-		
-		addPlayerOneName();
-		addPlayerTwoName();
-		
+
+		addTitle();
+		addLevelWrap();
+
 		addTime();
-		addBoardSize();
+		addBoardSizeGroup();
+
+		addDifficultyGroup();
 
 		addEvenOdd();
 		addSingleDouble();
@@ -300,157 +253,111 @@ public class TwoPlayerSettingsScreen implements Screen {
 		addFourSquaresGroup();
 
 		if (persistence.isInPlay()) {
-			buildResumeButton();
+			addResumeButton();
 		} else {
-			buildPlayButton();
-			buildBackButton();
+			addPlayButton();
+			addBackButton();
 		}
 	}
-	
+
 	private void addGridLines() {
-		int[] position = { 276, 496, 778, 962 };
+		int[] position = { 230, 366, 496, 778, 962 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
 	}
 
-	private void addPlayerOneName() {
-		Label playerOneNameLabel = buildPlayerOneNameLabel();
-		playerOneNameField = buildPlayerOneNameField();
-		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField, groupState);
-		stage.addActor(playerOneNameGroup);
-	}
-	private Label buildPlayerOneNameLabel() {
-		Label label = new Label("Name (P1)", labelStyle57);
-		label.setAlignment(Align.center);
-		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 111);
-		return label;
-	}
-	private TextField buildPlayerOneNameField() {
-		String playerOneName = Persistence.getInstance().getPlayerOneName();
-		if (textFieldStyle == null) {
-			textFieldStyle = buildTextFieldStyle();
-		}
-		TextField playerOneNameField = new TextField(playerOneName, textFieldStyle);
-		playerOneNameField.setBounds(324, Launch.SCREEN_HEIGHT - 130, 268, 93);
-		playerOneNameField.setMaxLength(20);
-		playerOneNameField.setMessageText("Edit...");
-		return playerOneNameField;
+	private void addTitle() {
+		TextureRegion titleTexture = Assets.settingsSkin.getRegion("level_info_label");
+		Image title = new Image(titleTexture);
+		title.setPosition(64, Launch.SCREEN_HEIGHT - 152);
+		stage.addActor(title);
 	}
 
-	private void addPlayerTwoName() {
-		Label playerTwoNameLabel = buildPlayerTwoNameLabel();
-		playerTwoNameField = buildPlayerTwoNameField();
-		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField, groupState);
-		stage.addActor(playerTwoNameGroup);
+	private void addLevelWrap() {
+		Image levelWrap = buildLevelWrap();
+		Label levelLabel = buildLevelLabel();
+		LabelSettingGroup timeGroup = new LabelSettingGroup(levelWrap, levelLabel, GroupState.VISIBLE);
+		stage.addActor(timeGroup);
 	}
-	private Label buildPlayerTwoNameLabel() {
-		Label label = new Label("Name (P2)", labelStyle57);
-		label.setAlignment(Align.center);
-		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 228);
-		return label;
+	private Image buildLevelWrap() {
+		int positionX = 507;
+		int positionY = Launch.SCREEN_HEIGHT - 123;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("level_wrap");
+		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
+		return timeIcon;
 	}
-	private TextField buildPlayerTwoNameField() {
-		String playerTwoName = Persistence.getInstance().getPlayerTwoName();
-		if (textFieldStyle == null) {
-			textFieldStyle = buildTextFieldStyle();
-		}
-		TextField playerTwoNameField = new TextField(playerTwoName, textFieldStyle);
-		playerTwoNameField.setBounds(324, Launch.SCREEN_HEIGHT - 247, 268, 93);
-		playerTwoNameField.setMaxLength(20);
-		playerTwoNameField.setMessageText("Edit...");
-		return playerTwoNameField;
+	private Label buildLevelLabel() {
+		int level = gameSettings.getLevel();
+		Label.LabelStyle tahoma86Style = new Label.LabelStyle();
+		BitmapFont tahoma86 = FontGenerator.getNumberScrollerFont();
+		tahoma86Style.font = tahoma86;
+		tahoma86Style.fontColor = Launch.BRIGHT_YELLOW;
+		Label levelLabel = new Label("" + level, tahoma86Style);
+		levelLabel.setAlignment(Align.center);
+		levelLabel.setBounds(535 - 6, Launch.SCREEN_HEIGHT - 84 - 6, 94, 64);
+		return levelLabel;
 	}
 
 	private void addTime() {
-		Image icon = buildTimeIcon();
-		Label label = buildTimeLabel();
-		Image increaseValueControlImage = buildIncreaseValueControlImage();
-		Image decreaseValueControlImage = buildDecreaseValueControlImage();
-		int initialValue = gameSettings.getTime();
-		SpinnerGroup spinnerGroup = new SpinnerGroup(initialValue, label, increaseValueControlImage, decreaseValueControlImage);
-		SpinnerSettingGroup timeGroup = new SpinnerSettingGroup(icon, spinnerGroup, GroupState.TRANSPARENT);
+		Image timeIcon = buildTimeIcon();
+		Label timeLabel = buildTimeLabel();
+		LabelSettingGroup timeGroup = new LabelSettingGroup(timeIcon, timeLabel, GroupState.VISIBLE);
 		stage.addActor(timeGroup);
 	}
 	private Image buildTimeIcon() {
-		int positionX = 90;
-		int positionY = Launch.SCREEN_HEIGHT - 380;
+		int positionX = 78;
+		int positionY = Launch.SCREEN_HEIGHT - 332;
 		TextureRegion iconTexture = Assets.settingsSkin.getRegion("time_icon");
 		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
 		return timeIcon;
 	}
 	private Label buildTimeLabel() {
-		Label label = new Label("", labelStyle57);
-		label.setAlignment(Align.center);
-		label.setBounds(76, Launch.SCREEN_HEIGHT - 456, 100, 60);
-		return label;
-	}
-	private Image buildIncreaseValueControlImage() {
-		int positionX = 209;
-		int positionY = Launch.SCREEN_HEIGHT - 376;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("up_arrow");
-		Image increaseValueControlImage = buildIcon(iconTexture, positionX, positionY);
-		return increaseValueControlImage;
-	}
-	private Image buildDecreaseValueControlImage() {
-		int positionX = 209;
-		int positionY = Launch.SCREEN_HEIGHT - 454;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("down_arrow");
-		Image decreaseValueControlImage = buildIcon(iconTexture, positionX, positionY);
-		return decreaseValueControlImage;
+		int time = gameSettings.getTime();
+		Label boardSizeLabel = new Label("N/A", labelStyle57); // TODO: Implement time in levels
+		boardSizeLabel.setAlignment(Align.center);
+		boardSizeLabel.setPosition(168 - 6, Launch.SCREEN_HEIGHT - 330 - 6);
+		return boardSizeLabel;
 	}
 
-	private void addBoardSize() {
-		Label label3x3 = buildLabel3x3();
-		Label label4x4 = buildLabel4x4();
-		ImageButton checkbox3x3 = buildCheckbox3x3();
-		ImageButton checkbox4x4 = buildCheckbox4x4();
-		TwoChoiceRadioSettingGroup boardSizeGroup = new TwoChoiceRadioSettingGroup(label3x3, label4x4, checkbox3x3, checkbox4x4, groupState);
+	private void addBoardSizeGroup() {
+		Image boardSizeIcon = buildBoardSizeIcon();
+		Label boardSizeLabel = buildBoardSizeLabel();
+		LabelSettingGroup boardSizeGroup = new LabelSettingGroup(boardSizeIcon, boardSizeLabel, GroupState.VISIBLE);
 		stage.addActor(boardSizeGroup);
 	}
-	private Label buildLabel3x3() {
-		Label label = new Label("3x3", labelStyle57);
-		label.setAlignment(Align.center);
-		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 368);
-		return label;
+	private Image buildBoardSizeIcon() {
+		int positionX = 341;
+		int positionY = Launch.SCREEN_HEIGHT - 336;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("board_size_icon");
+		Image boardSizeIcon = buildIcon(iconTexture, positionX, positionY);
+		return boardSizeIcon;
 	}
-	private Label buildLabel4x4() {
-		Label label = new Label("4x4", labelStyle57);
-		label.setAlignment(Align.center);
-		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 470);
-		return label;
+	private Label buildBoardSizeLabel() {
+		int numberOfRows = gameSettings.getNumberOfRows();
+		Label boardSizeLabel = new Label(numberOfRows + "x" + numberOfRows, labelStyle57);
+		boardSizeLabel.setAlignment(Align.center);
+		boardSizeLabel.setPosition(458 - 6, Launch.SCREEN_HEIGHT - 330 - 6);
+		return boardSizeLabel;
 	}
-	private ImageButton buildCheckbox3x3() {
-		int positionX = 364;
-		int positionY = Launch.SCREEN_HEIGHT - 366;
-		boolean isChecked = (gameSettings.getNumberOfRows() == 3);
-		final ImageButton checkbox3x3 = buildCheckbox(positionX, positionY, isChecked);
-		checkbox3x3.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setNumberOfRows(checkbox3x3.isChecked() ? 3 : 4);
-			}
-		});
-		return checkbox3x3;
+
+	private void addDifficultyGroup() {
+		Label difficultyLabel = buildDifficultyLabel();
+		int difficultyRating = gameSettings.getDifficulty();
+		StarGroup starGroup = new StarGroup(276, Launch.SCREEN_HEIGHT - 456, difficultyRating);
+		DifficultyGroup difficultyGroup = new DifficultyGroup(difficultyLabel, starGroup, GroupState.VISIBLE);
+		stage.addActor(difficultyGroup);
 	}
-	private ImageButton buildCheckbox4x4() {
-		int positionX = 364;
-		int positionY = Launch.SCREEN_HEIGHT - 469;
-		boolean isChecked = (gameSettings.getNumberOfRows() == 4);
-		final ImageButton checkbox4x4 = buildCheckbox(positionX, positionY, isChecked);
-		checkbox4x4.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setNumberOfRows(checkbox4x4.isChecked() ? 4 : 3);
-			}
-		});
-		return checkbox4x4;
+	private Label buildDifficultyLabel() {
+		Label difficultyLabel = new Label("Difficulty", labelStyle57);
+		difficultyLabel.setAlignment(Align.center);
+		difficultyLabel.setPosition(41 - 6, Launch.SCREEN_HEIGHT - 447 - 12);
+		return difficultyLabel;
 	}
 
 	private void addEvenOdd() {
 		Label evenOddLabel = buildEvenOddLabel();
 		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
-		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox,
-				groupState);
+		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox, GroupState.VISIBLE);
 		stage.addActor(evenOddGroup);
 	}
 	private Label buildEvenOddLabel() {
@@ -467,6 +374,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		evenOddCheckbox.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				System.out.println("Changed");
 				gameSettings.setEvenOdd(evenOddCheckbox.isChecked());
 			}
 		});
@@ -477,7 +385,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label singleDoubleLabel = buildSingleDoubleLabel();
 		ImageButton singleDoubleCheckbox = buildSingleDoubleCheckbox();
 		CheckboxSettingGroup singleDoubleGroup = new CheckboxSettingGroup(singleDoubleLabel, singleDoubleCheckbox,
-				groupState);
+				GroupState.VISIBLE);
 		stage.addActor(singleDoubleGroup);
 	}
 	private Label buildSingleDoubleLabel() {
@@ -503,8 +411,14 @@ public class TwoPlayerSettingsScreen implements Screen {
 	private void addPrimeComposite() {
 		Label primeCompositeLabel = buildPrimeCompositeLabel();
 		ImageButton primeCompositeCheckbox = buildPrimeCompositeCheckbox();
+		GroupState state;
+		if (Persistence.getInstance().getMaxLevel() > 3) {
+			state = GroupState.VISIBLE;
+		} else {
+			state = GroupState.TRANSPARENT;
+		}
 		CheckboxSettingGroup primeCompositeGroup = new CheckboxSettingGroup(primeCompositeLabel,
-				primeCompositeCheckbox, groupState);
+				primeCompositeCheckbox, state);
 		stage.addActor(primeCompositeGroup);
 	}
 	private Label buildPrimeCompositeLabel() {
@@ -530,8 +444,14 @@ public class TwoPlayerSettingsScreen implements Screen {
 	private void addMiddleExtreme() {
 		Label middleExtremeLabel = buildMiddleExtremeLabel();
 		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
+		GroupState state;
+		if (Persistence.getInstance().getMaxLevel() > 6) {
+			state = GroupState.VISIBLE;
+		} else {
+			state = GroupState.TRANSPARENT;
+		}
 		CheckboxSettingGroup middleExtremeGroup = new CheckboxSettingGroup(middleExtremeLabel, middleExtremeCheckbox,
-				groupState);
+				state);
 		stage.addActor(middleExtremeGroup);
 	}
 	private Label buildMiddleExtremeLabel() {
@@ -559,7 +479,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		ImageButton diagonalsCheckbox = buildDiagonalsCheckbox();
 		Image diagonalsIcon = buildDiagonalsIcon();
 		CheckboxSettingGroup diagonalsGroup = new CheckboxSettingGroup(diagonalsLabel, diagonalsCheckbox,
-				diagonalsIcon, groupState);
+				diagonalsIcon, GroupState.VISIBLE);
 		stage.addActor(diagonalsGroup);
 	}
 	private Label buildDiagonalsLabel() {
@@ -593,8 +513,14 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label fourSquareLabel = buildFourSquareLabel();
 		ImageButton fourSquareCheckbox = buildFourSquareCheckbox();
 		Image fourSquareIcon = buildFourSquareIcon();
+		GroupState state;
+		if (Persistence.getInstance().getMaxLevel() > 13) {
+			state = GroupState.VISIBLE;
+		} else {
+			state = GroupState.TRANSPARENT;
+		}
 		CheckboxSettingGroup fourSquareGroup = new CheckboxSettingGroup(fourSquareLabel, fourSquareCheckbox,
-				fourSquareIcon, groupState);
+				fourSquareIcon, state);
 		stage.addActor(fourSquareGroup);
 	}
 	private Label buildFourSquareLabel() {
@@ -645,18 +571,15 @@ public class TwoPlayerSettingsScreen implements Screen {
 		return checkbox;
 	}
 
-	private void buildPlayButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+	private void addPlayButton() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
+		}
 		final TextButton playButton = new TextButton("Play", textButtonStyle);
 		playButton.setBounds(306, Launch.SCREEN_HEIGHT - 1096, 284, 94);
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				saveUnsyncedPreferences();
 				GameManager manager = GameManagerImpl.createNewGameManager();
 				game.setScreen(ScreenTracker.playScreen);
 				manager.startNewGame();
@@ -664,28 +587,24 @@ public class TwoPlayerSettingsScreen implements Screen {
 		});
 		stage.addActor(playButton);
 	}
-	private void buildBackButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+	private void addBackButton() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
+		}
 		final TextButton backButton = new TextButton("Back", textButtonStyle);
 		backButton.setBounds(55, Launch.SCREEN_HEIGHT - 1096, 222, 94);
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(ScreenTracker.titleScreen);
+				game.setScreen(ScreenTracker.levelsScreen);
 			}
 		});
 		stage.addActor(backButton);
 	}
-	private void buildResumeButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
+	private void addResumeButton() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
+		}
 		final TextButton resumeButton = new TextButton("Resume", textButtonStyle);
 		resumeButton.setBounds(178, Launch.SCREEN_HEIGHT - 1096, 284, 94);
 		resumeButton.addListener(new ClickListener() {
@@ -697,16 +616,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 		});
 		stage.addActor(resumeButton);
-	}
-
-	@Override
-	public void hide() {
-		saveUnsyncedPreferences();
-	}
-	private void saveUnsyncedPreferences() {
-		Persistence persistence = Persistence.getInstance();
-		persistence.setPlayerOneName(playerOneNameField.getText());
-		persistence.setPlayerTwoName(playerTwoNameField.getText());
 	}
 
 	@Override
@@ -722,24 +631,26 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	@Override
+	public void hide() {
+		Persistence.getInstance().save();
+	}
+
+	@Override
 	public void resume() {
-		Assets.loadSettings();
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
+		}
 	}
 
 	@Override
 	public void dispose() {
-		textFieldStyle = null;
+		textButtonStyle = null;
 	}
-
 	@Override
 	public void pause() {
-		saveUnsyncedPreferences();
-		persistPreferences();
-	}
-	private void persistPreferences() {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
-		persistence.setMode(ScreenTracker.mode.name());
+		persistence.setMode(ModeTracker.mode.name());
 		if (persistence.isInPlay()) {
 			GameManager gameManager = GameManagerImpl.getInstance();
 			CortexState currentState = gameManager.getState();
@@ -747,4 +658,5 @@ public class TwoPlayerSettingsScreen implements Screen {
 		}
 		persistence.save();
 	}
+
 }

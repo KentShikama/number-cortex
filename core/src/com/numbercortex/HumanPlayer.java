@@ -1,6 +1,7 @@
 package com.numbercortex;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.view.PlayScreen;
 
 import java.util.Map;
 
@@ -41,7 +42,7 @@ class HumanPlayer implements Player {
 
 	@Override
 	public void placeNumber(String player, int coordinate) {
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getCurrentLevel() == 0) {
+		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getCurrentLevel() == 0) {
 			messenger.placeNumber(name, coordinate);
 		} else if (DragAndDropHandler.getInstance().getPlacementCount() > DragAndDropHandler.MAXIMUM_PLACEMENT_COUNT) {
 			messenger.placeNumber(name, coordinate);

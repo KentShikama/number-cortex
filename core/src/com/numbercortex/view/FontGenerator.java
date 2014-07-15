@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -17,7 +17,7 @@ public class FontGenerator {
 
 	private FontGenerator() {}
 
-	public static boolean isNull() {
+	static boolean isNull() {
 		if (numberScrollerFont == null || boardNumberFont == null || levelNumberFont == null || gillSans57 == null
 				|| gillSans50 == null || gillSans50Compact == null) {
 			return true;
@@ -26,23 +26,23 @@ public class FontGenerator {
 		}
 	}
 
-	public static BitmapFont getBoardNumberFont() {
+	static BitmapFont getBoardNumberFont() {
 		return boardNumberFont;
 	}
-	public static BitmapFont getNumberScrollerFont() {
+	static BitmapFont getNumberScrollerFont() {
 		return numberScrollerFont;
 	}
-	public static BitmapFont getLevelNumberFont() {
+	static BitmapFont getLevelNumberFont() {
 		return levelNumberFont;
 	}
 
-	public static BitmapFont getGillSans57() {
+	static BitmapFont getGillSans57() {
 		return gillSans57;
 	}
-	public static BitmapFont getGillSans50() {
+	static BitmapFont getGillSans50() {
 		return gillSans50;
 	}
-	public static BitmapFont getGillSans50Compact() {
+	static BitmapFont getGillSans50Compact() {
 		return gillSans50Compact;
 	}
 

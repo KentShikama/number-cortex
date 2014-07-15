@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.numbercortex.Launch;
 
 public class NumberCortexBoard {
 
@@ -45,7 +46,7 @@ public class NumberCortexBoard {
 		this.cells = buildCells(this.isBlue, numberOfRows);
 	}
 
-	public static NumberCortexBoard createNumberCortexBoard(Stage stage, boolean isBlue, int numberOfRows) {
+	static NumberCortexBoard createNumberCortexBoard(Stage stage, boolean isBlue, int numberOfRows) {
 		NumberCortexBoard instance = Singleton.INSTANCE;
 		if (instance.isBlue != isBlue || instance.numberOfRows != numberOfRows || instance.cells == null) {
 			instance.isBlue = isBlue;

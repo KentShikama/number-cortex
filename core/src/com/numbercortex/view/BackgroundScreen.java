@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.numbercortex.Launch;
 
 public class BackgroundScreen extends Actor {
 
@@ -14,12 +15,12 @@ public class BackgroundScreen extends Actor {
 
 	private Texture backgroundTexture;
 
-	public BackgroundScreen(Color backgroundProperty) {
+	BackgroundScreen(Color backgroundProperty) {
 		this.backgroundProperty = backgroundProperty;
 		this.shapeRenderer = new ShapeRenderer();
 	}
 
-	public BackgroundScreen(Color backgroundProperty, Texture backgroundTexture) {
+	BackgroundScreen(Color backgroundProperty, Texture backgroundTexture) {
 		this.backgroundProperty = backgroundProperty;
 		this.shapeRenderer = new ShapeRenderer();
 		this.backgroundTexture = backgroundTexture;

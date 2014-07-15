@@ -1,9 +1,10 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Screen;
+import com.numbercortex.Launch;
 
 public class ScreenTracker {
 	
@@ -14,6 +15,15 @@ public class ScreenTracker {
 	public static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
 	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
 	public static PlayScreen playScreen;
+	
+	public static void initializeScreens(Launch game) {
+		titleScreen = new TitleScreen(game);
+		singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
+		twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);
+		levelsScreen = new LevelsScreen(game);
+		playScreen = new PlayScreen(game);
+	}
+	
 	private static Map<String, Screen> screenMap;
 	public static Screen getScreen(String name) {
 		if (screenMap == null) {
@@ -33,22 +43,15 @@ public class ScreenTracker {
 	}
 	
 	public static void dispose() {
+		playScreen.dispose();
 		levelsScreen.dispose();
 		singlePlayerSettingsScreen.dispose();
 		twoPlayerSettingsScreen.dispose();
+		titleScreen = null;
+		singlePlayerSettingsScreen = null;
+		twoPlayerSettingsScreen = null;
+		levelsScreen = null;
+		playScreen = null;
 		screenMap = null;
 	}
-	
-	public static enum Mode {
-		SINGLE_PLAYER, TWO_PLAYER;
-	}
-	private static Map<String, Mode> modeMap = new HashMap<String, Mode>();
-	static {
-		modeMap.put(Mode.SINGLE_PLAYER.name(), Mode.SINGLE_PLAYER);
-		modeMap.put(Mode.TWO_PLAYER.name(), Mode.TWO_PLAYER);
-	}
-	public static Mode getMode(String mode) {
-		return modeMap.get(mode);			
-	}
-	protected static Mode mode;
 }

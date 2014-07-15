@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import java.util.Arrays;
 
@@ -42,7 +42,7 @@ public class CortexDialog extends Dialog {
 	@Override
 	protected void result(Object object) {}
 
-	public static Dialog createConfirmationDialogs(final Stage stage, String... dialogMessages) {
+	static Dialog createConfirmationDialogs(final Stage stage, String... dialogMessages) {
 		if (dialogMessages.length == 1) {
 			return createConfirmationDialog(dialogMessages[0], null).show(stage);
 		} else {
@@ -55,7 +55,7 @@ public class CortexDialog extends Dialog {
 			});
 		}
 	}
-	private static Dialog createConfirmationDialog(String dialogMessage, ClickListener onConfirmListener) {
+	static Dialog createConfirmationDialog(String dialogMessage, ClickListener onConfirmListener) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
 		CortexDialog dialog = new CortexDialog("", windowStyle);
 		addContentLabel(dialogMessage, dialog);
@@ -63,7 +63,7 @@ public class CortexDialog extends Dialog {
 		return dialog;
 	}
 
-	public static Dialog createQuitCancelDialog(ClickListener quitListener) {
+	static Dialog createQuitCancelDialog(ClickListener quitListener) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
 		CortexDialog dialog = new CortexDialog("", windowStyle);
 		addContentLabel("Are you sure you want to quit? The current game data will be lost.", dialog);

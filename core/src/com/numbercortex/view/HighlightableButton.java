@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,39 +19,39 @@ public class HighlightableButton extends Table implements Disableable {
 	ButtonGroup buttonGroup;
 	private ClickListener clickListener;
 
-	public HighlightableButton(Skin skin) {
+	HighlightableButton(Skin skin) {
 		super(skin);
 		initialize();
 		setStyle(skin.get(ButtonStyle.class));
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
-	public HighlightableButton(Skin skin, String styleName) {
+	HighlightableButton(Skin skin, String styleName) {
 		super(skin);
 		initialize();
 		setStyle(skin.get(styleName, ButtonStyle.class));
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
-	public HighlightableButton(Actor child, Skin skin, String styleName) {
+	HighlightableButton(Actor child, Skin skin, String styleName) {
 		this(child, skin.get(styleName, ButtonStyle.class));
 	}
 
-	public HighlightableButton(Actor child, ButtonStyle style) {
+	HighlightableButton(Actor child, ButtonStyle style) {
 		initialize();
 		add(child);
 		setStyle(style);
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
-	public HighlightableButton(ButtonStyle style) {
+	HighlightableButton(ButtonStyle style) {
 		initialize();
 		setStyle(style);
 		setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	/** Creates a button without setting the style or size. At least a style must be set before using this button. */
-	public HighlightableButton() {
+	HighlightableButton() {
 		initialize();
 	}
 
@@ -67,19 +67,19 @@ public class HighlightableButton extends Table implements Disableable {
 		});
 	}
 
-	public HighlightableButton(Drawable up) {
+	HighlightableButton(Drawable up) {
 		this(new ButtonStyle(up, null, null));
 	}
 
-	public HighlightableButton(Drawable up, Drawable down) {
+	HighlightableButton(Drawable up, Drawable down) {
 		this(new ButtonStyle(up, down, null));
 	}
 
-	public HighlightableButton(Drawable up, Drawable down, Drawable checked) {
+	HighlightableButton(Drawable up, Drawable down, Drawable checked) {
 		this(new ButtonStyle(up, down, checked));
 	}
 
-	public HighlightableButton(Actor child, Skin skin) {
+	HighlightableButton(Actor child, Skin skin) {
 		this(child, skin.get(ButtonStyle.class));
 	}
 
@@ -219,7 +219,7 @@ public class HighlightableButton extends Table implements Disableable {
 		return getPrefHeight();
 	}
 
-	static public class ButtonStyle {
+	static class ButtonStyle {
 		/** Optional. */
 		public Drawable up, down, over, checked, checkedOver, disabled, highlighted;
 		/** Optional. */
@@ -227,15 +227,15 @@ public class HighlightableButton extends Table implements Disableable {
 		/** Optional. */
 		public float unpressedOffsetX, unpressedOffsetY;
 
-		public ButtonStyle() {}
+		ButtonStyle() {}
 
-		public ButtonStyle(Drawable up, Drawable down, Drawable checked) {
+		ButtonStyle(Drawable up, Drawable down, Drawable checked) {
 			this.up = up;
 			this.down = down;
 			this.checked = checked;
 		}
 
-		public ButtonStyle(ButtonStyle style) {
+		ButtonStyle(ButtonStyle style) {
 			this.up = style.up;
 			this.down = style.down;
 			this.over = style.over;

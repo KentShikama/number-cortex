@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.numbercortex.Launch;
+import com.numbercortex.Sendable;
+import com.numbercortex.view.NumberTextButton.NumberTextButtonStyle;
 
 public class NumberScroller {
 
@@ -82,7 +85,7 @@ public class NumberScroller {
 	}
 	private NumberScroller() {}
 
-	public static NumberScroller createNumberScroller(Stage stage) {
+	static NumberScroller createNumberScroller(Stage stage) {
 		NumberScroller numberScrollerInstance = Singleton.INSTANCE;
 		if (style == null) {
 			style = buildScrollPaneStyle();

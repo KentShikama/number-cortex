@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 public class AnimationUtilities {
 	private AnimationUtilities() {}
 
-	public static void delayFadeAndRemoveActor(Actor actor, float delay) {
+	static void delayFadeAndRemoveActor(Actor actor, float delay) {
 		DelayAction delayAction = Actions.delay(delay);
 		AlphaAction fadeAction = Actions.fadeOut(1f);
 		fadeAction.setInterpolation(Interpolation.exp10Out);
