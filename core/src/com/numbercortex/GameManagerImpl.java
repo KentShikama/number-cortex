@@ -201,8 +201,10 @@ public class GameManagerImpl implements GameManager {
 			preferences.setMaxLevel(raisedMaxLevel);
 			preferences.save();
 			Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
-		} else if (currentLevel == 0) {
-			ScreenTracker.currentLevel = 1;
+		}
+		if (currentLevel == 0) {
+			// In case the player loses and clicks play again, force player to move on to level 1
+			ScreenTracker.currentLevel = 1; 
 		}
 	}
 	private String getUnlockMessage(int currentLevel) {
