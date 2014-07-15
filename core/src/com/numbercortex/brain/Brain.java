@@ -1,4 +1,6 @@
-package com.numbercortex;
+package com.numbercortex.brain;
+
+import com.numbercortex.CortexState;
 
 public interface Brain {
 	public abstract String getName();

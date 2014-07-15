@@ -1,12 +1,19 @@
 package com.numbercortex;
 
 import java.util.ArrayList;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.numbercortex.brain.Brain;
+import com.numbercortex.brain.EasyBrain;
+import com.numbercortex.brain.HardBrain;
+import com.numbercortex.brain.ImpossibleBrain;
+import com.numbercortex.brain.MediumBrain;
+import com.numbercortex.brain.RandomBrain;
 
 public class ComputerPlayer implements Player {
 

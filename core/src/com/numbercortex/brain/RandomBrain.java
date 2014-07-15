@@ -1,14 +1,18 @@
-package com.numbercortex;
+package com.numbercortex.brain;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class EasyBrain implements Brain {
+import com.numbercortex.BoardUtilities;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 
+public class RandomBrain implements Brain {
+
+	private String name = "Random AI";
 	private BrainCalculator utility;
-	private String name = "Easy AI";
 
-	public EasyBrain(GameSettings settings) {
+	public RandomBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 
@@ -19,15 +23,9 @@ public class EasyBrain implements Brain {
 
 	@Override
 	public int calculateCoordinate(CortexState state) {
-		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-
-		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
-				openCoordinates);
-		if (chosenCoordinate == -1) {
-			chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
-		}
+		int chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
 		return chosenCoordinate;
 	}
 

@@ -1,7 +1,11 @@
-package com.numbercortex;
+package com.numbercortex.brain;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import com.numbercortex.BoardUtilities;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 
 public class ImpossibleBrain implements Brain {
 

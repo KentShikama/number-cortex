@@ -7,7 +7,7 @@ public class WinHandler {
 	private GameSettings settings;
 	private String winningAttribute;
 
-	WinHandler(GameSettings settings) {
+	public WinHandler(GameSettings settings) {
 		this.settings = settings;
 	}
 

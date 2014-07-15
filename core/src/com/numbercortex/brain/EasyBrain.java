@@ -1,14 +1,18 @@
-package com.numbercortex;
+package com.numbercortex.brain;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MediumBrain implements Brain {
+import com.numbercortex.BoardUtilities;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 
-	private String name = "Medium AI";
+public class EasyBrain implements Brain {
+
 	private BrainCalculator utility;
+	private String name = "Easy AI";
 
-	public MediumBrain(GameSettings settings) {
+	public EasyBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 
@@ -33,17 +37,8 @@ public class MediumBrain implements Brain {
 
 	@Override
 	public int calculateNextNumber(CortexState state) {
-		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-
-		ArrayList<Integer> safeNumbers = utility.getSafeNumbersIfExistent(coordinateNumberMap, availableNumbers);
-		int nextNumber;
-		if (safeNumbers.isEmpty()) {
-			nextNumber = utility.assignRandomNumberFromList(availableNumbers);
-		} else {
-			nextNumber = utility.assignRandomNumberFromList(safeNumbers);
-		}
-		return nextNumber;
+		return utility.assignRandomNumberFromList(availableNumbers);
 	}
 
 }
