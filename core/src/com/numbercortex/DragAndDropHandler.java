@@ -56,7 +56,7 @@ public class DragAndDropHandler {
 
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-			if (isChosenNumber(sourceButton) && isHumanPlayerTurn() && ScreenTracker.isInPlay) {
+			if (isChosenNumber(sourceButton) && isHumanPlayerTurn() && ScreenTracker.isInPlay && isFirstPlacementForTutorialLevel(sourceButton)) {
 				Payload payload = new Payload();
 				Label buttonLabel = sourceButton.getLabel();
 				payload.setObject(buttonLabel);
@@ -68,14 +68,6 @@ public class DragAndDropHandler {
 			}
 			return null;
 		}
-		private boolean isHumanPlayerTurn() {
-			if (messenger instanceof HumanPlayer) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
 		private boolean isChosenNumber(NumberTextButton button) {
 			Label label = button.getLabel();
 			String labelText = label.getText().toString();
@@ -88,6 +80,19 @@ public class DragAndDropHandler {
 			} else {
 				return false;
 			}
+		}
+		private boolean isHumanPlayerTurn() {
+			if (messenger instanceof HumanPlayer) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		private boolean isFirstPlacementForTutorialLevel(NumberTextButton sourceButton) {
+			if (ScreenTracker.currentLevel == 0 && !sourceButton.getName().equals("16")) {
+				return false;				
+			}
+			return true;
 		}
 
 		@Override
