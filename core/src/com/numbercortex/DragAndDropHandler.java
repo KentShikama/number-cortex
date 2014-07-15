@@ -89,7 +89,7 @@ public class DragAndDropHandler {
 			}
 		}
 		private boolean isFirstPlacementForTutorialLevel(NumberTextButton sourceButton) {
-			if (ScreenTracker.currentLevel == 0 && !sourceButton.getName().equals("16")) {
+			if (ScreenTracker.currentLevel == 0 && !sourceButton.getName().equals(MessageArea.NEXT_NUMBER_SQUARE_NAME)) {
 				return false;				
 			}
 			return true;

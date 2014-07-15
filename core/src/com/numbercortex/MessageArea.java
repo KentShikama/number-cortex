@@ -1,6 +1,7 @@
 package com.numbercortex;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -16,8 +17,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 public class MessageArea {
+	
+	public static final String TAG = "Message Area";
+	
+	public static final String NEXT_NUMBER_SQUARE_NAME = "16";
 
-	private static final String NEXT_NUMBER = "next_number";
+	private static final String CONTINUE = "continue";
+	private static final String REPLAY = "replay";
+	
+	private static final int MAXIMUM_POSSIBLE_LEVEL = 18;
 
 	private static TextButtonStyle textButtonStyle = buildLabelStyle();
 	private static TextButtonStyle buildLabelStyle() {
@@ -28,17 +36,19 @@ public class MessageArea {
 		return textButtonStyle;
 	}
 
+	private static final String TEXT_BUTTON_BORDER_TEXTURE_NAME = "white_button";
 	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildTextButtonStyle();
 	private static TextButton.TextButtonStyle buildTextButtonStyle() {
 		BitmapFont font = FontGenerator.getGillSans57();
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
-		textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
+		textButtonStyle.up = Assets.dialogSkin.getDrawable(TEXT_BUTTON_BORDER_TEXTURE_NAME);
 		return textButtonStyle;
 	}
 
-	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
+	private static final String NEXT_NUMBER_TEXTURE_NAME = "next_number";
+	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER_TEXTURE_NAME);
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Drawable numberRectangle = Assets.gameSkin.getDrawable(textureName);
@@ -96,11 +106,11 @@ public class MessageArea {
 	}
 	private static NumberTextButton buildNextNumberSquare() {
 		if (nextNumberStyle == null) {
-			nextNumberStyle = buildButtonStyle(NEXT_NUMBER);
+			nextNumberStyle = buildButtonStyle(NEXT_NUMBER_TEXTURE_NAME);
 		}
 		NumberTextButton nextNumberSquare = new NumberTextButton("", nextNumberStyle);
 		nextNumberSquare.setBounds(475, Launch.SCREEN_HEIGHT - 175, 141, 141);
-		nextNumberSquare.setName("16");
+		nextNumberSquare.setName(NEXT_NUMBER_SQUARE_NAME);
 		return nextNumberSquare;
 	}
 	private static TextButton buildMenuButton(final Game game) {
@@ -190,9 +200,11 @@ public class MessageArea {
 			@Override
 			public boolean act(float delta) {
 				if (winner == null) {
-					updateMessage("Tie game!");
+					String tieMessage = "Tie game!";
+					updateMessage(tieMessage);
 				} else {
-					updateMessage(winner + " wins!\n" + "(" + winningAttribute + ")");
+					String winningMessage = winner + " wins!\n" + "(" + winningAttribute + ")";
+					updateMessage(winningMessage);
 				}
 				return true;
 			}
@@ -203,10 +215,10 @@ public class MessageArea {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner != null && winner.equals("Player") && ScreenTracker.currentLevel != 18) {
-					updateMessageWithButtons("continue");
+				if (winner != null && winner.equals("Player") && ScreenTracker.currentLevel != MAXIMUM_POSSIBLE_LEVEL) {
+					updateMessageWithButtons(CONTINUE);
 				} else {
-					updateMessageWithButtons("replay");
+					updateMessageWithButtons(REPLAY);
 				}
 				return true;
 			}
@@ -218,12 +230,14 @@ public class MessageArea {
 		buttonTable.clear();
 		buttonTable.add(menuButton).pad(20).padTop(50);
 		stage.addActor(buttonTable);
-		if (message.equals("replay")) {
+		if (message.equals(REPLAY)) {
 			messageLabelLong.setText("Do you wish to play again?");
 			buttonTable.add(playButton).width(300).pad(15).padTop(50);
-		} else {
+		} else if (message.equals(CONTINUE)) {
 			messageLabelLong.setText("Do you wish to continue to the next level?");
 			buttonTable.add(continueButton).width(300).pad(15).padTop(50);
+		} else {
+			Gdx.app.log(TAG, "Impossible update message.");
 		}
 	}
 
