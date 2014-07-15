@@ -655,6 +655,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				saveUnsyncedPreferences();
 				GameManager manager = GameManagerImpl.createNewGameManager();
 				game.setScreen(ScreenTracker.playScreen);
 				manager.startNewGame();
@@ -700,10 +701,12 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 	@Override
 	public void hide() {
-		Persistence preferences = Persistence.getInstance();
-		preferences.setPlayerOneName(playerOneNameField.getText());
-		preferences.setPlayerTwoName(playerTwoNameField.getText());
-		preferences.save();
+		saveUnsyncedPreferences();
+	}
+	private void saveUnsyncedPreferences() {
+		Persistence persistence = Persistence.getInstance();
+		persistence.setPlayerOneName(playerOneNameField.getText());
+		persistence.setPlayerTwoName(playerTwoNameField.getText());
 	}
 
 	@Override
@@ -730,6 +733,10 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 	@Override
 	public void pause() {
+		saveUnsyncedPreferences();
+		persistPreferences();
+	}
+	private void persistPreferences() {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ScreenTracker.mode.name());
@@ -741,5 +748,4 @@ public class TwoPlayerSettingsScreen implements Screen {
 		}
 		persistence.save();
 	}
-
 }

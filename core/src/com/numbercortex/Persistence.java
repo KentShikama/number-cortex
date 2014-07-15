@@ -120,8 +120,20 @@ public class Persistence {
 		if (!twoPlayerGameSettingsJson.isEmpty()) {
 			twoPlayerGameSettings = json.fromJson(GameSettings.class, twoPlayerGameSettingsJson);
 		} else {
-			twoPlayerGameSettings = new GameSettings();
+			twoPlayerGameSettings = buildDefaultTwoPlayerGameSettings();
 		}
+	}
+	private GameSettings buildDefaultTwoPlayerGameSettings() {
+		GameSettings twoPlayerGameSettings = new GameSettings();
+		twoPlayerGameSettings.setDiagonals(true);
+		twoPlayerGameSettings.setEvenOdd(true);
+		twoPlayerGameSettings.setFourSquare(false);
+		twoPlayerGameSettings.setMiddleExtreme(false);
+		twoPlayerGameSettings.setNumberOfRows(4);
+		twoPlayerGameSettings.setPrimeComposite(true);
+		twoPlayerGameSettings.setSingleDouble(true);
+		twoPlayerGameSettings.setTime(300);
+		return twoPlayerGameSettings;
 	}
 	
 	public void save() {
