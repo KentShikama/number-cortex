@@ -1,4 +1,4 @@
-package com.numbercortex.brain;
+package com.numbercortex.logic.brain;
 
 import com.numbercortex.logic.GameSettings;
 

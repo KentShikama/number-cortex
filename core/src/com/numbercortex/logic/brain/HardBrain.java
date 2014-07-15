@@ -1,4 +1,4 @@
-package com.numbercortex.brain;
+package com.numbercortex.logic.brain;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -7,12 +7,12 @@ import com.numbercortex.logic.BoardUtilities;
 import com.numbercortex.logic.CortexState;
 import com.numbercortex.logic.GameSettings;
 
-public class MediumBrain implements Brain {
+public class HardBrain implements Brain {
 
-	private String name = "Medium AI";
+	private String name = "Hard AI";
 	private BrainCalculator utility;
 
-	MediumBrain(GameSettings settings) {
+	HardBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 
@@ -30,7 +30,14 @@ public class MediumBrain implements Brain {
 		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
 		if (chosenCoordinate == -1) {
-			chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
+			ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
+			ArrayList<Integer> safeCoordinates = utility.getSafeCoordinatesIfExistent(chosenNumber,
+					coordinateNumberMap, openCoordinates, availableNumbers);
+			if (safeCoordinates.isEmpty()) {
+				chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
+			} else {
+				chosenCoordinate = utility.assignRandomNumberFromList(safeCoordinates);
+			}
 		}
 		return chosenCoordinate;
 	}
