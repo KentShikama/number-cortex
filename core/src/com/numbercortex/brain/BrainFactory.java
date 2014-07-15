@@ -1,6 +1,6 @@
 package com.numbercortex.brain;
 
-import com.numbercortex.GameSettings;
+import com.numbercortex.logic.GameSettings;
 
 public class BrainFactory {
 	public static Brain buildBrain(GameSettings settings, int difficulty) {

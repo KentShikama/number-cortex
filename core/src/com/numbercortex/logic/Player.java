@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.logic;
 
 import com.numbercortex.view.PlayScreen;
 

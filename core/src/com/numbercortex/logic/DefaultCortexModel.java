@@ -1,10 +1,11 @@
-package com.numbercortex;
+package com.numbercortex.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.logic.CortexState.CortexStateBuilder;
 
 public class DefaultCortexModel implements CortexModel {
 

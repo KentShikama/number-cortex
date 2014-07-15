@@ -19,12 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.numbercortex.GameManager;
-import com.numbercortex.GameManagerImpl;
 import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.ModeTracker.Mode;
+import com.numbercortex.logic.GameManager;
+import com.numbercortex.logic.GameManagerImpl;
 
 public class TitleScreen implements Screen {
 	class TitleScreenButton {

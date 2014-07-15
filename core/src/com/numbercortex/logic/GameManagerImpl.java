@@ -1,9 +1,12 @@
-package com.numbercortex;
+package com.numbercortex.logic;
 
 import java.util.ArrayList;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
+import com.numbercortex.ModeTracker.Mode;
 import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.ScreenTracker;
 

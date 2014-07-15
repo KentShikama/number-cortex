@@ -1,6 +1,10 @@
-package com.numbercortex;
+package com.numbercortex.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
+import com.numbercortex.ModeTracker.Mode;
+import com.numbercortex.logic.CortexState.CortexStateBuilder;
 import com.numbercortex.view.PlayScreen;
 
 import java.util.Map;

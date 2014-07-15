@@ -3,9 +3,9 @@ package com.numbercortex.brain;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.numbercortex.BoardUtilities;
-import com.numbercortex.GameSettings;
-import com.numbercortex.WinHandler;
+import com.numbercortex.logic.BoardUtilities;
+import com.numbercortex.logic.GameSettings;
+import com.numbercortex.logic.WinHandler;
 
 public class BrainCalculator {
 

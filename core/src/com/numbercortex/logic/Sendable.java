@@ -1,4 +1,4 @@
-package com.numbercortex;
+package com.numbercortex.logic;
 
 public interface Sendable {
 	public abstract void chooseNumber(String player, int nextNumber);

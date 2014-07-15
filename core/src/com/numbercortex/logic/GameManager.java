@@ -1,4 +1,5 @@
-package com.numbercortex;
+package com.numbercortex.logic;
+
 
 public interface GameManager extends Sendable, Receivable {
 	public abstract GameSettings getSettings();
