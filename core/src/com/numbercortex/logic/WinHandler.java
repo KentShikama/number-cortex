@@ -2,6 +2,8 @@ package com.numbercortex.logic;
 
 import java.util.Map;
 
+import com.numbercortex.GameSettings;
+
 public class WinHandler {
 
 	private GameSettings settings;

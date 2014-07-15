@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 
 public class DefaultCortexModel implements CortexModel {
 
@@ -28,13 +30,13 @@ public class DefaultCortexModel implements CortexModel {
 
 	private WinHandler winHandler;
 
-	public DefaultCortexModel(GameManager messenger, GameSettings settings) {
+	DefaultCortexModel(GameManager messenger, GameSettings settings) {
 		this.messenger = messenger;
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);
 	}
 
-	public DefaultCortexModel(GameManager messenger, GameSettings settings, CortexState currentState) {
+	DefaultCortexModel(GameManager messenger, GameSettings settings, CortexState currentState) {
 		this.messenger = messenger;
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);

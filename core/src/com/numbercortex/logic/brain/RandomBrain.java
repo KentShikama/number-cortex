@@ -3,9 +3,9 @@ package com.numbercortex.logic.brain;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
-import com.numbercortex.logic.CortexState;
-import com.numbercortex.logic.GameSettings;
 
 public class RandomBrain implements Brain {
 

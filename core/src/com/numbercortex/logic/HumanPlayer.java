@@ -1,6 +1,7 @@
 package com.numbercortex.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.PlayScreen;
@@ -21,7 +22,7 @@ class HumanPlayer implements Player {
 
 	private WinHandler winHandler;
 
-	public HumanPlayer(String name, PlayScreen screen, GameManager messenger) {
+	HumanPlayer(String name, PlayScreen screen, GameManager messenger) {
 		this.messenger = messenger;
 		this.screen = screen;
 		this.name = name;

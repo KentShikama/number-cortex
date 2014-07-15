@@ -1,6 +1,6 @@
 package com.numbercortex.logic.brain;
 
-import com.numbercortex.logic.CortexState;
+import com.numbercortex.CortexState;
 
 public interface Brain {
 	public abstract String getName();

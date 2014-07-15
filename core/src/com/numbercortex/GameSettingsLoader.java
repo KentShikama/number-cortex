@@ -1,4 +1,4 @@
-package com.numbercortex.logic;
+package com.numbercortex;
 
 import java.util.ArrayList;
 
@@ -10,17 +10,17 @@ public class GameSettingsLoader {
 
 	private static ArrayList<GameSettings> array;
 
-	@SuppressWarnings("unchecked")
-	public static void load() {
-		Json json = new Json();
-		FileHandle handle = Gdx.files.internal("data/levels.json");
-		array = json.fromJson(ArrayList.class, handle);
-	}
-
 	public static GameSettings loadLevel(int level) {
 		if (array == null) {
 			GameSettingsLoader.load();
 		}
 		return array.get(level);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void load() {
+		Json json = new Json();
+		FileHandle handle = Gdx.files.internal("data/levels.json");
+		array = json.fromJson(ArrayList.class, handle);
 	}
 }

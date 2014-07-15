@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 import com.numbercortex.logic.brain.Brain;
 import com.numbercortex.logic.brain.BrainFactory;
 import com.numbercortex.view.PlayScreen;
@@ -19,7 +21,7 @@ public class ComputerPlayer implements Player {
 	private GameManager messenger;
 	private Brain brain;
 
-	public ComputerPlayer(PlayScreen playScreen, GameManager messenger) {
+	ComputerPlayer(PlayScreen playScreen, GameManager messenger) {
 		this.playScreen = playScreen;
 		this.messenger = messenger;
 

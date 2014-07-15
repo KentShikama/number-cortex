@@ -3,19 +3,19 @@ package com.numbercortex.logic.brain;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
-import com.numbercortex.logic.GameSettings;
 import com.numbercortex.logic.WinHandler;
 
 public class BrainCalculator {
 
 	private WinHandler winHandler;
 
-	public BrainCalculator(GameSettings settings) {
+	BrainCalculator(GameSettings settings) {
 		this.winHandler = new WinHandler(settings);
 	}
 
-	public int assignWinningCoordinateIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
+	int assignWinningCoordinateIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> openCoordinates) {
 		int chosenCoordinate = -1;
 		for (Integer openCoordinate : openCoordinates) {
@@ -27,7 +27,7 @@ public class BrainCalculator {
 		return chosenCoordinate;
 	}
 
-	public ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
+	ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> openCoordinates, ArrayList<Integer> availableNumbers) {
 		ArrayList<Integer> safeCoordinates = new ArrayList<Integer>();
 		for (Integer openCoordinate : openCoordinates) {
@@ -41,7 +41,7 @@ public class BrainCalculator {
 		return safeCoordinates;
 	}
 
-	public ArrayList<Integer> getSafeNumbersIfExistent(Map<Integer, Integer> coordinateNumberMap,
+	ArrayList<Integer> getSafeNumbersIfExistent(Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> availableNumbers) {
 		ArrayList<Integer> safeNumbers = new ArrayList<Integer>();
 		for (Integer availableNumber : availableNumbers) {
@@ -61,7 +61,7 @@ public class BrainCalculator {
 		return true;
 	}
 
-	public boolean isWinningCoordinate(int coordinate, int number, Map<Integer, Integer> coordinateNumberMap) {
+	boolean isWinningCoordinate(int coordinate, int number, Map<Integer, Integer> coordinateNumberMap) {
 		coordinateNumberMap.put(coordinate, number);
 		int[] winningValues = winHandler.handleWinningBoard(coordinateNumberMap);
 		coordinateNumberMap.put(coordinate, -1);
@@ -71,7 +71,7 @@ public class BrainCalculator {
 		return false;
 	}
 
-	public int assignRandomNumberFromList(ArrayList<Integer> numberList) {
+	int assignRandomNumberFromList(ArrayList<Integer> numberList) {
 		int randomNumberPosition = (int) (Math.random() * numberList.size());
 		int randomNumber = numberList.get(randomNumberPosition);
 		return randomNumber;

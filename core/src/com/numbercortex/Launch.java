@@ -7,7 +7,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.numbercortex.logic.CortexState;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.GameManagerImpl;
 import com.numbercortex.view.Assets;

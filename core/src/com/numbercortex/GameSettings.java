@@ -1,4 +1,4 @@
-package com.numbercortex.logic;
+package com.numbercortex;
 
 import java.io.Serializable;
 

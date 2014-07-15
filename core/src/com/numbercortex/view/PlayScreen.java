@@ -21,15 +21,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.BoardUtilities;
-import com.numbercortex.logic.CortexState;
 import com.numbercortex.logic.DragAndDropHandler;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.GameManagerImpl;
-import com.numbercortex.logic.GameSettings;
 import com.numbercortex.logic.Player;
 
 public class PlayScreen implements Screen {

@@ -3,6 +3,8 @@ package com.numbercortex.logic;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.numbercortex.CortexState;
+
 public class BoardUtilities {
 	public static ArrayList<Integer> getOpenCoordinates(Map<Integer, Integer> coordinateNumberMap) {
 		ArrayList<Integer> openCoordinates = new ArrayList<Integer>();

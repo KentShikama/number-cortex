@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
+import com.numbercortex.GameSettingsLoader;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.PlayScreen;

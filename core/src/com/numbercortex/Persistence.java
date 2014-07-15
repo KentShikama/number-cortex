@@ -9,8 +9,6 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.numbercortex.logic.CortexState;
-import com.numbercortex.logic.GameSettings;
 
 public class Persistence {
 
