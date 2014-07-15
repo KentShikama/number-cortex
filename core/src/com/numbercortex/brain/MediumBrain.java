@@ -12,7 +12,7 @@ public class MediumBrain implements Brain {
 	private String name = "Medium AI";
 	private BrainCalculator utility;
 
-	public MediumBrain(GameSettings settings) {
+	MediumBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 

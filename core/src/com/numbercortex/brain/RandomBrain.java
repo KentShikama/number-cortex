@@ -12,7 +12,7 @@ public class RandomBrain implements Brain {
 	private String name = "Random AI";
 	private BrainCalculator utility;
 
-	public RandomBrain(GameSettings settings) {
+	RandomBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 

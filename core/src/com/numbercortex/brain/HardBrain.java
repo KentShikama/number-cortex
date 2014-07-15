@@ -12,7 +12,7 @@ public class HardBrain implements Brain {
 	private String name = "Hard AI";
 	private BrainCalculator utility;
 
-	public HardBrain(GameSettings settings) {
+	HardBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 

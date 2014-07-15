@@ -12,7 +12,7 @@ public class ImpossibleBrain implements Brain {
 	private String name = "Impossible AI";
 	private BrainCalculator utility;
 
-	public ImpossibleBrain(GameSettings settings) {
+	ImpossibleBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 

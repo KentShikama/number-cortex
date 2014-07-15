@@ -9,11 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.numbercortex.brain.Brain;
-import com.numbercortex.brain.EasyBrain;
-import com.numbercortex.brain.HardBrain;
-import com.numbercortex.brain.ImpossibleBrain;
-import com.numbercortex.brain.MediumBrain;
-import com.numbercortex.brain.RandomBrain;
+import com.numbercortex.brain.BrainFactory;
 
 public class ComputerPlayer implements Player {
 
@@ -34,23 +30,7 @@ public class ComputerPlayer implements Player {
 		Brain brain;
 		GameSettings settings = messenger.getSettings();
 		int brainDifficulty = settings.getDifficulty();
-		switch (brainDifficulty) {
-			case 1:
-				brain = new RandomBrain(settings);
-				break;
-			case 2:
-				brain = new EasyBrain(settings);
-				break;
-			case 3:
-				brain = new MediumBrain(settings);
-				break;
-			case 4:
-				brain = new HardBrain(settings);
-				break;
-			default:
-				brain = new ImpossibleBrain(settings);
-				break;
-		}
+		brain = BrainFactory.buildBrain(settings, brainDifficulty);
 		return brain;
 	}
 

@@ -12,7 +12,7 @@ public class EasyBrain implements Brain {
 	private BrainCalculator utility;
 	private String name = "Easy AI";
 
-	public EasyBrain(GameSettings settings) {
+	EasyBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);
 	}
 
