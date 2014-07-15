@@ -18,8 +18,6 @@ public class GameManagerImpl implements GameManager {
 	private CortexState state;
 	private String currentPlayer;
 
-	private BrainUtilities utilities;
-
 	private Persistence preferences;
 	
 	private GameManagerImpl() {}
@@ -39,7 +37,6 @@ public class GameManagerImpl implements GameManager {
 		messenger.state = state;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger);
-		messenger.utilities = new BrainUtilities(messenger.settings);
 		addPlayers(messenger, messenger.screen);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
@@ -155,7 +152,7 @@ public class GameManagerImpl implements GameManager {
 	private void handleTutorialMessages(CortexState state) {
 		if (ScreenTracker.currentLevel == 0 && ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
 			int numberOfRows = settings.getNumberOfRows();
-			int turnCount = utilities.getTurnNumber(state, numberOfRows);
+			int turnCount = BoardUtilities.getTurnNumber(state, numberOfRows);
 			String[] messages = getTutorialMessage(turnCount);
 			if (messages != null) {
 				screen.showConfirmationDialog(messages);
@@ -177,7 +174,7 @@ public class GameManagerImpl implements GameManager {
 	private void handleLevelUnlockingIfApplicable(CortexState state) {
 		String winner = state.getWinner();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		if (playerWinsSinglePlayerGame(winner) || tutorialEnds(winner, openCoordinates)) {
 			unlockNextLevelIfOnMaxLevel();
 		}

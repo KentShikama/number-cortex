@@ -3,51 +3,12 @@ package com.numbercortex;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class BrainUtilities {
+public class BrainCalculator {
 
 	private WinHandler winHandler;
 
-	public BrainUtilities(GameSettings settings) {
+	public BrainCalculator(GameSettings settings) {
 		this.winHandler = new WinHandler(settings);
-	}
-
-	public static ArrayList<Integer> getOpenCoordinates(Map<Integer, Integer> coordinateNumberMap) {
-		ArrayList<Integer> openCoordinates = new ArrayList<Integer>();
-		for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
-			if (entry.getValue() == -1) {
-				int openCoordinate = entry.getKey();
-				openCoordinates.add(openCoordinate);
-			}
-		}
-		return openCoordinates;
-	}
-
-	public int getTurnNumber(CortexState state, int numberOfRows) {
-		int fullCoordinatesSize = getFullCoordinates(state, numberOfRows);
-		int turnCount = 0;
-		int chosenNumber = state.getChosenNumber();
-		if (chosenNumber == -1) {
-			turnCount = fullCoordinatesSize * 2;
-		} else {
-			turnCount = fullCoordinatesSize * 2 + 1;
-		}
-		return turnCount;
-	}
-	private int getFullCoordinates(CortexState state, int numberOfRows) {
-		int boardSize = getBoardSize(numberOfRows);
-		int openCoordinatesSize = getOpenCoordinateSize(state);
-		int fullCoordinatesSize = boardSize - openCoordinatesSize;
-		return fullCoordinatesSize;
-	}
-	private int getBoardSize(int numberOfRows) {
-		int boardSize = numberOfRows * numberOfRows;
-		return boardSize;
-	}
-	private int getOpenCoordinateSize(CortexState state) {
-		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
-		int openCoordinatesSize = openCoordinates.size();
-		return openCoordinatesSize;
 	}
 
 	public int assignWinningCoordinateIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
@@ -86,8 +47,8 @@ public class BrainUtilities {
 		}
 		return safeNumbers;
 	}
-	public boolean isSafeNumber(int chosenNumber, Map<Integer, Integer> coordinateNumberMap) {
-		ArrayList<Integer> openCoordinates = getOpenCoordinates(coordinateNumberMap);
+	private boolean isSafeNumber(int chosenNumber, Map<Integer, Integer> coordinateNumberMap) {
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		for (Integer openCoordinate : openCoordinates) {
 			if (isWinningCoordinate(openCoordinate, chosenNumber, coordinateNumberMap)) {
 				return false;

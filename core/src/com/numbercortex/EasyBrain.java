@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class EasyBrain implements Brain {
 
-	private BrainUtilities utility;
+	private BrainCalculator utility;
 	private String name = "Easy AI";
 
 	public EasyBrain(GameSettings settings) {
-		this.utility = new BrainUtilities(settings);
+		this.utility = new BrainCalculator(settings);
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class EasyBrain implements Brain {
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 
 		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);

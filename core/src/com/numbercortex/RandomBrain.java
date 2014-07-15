@@ -6,10 +6,10 @@ import java.util.Map;
 public class RandomBrain implements Brain {
 
 	private String name = "Random AI";
-	private BrainUtilities utility;
+	private BrainCalculator utility;
 
 	public RandomBrain(GameSettings settings) {
-		this.utility = new BrainUtilities(settings);
+		this.utility = new BrainCalculator(settings);
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class RandomBrain implements Brain {
 	@Override
 	public int calculateCoordinate(CortexState state) {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		int chosenCoordinate = utility.assignRandomNumberFromList(openCoordinates);
 		return chosenCoordinate;
 	}

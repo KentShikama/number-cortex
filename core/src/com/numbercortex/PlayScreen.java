@@ -136,7 +136,7 @@ public class PlayScreen implements Screen {
 	public void updateState(CortexState state, Player currentPlayer) {
 		final String winner = state.getWinner();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		if (winner == null && !openCoordinates.isEmpty()) {
 			updateCurrentPlayer(currentPlayer);
 			updateChosenNumber(state);

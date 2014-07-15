@@ -6,10 +6,10 @@ import java.util.Map;
 public class ImpossibleBrain implements Brain {
 
 	private String name = "Impossible AI";
-	private BrainUtilities utility;
+	private BrainCalculator utility;
 
 	public ImpossibleBrain(GameSettings settings) {
-		this.utility = new BrainUtilities(settings);
+		this.utility = new BrainCalculator(settings);
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class ImpossibleBrain implements Brain {
 	public int calculateCoordinate(CortexState state) {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 
 		int chosenCoordinate = utility.assignWinningCoordinateIfExistent(chosenNumber, coordinateNumberMap,
 				openCoordinates);
@@ -55,7 +55,7 @@ public class ImpossibleBrain implements Brain {
 	private int getSafestNumber(ArrayList<Integer> safeNumbers, Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> availableNumbers) {
 		int safestNumber;
-		ArrayList<Integer> openCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		if (openCoordinates.size() > 9) {
 			safestNumber = utility.assignRandomNumberFromList(safeNumbers);
 		} else {
@@ -98,7 +98,7 @@ public class ImpossibleBrain implements Brain {
 			ArrayList<Integer> newAvailableNumbers) {
 		boolean safe = false;
 		newAvailableNumbers.remove(Integer.valueOf(possibleNextNumber));
-		ArrayList<Integer> newOpenCoordinates = BrainUtilities.getOpenCoordinates(coordinateNumberMap);
+		ArrayList<Integer> newOpenCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		for (Integer newOpenCoordinate : newOpenCoordinates) {
 			coordinateNumberMap.put(newOpenCoordinate, possibleNextNumber); // You place number
 			ArrayList<Integer> list = utility.getSafeNumbersIfExistent(coordinateNumberMap, newAvailableNumbers); // Check if you can give a safe number
