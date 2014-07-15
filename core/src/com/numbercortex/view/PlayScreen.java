@@ -31,7 +31,6 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.Player;
-import com.numbercortex.ModeTracker.Mode;
 
 public class PlayScreen implements Screen {
 
