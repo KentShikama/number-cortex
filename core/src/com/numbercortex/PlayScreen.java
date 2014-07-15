@@ -100,7 +100,7 @@ public class PlayScreen implements Screen {
 				Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
-						ScreenTracker.isInPlay = false;
+						Persistence.getInstance().setInPlay(false);
 						game.setScreen(ScreenTracker.titleScreen);
 					}
 				});
@@ -145,7 +145,7 @@ public class PlayScreen implements Screen {
 			updateNumberScroller(state);
 		} else {
 			animateEndingSequence(state);
-			ScreenTracker.isInPlay = false;
+			Persistence.getInstance().setInPlay(false);
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {
@@ -282,18 +282,15 @@ public class PlayScreen implements Screen {
 	@Override
 	public void pause() {
 		Persistence persistence = Persistence.getInstance();
-		if (ScreenTracker.isInPlay == false) {
-			persistence.setCurrentScreen(TitleScreen.TAG); // Show title screen if game had ended
-		} else {
+		if (persistence.isInPlay()) {
 			persistence.setCurrentScreen(TAG);
-		}
-		persistence.setMode(ScreenTracker.mode.name());
-		persistence.setInPlay(ScreenTracker.isInPlay);
-		if (ScreenTracker.isInPlay) {
 			GameManager gameManager = GameManagerImpl.getInstance();
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);
+		} else {
+			persistence.setCurrentScreen(TitleScreen.TAG); // Show title screen if game had ended
 		}
+		persistence.setMode(ScreenTracker.mode.name());
 		persistence.save();
 	}
 	@Override

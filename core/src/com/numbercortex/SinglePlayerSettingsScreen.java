@@ -244,7 +244,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		addDiagonalsGroup();
 		addFourSquaresGroup();
 
-		if (ScreenTracker.isInPlay) {
+		if (persistence.isInPlay()) {
 			addResumeButton();
 		} else {
 			addPlayButton();
@@ -643,8 +643,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ScreenTracker.mode.name());
-		persistence.setInPlay(ScreenTracker.isInPlay);
-		if (ScreenTracker.isInPlay) {
+		if (persistence.isInPlay()) {
 			GameManager gameManager = GameManagerImpl.getInstance();
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);

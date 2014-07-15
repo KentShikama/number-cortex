@@ -202,7 +202,6 @@ public class LevelsScreen implements Screen {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ScreenTracker.mode.name());
-		persistence.setInPlay(ScreenTracker.isInPlay);
 		persistence.save();
 	}
 	@Override

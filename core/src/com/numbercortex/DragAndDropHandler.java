@@ -79,7 +79,7 @@ public class DragAndDropHandler {
 			return null;
 		}
 		private boolean isValidToDrag() {
-			return isChosenNumber(sourceButton) && isHumanPlayerTurn() && ScreenTracker.isInPlay && isFirstPlacementForTutorialLevel(sourceButton) && isPlacementCountUnderMaximum();
+			return isChosenNumber(sourceButton) && isHumanPlayerTurn() && Persistence.getInstance().isInPlay() && isFirstPlacementForTutorialLevel(sourceButton) && isPlacementCountUnderMaximum();
 		}
 		private boolean isChosenNumber(NumberTextButton button) {
 			Label label = button.getLabel();

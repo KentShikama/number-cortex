@@ -51,9 +51,8 @@ public class Launch extends Game {
 		ScreenTracker.levelsScreen = new LevelsScreen(this);
 		ScreenTracker.playScreen = new PlayScreen(this);
 		
-		ScreenTracker.isInPlay = persistence.isInPlay();
 		GameManager gameManager = null;
-		if (ScreenTracker.isInPlay) {
+		if (persistence.isInPlay()) {
 			CortexState currentCortexState = persistence.getCurrentCortexState();
 			gameManager = GameManagerImpl.createNewGameManager(currentCortexState);
 		}

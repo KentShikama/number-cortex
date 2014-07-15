@@ -100,19 +100,15 @@ public class GameManagerImpl implements GameManager {
 
 	@Override
 	public void resumeGame() {
-		if (ScreenTracker.isInPlay) {
-			updateState(state);
-		} else {
-			Gdx.app.log(TAG, "There is no saved game to resume.");
-		}
+		updateState(state);
 	}
 
 	@Override
 	public void startNewGame() {
-		if (ScreenTracker.isInPlay) {
+		if (Persistence.getInstance().isInPlay()) {
 			Gdx.app.log(TAG, "Deleting previous game data.");
 		}
-		ScreenTracker.isInPlay = true;
+		Persistence.getInstance().setInPlay(true);
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		manuallySetFirstPlayer();
 		registerPlayersAndStartGame();

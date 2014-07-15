@@ -51,6 +51,4 @@ public class ScreenTracker {
 		return modeMap.get(mode);			
 	}
 	protected static Mode mode;
-	
-	public static boolean isInPlay;
 }

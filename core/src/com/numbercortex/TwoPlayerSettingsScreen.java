@@ -271,8 +271,9 @@ public class TwoPlayerSettingsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		gameSettings = Persistence.getInstance().getTwoPlayerGameSettings();
-		if (ScreenTracker.isInPlay) {
+		Persistence persistence = Persistence.getInstance();
+		gameSettings = persistence.getTwoPlayerGameSettings();
+		if (persistence.isInPlay()) {
 			groupState = GroupState.VISIBLE;
 		} else {
 			groupState = GroupState.CLICKABLE;
@@ -298,7 +299,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		addDiagonalsGroup();
 		addFourSquaresGroup();
 
-		if (ScreenTracker.isInPlay) {
+		if (persistence.isInPlay()) {
 			buildResumeButton();
 		} else {
 			buildPlayButton();
@@ -674,7 +675,6 @@ public class TwoPlayerSettingsScreen implements Screen {
 		backButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScreenTracker.isInPlay = false;
 				game.setScreen(ScreenTracker.titleScreen);
 			}
 		});
@@ -740,8 +740,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ScreenTracker.mode.name());
-		persistence.setInPlay(ScreenTracker.isInPlay);
-		if (ScreenTracker.isInPlay) {
+		if (persistence.isInPlay()) {
 			GameManager gameManager = GameManagerImpl.getInstance();
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);

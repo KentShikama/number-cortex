@@ -157,7 +157,6 @@ public class TitleScreen implements Screen {
 	public void pause() {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
-		persistence.setInPlay(ScreenTracker.isInPlay);
 		persistence.save();
 	}
 	@Override
