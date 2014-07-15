@@ -30,9 +30,10 @@ public class SinglePlayerSettingsScreen implements Screen {
 	private Game game;
 	private GameSettings gameSettings;
 
-	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle();
-	private static TextButton.TextButtonStyle buildTextButtonStyle() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
+	private static final String TEXT_BUTTON_BORDER_TEXTURE_NAME = "button_rectangle";
+	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
+	private static TextButton.TextButtonStyle buildTextButtonStyle(String textureButtonTextureName) {
+		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion(textureButtonTextureName);
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.font = FontGenerator.getGillSans57();
 		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
@@ -563,7 +564,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 
 	private void addPlayButton() {
 		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle();
+			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
 		}
 		final TextButton playButton = new TextButton("Play", textButtonStyle);
 		playButton.setBounds(306, Launch.SCREEN_HEIGHT - 1096, 284, 94);
@@ -579,7 +580,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 	private void addBackButton() {
 		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle();
+			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
 		}
 		final TextButton backButton = new TextButton("Back", textButtonStyle);
 		backButton.setBounds(55, Launch.SCREEN_HEIGHT - 1096, 222, 94);
@@ -593,7 +594,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 	}
 	private void addResumeButton() {
 		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle();
+			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
 		}
 		final TextButton resumeButton = new TextButton("Resume", textButtonStyle);
 		resumeButton.setBounds(178, Launch.SCREEN_HEIGHT - 1096, 284, 94);
