@@ -48,7 +48,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle50;
 	}
-	
+
 	private static Label.LabelStyle labelStyle57 = buildLabelStyle57();
 	private static Label.LabelStyle buildLabelStyle57() {
 		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
@@ -57,7 +57,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle57;
 	}
-	
+
 	private static TextField.TextFieldStyle textFieldStyle = buildTextFieldStyle();
 	private static TextField.TextFieldStyle buildTextFieldStyle() {
 		TextureRegion textFieldTexture = Assets.settingsSkin.getRegion("name_texfield");
@@ -96,12 +96,12 @@ public class TwoPlayerSettingsScreen implements Screen {
 	private Stage stage;
 	private Game game;
 	private GameSettings gameSettings;
-	
+
 	private TextField playerOneNameField;
 	private TextField playerTwoNameField;
 
 	private GroupState groupState;
-	
+
 	enum GroupState {
 		CLICKABLE, VISIBLE, TRANSPARENT;
 	}
@@ -149,7 +149,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 	}
 
 	class TwoChoiceRadioSettingGroup extends SettingGroup {
-		public TwoChoiceRadioSettingGroup(Label choiceOneLabel, Label choiceTwoLabel, ImageButton choiceOneCheckbox, ImageButton choiceTwoCheckbox, final GroupState groupState) {
+		public TwoChoiceRadioSettingGroup(Label choiceOneLabel, Label choiceTwoLabel, ImageButton choiceOneCheckbox,
+				ImageButton choiceTwoCheckbox, final GroupState groupState) {
 			super(groupState);
 			this.addActor(choiceOneLabel);
 			this.addActor(choiceTwoLabel);
@@ -167,7 +168,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 				});
 			}
 		}
-		
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			SnapshotArray<Actor> children = this.getChildren();
@@ -179,7 +180,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	
+
 	class SpinnerSettingGroup extends SettingGroup {
 
 		public SpinnerSettingGroup(Image icon, SpinnerGroup spinner, GroupState groupState) {
@@ -192,7 +193,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 				}
 			}
 		}
-		
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			SnapshotArray<Actor> children = this.getChildren();
@@ -213,6 +214,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 			this.addActor(increaseValue);
 			this.addActor(decreaseValue);
 			increaseValue.addListener(new ClickListener() {
+				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					if (value >= 999) {
 						return;
@@ -223,6 +225,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 				}
 			});
 			decreaseValue.addListener(new ClickListener() {
+				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					if (value <= 1) {
 						return;
@@ -234,7 +237,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 			});
 		}
 	}
-	
+
 	class TextFieldSettingGroup extends SettingGroup {
 
 		public TextFieldSettingGroup(Label label, TextField textField, GroupState groupState) {
@@ -242,10 +245,10 @@ public class TwoPlayerSettingsScreen implements Screen {
 			this.addActor(label);
 			this.addActor(textField);
 			if (groupState != GroupState.CLICKABLE) {
-				textField.setDisabled(true);				
+				textField.setDisabled(true);
 			}
 		}
-		
+
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			SnapshotArray<Actor> children = this.getChildren();
@@ -257,7 +260,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	
+
 	class GridLines extends Group {
 		GridLines(int[] position) {
 			TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
@@ -268,8 +271,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 			}
 		}
 	}
-	
- 	TwoPlayerSettingsScreen(Game game) {
+
+	TwoPlayerSettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
 	}
@@ -287,12 +290,12 @@ public class TwoPlayerSettingsScreen implements Screen {
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
-		
+
 		addGridLines();
-		
+
 		addPlayerOneName();
 		addPlayerTwoName();
-		
+
 		addTime();
 		addBoardSize();
 
@@ -312,7 +315,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 			buildBackButton();
 		}
 	}
-	
+
 	private void addGridLines() {
 		int[] position = { 276, 496, 778, 962 };
 		GridLines gridLines = new GridLines(position);
@@ -322,7 +325,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 	private void addPlayerOneName() {
 		Label playerOneNameLabel = buildPlayerOneNameLabel();
 		playerOneNameField = buildPlayerOneNameField();
-		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField, groupState);
+		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField,
+				groupState);
 		stage.addActor(playerOneNameGroup);
 	}
 	private Label buildPlayerOneNameLabel() {
@@ -346,7 +350,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 	private void addPlayerTwoName() {
 		Label playerTwoNameLabel = buildPlayerTwoNameLabel();
 		playerTwoNameField = buildPlayerTwoNameField();
-		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField, groupState);
+		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField,
+				groupState);
 		stage.addActor(playerTwoNameGroup);
 	}
 	private Label buildPlayerTwoNameLabel() {
@@ -373,7 +378,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Image increaseValueControlImage = buildIncreaseValueControlImage();
 		Image decreaseValueControlImage = buildDecreaseValueControlImage();
 		int initialValue = gameSettings.getTime();
-		SpinnerGroup spinnerGroup = new SpinnerGroup(initialValue, label, increaseValueControlImage, decreaseValueControlImage);
+		SpinnerGroup spinnerGroup = new SpinnerGroup(initialValue, label, increaseValueControlImage,
+				decreaseValueControlImage);
 		SpinnerSettingGroup timeGroup = new SpinnerSettingGroup(icon, spinnerGroup, GroupState.TRANSPARENT);
 		stage.addActor(timeGroup);
 	}
@@ -410,7 +416,8 @@ public class TwoPlayerSettingsScreen implements Screen {
 		Label label4x4 = buildLabel4x4();
 		ImageButton checkbox3x3 = buildCheckbox3x3();
 		ImageButton checkbox4x4 = buildCheckbox4x4();
-		TwoChoiceRadioSettingGroup boardSizeGroup = new TwoChoiceRadioSettingGroup(label3x3, label4x4, checkbox3x3, checkbox4x4, groupState);
+		TwoChoiceRadioSettingGroup boardSizeGroup = new TwoChoiceRadioSettingGroup(label3x3, label4x4, checkbox3x3,
+				checkbox4x4, groupState);
 		stage.addActor(boardSizeGroup);
 	}
 	private Label buildLabel3x3() {
@@ -455,8 +462,7 @@ public class TwoPlayerSettingsScreen implements Screen {
 	private void addEvenOdd() {
 		Label evenOddLabel = buildEvenOddLabel();
 		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
-		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox,
-				groupState);
+		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox, groupState);
 		stage.addActor(evenOddGroup);
 	}
 	private Label buildEvenOddLabel() {

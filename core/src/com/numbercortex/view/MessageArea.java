@@ -20,14 +20,14 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
 public class MessageArea {
-	
+
 	public static final String TAG = "Message Area";
-	
+
 	public static final String NEXT_NUMBER_SQUARE_NAME = "16";
 
 	private static final String CONTINUE = "continue";
 	private static final String REPLAY = "replay";
-	
+
 	private static final int MAXIMUM_POSSIBLE_LEVEL = 18;
 
 	private static TextButtonStyle textButtonStyle = buildLabelStyle();
@@ -221,7 +221,8 @@ public class MessageArea {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner != null && winner.equals("Player") && Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
+				if (winner != null && winner.equals("Player")
+						&& Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
 					updateMessageWithButtons(CONTINUE);
 				} else {
 					updateMessageWithButtons(REPLAY);

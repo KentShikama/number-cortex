@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
-import com.numbercortex.ModeTracker.Mode;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.GameManagerImpl;
 
@@ -78,8 +77,7 @@ public class TitleScreen implements Screen {
 					@Override
 					public boolean act(float delta) {
 						if (screen != null) {
-							if (mode == ModeTracker.Mode.SINGLE_PLAYER
-									&& Persistence.getInstance().getMaxLevel() == 0) {
+							if (mode == ModeTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getMaxLevel() == 0) {
 								ModeTracker.mode = mode;
 								GameManager manager = GameManagerImpl.createNewGameManager();
 								game.setScreen(ScreenTracker.playScreen);
@@ -128,14 +126,15 @@ public class TitleScreen implements Screen {
 	private void buildTitle() {
 		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
 		Image title = new Image(titleTexture);
-		title.setBounds(63, Launch.SCREEN_HEIGHT - 762 + 30, titleTexture.getRegionWidth(), titleTexture.getRegionHeight());
+		title.setBounds(63, Launch.SCREEN_HEIGHT - 762 + 30, titleTexture.getRegionWidth(),
+				titleTexture.getRegionHeight());
 		stage.addActor(title);
 	}
 	private void buildButtons() {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
 				ModeTracker.Mode.SINGLE_PLAYER);
-		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1, ScreenTracker.twoPlayerSettingsScreen,
-				ModeTracker.Mode.TWO_PLAYER);
+		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
+				ScreenTracker.twoPlayerSettingsScreen, ModeTracker.Mode.TWO_PLAYER);
 		TitleScreenButton optionsButton = new TitleScreenButton(OPTIONS, 2, null, null);
 		stage.addActor(playButton.button);
 		stage.addActor(passAndPlayButton.button);

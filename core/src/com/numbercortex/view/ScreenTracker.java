@@ -7,7 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.numbercortex.Launch;
 
 public class ScreenTracker {
-	
+
 	private ScreenTracker() {}
 
 	public static TitleScreen titleScreen;
@@ -15,7 +15,7 @@ public class ScreenTracker {
 	public static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
 	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
 	public static PlayScreen playScreen;
-	
+
 	public static void initializeScreens(Launch game) {
 		titleScreen = new TitleScreen(game);
 		singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
@@ -23,7 +23,7 @@ public class ScreenTracker {
 		levelsScreen = new LevelsScreen(game);
 		playScreen = new PlayScreen(game);
 	}
-	
+
 	private static Map<String, Screen> screenMap;
 	public static Screen getScreen(String name) {
 		if (screenMap == null) {
@@ -37,11 +37,11 @@ public class ScreenTracker {
 		if (name.isEmpty()) {
 			return titleScreen;
 		} else {
-			Screen screen = screenMap.get(name);	
-			return screen;			
+			Screen screen = screenMap.get(name);
+			return screen;
 		}
 	}
-	
+
 	public static void dispose() {
 		playScreen.dispose();
 		levelsScreen.dispose();
