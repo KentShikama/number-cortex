@@ -45,10 +45,6 @@ public class Launch extends Game {
 		String currentModeString = persistence.getMode();
 		ScreenTracker.mode = ScreenTracker.getMode(currentModeString);
 		
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
-			ScreenTracker.currentLevel = persistence.getCurrentLevel();
-		}
-		
 		ScreenTracker.titleScreen = new TitleScreen(this);
 		ScreenTracker.singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(this);
 		ScreenTracker.twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(this);

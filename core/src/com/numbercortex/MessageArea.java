@@ -151,7 +151,10 @@ public class MessageArea {
 		continueButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				ScreenTracker.currentLevel = ScreenTracker.currentLevel + 1;
+				Persistence persistence = Persistence.getInstance();
+				int currentLevel = persistence.getCurrentLevel();
+				int nextLevel = currentLevel + 1;
+				persistence.setCurrentLevel(nextLevel);
 				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 			}
 		});
@@ -215,7 +218,7 @@ public class MessageArea {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner != null && winner.equals("Player") && ScreenTracker.currentLevel != MAXIMUM_POSSIBLE_LEVEL) {
+				if (winner != null && winner.equals("Player") && Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
 					updateMessageWithButtons(CONTINUE);
 				} else {
 					updateMessageWithButtons(REPLAY);

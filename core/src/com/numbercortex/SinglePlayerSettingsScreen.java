@@ -219,7 +219,8 @@ public class SinglePlayerSettingsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		gameSettings = GameSettingsLoader.loadLevel(ScreenTracker.currentLevel);
+		Persistence persistence = Persistence.getInstance();
+		gameSettings = GameSettingsLoader.loadLevel(persistence.getCurrentLevel());
 
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
@@ -648,7 +649,6 @@ public class SinglePlayerSettingsScreen implements Screen {
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);
 		}
-		persistence.setCurrentLevel(ScreenTracker.currentLevel);
 		persistence.save();
 	}
 

@@ -294,9 +294,6 @@ public class PlayScreen implements Screen {
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);
 		}
-		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER) {
-			persistence.setCurrentLevel(ScreenTracker.currentLevel);
-		}
 		persistence.save();
 	}
 	@Override

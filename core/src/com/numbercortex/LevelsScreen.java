@@ -68,7 +68,8 @@ public class LevelsScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				TextButton button = (TextButton) event.getListenerActor();
 				if (!button.isDisabled()) {
-					ScreenTracker.currentLevel = level;
+					Persistence persistence = Persistence.getInstance();
+					persistence.setCurrentLevel(level);
 					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 				}
 			}

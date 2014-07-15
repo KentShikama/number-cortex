@@ -75,7 +75,6 @@ public class TitleScreen implements Screen {
 							if (mode == ScreenTracker.Mode.SINGLE_PLAYER
 									&& Persistence.getInstance().getMaxLevel() == 0) {
 								ScreenTracker.mode = mode;
-								ScreenTracker.currentLevel = 0;
 								GameManager manager = GameManagerImpl.createNewGameManager();
 								game.setScreen(ScreenTracker.playScreen);
 								manager.startNewGame();

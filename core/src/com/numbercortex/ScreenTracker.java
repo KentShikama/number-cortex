@@ -6,6 +6,9 @@ import java.util.Map;
 import com.badlogic.gdx.Screen;
 
 public class ScreenTracker {
+	
+	private ScreenTracker() {}
+
 	public static TitleScreen titleScreen;
 	public static LevelsScreen levelsScreen;
 	public static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
@@ -28,7 +31,13 @@ public class ScreenTracker {
 			return screen;			
 		}
 	}
-
+	
+	public static void dispose() {
+		levelsScreen.dispose();
+		singlePlayerSettingsScreen.dispose();
+		twoPlayerSettingsScreen.dispose();
+		screenMap = null;
+	}
 	
 	public static enum Mode {
 		SINGLE_PLAYER, TWO_PLAYER;
@@ -43,17 +52,5 @@ public class ScreenTracker {
 	}
 	protected static Mode mode;
 	
-	
 	public static boolean isInPlay;
-	
-	public static int currentLevel;
-
-	private ScreenTracker() {}
-	
-	public static void dispose() {
-		levelsScreen.dispose();
-		singlePlayerSettingsScreen.dispose();
-		twoPlayerSettingsScreen.dispose();
-		screenMap = null;
-	}
 }
