@@ -27,6 +27,7 @@ class HumanPlayer implements Player {
 
 	@Override
 	public void chooseNumber(String player, int nextNumber) {
+		DragAndDropHandler.getInstance().resetPlacementCount();
 		if (state.getChosenNumber() == -1) {
 			messenger.chooseNumber(name, nextNumber);
 		} else if (state.getChosenNumber() != -1 && nextCoordinateChosen) {
@@ -41,6 +42,8 @@ class HumanPlayer implements Player {
 	@Override
 	public void placeNumber(String player, int coordinate) {
 		if (ScreenTracker.mode == ScreenTracker.Mode.SINGLE_PLAYER && ScreenTracker.currentLevel == 0) {
+			messenger.placeNumber(name, coordinate);
+		} else if (DragAndDropHandler.getInstance().getPlacementCount() > DragAndDropHandler.MAXIMUM_PLACEMENT_COUNT) {
 			messenger.placeNumber(name, coordinate);
 		} else {
 			savePostPlaceState(coordinate);

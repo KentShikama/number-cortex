@@ -114,6 +114,7 @@ public class GameManagerImpl implements GameManager {
 			Gdx.app.log(TAG, "Deleting previous game data.");
 		}
 		ScreenTracker.isInPlay = true;
+		DragAndDropHandler.getInstance().resetPlacementCount();
 		manuallySetFirstPlayer();
 		registerPlayersAndStartGame();
 	}

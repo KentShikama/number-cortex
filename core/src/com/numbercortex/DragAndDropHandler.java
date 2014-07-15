@@ -16,6 +16,9 @@ public class DragAndDropHandler {
 	private Sendable messenger;
 	private int chosenNumber;
 
+	private int placementCount;
+	static final int MAXIMUM_PLACEMENT_COUNT = 2;
+
 	private DragAndDropHandler() {}
 	private static class Singleton {
 		private static final DragAndDropHandler INSTANCE = new DragAndDropHandler();
@@ -40,9 +43,16 @@ public class DragAndDropHandler {
 	public void setSendable(Sendable messenger) {
 		this.messenger = messenger;
 	}
-
+	
 	public void setChosenNumber(int chosenNumber) {
 		this.chosenNumber = chosenNumber;
+	}
+	
+	public int getPlacementCount() {
+		return placementCount;
+	}
+	public void resetPlacementCount() {
+		this.placementCount = 0;
 	}
 
 	class NumberSource extends Source {
@@ -56,7 +66,7 @@ public class DragAndDropHandler {
 
 		@Override
 		public Payload dragStart(InputEvent event, float x, float y, int pointer) {
-			if (isChosenNumber(sourceButton) && isHumanPlayerTurn() && ScreenTracker.isInPlay && isFirstPlacementForTutorialLevel(sourceButton)) {
+			if (isValidToDrag()) {
 				Payload payload = new Payload();
 				Label buttonLabel = sourceButton.getLabel();
 				payload.setObject(buttonLabel);
@@ -67,6 +77,9 @@ public class DragAndDropHandler {
 				return payload;
 			}
 			return null;
+		}
+		private boolean isValidToDrag() {
+			return isChosenNumber(sourceButton) && isHumanPlayerTurn() && ScreenTracker.isInPlay && isFirstPlacementForTutorialLevel(sourceButton) && isPlacementCountUnderMaximum();
 		}
 		private boolean isChosenNumber(NumberTextButton button) {
 			Label label = button.getLabel();
@@ -94,6 +107,13 @@ public class DragAndDropHandler {
 			}
 			return true;
 		}
+		private boolean isPlacementCountUnderMaximum() {
+			if (placementCount <= MAXIMUM_PLACEMENT_COUNT) {
+				return true;
+			} else {
+				return false;				
+			}
+		}
 
 		@Override
 		public void dragStop(InputEvent event, float x, float y, int pointer, Payload payload, Target target) {
@@ -103,6 +123,7 @@ public class DragAndDropHandler {
 				sourceButton.clearLabel();
 				targetButton.setLabel(label);
 				int targetCoordinate = Integer.valueOf(targetButton.getName());
+				placementCount++;
 				messenger.placeNumber(null, targetCoordinate);
 			} else {
 				sourceButton.setLabel(label);
