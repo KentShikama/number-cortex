@@ -21,9 +21,9 @@ public class GameManagerImpl implements GameManager {
 	private String currentPlayer;
 
 	private Persistence preferences;
-	
+
 	private int currentLevel;
-	
+
 	private GameManagerImpl() {}
 	private static class Singleton {
 		private static final GameManagerImpl INSTANCE = new GameManagerImpl();
@@ -44,11 +44,11 @@ public class GameManagerImpl implements GameManager {
 		addPlayers(messenger, messenger.screen, messenger.preferences);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
-			messenger.model = new DefaultCortexModel(messenger, messenger.settings);			
+			messenger.model = new DefaultCortexModel(messenger, messenger.settings);
 		} else {
 			messenger.model = new DefaultCortexModel(messenger, messenger.settings, messenger.state);
 		}
-		return messenger;	
+		return messenger;
 	}
 	private static void addPlayers(GameManagerImpl messenger, PlayScreen screen, Persistence preferences) {
 		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
@@ -200,7 +200,7 @@ public class GameManagerImpl implements GameManager {
 		}
 		if (currentLevel == 0) {
 			// In case the player loses and clicks play again, force player to move on to level 1
-			currentLevel = 1; 
+			currentLevel = 1;
 		}
 	}
 	private String getUnlockMessage(int currentLevel) {

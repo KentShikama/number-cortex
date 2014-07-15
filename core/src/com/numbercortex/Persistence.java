@@ -20,10 +20,10 @@ public class Persistence {
 	private static final String MODE = "mode";
 	private static final String IS_IN_PLAY = "isInPlay";
 	private static final String CURRENT_CORTEX_STATE = "currentCortexState";
-	
+
 	private static final String CURRENT_LEVEL = "currentLevel";
 	private static final String MAX_LEVEL = "maxLevel";
-	
+
 	private static final String PLAYER_ONE_NAME = "player_one_name";
 	private static final String PLAYER_TWO_NAME = "player_two_name";
 	private static final String TWO_PLAYER_GAME_SETTINGS = "twoPlayerGameSettings";
@@ -31,15 +31,15 @@ public class Persistence {
 	private boolean blue;
 	private boolean sound;
 	private boolean music;
-	
+
 	private String currentScreen;
 	private String mode;
 	private boolean isInPlay;
 	private CortexState currentCortexState;
-	
+
 	private int currentLevel;
 	private int maxLevel;
-	
+
 	private String playerOneName;
 	private String playerTwoName;
 	private GameSettings twoPlayerGameSettings;
@@ -67,7 +67,7 @@ public class Persistence {
 		music = preferences.getBoolean(MUSIC, false);
 	}
 	private void loadApplicationState() {
-		loadGeneralSettings();	
+		loadGeneralSettings();
 		loadSinglePlayerSettings();
 		loadTwoPlayerSettings();
 	}
@@ -84,30 +84,35 @@ public class Persistence {
 				String currentPlayer = json.readValue("currentPlayer", String.class, root);
 				ArrayList<String> players = json.readValue("players", ArrayList.class, String.class, root);
 				int chosenNumber = json.readValue("chosenNumber", Integer.class, root);
-				Map<Integer, Integer> coordinateNumberMap = json.readValue("coordinateNumberMap", Map.class, Integer.class, root);
+				Map<Integer, Integer> coordinateNumberMap = json.readValue("coordinateNumberMap", Map.class,
+						Integer.class, root);
 				Map<Integer, Integer> properlyCastCoordinateNumberMap = new HashMap<Integer, Integer>();
 				for (Map.Entry entry : coordinateNumberMap.entrySet()) {
 					String key = (String) entry.getKey();
 					Integer value = (Integer) entry.getValue();
 					properlyCastCoordinateNumberMap.put(Integer.valueOf(key), value);
 				}
-				ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class, Integer.class, root);
-				
+				ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class,
+						Integer.class, root);
+
 				JsonValue winnerJsonValue = root.get("winner");
 				if (winnerJsonValue != null) {
 					String winner = json.readValue("winner", String.class, root);
 					String winningAttribute = json.readValue("winningAttribute", String.class, root);
-					int[] winningValues = json.readValue("winningValues", int[].class, root);	
-					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).win(winner, winningAttribute, winningValues).build();			
+					int[] winningValues = json.readValue("winningValues", int[].class, root);
+					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
+							chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).win(winner,
+							winningAttribute, winningValues).build();
 				} else {
-					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).build();			
+					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
+							chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).build();
 				}
 			}
 		}
 	}
 	private void loadSinglePlayerSettings() {
 		currentLevel = preferences.getInteger(CURRENT_LEVEL, 0);
-		maxLevel = preferences.getInteger(MAX_LEVEL, 0);		
+		maxLevel = preferences.getInteger(MAX_LEVEL, 0);
 	}
 	private void loadTwoPlayerSettings() {
 		playerOneName = preferences.getString(PLAYER_ONE_NAME, "One");
@@ -135,7 +140,7 @@ public class Persistence {
 		twoPlayerGameSettings.setTime(300);
 		return twoPlayerGameSettings;
 	}
-	
+
 	public void save() {
 		saveCustomizationPreferences();
 		saveApplicationState();
@@ -166,7 +171,7 @@ public class Persistence {
 	}
 	private void saveSinglePlayerSettings() {
 		preferences.putInteger(CURRENT_LEVEL, currentLevel);
-		preferences.putInteger(MAX_LEVEL, maxLevel);	
+		preferences.putInteger(MAX_LEVEL, maxLevel);
 	}
 	private void saveTwoPlayerSettings() {
 		preferences.putString(PLAYER_ONE_NAME, playerOneName);
@@ -208,7 +213,7 @@ public class Persistence {
 	public void setCurrentLevel(int currentLevel) {
 		this.currentLevel = currentLevel;
 	}
-	
+
 	public int getMaxLevel() {
 		return maxLevel;
 	}

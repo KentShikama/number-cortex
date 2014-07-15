@@ -39,29 +39,29 @@ public class Launch extends Game {
 		Assets.assignPlayScreen();
 		Assets.assignLevelsScreen();
 		Assets.assignDialogScreen();
-		
+
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
 
 		FontGenerator.load();
 		Persistence persistence = Persistence.getInstance().load();
-		
+
 		String currentModeString = persistence.getMode();
 		ModeTracker.mode = ModeTracker.getMode(currentModeString);
-		
+
 		ScreenTracker.initializeScreens(this);
-		
+
 		GameManager gameManager = null;
 		if (persistence.isInPlay()) {
 			CortexState currentCortexState = persistence.getCurrentCortexState();
 			gameManager = GameManagerImpl.createNewGameManager(currentCortexState);
 		}
-		
+
 		String currentScreenString = persistence.getCurrentScreen();
 		Screen screen = ScreenTracker.getScreen(currentScreenString);
 		setScreen(screen);
-		
+
 		if (screen instanceof PlayScreen) {
 			gameManager.resumeGame();
 		}

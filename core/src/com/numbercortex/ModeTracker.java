@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModeTracker {
-	
+
 	private ModeTracker() {}
-	
+
 	public static Mode mode;
 
 	public static enum Mode {
@@ -18,6 +18,6 @@ public class ModeTracker {
 		modeMap.put(Mode.TWO_PLAYER.name(), Mode.TWO_PLAYER);
 	}
 	public static Mode getMode(String mode) {
-		return modeMap.get(mode);			
+		return modeMap.get(mode);
 	}
 }

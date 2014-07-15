@@ -13,7 +13,7 @@ public class BoardUtilities {
 			}
 		}
 		return openCoordinates;
-	}	
+	}
 
 	public static int getTurnNumber(CortexState state, int numberOfRows) {
 		int fullCoordinatesSize = getFullCoordinates(state, numberOfRows);

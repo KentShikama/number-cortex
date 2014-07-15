@@ -33,12 +33,12 @@ public class DefaultCortexModel implements CortexModel {
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);
 	}
-	
+
 	public DefaultCortexModel(GameManager messenger, GameSettings settings, CortexState currentState) {
 		this.messenger = messenger;
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);
-		
+
 		this.currentPlayer = currentState.getCurrentPlayer();
 		this.availableNumbers = currentState.getAvailableNumbers();
 		this.coordinateNumberMap = currentState.getCoordinateNumberMap();

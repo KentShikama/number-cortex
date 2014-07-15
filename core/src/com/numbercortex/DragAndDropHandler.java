@@ -46,11 +46,11 @@ public class DragAndDropHandler {
 	public void setSendable(Sendable messenger) {
 		this.messenger = messenger;
 	}
-	
+
 	public void setChosenNumber(int chosenNumber) {
 		this.chosenNumber = chosenNumber;
 	}
-	
+
 	public int getPlacementCount() {
 		return placementCount;
 	}
@@ -82,7 +82,8 @@ public class DragAndDropHandler {
 			return null;
 		}
 		private boolean isValidToDrag() {
-			return isChosenNumber(sourceButton) && isHumanPlayerTurn() && Persistence.getInstance().isInPlay() && isFirstPlacementForTutorialLevel(sourceButton) && isPlacementCountUnderMaximum();
+			return isChosenNumber(sourceButton) && isHumanPlayerTurn() && Persistence.getInstance().isInPlay()
+					&& isFirstPlacementForTutorialLevel(sourceButton) && isPlacementCountUnderMaximum();
 		}
 		private boolean isChosenNumber(NumberTextButton button) {
 			Label label = button.getLabel();
@@ -105,8 +106,9 @@ public class DragAndDropHandler {
 			}
 		}
 		private boolean isFirstPlacementForTutorialLevel(NumberTextButton sourceButton) {
-			if (Persistence.getInstance().getCurrentLevel() == 0 && !sourceButton.getName().equals(MessageArea.NEXT_NUMBER_SQUARE_NAME)) {
-				return false;				
+			if (Persistence.getInstance().getCurrentLevel() == 0
+					&& !sourceButton.getName().equals(MessageArea.NEXT_NUMBER_SQUARE_NAME)) {
+				return false;
 			}
 			return true;
 		}
@@ -114,7 +116,7 @@ public class DragAndDropHandler {
 			if (placementCount <= MAXIMUM_PLACEMENT_COUNT) {
 				return true;
 			} else {
-				return false;				
+				return false;
 			}
 		}
 

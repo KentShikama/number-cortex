@@ -41,7 +41,7 @@ public class CortexState implements Serializable {
 		}
 
 	}
-	
+
 	private String message;
 	private ArrayList<String> players;
 	private String currentPlayer;
