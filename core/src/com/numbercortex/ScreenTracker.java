@@ -49,4 +49,11 @@ public class ScreenTracker {
 	public static int currentLevel;
 
 	private ScreenTracker() {}
+	
+	public static void dispose() {
+		levelsScreen.dispose();
+		singlePlayerSettingsScreen.dispose();
+		twoPlayerSettingsScreen.dispose();
+		screenMap = null;
+	}
 }

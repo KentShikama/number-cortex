@@ -78,10 +78,7 @@ public class Launch extends Game {
 	@Override
 	public void dispose() {
 		super.dispose();
-		getScreen().dispose();
-		ScreenTracker.levelsScreen.dispose();
-		ScreenTracker.singlePlayerSettingsScreen.dispose();
-		ScreenTracker.twoPlayerSettingsScreen.dispose();
+		ScreenTracker.dispose();
 		CortexDialog.dispose();
 		MessageArea.dispose();
 		NumberCortexBoard.dispose();
