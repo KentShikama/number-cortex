@@ -55,7 +55,7 @@ public class DefaultCortexModel implements CortexModel {
 		if (isChosenNumberValid(playerName, nextNumber)) {
 			chosenNumber = nextNumber;
 			availableNumbers.remove(Integer.valueOf(nextNumber));
-			currentPlayer = (currentPlayer == players.get(0) ? players.get(1) : players.get(0));
+			currentPlayer = (currentPlayer.equals(players.get(0)) ? players.get(1) : players.get(0));
 			message = currentPlayer;
 			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
 					coordinateNumberMap, availableNumbers).build();
