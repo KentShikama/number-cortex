@@ -28,7 +28,7 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
-import com.numbercortex.logic.GameManagerImpl;
+import com.numbercortex.logic.SinglePlayerGameManager;
 
 public class SinglePlayerSettingsScreen implements Screen {
 
@@ -580,7 +580,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		playButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = GameManagerImpl.createNewGameManager();
+				GameManager manager = SinglePlayerGameManager.createNewGameManager();
 				game.setScreen(ScreenTracker.playScreen);
 				manager.startNewGame();
 			}
@@ -610,7 +610,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = GameManagerImpl.getInstance();
+				GameManager manager = SinglePlayerGameManager.getInstance();
 				game.setScreen(ScreenTracker.playScreen);
 				manager.resumeGame();
 			}
@@ -652,7 +652,7 @@ public class SinglePlayerSettingsScreen implements Screen {
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ModeTracker.mode.name());
 		if (persistence.isInPlay()) {
-			GameManager gameManager = GameManagerImpl.getInstance();
+			GameManager gameManager = SinglePlayerGameManager.getInstance();
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);
 		}

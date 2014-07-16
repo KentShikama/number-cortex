@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.logic.GameManager;
-import com.numbercortex.logic.GameManagerImpl;
+import com.numbercortex.logic.SinglePlayerGameManager;
+import com.numbercortex.logic.TwoPlayerGameManager;
 import com.numbercortex.view.Assets;
 import com.numbercortex.view.CortexDialog;
 import com.numbercortex.view.FontGenerator;
@@ -54,11 +55,7 @@ public class Launch extends Game {
 
 		ScreenTracker.initializeScreens(this);
 
-		GameManager gameManager = null;
-		if (persistence.isInPlay()) {
-			CortexState currentCortexState = persistence.getCurrentCortexState();
-			gameManager = GameManagerImpl.createNewGameManager(currentCortexState);
-		}
+		GameManager gameManager = buildGameManager(persistence);
 
 		String currentScreenString = persistence.getCurrentScreen();
 		Screen screen = ScreenTracker.getScreen(currentScreenString);
@@ -67,6 +64,18 @@ public class Launch extends Game {
 		if (screen instanceof PlayScreen) {
 			gameManager.resumeGame();
 		}
+	}
+	private GameManager buildGameManager(Persistence persistence) {
+		GameManager gameManager = null;
+		if (persistence.isInPlay()) {
+			CortexState currentCortexState = persistence.getCurrentCortexState();
+			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+				gameManager = SinglePlayerGameManager.createNewGameManager(currentCortexState);
+			} else {
+				gameManager = TwoPlayerGameManager.createNewGameManager(currentCortexState);
+			}
+		}
+		return gameManager;
 	}
 
 	public Stage getStage() {

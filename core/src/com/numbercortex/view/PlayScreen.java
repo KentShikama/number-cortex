@@ -29,8 +29,9 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.BoardUtilities;
 import com.numbercortex.logic.DragAndDropHandler;
 import com.numbercortex.logic.GameManager;
-import com.numbercortex.logic.GameManagerImpl;
 import com.numbercortex.logic.Player;
+import com.numbercortex.logic.SinglePlayerGameManager;
+import com.numbercortex.logic.TwoPlayerGameManager;
 
 public class PlayScreen implements Screen {
 
@@ -297,7 +298,7 @@ public class PlayScreen implements Screen {
 		Persistence persistence = Persistence.getInstance();
 		if (persistence.isInPlay()) {
 			persistence.setCurrentScreen(TAG);
-			GameManager gameManager = GameManagerImpl.getInstance();
+			GameManager gameManager = getGameManagerInstance();
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);
 		} else {
@@ -306,6 +307,16 @@ public class PlayScreen implements Screen {
 		persistence.setMode(ModeTracker.mode.name());
 		persistence.save();
 	}
+	private GameManager getGameManagerInstance() {
+		GameManager gameManager;
+		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+			gameManager = SinglePlayerGameManager.getInstance();
+		} else {
+			gameManager = TwoPlayerGameManager.getInstance();
+		}
+		return gameManager;
+	}
+
 	@Override
 	public void hide() {}
 	@Override

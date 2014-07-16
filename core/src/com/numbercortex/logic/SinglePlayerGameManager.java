@@ -7,14 +7,13 @@ import com.badlogic.gdx.Gdx;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.GameSettingsLoader;
-import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.ScreenTracker;
 
-public class GameManagerImpl implements GameManager {
+public class SinglePlayerGameManager implements GameManager {
 
-	private static final String TAG = GameManagerImpl.class.getCanonicalName();
+	private static final String TAG = SinglePlayerGameManager.class.getCanonicalName();
 
 	private PlayScreen screen;
 
@@ -29,9 +28,9 @@ public class GameManagerImpl implements GameManager {
 
 	private int currentLevel;
 
-	private GameManagerImpl() {}
+	private SinglePlayerGameManager() {}
 	private static class Singleton {
-		private static final GameManagerImpl INSTANCE = new GameManagerImpl();
+		private static final SinglePlayerGameManager INSTANCE = new SinglePlayerGameManager();
 	}
 	public static GameManager getInstance() {
 		return Singleton.INSTANCE;
@@ -40,13 +39,13 @@ public class GameManagerImpl implements GameManager {
 		return createNewGameManager(null);
 	}
 	public static GameManager createNewGameManager(CortexState state) {
-		GameManagerImpl messenger = Singleton.INSTANCE;
+		SinglePlayerGameManager messenger = Singleton.INSTANCE;
 		messenger.preferences = Persistence.getInstance();
 		messenger.screen = ScreenTracker.playScreen;
 		messenger.state = state;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger, messenger.preferences);
-		addPlayers(messenger, messenger.screen, messenger.preferences);
+		addPlayers(messenger, messenger.screen);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
 			messenger.model = new DefaultCortexModel(messenger, messenger.settings);
@@ -55,35 +54,16 @@ public class GameManagerImpl implements GameManager {
 		}
 		return messenger;
 	}
-	private static void addPlayers(GameManagerImpl messenger, PlayScreen screen, Persistence preferences) {
-		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-			addPlayersForSinglePlayerMode(messenger, screen);
-		} else {
-			addPlayersForTwoPlayerMode(messenger, screen, preferences);
-		}
-	}
-	private static void addPlayersForSinglePlayerMode(GameManagerImpl messenger, PlayScreen screen) {
+	private static void addPlayers(SinglePlayerGameManager messenger, PlayScreen screen) {
 		Player human = new HumanPlayer("Player", screen, messenger);
 		Player computer = new ComputerPlayer(screen, messenger);
 		messenger.players.add(human);
 		messenger.players.add(computer);
 	}
-	private static void addPlayersForTwoPlayerMode(GameManagerImpl messenger, PlayScreen screen, Persistence preferences) {
-		String playerOneName = preferences.getPlayerOneName();
-		String playerTwoName = preferences.getPlayerTwoName();
-		Player playerOne = new HumanPlayer(playerOneName, screen, messenger);
-		Player playerTwo = new HumanPlayer(playerTwoName, screen, messenger);
-		messenger.players.add(playerOne);
-		messenger.players.add(playerTwo);
-	}
-	private static GameSettings buildSettings(GameManagerImpl messenger, Persistence preferences) {
-		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-			int level = preferences.getCurrentLevel();
-			messenger.currentLevel = level;
-			return GameSettingsLoader.loadLevel(messenger.currentLevel);
-		} else {
-			return Persistence.getInstance().getTwoPlayerGameSettings();
-		}
+	private static GameSettings buildSettings(SinglePlayerGameManager messenger, Persistence preferences) {
+		int level = preferences.getCurrentLevel();
+		messenger.currentLevel = level;
+		return GameSettingsLoader.loadLevel(messenger.currentLevel);
 	}
 
 	@Override
@@ -121,15 +101,13 @@ public class GameManagerImpl implements GameManager {
 		registerPlayersAndStartGame();
 	}
 	private void manuallySetFirstPlayer() {
-		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-			switch (currentLevel) {
-				case 0:
-					model.setFirstPlayerPosition(1);
-					break;
-				case 18:
-					model.setFirstPlayerPosition(0);
-					break;
-			}
+		switch (currentLevel) {
+			case 0:
+				model.setFirstPlayerPosition(1);
+				break;
+			case 18:
+				model.setFirstPlayerPosition(0);
+				break;
 		}
 	}
 	private void registerPlayersAndStartGame() {
@@ -155,7 +133,7 @@ public class GameManagerImpl implements GameManager {
 		}
 	}
 	private void handleTutorialMessages(CortexState state) {
-		if (currentLevel == 0 && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+		if (currentLevel == 0) {
 			int numberOfRows = settings.getNumberOfRows();
 			int turnCount = BoardUtilities.getTurnNumber(state, numberOfRows);
 			String[] messages = getTutorialMessage(turnCount);
@@ -180,16 +158,15 @@ public class GameManagerImpl implements GameManager {
 		String winner = state.getWinner();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-		if (playerWinsSinglePlayerGame(winner) || tutorialEnds(winner, openCoordinates)) {
+		if (playerWinsGame(winner) || tutorialEnds(winner, openCoordinates)) {
 			unlockNextLevelIfOnMaxLevel();
 		}
 	}
-	private boolean playerWinsSinglePlayerGame(String winner) {
-		return winner != null && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER && winner.equals("Player");
+	private boolean playerWinsGame(String winner) {
+		return winner != null && winner.equals("Player");
 	}
 	private boolean tutorialEnds(String winner, ArrayList<Integer> openCoordinates) {
-		return currentLevel == 0 && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER
-				&& (winner != null || openCoordinates.isEmpty());
+		return currentLevel == 0 && (winner != null || openCoordinates.isEmpty());
 	}
 	private void unlockNextLevelIfOnMaxLevel() {
 		int maxLevel = preferences.getMaxLevel();

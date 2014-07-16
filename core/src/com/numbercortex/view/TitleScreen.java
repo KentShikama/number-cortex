@@ -23,7 +23,7 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
-import com.numbercortex.logic.GameManagerImpl;
+import com.numbercortex.logic.SinglePlayerGameManager;
 
 public class TitleScreen implements Screen {
 	class TitleScreenButton {
@@ -79,7 +79,7 @@ public class TitleScreen implements Screen {
 						if (screen != null) {
 							if (mode == ModeTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getMaxLevel() == 0) {
 								ModeTracker.mode = mode;
-								GameManager manager = GameManagerImpl.createNewGameManager();
+								GameManager manager = SinglePlayerGameManager.createNewGameManager();
 								game.setScreen(ScreenTracker.playScreen);
 								manager.startNewGame();
 							} else {
