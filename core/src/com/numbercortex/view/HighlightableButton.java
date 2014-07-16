@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 
-public class HighlightableButton extends Table implements Disableable {
+class HighlightableButton extends Table implements Disableable {
 	private ButtonStyle style;
 	boolean isChecked, isDisabled, isHighlighted;
 	ButtonGroup buttonGroup;

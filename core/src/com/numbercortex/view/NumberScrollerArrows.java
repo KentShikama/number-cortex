@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.numbercortex.Launch;
 
-public class NumberScrollerArrows {
+class NumberScrollerArrows {
 
 	private static final String RIGHT_ARROW = "right_arrow";
 	private static final String LEFT_ARROW = "left_arrow";
@@ -47,12 +47,12 @@ public class NumberScrollerArrows {
 		});
 	}
 
-	public void addArrows(Stage stage) {
+	void addArrows(Stage stage) {
 		stage.addActor(leftArrowButton);
 		stage.addActor(rightArrowButton);
 	}
 
-	public void remove(float delay) {
+	void remove(float delay) {
 		AnimationUtilities.delayFadeAndRemoveActor(leftArrowButton, delay);
 		AnimationUtilities.delayFadeAndRemoveActor(rightArrowButton, delay);
 	}

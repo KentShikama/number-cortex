@@ -30,7 +30,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 
-public class SinglePlayerSettingsScreen implements Screen {
+class SinglePlayerSettingsScreen implements Screen {
 
 	public static final String TAG = "Single Player Settings Screen";
 

@@ -1,4 +1,4 @@
-package com.numbercortex.logic;
+package com.numbercortex.view;
 
 import java.util.ArrayList;
 
@@ -9,15 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.numbercortex.Persistence;
-import com.numbercortex.view.MessageArea;
-import com.numbercortex.view.NumberCortexBoard;
-import com.numbercortex.view.NumberTextButton;
+import com.numbercortex.logic.InteractableSendable;
 
 public class DragAndDropHandler {
 
 	private DragAndDrop handler = new DragAndDrop();
 	private NumberTextButton nextNumber;
-	private Sendable messenger;
+	private InteractableSendable messenger;
 	private int chosenNumber;
 
 	private int placementCount;
@@ -44,7 +42,7 @@ public class DragAndDropHandler {
 		handler.addTarget(new NumberTarget(nextNumber));
 	}
 
-	public void setSendable(Sendable messenger) {
+	public void setSendable(InteractableSendable messenger) {
 		this.messenger = messenger;
 	}
 
@@ -83,7 +81,7 @@ public class DragAndDropHandler {
 			return null;
 		}
 		private boolean isValidToDrag() {
-			return isChosenNumber(sourceButton) && isHumanPlayerTurn() && Persistence.getInstance().isInPlay()
+			return messenger != null && isChosenNumber(sourceButton) && Persistence.getInstance().isInPlay()
 					&& isFirstPlacementForTutorialLevel(sourceButton) && isPlacementCountUnderMaximum();
 		}
 		private boolean isChosenNumber(NumberTextButton button) {
@@ -94,13 +92,6 @@ public class DragAndDropHandler {
 			}
 			int labelValue = Integer.valueOf(labelText);
 			if (labelValue == chosenNumber) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		private boolean isHumanPlayerTurn() {
-			if (messenger instanceof HumanPlayer) {
 				return true;
 			} else {
 				return false;

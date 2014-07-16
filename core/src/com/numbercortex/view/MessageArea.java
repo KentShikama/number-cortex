@@ -19,11 +19,10 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
-public class MessageArea {
+class MessageArea {
 
-	public static final String TAG = "Message Area";
-
-	public static final String NEXT_NUMBER_SQUARE_NAME = "16";
+	static final String TAG = "Message Area";
+	static final String NEXT_NUMBER_SQUARE_NAME = "16";
 
 	private static final String CONTINUE = "continue";
 	private static final String REPLAY = "replay";
@@ -164,11 +163,11 @@ public class MessageArea {
 		return continueButton;
 	}
 
-	public NumberTextButton getNextNumberSquare() {
+	NumberTextButton getNextNumberSquare() {
 		return nextNumberSquare;
 	}
 
-	public void updateMessage(String message) {
+	void updateMessage(String message) {
 		messageLabelLong.setText(message);
 		messageLabelShort.remove();
 		nextNumberSquare.remove();
@@ -176,7 +175,7 @@ public class MessageArea {
 		stage.addActor(messageLabelLong);
 	}
 
-	public void updateMessageWithNextNumber(String message, int nextNumber) {
+	void updateMessageWithNextNumber(String message, int nextNumber) {
 		Label newLabel = buildNumberLabel();
 		nextNumberSquare.setLabel(newLabel);
 		nextNumberSquare.setText(String.valueOf(nextNumber));
@@ -195,7 +194,7 @@ public class MessageArea {
 		return label;
 	}
 
-	public void showEndingMessageSequence(final String winner, final String winningAttribute, float delay) {
+	void showEndingMessageSequence(final String winner, final String winningAttribute, float delay) {
 		Action showWinner = buildShowWinnerAction(winner, winningAttribute);
 		DelayAction delayAction = Actions.delay(delay);
 		Action showNextOptions = buildShowNextOptionsAction(winner);
@@ -248,7 +247,7 @@ public class MessageArea {
 		}
 	}
 
-	public static void dispose() {
+	static void dispose() {
 		borderedTextButtonStyle = null;
 		nextNumberStyle = null;
 	}

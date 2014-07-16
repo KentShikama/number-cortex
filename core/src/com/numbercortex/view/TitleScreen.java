@@ -25,7 +25,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 
-public class TitleScreen implements Screen {
+class TitleScreen implements Screen {
 	class TitleScreenButton {
 
 		private Button button;

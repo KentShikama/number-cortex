@@ -21,7 +21,7 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
-public class LevelsScreen implements Screen {
+class LevelsScreen implements Screen {
 
 	public static final String TAG = "Levels Screen";
 

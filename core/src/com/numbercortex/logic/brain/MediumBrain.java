@@ -7,7 +7,7 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
 
-public class MediumBrain implements Brain {
+class MediumBrain implements Brain {
 
 	private String name = "Medium AI";
 	private BrainCalculator utility;

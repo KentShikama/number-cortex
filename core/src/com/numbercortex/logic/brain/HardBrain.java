@@ -7,7 +7,7 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
 
-public class HardBrain implements Brain {
+class HardBrain implements Brain {
 
 	private String name = "Hard AI";
 	private BrainCalculator utility;

@@ -7,7 +7,7 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
 
-public class RandomBrain implements Brain {
+class RandomBrain implements Brain {
 
 	private String name = "Random AI";
 	private BrainCalculator utility;

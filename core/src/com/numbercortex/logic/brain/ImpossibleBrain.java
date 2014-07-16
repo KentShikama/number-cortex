@@ -7,7 +7,7 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
 
-public class ImpossibleBrain implements Brain {
+class ImpossibleBrain implements Brain {
 
 	private String name = "Impossible AI";
 	private BrainCalculator utility;

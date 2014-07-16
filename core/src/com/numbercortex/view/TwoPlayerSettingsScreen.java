@@ -36,7 +36,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
-public class TwoPlayerSettingsScreen implements Screen {
+class TwoPlayerSettingsScreen implements Screen {
 
 	public static final String TAG = "Two Player Settings Screen";
 

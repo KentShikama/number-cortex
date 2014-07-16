@@ -15,9 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.numbercortex.Launch;
-import com.numbercortex.logic.Sendable;
+import com.numbercortex.logic.InteractableSendable;
 
-public class NumberScroller {
+class NumberScroller {
 
 	private static final String NUMBER_RECTANGLE_BACKGROUND = "number_rectangle_background";
 	private static final String SCROLLER_RECTANGLE = "scroller_rectangle";
@@ -43,13 +43,16 @@ public class NumberScroller {
 	private ScrollPane numberScroller;
 	private NumberScrollerArrows arrows;
 
-	private Sendable messenger;
+	private InteractableSendable messenger;
 	private Table numberTable = new Table();
 	private NumberButtonListener listener = new NumberButtonListener();
 	private class NumberButtonListener extends ClickListener {
 
 		@Override
 		public void clicked(final InputEvent event, float x, float y) {
+			if (messenger == null) {
+				return;
+			}
 			int tapCount = this.getTapCount();
 			if (tapCount >= 2) {
 				Timer.instance().clear();
@@ -108,11 +111,11 @@ public class NumberScroller {
 		return numberScroller;
 	}
 
-	public void setSendable(Sendable messenger) {
+	void setSendable(InteractableSendable messenger) {
 		this.messenger = messenger;
 	}
 
-	public void removeScroller(float delay) {
+	void removeScroller(float delay) {
 		for (Actor numberButton : numberTable.getChildren()) {
 			numberButton.clearListeners();
 		}
@@ -120,7 +123,7 @@ public class NumberScroller {
 		arrows.remove(delay);
 	}
 
-	public void update(ArrayList<Integer> numberList) {
+	void update(ArrayList<Integer> numberList) {
 		numberTable.clearChildren();
 		if (numberTextButtonStyle == null) {
 			numberTextButtonStyle = buildButtonStyle();
@@ -132,7 +135,7 @@ public class NumberScroller {
 		}
 	}
 
-	public static void dispose() {
+	static void dispose() {
 		style = null;
 		numberTextButtonStyle = null;
 	}

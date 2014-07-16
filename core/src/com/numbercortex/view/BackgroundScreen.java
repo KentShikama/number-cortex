@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.numbercortex.Launch;
 
-public class BackgroundScreen extends Actor {
+class BackgroundScreen extends Actor {
 
 	private Color backgroundProperty;
 	private ShapeRenderer shapeRenderer;

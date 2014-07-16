@@ -13,7 +13,7 @@ import com.esotericsoftware.tablelayout.Cell;
 /**
  * An extension of the com.badlogic.gdx.scenes.scene2d.ui.TextButton class allowing for the label to directly be modified
  */
-public class NumberTextButton extends HighlightableButton {
+class NumberTextButton extends HighlightableButton {
 	static class NumberTextButtonStyle extends ButtonStyle {
 		public BitmapFont font;
 		public Color fontColor, downFontColor, overFontColor, checkedFontColor, checkedOverFontColor,

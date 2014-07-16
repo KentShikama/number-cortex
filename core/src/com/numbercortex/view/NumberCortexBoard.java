@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.numbercortex.Launch;
 
-public class NumberCortexBoard {
+class NumberCortexBoard {
 
 	private static NumberTextButton.NumberTextButtonStyle greenRectangleStyle = buildButtonStyle("green_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
@@ -125,16 +125,16 @@ public class NumberCortexBoard {
 		}
 	}
 
-	public void updateCell(int coordinate, int number) {
+	void updateCell(int coordinate, int number) {
 		NumberTextButton cell = cells.get(coordinate);
 		cell.setText(String.valueOf(number));
 	}
-	public void clearCell(int coordinate) {
+	void clearCell(int coordinate) {
 		NumberTextButton cell = cells.get(coordinate);
 		cell.setText("");
 	}
 
-	public float showWinningCoordinates(Map<Integer, Integer> winningMap) {
+	float showWinningCoordinates(Map<Integer, Integer> winningMap) {
 		for (Map.Entry<Integer, Integer> winningEntry : winningMap.entrySet()) {
 			buildWinningAction(winningEntry);
 		}
@@ -178,21 +178,21 @@ public class NumberCortexBoard {
 		return toggleAction;
 	}
 
-	public void clearBoard() {
+	void clearBoard() {
 		for (NumberTextButton cell : cells) {
 			cell.clearActions();
 			cell.setHighlighted(false);
 		}
 	}
 
-	public ArrayList<NumberTextButton> getBoardCells() {
+	ArrayList<NumberTextButton> getBoardCells() {
 		return cells;
 	}
-	public int getNumberOfRows() {
+	int getNumberOfRows() {
 		return numberOfRows;
 	}
 
-	public void bringCellsDown(float delay) {
+	void bringCellsDown(float delay) {
 		for (NumberTextButton button : cells) {
 			DelayAction delayAction = Actions.delay(delay);
 			MoveByAction moveToAction = Actions.moveBy(0, -220, 1f);
@@ -200,7 +200,7 @@ public class NumberCortexBoard {
 		}
 	}
 
-	public static void dispose() {
+	static void dispose() {
 		Singleton.INSTANCE.cells = null;
 		greenRectangleStyle = null;
 		blueRectangleStyle = null;

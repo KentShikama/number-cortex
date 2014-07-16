@@ -7,7 +7,7 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
 
-public class EasyBrain implements Brain {
+class EasyBrain implements Brain {
 
 	private BrainCalculator utility;
 	private String name = "Easy AI";

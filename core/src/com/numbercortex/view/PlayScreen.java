@@ -27,8 +27,8 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.BoardUtilities;
-import com.numbercortex.logic.DragAndDropHandler;
 import com.numbercortex.logic.GameManager;
+import com.numbercortex.logic.InteractableSendable;
 import com.numbercortex.logic.Player;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
@@ -163,8 +163,14 @@ public class PlayScreen implements Screen {
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {
-		numberScroller.setSendable(currentPlayer);
-		handler.setSendable(currentPlayer);
+		if (currentPlayer instanceof InteractableSendable) {
+			InteractableSendable sendable = (InteractableSendable) currentPlayer;
+			numberScroller.setSendable(sendable);
+			handler.setSendable(sendable);	
+		} else {
+			numberScroller.setSendable(null);
+			handler.setSendable(null);	
+		}
 	}
 	private void updateChosenNumber(CortexState state) {
 		int chosenNumber = state.getChosenNumber();

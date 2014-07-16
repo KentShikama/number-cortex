@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
-public class AnimationUtilities {
+class AnimationUtilities {
 	private AnimationUtilities() {}
 
 	static void delayFadeAndRemoveActor(Actor actor, float delay) {

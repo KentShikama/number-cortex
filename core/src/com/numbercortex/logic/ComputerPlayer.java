@@ -15,7 +15,7 @@ import com.numbercortex.logic.brain.Brain;
 import com.numbercortex.logic.brain.BrainFactory;
 import com.numbercortex.view.PlayScreen;
 
-public class ComputerPlayer implements Player {
+class ComputerPlayer implements Player {
 
 	private String name;
 	private PlayScreen playScreen;

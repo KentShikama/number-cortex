@@ -7,7 +7,7 @@ import com.numbercortex.GameSettings;
 import com.numbercortex.logic.BoardUtilities;
 import com.numbercortex.logic.WinHandler;
 
-public class BrainCalculator {
+class BrainCalculator {
 
 	private WinHandler winHandler;
 

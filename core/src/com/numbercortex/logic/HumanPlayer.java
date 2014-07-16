@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
+import com.numbercortex.view.DragAndDropHandler;
 import com.numbercortex.view.PlayScreen;
 
 import java.util.Map;
 
-class HumanPlayer implements Player {
+class HumanPlayer implements Player, InteractableSendable {
 
 	private static final String TAG = HumanPlayer.class.getCanonicalName();
 
