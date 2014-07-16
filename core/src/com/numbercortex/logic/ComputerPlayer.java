@@ -1,6 +1,7 @@
 package com.numbercortex.logic;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -40,7 +41,9 @@ public class ComputerPlayer implements Player {
 	@Override
 	public void updateState(CortexState state) {
 		playScreen.updateState(state, this);
-		if (state.getWinner() != null) {
+		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
+		if (state.getWinner() != null || openCoordinates.isEmpty()) {
 			return;
 		}
 		int chosenNumber = state.getChosenNumber();
