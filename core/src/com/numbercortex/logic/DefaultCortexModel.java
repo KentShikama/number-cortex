@@ -19,9 +19,9 @@ public class DefaultCortexModel implements CortexModel {
 	private int chosenNumber = -1;
 	private ArrayList<String> players = new ArrayList<String>();
 
-	private String winner; // Optional
-	private String winningAttribute; // Optional
-	private int[] winningValues; // Optional
+	private String winner;
+	private String winningAttribute;
+	private int[] winningValues;
 
 	private GameManager messenger;
 	private GameSettings settings;
@@ -31,16 +31,17 @@ public class DefaultCortexModel implements CortexModel {
 	private WinHandler winHandler;
 
 	DefaultCortexModel(GameManager messenger, GameSettings settings) {
-		this.messenger = messenger;
-		this.settings = settings;
-		this.winHandler = new WinHandler(settings);
+		this(messenger, settings, null);
 	}
-
 	DefaultCortexModel(GameManager messenger, GameSettings settings, CortexState currentState) {
 		this.messenger = messenger;
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);
-
+		if (currentState != null) {
+			assignCurrentCortexState(currentState);			
+		}
+	}
+	private void assignCurrentCortexState(CortexState currentState) {
 		this.currentPlayer = currentState.getCurrentPlayer();
 		this.availableNumbers = currentState.getAvailableNumbers();
 		this.coordinateNumberMap = currentState.getCoordinateNumberMap();
@@ -55,18 +56,10 @@ public class DefaultCortexModel implements CortexModel {
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
 		if (isChosenNumberValid(playerName, nextNumber)) {
-			chosenNumber = nextNumber;
-			availableNumbers.remove(Integer.valueOf(nextNumber));
-			currentPlayer = (currentPlayer.equals(players.get(0)) ? players.get(1) : players.get(0));
-			message = currentPlayer;
-			CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
-					coordinateNumberMap, availableNumbers).build();
-			messenger.updateState(state);
+			updateModelToReflectChoosing(nextNumber);
+			sendPostChoosingModelState();
 		} else {
 			Gdx.app.log(TAG, "Invalid chosen number: " + chosenNumber + ".");
-			for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
-				Gdx.app.log(TAG, entry.getKey() + ", " + entry.getValue());
-			}
 		}
 	}
 	private boolean isChosenNumberValid(String playerName, int nextNumber) {
@@ -80,39 +73,33 @@ public class DefaultCortexModel implements CortexModel {
 		}
 		return false;
 	}
+	private void updateModelToReflectChoosing(int nextNumber) {
+		chosenNumber = nextNumber;
+		availableNumbers.remove(Integer.valueOf(nextNumber));
+		currentPlayer = switchCurrentPlayer();
+		message = currentPlayer;
+	}
+	private String switchCurrentPlayer() {
+		return currentPlayer.equals(players.get(0)) ? players.get(1) : players.get(0);
+	}
+	private void sendPostChoosingModelState() {
+		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
+				coordinateNumberMap, availableNumbers).build();
+		messenger.updateState(state);
+	}
 
 	@Override
 	public void placeNumber(String playerName, int coordinate) {
-		if (isNumberPlacementValid(playerName, coordinate)) {
-			for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
-				if (entry.getValue() == chosenNumber) {
-					coordinateNumberMap.put(entry.getKey(), -1);
-				}
-			}
-			coordinateNumberMap.put(coordinate, chosenNumber);
-			chosenNumber = -1;
-			winningValues = winHandler.handleWinningBoard(coordinateNumberMap);
-			CortexState state;
-			if (winningValues != null) {
-				winningAttribute = winHandler.getWinningAttriute();
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
-						coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues)
-						.build();
-			} else {
-				state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
-						coordinateNumberMap, availableNumbers).build();
-			}
-			messenger.updateState(state);
+		if (isPlacementValid(playerName, coordinate)) {
+			updateModelToReflectPlacement(coordinate);
+			sendPostPlacementModelState();
 		} else {
 			Gdx.app.log(TAG, "Invalid number placement: " + coordinate + ", " + chosenNumber + ".");
-			for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
-				Gdx.app.log(TAG, entry.getKey() + ", " + entry.getValue());
-			}
 			Gdx.app.log(TAG, "Player's match: " + arePlayersMatching(playerName));
 			Gdx.app.log(TAG, "Coordinate is empty: " + isCoordinateEmpty(coordinate));
 		}
 	}
-	private boolean isNumberPlacementValid(String playerName, int coordinate) {
+	private boolean isPlacementValid(String playerName, int coordinate) {
 		return arePlayersMatching(playerName) && isCoordinateEmpty(coordinate);
 	}
 	private boolean arePlayersMatching(String playerName) {
@@ -120,6 +107,36 @@ public class DefaultCortexModel implements CortexModel {
 	}
 	private boolean isCoordinateEmpty(int coordinate) {
 		return coordinateNumberMap.get(coordinate) == -1;
+	}
+	private void updateCoordinateNumberMap(int coordinate) {
+		for (Map.Entry<Integer, Integer> entry : coordinateNumberMap.entrySet()) {
+			if (entry.getValue() == chosenNumber) {
+				coordinateNumberMap.put(entry.getKey(), -1);
+			}
+		}
+		coordinateNumberMap.put(coordinate, chosenNumber);
+	}
+	private void updateModelToReflectPlacement(int coordinate) {
+		updateCoordinateNumberMap(coordinate);
+		chosenNumber = -1;
+		winningValues = winHandler.handleWinningBoard(coordinateNumberMap);
+	}
+	private void sendPostPlacementModelState() {
+		CortexState state = buildPostPlacementCortexState();
+		messenger.updateState(state);
+	}
+	private CortexState buildPostPlacementCortexState() {
+		CortexState state;
+		if (winningValues != null) {
+			winningAttribute = winHandler.getWinningAttriute();
+			state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
+					coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues)
+					.build();
+		} else {
+			state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
+					coordinateNumberMap, availableNumbers).build();
+		}
+		return state;
 	}
 
 	@Override
@@ -154,9 +171,7 @@ public class DefaultCortexModel implements CortexModel {
 		setInitialBoardState();
 		setInitialAvailableNumbers();
 		message = currentPlayer + " starts!";
-		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
-				coordinateNumberMap, availableNumbers).build();
-		messenger.updateState(state);
+		sendPostChoosingModelState();
 	}
 	private void clearVariables() {
 		winner = null;
