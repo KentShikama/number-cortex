@@ -38,7 +38,7 @@ class DefaultCortexModel implements CortexModel {
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);
 		if (currentState != null) {
-			assignCurrentCortexState(currentState);			
+			assignCurrentCortexState(currentState);
 		}
 	}
 	private void assignCurrentCortexState(CortexState currentState) {
@@ -130,8 +130,7 @@ class DefaultCortexModel implements CortexModel {
 		if (winningValues != null) {
 			winningAttribute = winHandler.getWinningAttriute();
 			state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
-					coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues)
-					.build();
+					coordinateNumberMap, availableNumbers).win(currentPlayer, winningAttribute, winningValues).build();
 		} else {
 			state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
 					coordinateNumberMap, availableNumbers).build();

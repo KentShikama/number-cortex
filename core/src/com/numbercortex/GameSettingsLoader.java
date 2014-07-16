@@ -16,7 +16,7 @@ public class GameSettingsLoader {
 		}
 		return array.get(level);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private static void load() {
 		Json json = new Json();

@@ -93,10 +93,9 @@ public class Persistence {
 		ArrayList<String> players = json.readValue("players", ArrayList.class, String.class, root);
 		int chosenNumber = json.readValue("chosenNumber", Integer.class, root);
 		Map<Integer, Integer> checkedCoordinateNumberMap = readCheckedCoordinateNumberMap(json, root);
-		ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class, Integer.class,
-				root);
-		CortexState currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
-				checkedCoordinateNumberMap, availableNumbers).build();
+		ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class, Integer.class, root);
+		CortexState currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
+				chosenNumber, checkedCoordinateNumberMap, availableNumbers).build();
 		return currentCortexState;
 	}
 	private Map<Integer, Integer> readCheckedCoordinateNumberMap(Json json, JsonValue root) {

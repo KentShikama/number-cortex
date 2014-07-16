@@ -166,10 +166,10 @@ public class PlayScreen implements Screen {
 		if (currentPlayer instanceof InteractableSendable) {
 			InteractableSendable sendable = (InteractableSendable) currentPlayer;
 			numberScroller.setSendable(sendable);
-			handler.setSendable(sendable);	
+			handler.setSendable(sendable);
 		} else {
 			numberScroller.setSendable(null);
-			handler.setSendable(null);	
+			handler.setSendable(null);
 		}
 	}
 	private void updateChosenNumber(CortexState state) {
