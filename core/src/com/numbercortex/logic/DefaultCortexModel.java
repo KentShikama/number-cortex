@@ -8,7 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 
-public class DefaultCortexModel implements CortexModel {
+class DefaultCortexModel implements CortexModel {
 
 	private static final String TAG = DefaultCortexModel.class.getCanonicalName();
 
