@@ -55,7 +55,7 @@ public class Persistence {
 		return Singleton.instance;
 	}
 
-	public Persistence load() {
+	Persistence load() {
 		preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
 		loadCusomizationPreferences();
 		loadApplicationState();
@@ -76,40 +76,41 @@ public class Persistence {
 		mode = preferences.getString(MODE, "");
 		isInPlay = preferences.getBoolean(IS_IN_PLAY, false);
 		if (isInPlay) {
-			String currentCortexStateJson = preferences.getString(CURRENT_CORTEX_STATE, "");
-			if (!currentCortexStateJson.isEmpty()) {
-				Json json = new Json();
-				JsonValue root = new JsonReader().parse(currentCortexStateJson);
-				String message = json.readValue("message", String.class, root);
-				String currentPlayer = json.readValue("currentPlayer", String.class, root);
-				ArrayList<String> players = json.readValue("players", ArrayList.class, String.class, root);
-				int chosenNumber = json.readValue("chosenNumber", Integer.class, root);
-				Map<Integer, Integer> coordinateNumberMap = json.readValue("coordinateNumberMap", Map.class,
-						Integer.class, root);
-				Map<Integer, Integer> properlyCastCoordinateNumberMap = new HashMap<Integer, Integer>();
-				for (Map.Entry entry : coordinateNumberMap.entrySet()) {
-					String key = (String) entry.getKey();
-					Integer value = (Integer) entry.getValue();
-					properlyCastCoordinateNumberMap.put(Integer.valueOf(key), value);
-				}
-				ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class,
-						Integer.class, root);
-
-				JsonValue winnerJsonValue = root.get("winner");
-				if (winnerJsonValue != null) {
-					String winner = json.readValue("winner", String.class, root);
-					String winningAttribute = json.readValue("winningAttribute", String.class, root);
-					int[] winningValues = json.readValue("winningValues", int[].class, root);
-					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
-							chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).win(winner,
-							winningAttribute, winningValues).build();
-				} else {
-					currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
-							chosenNumber, properlyCastCoordinateNumberMap, availableNumbers).build();
-				}
-			}
+			loadCurrentCortexSettings();
 		}
 	}
+	private void loadCurrentCortexSettings() {
+		String currentCortexStateJson = preferences.getString(CURRENT_CORTEX_STATE, "");
+		if (!currentCortexStateJson.isEmpty()) {
+			Json json = new Json();
+			JsonValue root = new JsonReader().parse(currentCortexStateJson);
+			currentCortexState = buildCurrentCortexState(json, root);
+		}
+	}
+	private CortexState buildCurrentCortexState(Json json, JsonValue root) {
+		String message = json.readValue("message", String.class, root);
+		String currentPlayer = json.readValue("currentPlayer", String.class, root);
+		ArrayList<String> players = json.readValue("players", ArrayList.class, String.class, root);
+		int chosenNumber = json.readValue("chosenNumber", Integer.class, root);
+		Map<Integer, Integer> checkedCoordinateNumberMap = readCheckedCoordinateNumberMap(json, root);
+		ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class, Integer.class,
+				root);
+		CortexState currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
+				checkedCoordinateNumberMap, availableNumbers).build();
+		return currentCortexState;
+	}
+	private Map<Integer, Integer> readCheckedCoordinateNumberMap(Json json, JsonValue root) {
+		Map<Integer, Integer> uncheckedCoordinateNumberMap = json.readValue("coordinateNumberMap", Map.class,
+				Integer.class, root);
+		Map<Integer, Integer> checkedCoordinateNumberMap = new HashMap<Integer, Integer>();
+		for (Map.Entry entry : uncheckedCoordinateNumberMap.entrySet()) {
+			String key = (String) entry.getKey();
+			Integer value = (Integer) entry.getValue();
+			checkedCoordinateNumberMap.put(Integer.valueOf(key), value);
+		}
+		return checkedCoordinateNumberMap;
+	}
+
 	private void loadSinglePlayerSettings() {
 		currentLevel = preferences.getInteger(CURRENT_LEVEL, 0);
 		maxLevel = preferences.getInteger(MAX_LEVEL, 0);
