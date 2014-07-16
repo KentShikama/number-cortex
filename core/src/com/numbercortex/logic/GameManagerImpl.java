@@ -219,7 +219,7 @@ public class GameManagerImpl implements GameManager {
 			case 6:
 				return "New rule: Middles and Extremes! Adding to the current ruleset, you can make a 3-in-a-row of all middles (5 ~ 12) or all extremes (1 ~ 4 and 13 ~ 17).";
 			case 9:
-				return "Board size increase! You must now make a 4-in-a-row of winning numbers in order to win.";
+				return "Board size increase! You must now make a 4-in-a-row of numbers of the same attribute in order to win.";
 			case 13:
 				return "Four squares unlocked! You may now make a 4-in-a-row by placing a set of winning numbers in a 2 x 2 square.";
 		}
