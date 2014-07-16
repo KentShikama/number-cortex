@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-public class FontGenerator {
+class FontGenerator {
 
 	private static BitmapFont numberScrollerFont;
 	private static BitmapFont boardNumberFont;
@@ -46,7 +46,7 @@ public class FontGenerator {
 		return gillSans50Compact;
 	}
 
-	public static void load() {
+	static void load() {
 		int numberScrollerFontSize = 86;
 		int boardNumberFontSize = 112;
 		int levelNumberFontSize = 60;
@@ -77,7 +77,7 @@ public class FontGenerator {
 		timesGenerator.dispose();
 	}
 
-	public static void dispose() {
+	static void dispose() {
 		numberScrollerFont = null;
 		boardNumberFont = null;
 		levelNumberFont = null;

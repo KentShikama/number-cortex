@@ -82,5 +82,14 @@ public class Assets {
 	public static void assignSettingsScreen() {
 		settingsSkin = manager.get(SETTINGS_SKIN, Skin.class);
 	}
+	
+	public static void loadFonts() {
+		FontGenerator.load();
+	}
 
+	public static void dispose() {
+		FontGenerator.dispose();
+		CortexDialog.dispose();		
+		Assets.manager.dispose();
+	}
 }

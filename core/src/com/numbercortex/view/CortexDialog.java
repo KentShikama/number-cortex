@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class CortexDialog extends Dialog {
+class CortexDialog extends Dialog {
 
 	private static Label.LabelStyle labelStyle = buildLabelStyle();
 	private static Label.LabelStyle buildLabelStyle() {
@@ -98,7 +98,7 @@ public class CortexDialog extends Dialog {
 		dialog.setObject(button, buttonText);
 	}
 
-	public static void dispose() {
+	static void dispose() {
 		textButtonStyle = null;
 	}
 }

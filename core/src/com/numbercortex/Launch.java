@@ -11,8 +11,6 @@ import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 import com.numbercortex.view.Assets;
-import com.numbercortex.view.CortexDialog;
-import com.numbercortex.view.FontGenerator;
 import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.ScreenTracker;
 
@@ -47,7 +45,7 @@ public class Launch extends Game {
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
 
-		FontGenerator.load();
+		Assets.loadFonts();
 		Persistence persistence = Persistence.getInstance().load();
 
 		String currentModeString = persistence.getMode();
@@ -86,9 +84,7 @@ public class Launch extends Game {
 	public void dispose() {
 		super.dispose();
 		ScreenTracker.dispose();
-		CortexDialog.dispose();
-		FontGenerator.dispose();
-		Assets.manager.dispose();
+		Assets.dispose();
 	}
 
 	@Override
