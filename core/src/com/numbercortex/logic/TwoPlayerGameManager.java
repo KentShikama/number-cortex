@@ -89,10 +89,11 @@ public class TwoPlayerGameManager implements GameManager {
 
 	@Override
 	public void startNewGame() {
-		if (Persistence.getInstance().isInPlay()) {
+		Persistence persistence = Persistence.getInstance();
+		if (persistence.isInPlay()) {
 			Gdx.app.log(TAG, "Deleting previous game data.");
 		}
-		Persistence.getInstance().setInPlay(true);
+		persistence.setInPlay(true);
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		registerPlayersAndStartGame();
 	}

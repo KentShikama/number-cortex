@@ -293,8 +293,8 @@ class TwoPlayerSettingsScreen implements Screen {
 
 		addGridLines();
 
-		addPlayerOneName();
-		addPlayerTwoName();
+		addPlayerOneName(persistence);
+		addPlayerTwoName(persistence);
 
 		addTime();
 		addBoardSize();
@@ -322,9 +322,9 @@ class TwoPlayerSettingsScreen implements Screen {
 		stage.addActor(gridLines);
 	}
 
-	private void addPlayerOneName() {
+	private void addPlayerOneName(Persistence persistence) {
 		Label playerOneNameLabel = buildPlayerOneNameLabel();
-		playerOneNameField = buildPlayerOneNameField();
+		playerOneNameField = buildPlayerOneNameField(persistence);
 		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField,
 				groupState);
 		stage.addActor(playerOneNameGroup);
@@ -335,8 +335,8 @@ class TwoPlayerSettingsScreen implements Screen {
 		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 111);
 		return label;
 	}
-	private TextField buildPlayerOneNameField() {
-		String playerOneName = Persistence.getInstance().getPlayerOneName();
+	private TextField buildPlayerOneNameField(Persistence persistence) {
+		String playerOneName = persistence.getPlayerOneName();
 		if (textFieldStyle == null) {
 			textFieldStyle = buildTextFieldStyle();
 		}
@@ -347,9 +347,9 @@ class TwoPlayerSettingsScreen implements Screen {
 		return playerOneNameField;
 	}
 
-	private void addPlayerTwoName() {
+	private void addPlayerTwoName(Persistence persistence) {
 		Label playerTwoNameLabel = buildPlayerTwoNameLabel();
-		playerTwoNameField = buildPlayerTwoNameField();
+		playerTwoNameField = buildPlayerTwoNameField(persistence);
 		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField,
 				groupState);
 		stage.addActor(playerTwoNameGroup);
@@ -360,8 +360,8 @@ class TwoPlayerSettingsScreen implements Screen {
 		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 228);
 		return label;
 	}
-	private TextField buildPlayerTwoNameField() {
-		String playerTwoName = Persistence.getInstance().getPlayerTwoName();
+	private TextField buildPlayerTwoNameField(Persistence persistence) {
+		String playerTwoName = persistence.getPlayerTwoName();
 		if (textFieldStyle == null) {
 			textFieldStyle = buildTextFieldStyle();
 		}

@@ -246,11 +246,11 @@ class SinglePlayerSettingsScreen implements Screen {
 		addEvenOdd();
 		addSingleDouble();
 
-		addPrimeComposite();
-		addMiddleExtreme();
+		addPrimeComposite(persistence);
+		addMiddleExtreme(persistence);
 
 		addDiagonalsGroup();
-		addFourSquaresGroup();
+		addFourSquaresGroup(persistence);
 
 		if (persistence.isInPlay()) {
 			addResumeButton();
@@ -408,11 +408,11 @@ class SinglePlayerSettingsScreen implements Screen {
 		return singleDoubleCheckbox;
 	}
 
-	private void addPrimeComposite() {
+	private void addPrimeComposite(Persistence persistence) {
 		Label primeCompositeLabel = buildPrimeCompositeLabel();
 		ImageButton primeCompositeCheckbox = buildPrimeCompositeCheckbox();
 		GroupState state;
-		if (Persistence.getInstance().getMaxLevel() > 3) {
+		if (persistence.getMaxLevel() > 3) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -441,11 +441,11 @@ class SinglePlayerSettingsScreen implements Screen {
 		return primeCompositeCheckbox;
 	}
 
-	private void addMiddleExtreme() {
+	private void addMiddleExtreme(Persistence persistence) {
 		Label middleExtremeLabel = buildMiddleExtremeLabel();
 		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
 		GroupState state;
-		if (Persistence.getInstance().getMaxLevel() > 6) {
+		if (persistence.getMaxLevel() > 6) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -509,12 +509,12 @@ class SinglePlayerSettingsScreen implements Screen {
 		return diagonalsIcon;
 	}
 
-	private void addFourSquaresGroup() {
+	private void addFourSquaresGroup(Persistence persistence) {
 		Label fourSquareLabel = buildFourSquareLabel();
 		ImageButton fourSquareCheckbox = buildFourSquareCheckbox();
 		Image fourSquareIcon = buildFourSquareIcon();
 		GroupState state;
-		if (Persistence.getInstance().getMaxLevel() > 13) {
+		if (persistence.getMaxLevel() > 13) {
 			state = GroupState.VISIBLE;
 		} else {
 			state = GroupState.TRANSPARENT;
@@ -631,11 +631,6 @@ class SinglePlayerSettingsScreen implements Screen {
 	}
 
 	@Override
-	public void hide() {
-		Persistence.getInstance().save();
-	}
-
-	@Override
 	public void resume() {
 		if (FontGenerator.isNull()) {
 			FontGenerator.load();
@@ -658,5 +653,6 @@ class SinglePlayerSettingsScreen implements Screen {
 		}
 		persistence.save();
 	}
-
+	@Override
+	public void hide() {}
 }

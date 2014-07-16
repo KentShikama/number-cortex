@@ -191,6 +191,17 @@ class LevelsScreen implements Screen {
 		}
 	}
 	@Override
+	public void pause() {
+		Persistence persistence = Persistence.getInstance();
+		persistence.setCurrentScreen(TAG);
+		persistence.setMode(ModeTracker.mode.name());
+		persistence.save();
+	}
+	@Override
+	public void dispose() {
+		levelButtonStyle = null;
+	}
+	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
@@ -201,17 +212,5 @@ class LevelsScreen implements Screen {
 		stage.getViewport().update(width, height, true);
 	}
 	@Override
-	public void pause() {
-		Persistence persistence = Persistence.getInstance();
-		persistence.setCurrentScreen(TAG);
-		persistence.setMode(ModeTracker.mode.name());
-		persistence.save();
-	}
-	@Override
 	public void hide() {}
-	@Override
-	public void dispose() {
-		levelButtonStyle = null;
-	}
-
 }

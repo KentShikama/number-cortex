@@ -93,10 +93,11 @@ public class SinglePlayerGameManager implements GameManager {
 
 	@Override
 	public void startNewGame() {
-		if (Persistence.getInstance().isInPlay()) {
+		Persistence persistence = Persistence.getInstance();
+		if (persistence.isInPlay()) {
 			Gdx.app.log(TAG, "Deleting previous game data.");
 		}
-		Persistence.getInstance().setInPlay(true);
+		persistence.setInPlay(true);
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		manuallySetFirstPlayer();
 		registerPlayersAndStartGame();
@@ -178,7 +179,6 @@ public class SinglePlayerGameManager implements GameManager {
 			}
 			int raisedMaxLevel = ++maxLevel;
 			preferences.setMaxLevel(raisedMaxLevel);
-			preferences.save();
 			Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
 		}
 		if (currentLevel == 0) {
