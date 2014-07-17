@@ -148,9 +148,9 @@ public class SinglePlayerGameManager implements GameManager {
 		if (turnCount == 1) {
 			return new String[] {
 					"Welcome! Number Cortex is a game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on the board.",
-					"Go ahead and drag and drop the chosen number onto the board." };
+					"Go ahead and DRAG AND DROP the chosen number onto the board." };
 		} else if (turnCount == 2) {
-			return new String[] { "Number Cortex is unique because you get to choose which number your opponent will play next. Double tap your opponents next number from the scroller below." };
+			return new String[] { "Number Cortex is unique because you get to choose which number your opponent will play next. DOUBLE TAP your opponents next number from the scroller below." };
 		} else if (turnCount == 5) {
 			return new String[] { "Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits. Good luck!" };
 		}
