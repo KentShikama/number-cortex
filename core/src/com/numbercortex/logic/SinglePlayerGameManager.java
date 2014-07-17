@@ -183,7 +183,7 @@ public class SinglePlayerGameManager implements GameManager {
 		}
 		if (currentLevel == 0) {
 			// In case the player loses and clicks play again, force player to move on to level 1
-			currentLevel = 1;
+			preferences.setCurrentLevel(1);
 		}
 	}
 	private String getUnlockMessage(int currentLevel) {
