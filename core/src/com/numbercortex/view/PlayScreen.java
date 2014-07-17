@@ -158,6 +158,7 @@ public class PlayScreen implements Screen {
 			updateBoardMap(state);
 			updateNumberScroller(state);
 		} else {
+			updateBoardMap(state);
 			animateEndingSequence(state);
 			Persistence.getInstance().setInPlay(false);
 		}
