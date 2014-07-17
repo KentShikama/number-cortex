@@ -630,11 +630,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen implements Screen {
 	public void hide() {
 		saveUnsyncedPreferences();
 	}
-	private void saveUnsyncedPreferences() {
-		Persistence persistence = Persistence.getInstance();
-		persistence.setPlayerOneName(playerOneNameField.getText());
-		persistence.setPlayerTwoName(playerTwoNameField.getText());
-	}
 
 	@Override
 	public void render(float delta) {
@@ -662,6 +657,11 @@ class TwoPlayerSettingsScreen extends SettingsScreen implements Screen {
 	public void pause() {
 		saveUnsyncedPreferences();
 		persistPreferences();
+	}
+	private void saveUnsyncedPreferences() {
+		Persistence persistence = Persistence.getInstance();
+		persistence.setPlayerOneName(playerOneNameField.getText());
+		persistence.setPlayerTwoName(playerTwoNameField.getText());
 	}
 	private void persistPreferences() {
 		Persistence persistence = Persistence.getInstance();
