@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -267,24 +268,24 @@ public class PlayScreen implements Screen {
 		messageArea.flashChosenNumber(chosenNumber);
 	}
 	
-	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
+	public void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
-		int numberOfRows = board.getNumberOfRows();
+		MoveToAction moveToAction = buildMoveToAction(coordinate, nextNumberCell);		
+		DelayAction delayAction = Actions.delay(0.5f);
+		SequenceAction placeNumberAction = Actions.sequence(delayAction, moveToAction, completePlaceNumberAction);
 		Label nextNumberLabel = nextNumberCell.getLabel();
+		nextNumberLabel.addAction(placeNumberAction);
+	}
+	private MoveToAction buildMoveToAction(int coordinate, NumberTextButton nextNumberCell) {
+		int numberOfRows = board.getNumberOfRows();
 		int offset = numberOfRows == 3 ? 36 : 10;
 		float nextNumberLabelX = nextNumberCell.getX() - offset;
 		float nextNumberLabelY = nextNumberCell.getY() - offset;
-
 		float dragToPositionX = board.getBoardCells().get(coordinate).getX();
 		float dragToPositionY = board.getBoardCells().get(coordinate).getY();
-		Vector3 pos = new Vector3(dragToPositionX, dragToPositionY, 0);
-		stage.getCamera().unproject(pos);
 		MoveToAction moveToAction = Actions.moveTo(dragToPositionX - nextNumberLabelX, dragToPositionY
 				- nextNumberLabelY, 0.7f);
-		ArrayList<Object> components = new ArrayList<Object>();
-		components.add(nextNumberLabel);
-		components.add(moveToAction);
-		return components;
+		return moveToAction;
 	}
 
 	@Override
@@ -335,4 +336,5 @@ public class PlayScreen implements Screen {
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
 	}
+
 }

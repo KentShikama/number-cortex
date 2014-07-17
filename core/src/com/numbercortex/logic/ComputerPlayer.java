@@ -18,12 +18,12 @@ import com.numbercortex.view.PlayScreen;
 class ComputerPlayer implements Player {
 
 	private String name;
-	private PlayScreen playScreen;
+	private PlayScreen screen;
 	private GameManager messenger;
 	private Brain brain;
 
 	ComputerPlayer(PlayScreen playScreen, GameManager messenger) {
-		this.playScreen = playScreen;
+		this.screen = playScreen;
 		this.messenger = messenger;
 
 		this.brain = buildBrain(messenger);
@@ -40,7 +40,7 @@ class ComputerPlayer implements Player {
 
 	@Override
 	public void updateState(CortexState state) {
-		playScreen.updateState(state, this);
+		screen.updateState(state, this);
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		if (state.getWinner() != null || openCoordinates.isEmpty()) {
@@ -49,20 +49,12 @@ class ComputerPlayer implements Player {
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber != -1) {
 			final int coordinate = brain.calculateCoordinate(state);
-			placeNumberWithAnimation(coordinate);
+			Action completePlaceNumberAction = buildCompletePlaceNumberAction(coordinate);
+			screen.placeNumberWithAnimation(coordinate, completePlaceNumberAction);
 		} else {
 			int nextNumber = brain.calculateNextNumber(state);
 			chooseNumber(null, nextNumber);
 		}
-	}
-	private void placeNumberWithAnimation(final int coordinate) {
-		ArrayList<Object> components = playScreen.getRequiredComponentsForComputerAnimation(coordinate);
-		Label labelToMove = (Label) components.get(0);
-		MoveToAction moveToAction = (MoveToAction) components.get(1);
-		DelayAction delayAction = Actions.delay(0.5f);
-		Action completePlaceNumberAction = buildCompletePlaceNumberAction(coordinate);
-		SequenceAction placeNumberAction = Actions.sequence(delayAction, moveToAction, completePlaceNumberAction);
-		labelToMove.addAction(placeNumberAction);
 	}
 	private Action buildCompletePlaceNumberAction(final int coordinate) {
 		Action completePlaceNumberAction = new Action() {
@@ -92,7 +84,6 @@ class ComputerPlayer implements Player {
 
 	@Override
 	public PlayScreen getScreen() {
-		return playScreen;
+		return screen;
 	}
-
 }
