@@ -23,7 +23,7 @@ class DefaultCortexModel implements CortexModel {
 	private String winningAttribute;
 	private int[] winningValues;
 
-	private GameManager messenger;
+	private GameManager manager;
 	private GameSettings settings;
 
 	private int firstPlayerPosition = -1;
@@ -34,7 +34,7 @@ class DefaultCortexModel implements CortexModel {
 		this(messenger, settings, null);
 	}
 	DefaultCortexModel(GameManager messenger, GameSettings settings, CortexState currentState) {
-		this.messenger = messenger;
+		this.manager = messenger;
 		this.settings = settings;
 		this.winHandler = new WinHandler(settings);
 		if (currentState != null) {
@@ -85,7 +85,7 @@ class DefaultCortexModel implements CortexModel {
 	private void sendPostChoosingModelState() {
 		CortexState state = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
 				coordinateNumberMap, availableNumbers).build();
-		messenger.updateState(state);
+		manager.updateState(state);
 	}
 
 	@Override
@@ -123,7 +123,7 @@ class DefaultCortexModel implements CortexModel {
 	}
 	private void sendPostPlacementModelState() {
 		CortexState state = buildPostPlacementCortexState();
-		messenger.updateState(state);
+		manager.updateState(state);
 	}
 	private CortexState buildPostPlacementCortexState() {
 		CortexState state;
