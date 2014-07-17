@@ -181,7 +181,7 @@ public class SinglePlayerGameManager implements GameManager {
 			preferences.setMaxLevel(raisedMaxLevel);
 			Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
 		}
-		if (currentLevel == 0) {
+		if (currentLevel == 0 && openCoordinates.isEmpty()) {
 			// In case the player loses and clicks play again, force player to move on to level 1
 			preferences.setCurrentLevel(1);
 		}
