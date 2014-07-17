@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.numbercortex.Launch;
+import com.numbercortex.Persistence;
 import com.numbercortex.logic.InteractableSendable;
 
 class NumberScroller {
@@ -59,21 +60,23 @@ class NumberScroller {
 				int number = getClickedNumber(event);
 				messenger.chooseNumber(null, number);
 			} else {
-				final Label label = (Label) event.getTarget();
-				Timer.schedule(new Task() {
-					@Override
-					public void run() {
-						Label.LabelStyle style = label.getStyle();
-						if (style.fontColor.a < 0.75) {
-							label.getStyle().fontColor.a = 1;
-						} else {
-							label.getStyle().fontColor.a = 0.5f;
+				Persistence persistence = Persistence.getInstance();
+				if (persistence.isFadeOnTap()) {
+					final Label label = (Label) event.getTarget();
+					Timer.schedule(new Task() {
+						@Override
+						public void run() {
+							Label.LabelStyle style = label.getStyle();
+							if (style.fontColor.a < 0.75) {
+								label.getStyle().fontColor.a = 1;
+							} else {
+								label.getStyle().fontColor.a = 0.5f;
+							}
 						}
-					}
-				}, 0.4f);
+					}, 0.4f);	
+				}
 			}
 		}
-
 		private int getClickedNumber(InputEvent event) {
 			Label label = (Label) event.getTarget();
 			String numberString = label.getText().toString();

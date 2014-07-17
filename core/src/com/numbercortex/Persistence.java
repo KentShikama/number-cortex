@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.JsonValue;
 public class Persistence {
 
 	private static final String BACKGROUND_COLOR = "background_color";
+	private static final String FADE_ON_TAP = "fade_on_tap";
 	private static final String SOUND = "sound";
 	private static final String MUSIC = "music";
 
@@ -29,6 +30,7 @@ public class Persistence {
 	private static final String TWO_PLAYER_GAME_SETTINGS = "twoPlayerGameSettings";
 
 	private boolean blue;
+	private boolean fadeOnTap;
 	private boolean sound;
 	private boolean music;
 
@@ -63,6 +65,7 @@ public class Persistence {
 	}
 	private void loadCusomizationPreferences() {
 		blue = preferences.getBoolean(BACKGROUND_COLOR, true);
+		fadeOnTap = preferences.getBoolean(FADE_ON_TAP, false);
 		sound = preferences.getBoolean(SOUND, true);
 		music = preferences.getBoolean(MUSIC, false);
 	}
@@ -148,6 +151,7 @@ public class Persistence {
 	}
 	private void saveCustomizationPreferences() {
 		preferences.putBoolean(BACKGROUND_COLOR, blue);
+		preferences.putBoolean(FADE_ON_TAP, fadeOnTap);
 		preferences.putBoolean(SOUND, sound);
 		preferences.putBoolean(MUSIC, music);
 	}
@@ -193,6 +197,13 @@ public class Persistence {
 		this.blue = blue;
 	}
 
+	public boolean isFadeOnTap() {
+		return fadeOnTap;
+	}
+	public void setFadeOnTap(boolean fadeOnTap) {
+		this.fadeOnTap = fadeOnTap;
+	}
+	
 	public boolean isSound() {
 		return sound;
 	}

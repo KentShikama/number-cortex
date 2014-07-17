@@ -40,6 +40,7 @@ class HumanPlayer implements Player, InteractableSendable {
 			messenger.chooseNumber(name, nextNumber);
 			nextCoordinateChosen = false;
 		} else {
+			// Flash the chosen number
 			Gdx.app.log(TAG, "Please place the chosen number first.");
 		}
 	}
