@@ -2,6 +2,7 @@ package com.numbercortex.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.numbercortex.CortexState;
+import com.numbercortex.GameSettings;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
@@ -23,11 +24,11 @@ class HumanPlayer implements Player, InteractableSendable {
 
 	private WinHandler winHandler;
 
-	HumanPlayer(String name, PlayScreen screen, GameManager messenger) {
+	HumanPlayer(String name, PlayScreen screen, GameManager messenger, GameSettings settings) {
 		this.messenger = messenger;
 		this.screen = screen;
 		this.name = name;
-		this.winHandler = new WinHandler(messenger.getSettings());
+		this.winHandler = new WinHandler(settings);
 	}
 
 	@Override

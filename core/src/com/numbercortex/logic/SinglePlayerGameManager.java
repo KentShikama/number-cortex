@@ -46,7 +46,7 @@ public class SinglePlayerGameManager implements GameManager {
 		messenger.state = state;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger, messenger.preferences);
-		addPlayers(messenger, messenger.screen);
+		addPlayers(messenger, messenger.screen, messenger.settings);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
 			messenger.model = new DefaultCortexModel(messenger, messenger.settings);
@@ -55,9 +55,9 @@ public class SinglePlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static void addPlayers(SinglePlayerGameManager messenger, PlayScreen screen) {
-		Player human = new HumanPlayer("Player", screen, messenger);
-		Player computer = new ComputerPlayer(screen, messenger);
+	private static void addPlayers(SinglePlayerGameManager messenger, PlayScreen screen, GameSettings settings) {
+		Player human = new HumanPlayer("Player", screen, messenger, settings);
+		Player computer = new ComputerPlayer(screen, messenger, settings);
 		messenger.players.add(human);
 		messenger.players.add(computer);
 	}
@@ -66,11 +66,7 @@ public class SinglePlayerGameManager implements GameManager {
 		messenger.currentLevel = level;
 		return GameSettingsLoader.loadLevel(messenger.currentLevel);
 	}
-
-	@Override
-	public GameSettings getSettings() {
-		return settings;
-	}
+	
 	@Override
 	public CortexState getState() {
 		return state;
@@ -136,8 +132,7 @@ public class SinglePlayerGameManager implements GameManager {
 	}
 	private void handleTutorialMessages(CortexState state) {
 		if (currentLevel == 0) {
-			int numberOfRows = settings.getNumberOfRows();
-			int turnCount = BoardUtilities.getTurnNumber(state, numberOfRows);
+			int turnCount = BoardUtilities.getTurnNumber(state);
 			String[] messages = getTutorialMessage(turnCount);
 			if (messages != null) {
 				screen.showConfirmationDialog(messages);
@@ -161,7 +156,7 @@ public class SinglePlayerGameManager implements GameManager {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		if (playerWinsGame(winner) || tutorialEnds(winner, openCoordinates)) {
-			unlockNextLevelIfOnMaxLevel();
+			unlockNextLevelIfOnMaxLevel(openCoordinates);
 		}
 	}
 	private boolean playerWinsGame(String winner) {
@@ -170,7 +165,7 @@ public class SinglePlayerGameManager implements GameManager {
 	private boolean tutorialEnds(String winner, ArrayList<Integer> openCoordinates) {
 		return currentLevel == 0 && (winner != null || openCoordinates.isEmpty());
 	}
-	private void unlockNextLevelIfOnMaxLevel() {
+	private void unlockNextLevelIfOnMaxLevel(ArrayList<Integer> openCoordinates) {
 		int maxLevel = preferences.getMaxLevel();
 		if (currentLevel == maxLevel) {
 			String message = getUnlockMessage(currentLevel);

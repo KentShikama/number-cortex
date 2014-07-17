@@ -22,17 +22,16 @@ class ComputerPlayer implements Player {
 	private GameManager messenger;
 	private Brain brain;
 
-	ComputerPlayer(PlayScreen playScreen, GameManager messenger) {
+	ComputerPlayer(PlayScreen playScreen, GameManager messenger, GameSettings settings) {
 		this.screen = playScreen;
 		this.messenger = messenger;
 
-		this.brain = buildBrain(messenger);
+		this.brain = buildBrain(messenger, settings);
 		this.name = brain.getName();
 	}
 
-	private Brain buildBrain(GameManager messenger) {
+	private Brain buildBrain(GameManager messenger, GameSettings settings) {
 		Brain brain;
-		GameSettings settings = messenger.getSettings();
 		int brainDifficulty = settings.getDifficulty();
 		brain = BrainFactory.buildBrain(settings, brainDifficulty);
 		return brain;
@@ -53,8 +52,12 @@ class ComputerPlayer implements Player {
 			screen.placeNumberWithAnimation(coordinate, completePlaceNumberAction);
 		} else {
 			int nextNumber = brain.calculateNextNumber(state);
-			Action completeChooseNumberAction = buildCompleteChooseNumberAction(nextNumber);
-			screen.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
+			if (BoardUtilities.getTurnNumber(state) == 0) {
+				chooseNumber(null, nextNumber);
+			} else {
+				Action completeChooseNumberAction = buildCompleteChooseNumberAction(nextNumber);
+				screen.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
+			}
 		}
 	}
 	private Action buildCompletePlaceNumberAction(final int coordinate) {

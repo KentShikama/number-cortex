@@ -17,7 +17,9 @@ public class BoardUtilities {
 		return openCoordinates;
 	}
 
-	public static int getTurnNumber(CortexState state, int numberOfRows) {
+	public static int getTurnNumber(CortexState state) {
+		int boardSize = state.getCoordinateNumberMap().size();
+		int numberOfRows = (int) Math.sqrt(boardSize);
 		int fullCoordinatesSize = getFullCoordinates(state, numberOfRows);
 		int turnCount = 0;
 		int chosenNumber = state.getChosenNumber();

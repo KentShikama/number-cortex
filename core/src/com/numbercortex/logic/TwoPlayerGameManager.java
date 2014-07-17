@@ -42,7 +42,7 @@ public class TwoPlayerGameManager implements GameManager {
 		messenger.state = state;
 		messenger.players.clear();
 		messenger.settings = buildSettings(messenger.preferences);
-		addPlayers(messenger, messenger.screen, messenger.preferences);
+		addPlayers(messenger, messenger.screen, messenger.preferences, messenger.settings);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
 			messenger.model = new DefaultCortexModel(messenger, messenger.settings);
@@ -51,11 +51,11 @@ public class TwoPlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static void addPlayers(TwoPlayerGameManager messenger, PlayScreen screen, Persistence preferences) {
+	private static void addPlayers(TwoPlayerGameManager messenger, PlayScreen screen, Persistence preferences, GameSettings settings) {
 		String playerOneName = preferences.getPlayerOneName();
 		String playerTwoName = preferences.getPlayerTwoName();
-		Player playerOne = new HumanPlayer(playerOneName, screen, messenger);
-		Player playerTwo = new HumanPlayer(playerTwoName, screen, messenger);
+		Player playerOne = new HumanPlayer(playerOneName, screen, messenger, settings);
+		Player playerTwo = new HumanPlayer(playerTwoName, screen, messenger, settings);
 		messenger.players.add(playerOne);
 		messenger.players.add(playerTwo);
 	}
@@ -63,10 +63,6 @@ public class TwoPlayerGameManager implements GameManager {
 		return preferences.getTwoPlayerGameSettings();
 	}
 
-	@Override
-	public GameSettings getSettings() {
-		return settings;
-	}
 	@Override
 	public CortexState getState() {
 		return state;
