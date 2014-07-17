@@ -4,9 +4,14 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -47,6 +52,7 @@ class NumberScroller {
 	private InteractableSendable messenger;
 	private Table numberTable = new Table();
 	private NumberButtonListener listener = new NumberButtonListener();
+	private ArrayList<Integer> numberList;
 	private class NumberButtonListener extends ClickListener {
 
 		@Override
@@ -73,7 +79,7 @@ class NumberScroller {
 								label.getStyle().fontColor.a = 0.5f;
 							}
 						}
-					}, 0.4f);	
+					}, 0.4f);
 				}
 			}
 		}
@@ -116,6 +122,13 @@ class NumberScroller {
 
 	void setSendable(InteractableSendable messenger) {
 		this.messenger = messenger;
+		if (messenger == null) {
+			numberScroller.setTouchable(Touchable.disabled);
+			arrows.setDisabled(true);
+		} else {
+			numberScroller.setTouchable(Touchable.enabled);
+			arrows.setDisabled(false);
+		}
 	}
 
 	void removeScroller(float delay) {
@@ -127,15 +140,29 @@ class NumberScroller {
 	}
 
 	void update(ArrayList<Integer> numberList) {
+		this.numberList = numberList;
 		numberTable.clearChildren();
 		if (numberTextButtonStyle == null) {
 			numberTextButtonStyle = buildButtonStyle();
 		}
 		for (Integer number : numberList) {
 			NumberTextButton button = new NumberTextButton(number.toString(), buildButtonStyle());
+			button.setName(String.valueOf(number));
 			button.addListener(listener);
 			numberTable.add(button);
 		}
+	}
+
+	void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction) {
+		NumberTextButton nextNumberCell = (NumberTextButton) numberScroller.findActor(String.valueOf(nextNumber));
+		int nextNumberCellPosition = numberTable.getCell(nextNumberCell).getColumn();
+		int nextNumberCellCoordinate = nextNumberCellPosition * 125;
+		int numberScrollerCenterCoordinate = (int) (numberScroller.getWidth() / 2);
+		numberScroller.setScrollX(nextNumberCellCoordinate - numberScrollerCenterCoordinate + 63);
+
+		DelayAction delayAction = new DelayAction(1.2f);
+		SequenceAction sequence = Actions.sequence(delayAction, completeChooseNumberAction);
+		numberScroller.addAction(sequence);
 	}
 
 	static void dispose() {

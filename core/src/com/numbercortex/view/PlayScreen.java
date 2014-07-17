@@ -10,7 +10,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -267,10 +266,10 @@ public class PlayScreen implements Screen {
 	public void flashChosenNumber(int chosenNumber) {
 		messageArea.flashChosenNumber(chosenNumber);
 	}
-	
+
 	public void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
-		MoveToAction moveToAction = buildMoveToAction(coordinate, nextNumberCell);		
+		MoveToAction moveToAction = buildMoveToAction(coordinate, nextNumberCell);
 		DelayAction delayAction = Actions.delay(0.5f);
 		SequenceAction placeNumberAction = Actions.sequence(delayAction, moveToAction, completePlaceNumberAction);
 		Label nextNumberLabel = nextNumberCell.getLabel();
@@ -286,6 +285,10 @@ public class PlayScreen implements Screen {
 		MoveToAction moveToAction = Actions.moveTo(dragToPositionX - nextNumberLabelX, dragToPositionY
 				- nextNumberLabelY, 0.7f);
 		return moveToAction;
+	}
+
+	public void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction) {
+		numberScroller.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
 	}
 
 	@Override
@@ -336,5 +339,4 @@ public class PlayScreen implements Screen {
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
 	}
-
 }

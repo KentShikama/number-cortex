@@ -29,6 +29,9 @@ class NumberScrollerArrows {
 		leftArrowButton.addListener(new ClickListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				if (leftArrowButton.isDisabled()) {
+					return true;
+				}
 				super.touchDown(event, x, y, pointer, button);
 				scroller.fling(1, 750, 0);
 				return true;
@@ -40,6 +43,9 @@ class NumberScrollerArrows {
 		rightArrowButton.addListener(new ClickListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				if (rightArrowButton.isDisabled()) {
+					return true;
+				}
 				super.touchDown(event, x, y, pointer, button);
 				scroller.fling(1, -750, 0);
 				return true;
@@ -50,6 +56,11 @@ class NumberScrollerArrows {
 	void addArrows(Stage stage) {
 		stage.addActor(leftArrowButton);
 		stage.addActor(rightArrowButton);
+	}
+
+	void setDisabled(boolean disabled) {
+		leftArrowButton.setDisabled(disabled);
+		rightArrowButton.setDisabled(disabled);
 	}
 
 	void remove(float delay) {

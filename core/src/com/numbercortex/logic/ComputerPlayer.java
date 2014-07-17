@@ -53,7 +53,8 @@ class ComputerPlayer implements Player {
 			screen.placeNumberWithAnimation(coordinate, completePlaceNumberAction);
 		} else {
 			int nextNumber = brain.calculateNextNumber(state);
-			chooseNumber(null, nextNumber);
+			Action completeChooseNumberAction = buildCompleteChooseNumberAction(nextNumber);
+			screen.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
 		}
 	}
 	private Action buildCompletePlaceNumberAction(final int coordinate) {
@@ -65,6 +66,16 @@ class ComputerPlayer implements Player {
 			}
 		};
 		return completePlaceNumberAction;
+	}
+	private Action buildCompleteChooseNumberAction(final int nextNumber) {
+		Action completeChooseNumberAction = new Action() {
+			@Override
+			public boolean act(float delta) {
+				chooseNumber(null, nextNumber);
+				return true;
+			}
+		};
+		return completeChooseNumberAction;
 	}
 
 	@Override
