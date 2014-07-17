@@ -16,7 +16,7 @@ public class TwoPlayerGameManager implements GameManager {
 
 	private PlayScreen screen;
 
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Player> players;
 	private CortexModel model;
 	private GameSettings settings;
 
@@ -37,12 +37,11 @@ public class TwoPlayerGameManager implements GameManager {
 	}
 	public static GameManager createNewGameManager(CortexState state) {
 		TwoPlayerGameManager messenger = Singleton.INSTANCE;
+		messenger.state = state;
 		messenger.preferences = Persistence.getInstance();
 		messenger.screen = ScreenTracker.playScreen;
-		messenger.state = state;
-		messenger.players.clear();
 		messenger.settings = buildSettings(messenger.preferences);
-		addPlayers(messenger, messenger.screen, messenger.preferences, messenger.settings);
+		messenger.players = buildPlayers(messenger, messenger.screen, messenger.preferences, messenger.settings);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
 			messenger.model = new DefaultCortexModel(messenger, messenger.settings);
@@ -51,13 +50,15 @@ public class TwoPlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static void addPlayers(TwoPlayerGameManager messenger, PlayScreen screen, Persistence preferences, GameSettings settings) {
+	private static ArrayList<Player> buildPlayers(GameManager messenger, PlayScreen screen, Persistence preferences, GameSettings settings) {
+		ArrayList<Player> players = new ArrayList<Player>();
 		String playerOneName = preferences.getPlayerOneName();
 		String playerTwoName = preferences.getPlayerTwoName();
 		Player playerOne = new HumanPlayer(playerOneName, screen, messenger, settings);
 		Player playerTwo = new HumanPlayer(playerTwoName, screen, messenger, settings);
-		messenger.players.add(playerOne);
-		messenger.players.add(playerTwo);
+		players.add(playerOne);
+		players.add(playerTwo);
+		return players;
 	}
 	private static GameSettings buildSettings(Persistence preferences) {
 		return preferences.getTwoPlayerGameSettings();

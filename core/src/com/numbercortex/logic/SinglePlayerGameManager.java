@@ -18,7 +18,7 @@ public class SinglePlayerGameManager implements GameManager {
 
 	private PlayScreen screen;
 
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Player> players;
 	private CortexModel model;
 	private GameSettings settings;
 
@@ -41,12 +41,11 @@ public class SinglePlayerGameManager implements GameManager {
 	}
 	public static GameManager createNewGameManager(CortexState state) {
 		SinglePlayerGameManager messenger = Singleton.INSTANCE;
+		messenger.state = state;
 		messenger.preferences = Persistence.getInstance();
 		messenger.screen = ScreenTracker.playScreen;
-		messenger.state = state;
-		messenger.players.clear();
 		messenger.settings = buildSettings(messenger, messenger.preferences);
-		addPlayers(messenger, messenger.screen, messenger.settings);
+		messenger.players = buildPlayers(messenger, messenger.screen, messenger.settings);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
 			messenger.model = new DefaultCortexModel(messenger, messenger.settings);
@@ -55,11 +54,13 @@ public class SinglePlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static void addPlayers(SinglePlayerGameManager messenger, PlayScreen screen, GameSettings settings) {
+	private static ArrayList<Player> buildPlayers(GameManager messenger, PlayScreen screen, GameSettings settings) {
+		ArrayList<Player> players = new ArrayList<Player>();
 		Player human = new HumanPlayer("Player", screen, messenger, settings);
 		Player computer = new ComputerPlayer(screen, messenger, settings);
-		messenger.players.add(human);
-		messenger.players.add(computer);
+		players.add(human);
+		players.add(computer);
+		return players;
 	}
 	private static GameSettings buildSettings(SinglePlayerGameManager messenger, Persistence preferences) {
 		int level = preferences.getCurrentLevel();
