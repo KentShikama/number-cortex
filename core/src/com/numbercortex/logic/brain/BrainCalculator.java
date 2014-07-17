@@ -26,6 +26,17 @@ class BrainCalculator {
 		}
 		return chosenCoordinate;
 	}
+	
+	ArrayList<Integer> getNonWinningCoordinatesIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
+			ArrayList<Integer> openCoordinates) {
+		ArrayList<Integer> nonWinningCoordinates = new ArrayList<Integer>();
+		for (Integer openCoordinate : openCoordinates) {
+			if (!isWinningCoordinate(openCoordinate, chosenNumber, coordinateNumberMap)) {
+				nonWinningCoordinates.add(openCoordinate);
+			}
+		}
+		return nonWinningCoordinates;
+	}
 
 	ArrayList<Integer> getSafeCoordinatesIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> openCoordinates, ArrayList<Integer> availableNumbers) {

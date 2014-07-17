@@ -6,6 +6,9 @@ public class BrainFactory {
 	public static Brain buildBrain(GameSettings settings, int difficulty) {
 		Brain brain;
 		switch (difficulty) {
+			case 0:
+				brain = new LosingBrain(settings);
+				break;
 			case 1:
 				brain = new RandomBrain(settings);
 				break;

@@ -8,7 +8,7 @@
 	primeComposite: false,
 	middleExtreme: false,
 	numberOfRows: 3,
-	difficulty: 1,
+	difficulty: 0,
 	diagonals: true,
 	fourSquare: false
 },
