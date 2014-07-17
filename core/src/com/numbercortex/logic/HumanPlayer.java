@@ -33,15 +33,15 @@ class HumanPlayer implements Player, InteractableSendable {
 	@Override
 	public void chooseNumber(String player, int nextNumber) {
 		DragAndDropHandler.getInstance().resetPlacementCount();
-		if (state.getChosenNumber() == -1) {
+		int chosenNumber = state.getChosenNumber();
+		if (chosenNumber == -1) {
 			messenger.chooseNumber(name, nextNumber);
 		} else if (state.getChosenNumber() != -1 && nextCoordinateChosen) {
 			messenger.placeNumber(name, savedCoordinate);
 			messenger.chooseNumber(name, nextNumber);
 			nextCoordinateChosen = false;
 		} else {
-			// Flash the chosen number
-			Gdx.app.log(TAG, "Please place the chosen number first.");
+			screen.flashChosenNumber(chosenNumber);
 		}
 	}
 

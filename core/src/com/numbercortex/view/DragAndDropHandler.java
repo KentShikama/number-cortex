@@ -71,6 +71,7 @@ public class DragAndDropHandler {
 			if (isValidToDrag()) {
 				Payload payload = new Payload();
 				Label buttonLabel = sourceButton.getLabel();
+				sourceButton.clearActions();
 				payload.setObject(buttonLabel);
 				payload.setDragActor(buttonLabel);
 				payload.setInvalidDragActor(buttonLabel);

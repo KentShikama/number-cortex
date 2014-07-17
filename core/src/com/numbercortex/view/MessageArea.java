@@ -9,10 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.numbercortex.Launch;
@@ -192,6 +195,39 @@ class MessageArea {
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label label = new Label("", labelStyle);
 		return label;
+	}
+
+	void flashChosenNumber(int chosenNumber) {
+		RepeatAction repeatAction = buildRepeatableFlashingAction(chosenNumber);
+		nextNumberSquare.addAction(repeatAction);
+	}
+	private RepeatAction buildRepeatableFlashingAction(int chosenNumber) {
+		DelayAction delayAction = Actions.delay(0.5f);
+		Action toggleAction = buildToggleAction(chosenNumber);
+		SequenceAction sequence = Actions.sequence(toggleAction, delayAction);
+		RepeatAction repeatAction = new RepeatAction();
+		repeatAction.setAction(sequence);
+		repeatAction.setCount(4);
+		return repeatAction;
+	}
+	private Action buildToggleAction(final int chosenNumber) {
+		Action toggleAction = new Action() {
+			@Override
+			public boolean act(float delta) {
+				toggleCell();
+				return true;
+			}
+			private void toggleCell() {
+				if (nextNumberSquare.isHighlighted) {
+					nextNumberSquare.setText(String.valueOf(chosenNumber));
+					nextNumberSquare.setHighlighted(false);
+				} else {
+					nextNumberSquare.setText("");
+					nextNumberSquare.setHighlighted(true);
+				}
+			}
+		};
+		return toggleAction;
 	}
 
 	void showEndingMessageSequence(final String winner, final String winningAttribute, float delay) {

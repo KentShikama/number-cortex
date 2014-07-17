@@ -263,6 +263,10 @@ public class PlayScreen implements Screen {
 		stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
 	}
 
+	public void flashChosenNumber(int chosenNumber) {
+		messageArea.flashChosenNumber(chosenNumber);
+	}
+	
 	public ArrayList<Object> getRequiredComponentsForComputerAnimation(int coordinate) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
 		int numberOfRows = board.getNumberOfRows();
@@ -331,5 +335,4 @@ public class PlayScreen implements Screen {
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
 	}
-
 }
