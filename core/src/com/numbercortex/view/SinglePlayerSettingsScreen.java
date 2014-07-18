@@ -527,9 +527,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = SinglePlayerGameManager.getInstance();
-				game.setScreen(ScreenTracker.playScreen);
-				manager.resumeGame();
+				resumeAction();
 			}
 		});
 		stage.addActor(resumeButton);
@@ -541,9 +539,19 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
-			game.setScreen(ScreenTracker.levelsScreen);
+			Persistence persistence = Persistence.getInstance();
+			if (persistence.isInPlay()) {
+				resumeAction();
+			} else {
+				game.setScreen(ScreenTracker.levelsScreen);				
+			}
 		}
 		super.render(delta);
+	}
+	private void resumeAction() {
+		GameManager manager = SinglePlayerGameManager.getInstance();
+		game.setScreen(ScreenTracker.playScreen);
+		manager.resumeGame();
 	}
 	@Override
 	public void dispose() {

@@ -30,6 +30,7 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
+import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
 class TwoPlayerSettingsScreen extends SettingsScreen {
@@ -617,9 +618,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		resumeButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = TwoPlayerGameManager.getInstance();
-				game.setScreen(ScreenTracker.playScreen);
-				manager.resumeGame();
+				resumeAction();
 			}
 		});
 		stage.addActor(resumeButton);
@@ -631,9 +630,19 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
-			game.setScreen(ScreenTracker.titleScreen);
+			Persistence persistence = Persistence.getInstance();
+			if (persistence.isInPlay()) {
+				resumeAction();
+			} else {
+				game.setScreen(ScreenTracker.titleScreen);
+			}
 		}
 		super.render(delta);
+	}
+	private void resumeAction() {
+		GameManager manager = TwoPlayerGameManager.getInstance();
+		game.setScreen(ScreenTracker.playScreen);
+		manager.resumeGame();
 	}
 	@Override
 	public void dispose() {
