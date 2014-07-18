@@ -108,7 +108,7 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 		addBackButton();
 
 		addScrollPane();
-		
+
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
 	}

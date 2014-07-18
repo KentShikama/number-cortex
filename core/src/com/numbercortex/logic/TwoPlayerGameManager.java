@@ -50,7 +50,8 @@ public class TwoPlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static ArrayList<Player> buildPlayers(GameManager messenger, PlayScreen screen, Persistence preferences, GameSettings settings) {
+	private static ArrayList<Player> buildPlayers(GameManager messenger, PlayScreen screen, Persistence preferences,
+			GameSettings settings) {
 		ArrayList<Player> players = new ArrayList<Player>();
 		String playerOneName = preferences.getPlayerOneName();
 		String playerTwoName = preferences.getPlayerTwoName();

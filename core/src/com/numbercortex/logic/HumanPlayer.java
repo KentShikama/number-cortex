@@ -1,6 +1,5 @@
 package com.numbercortex.logic;
 
-import com.badlogic.gdx.Gdx;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.ModeTracker;

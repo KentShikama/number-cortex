@@ -67,7 +67,7 @@ public class SinglePlayerGameManager implements GameManager {
 		messenger.currentLevel = level;
 		return GameSettingsLoader.loadLevel(messenger.currentLevel);
 	}
-	
+
 	@Override
 	public CortexState getState() {
 		return state;
