@@ -6,11 +6,14 @@ import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -33,7 +36,7 @@ import com.numbercortex.logic.Player;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
-public class PlayScreen implements Screen {
+public class PlayScreen extends BackCatchingScreen implements Screen {
 
 	public static final String TAG = "Play Screen";
 
@@ -71,10 +74,12 @@ public class PlayScreen implements Screen {
 		buildNumberScroller();
 		buildBottomButtons();
 		board.clearBoard();
+		Gdx.input.setCatchBackKey(true);
+		backKey = false;
 	}
 	private void buildBackground(Persistence preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
-		BackgroundScreen background = new BackgroundScreen(backgroundProperty);
+		Background background = new Background(backgroundProperty);
 		stage.addActor(background);
 	}
 	private Color getBackgroundColor(Persistence preferences) {
@@ -300,9 +305,34 @@ public class PlayScreen implements Screen {
 	}
 	@Override
 	public void render(float delta) {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			backKey = true;
+		} else if (backKey) {
+			backKey = false;
+			boolean dialogAlreadyExists = checkIfDialogAlreadyExists();
+			if (!dialogAlreadyExists) {
+				Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+						Persistence.getInstance().setInPlay(false);
+						game.setScreen(ScreenTracker.titleScreen);
+					}
+				});
+				dialog.show(stage);	
+			}
+		}
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();
+	}
+	private boolean checkIfDialogAlreadyExists() {
+		boolean dialogAlreadyExists = false;
+		for (Actor actor : stage.getActors()) {
+			if (actor instanceof Dialog) {
+				dialogAlreadyExists = true;
+			}
+		}
+		return dialogAlreadyExists;
 	}
 	@Override
 	public void resize(int width, int height) {

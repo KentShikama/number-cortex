@@ -118,9 +118,10 @@ class TitleScreen implements Screen {
 		buildTitle();
 		buildButtons();
 		buildLineExtension();
+		Gdx.input.setCatchBackKey(false);
 	}
 	private void buildBackground() {
-		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
+		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
 	}
 	private void buildTitle() {

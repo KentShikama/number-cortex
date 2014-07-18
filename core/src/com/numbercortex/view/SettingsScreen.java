@@ -2,6 +2,7 @@ package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -18,8 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.numbercortex.GameSettings;
 import com.numbercortex.Launch;
+import com.numbercortex.Persistence;
 
-public class SettingsScreen implements Screen {
+public class SettingsScreen extends BackCatchingScreen implements Screen {
 
 	Stage stage;
 	Game game;
@@ -106,8 +109,10 @@ public class SettingsScreen implements Screen {
 	@Override
 	public void show() {
 		stage.clear();
-		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
+		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
+		Gdx.input.setCatchBackKey(true);
+		backKey = false;
 	}
 	@Override
 	public void resume() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -21,7 +22,7 @@ import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
-class LevelsScreen implements Screen {
+class LevelsScreen extends BackCatchingScreen implements Screen {
 
 	public static final String TAG = "Levels Screen";
 
@@ -107,9 +108,12 @@ class LevelsScreen implements Screen {
 		addBackButton();
 
 		addScrollPane();
+		
+		Gdx.input.setCatchBackKey(true);
+		backKey = false;
 	}
 	private void addBackground() {
-		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE);
+		Background background = new Background(Launch.SEA_BLUE);
 		stage.addActor(background);
 	}
 	private void addTitle() {
@@ -203,6 +207,12 @@ class LevelsScreen implements Screen {
 	}
 	@Override
 	public void render(float delta) {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			backKey = true;
+		} else if (backKey) {
+			backKey = false;
+			game.setScreen(ScreenTracker.titleScreen);
+		}
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();

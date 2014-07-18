@@ -1,6 +1,8 @@
 package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -533,6 +535,16 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		stage.addActor(resumeButton);
 	}
 
+	@Override
+	public void render(float delta) {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			backKey = true;
+		} else if (backKey) {
+			backKey = false;
+			game.setScreen(ScreenTracker.levelsScreen);
+		}
+		super.render(delta);
+	}
 	@Override
 	public void dispose() {
 		super.dispose();

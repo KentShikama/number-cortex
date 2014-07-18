@@ -1,6 +1,8 @@
 package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -623,6 +625,16 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		stage.addActor(resumeButton);
 	}
 
+	@Override
+	public void render(float delta) {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			backKey = true;
+		} else if (backKey) {
+			backKey = false;
+			game.setScreen(ScreenTracker.titleScreen);
+		}
+		super.render(delta);
+	}
 	@Override
 	public void dispose() {
 		super.dispose();
