@@ -305,25 +305,34 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 	}
 	@Override
 	public void render(float delta) {
+		handleBackKey();
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act(delta);
+		stage.draw();
+	}
+	private void handleBackKey() {
 		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
-			boolean dialogAlreadyExists = checkIfDialogAlreadyExists();
-			if (!dialogAlreadyExists) {
-				Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						Persistence.getInstance().setInPlay(false);
-						game.setScreen(ScreenTracker.titleScreen);
-					}
-				});
-				dialog.show(stage);	
-			}
+			handleScreenSwitch();
 		}
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();
+	}
+	private void handleScreenSwitch() {
+		boolean dialogAlreadyExists = checkIfDialogAlreadyExists();
+		final Persistence persistence = Persistence.getInstance();
+		if (!persistence.isInPlay()) {
+			game.setScreen(ScreenTracker.titleScreen);
+		} else if (!dialogAlreadyExists) {
+			Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					persistence.setInPlay(false);
+					game.setScreen(ScreenTracker.titleScreen);
+				}
+			});
+			dialog.show(stage);	
+		}
 	}
 	private boolean checkIfDialogAlreadyExists() {
 		boolean dialogAlreadyExists = false;
