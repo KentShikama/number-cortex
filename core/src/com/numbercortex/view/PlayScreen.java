@@ -160,9 +160,10 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 			updateNumberScroller(state);
 		} else {
 			updateBoardMap(state);
+			Assets.backgroundMusic.stop();
+			Assets.winSound.play();
 			animateEndingSequence(state);
 			Persistence.getInstance().setInPlay(false);
-			Assets.backgroundMusic.stop();
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {
