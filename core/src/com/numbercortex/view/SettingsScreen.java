@@ -1,6 +1,9 @@
 package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -16,7 +19,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.numbercortex.GameSettings;
 import com.numbercortex.Launch;
 
-public class SettingsScreen {
+public class SettingsScreen implements Screen {
 
 	Stage stage;
 	Game game;
@@ -95,15 +98,37 @@ public class SettingsScreen {
 		}
 	}
 
-	public SettingsScreen(Game game) {
+	SettingsScreen(Game game) {
 		this.game = game;
 		stage = ((Launch) game).getStage();
 	}
 
+	@Override
 	public void show() {
 		stage.clear();
 		BackgroundScreen background = new BackgroundScreen(Launch.SEA_BLUE, Assets.backgroundTexture);
 		stage.addActor(background);
 	}
-
+	@Override
+	public void resume() {
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
+		}
+	}
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act(delta);
+		stage.draw();
+	}
+	@Override
+	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
+	}
+	@Override
+	public void hide() {}
+	@Override
+	public void dispose() {}
+	@Override
+	public void pause() {}
 }

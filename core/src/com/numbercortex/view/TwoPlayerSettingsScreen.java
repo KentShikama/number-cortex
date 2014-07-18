@@ -1,10 +1,7 @@
 package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -33,7 +30,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
-class TwoPlayerSettingsScreen extends SettingsScreen implements Screen {
+class TwoPlayerSettingsScreen extends SettingsScreen {
 
 	public static final String TAG = "Two Player Settings Screen";
 
@@ -627,34 +624,18 @@ class TwoPlayerSettingsScreen extends SettingsScreen implements Screen {
 	}
 
 	@Override
-	public void hide() {
-		saveUnsyncedPreferences();
-	}
-
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
-	}
-
-	@Override
-	public void resume() {
-		Assets.loadSettings();
-	}
-
-	@Override
 	public void dispose() {
+		super.dispose();
 		textFieldStyle = null;
 	}
-
+	@Override
+	public void hide() {
+		super.hide();
+		saveUnsyncedPreferences();
+	}
 	@Override
 	public void pause() {
+		super.pause();
 		saveUnsyncedPreferences();
 		persistPreferences();
 	}

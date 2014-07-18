@@ -1,9 +1,6 @@
 package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -28,7 +25,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 
-class SinglePlayerSettingsScreen extends SettingsScreen implements Screen {
+class SinglePlayerSettingsScreen extends SettingsScreen {
 
 	public static final String TAG = "Single Player Settings Screen";
 
@@ -537,30 +534,13 @@ class SinglePlayerSettingsScreen extends SettingsScreen implements Screen {
 	}
 
 	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
-	}
-
-	@Override
-	public void resume() {
-		if (FontGenerator.isNull()) {
-			FontGenerator.load();
-		}
-	}
-
-	@Override
 	public void dispose() {
+		super.dispose();
 		textButtonStyle = null;
 	}
 	@Override
 	public void pause() {
+		super.pause();
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ModeTracker.mode.name());
@@ -571,6 +551,4 @@ class SinglePlayerSettingsScreen extends SettingsScreen implements Screen {
 		}
 		persistence.save();
 	}
-	@Override
-	public void hide() {}
 }
