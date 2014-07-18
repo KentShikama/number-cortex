@@ -7,7 +7,6 @@ import java.util.Map;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -114,13 +113,7 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		exitButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						Persistence.getInstance().setInPlay(false);
-						game.setScreen(ScreenTracker.titleScreen);
-					}
-				});
+				Dialog dialog = buildQuitCancelDialog();
 				dialog.show(stage);
 			}
 		});
@@ -324,15 +317,20 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		if (!persistence.isInPlay()) {
 			game.setScreen(ScreenTracker.titleScreen);
 		} else if (!dialogAlreadyExists) {
-			Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					persistence.setInPlay(false);
-					game.setScreen(ScreenTracker.titleScreen);
-				}
-			});
-			dialog.show(stage);	
+			Dialog dialog = buildQuitCancelDialog();
+			dialog.show(stage);
 		}
+	}
+	private Dialog buildQuitCancelDialog() {
+		Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Persistence persistence = Persistence.getInstance();
+				persistence.setInPlay(false);
+				game.setScreen(ScreenTracker.titleScreen);
+			}
+		});
+		return dialog;
 	}
 	private boolean checkIfDialogAlreadyExists() {
 		boolean dialogAlreadyExists = false;
