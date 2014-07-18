@@ -33,6 +33,7 @@ public class Launch extends Game {
 		Assets.loadGame();
 		Assets.loadLevels();
 		Assets.loadDialog();
+		Assets.loadAudio();
 		Assets.manager.finishLoading();
 		Assets.assignBackgroundScreen();
 		Assets.assignHomeScreen();
@@ -40,6 +41,7 @@ public class Launch extends Game {
 		Assets.assignPlayScreen();
 		Assets.assignLevelsScreen();
 		Assets.assignDialogScreen();
+		Assets.assignAudio();
 
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);

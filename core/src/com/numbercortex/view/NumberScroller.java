@@ -64,6 +64,7 @@ class NumberScroller {
 			if (tapCount >= 2) {
 				Timer.instance().clear();
 				int number = getClickedNumber(event);
+				Assets.clickSound.play();
 				messenger.chooseNumber(null, number);
 			} else {
 				Persistence persistence = Persistence.getInstance();

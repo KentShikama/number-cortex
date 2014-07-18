@@ -122,6 +122,7 @@ public class DragAndDropHandler {
 				targetButton.setLabel(label);
 				int targetCoordinate = Integer.valueOf(targetButton.getName());
 				placementCount++;
+				Assets.clickSound.play();
 				messenger.placeNumber(null, targetCoordinate);
 			} else {
 				sourceButton.setLabel(label);

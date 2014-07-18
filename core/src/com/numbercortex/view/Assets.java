@@ -2,6 +2,8 @@ package com.numbercortex.view;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,6 +18,9 @@ public class Assets {
 	static Skin gameSkin;
 	static Skin dialogSkin;
 	static Skin settingsSkin;
+	
+	static Music backgroundMusic;
+	static Sound clickSound;
 
 	private static final String BACKGROUND_TEXTURE = "background/number_background.png";
 
@@ -33,6 +38,9 @@ public class Assets {
 
 	private static final String SETTINGS_ATLAS = "settings/settings.atlas";
 	private static final String SETTINGS_SKIN = "settings/settings.json";
+	
+	private static final String BACKGROUND_MUSIC = "audio/operation_clandestine.mp3";
+	private static final String CLICK = "audio/click.wav";
 
 	public static void loadBackground() {
 		manager.load(BACKGROUND_TEXTURE, Texture.class);
@@ -85,6 +93,15 @@ public class Assets {
 
 	public static void loadFonts() {
 		FontGenerator.load();
+	}
+	
+	public static void loadAudio() {
+		manager.load(BACKGROUND_MUSIC, Music.class);
+		manager.load(CLICK, Sound.class);
+	}
+	public static void assignAudio() {
+		backgroundMusic = manager.get(BACKGROUND_MUSIC, Music.class);
+		clickSound = manager.get(CLICK, Sound.class);
 	}
 
 	public static void dispose() {

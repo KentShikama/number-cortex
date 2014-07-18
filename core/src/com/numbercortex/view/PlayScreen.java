@@ -75,6 +75,8 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		board.clearBoard();
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
+		Assets.backgroundMusic.play();
+		Assets.backgroundMusic.setLooping(true);
 	}
 	private void buildBackground(Persistence preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
@@ -126,6 +128,7 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		informationButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				Assets.backgroundMusic.pause();
 				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 				} else {
@@ -159,6 +162,7 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 			updateBoardMap(state);
 			animateEndingSequence(state);
 			Persistence.getInstance().setInPlay(false);
+			Assets.backgroundMusic.stop();
 		}
 	}
 	private void updateCurrentPlayer(Player currentPlayer) {
@@ -327,6 +331,7 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				Persistence persistence = Persistence.getInstance();
 				persistence.setInPlay(false);
+				Assets.backgroundMusic.stop();
 				game.setScreen(ScreenTracker.titleScreen);
 			}
 		});
