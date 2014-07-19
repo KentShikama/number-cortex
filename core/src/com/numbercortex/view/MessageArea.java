@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
@@ -122,7 +121,7 @@ class MessageArea {
 			borderedTextButtonStyle = buildTextButtonStyle();
 		}
 		TextButton menuButton = new TextButton("Menu", borderedTextButtonStyle);
-		menuButton.addListener(new ClickListener() {
+		menuButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.titleScreen);
@@ -135,7 +134,7 @@ class MessageArea {
 			borderedTextButtonStyle = buildTextButtonStyle();
 		}
 		TextButton playButton = new TextButton("Play", borderedTextButtonStyle);
-		playButton.addListener(new ClickListener() {
+		playButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
@@ -152,7 +151,7 @@ class MessageArea {
 			borderedTextButtonStyle = buildTextButtonStyle();
 		}
 		TextButton continueButton = new TextButton("Continue", borderedTextButtonStyle);
-		continueButton.addListener(new ClickListener() {
+		continueButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Persistence persistence = Persistence.getInstance();

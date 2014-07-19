@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 class CortexDialog extends Dialog {
 
@@ -47,7 +46,7 @@ class CortexDialog extends Dialog {
 			return createConfirmationDialog(dialogMessages[0], null).show(stage);
 		} else {
 			final String[] remainingDialogMessages = Arrays.copyOfRange(dialogMessages, 1, dialogMessages.length);
-			return createConfirmationDialog(dialogMessages[0], new ClickListener() {
+			return createConfirmationDialog(dialogMessages[0], new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					createConfirmationDialogs(stage, remainingDialogMessages);
@@ -55,7 +54,7 @@ class CortexDialog extends Dialog {
 			});
 		}
 	}
-	static Dialog createConfirmationDialog(String dialogMessage, ClickListener onConfirmListener) {
+	static Dialog createConfirmationDialog(String dialogMessage, ClickListenerWithSound onConfirmListener) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
 		CortexDialog dialog = new CortexDialog("", windowStyle);
 		addContentLabel(dialogMessage, dialog);
@@ -63,7 +62,7 @@ class CortexDialog extends Dialog {
 		return dialog;
 	}
 
-	static Dialog createQuitCancelDialog(ClickListener quitListener) {
+	static Dialog createQuitCancelDialog(ClickListenerWithSound quitListener) {
 		Window.WindowStyle windowStyle = buildWindowStyle();
 		CortexDialog dialog = new CortexDialog("", windowStyle);
 		addContentLabel("Are you sure you want to quit? The current game data will be lost.", dialog);
@@ -85,7 +84,7 @@ class CortexDialog extends Dialog {
 		contentLabel.setAlignment(Align.center);
 		contentTable.add(contentLabel).width(495).padRight(14).padTop(26);
 	}
-	private static void addButton(String buttonText, ClickListener listener, Dialog dialog) {
+	private static void addButton(String buttonText, ClickListenerWithSound listener, Dialog dialog) {
 		Table buttonTable = dialog.getButtonTable();
 		if (textButtonStyle == null) {
 			textButtonStyle = buildTextButtonStyle();

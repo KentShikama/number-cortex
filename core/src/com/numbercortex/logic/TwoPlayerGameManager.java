@@ -1,6 +1,7 @@
 package com.numbercortex.logic;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.numbercortex.CortexState;
@@ -9,6 +10,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
 import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.ScreenTracker;
+import com.numbercortex.view.Sound;
 
 public class TwoPlayerGameManager implements GameManager {
 
@@ -108,11 +110,20 @@ public class TwoPlayerGameManager implements GameManager {
 		updateCurrentPlayerState(state);
 	}
 	private void updateCurrentPlayerState(CortexState state) {
+		String winner = state.getWinner();
+		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
+		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
+		if (gameIsOver(winner, openCoordinates)) {
+			Sound.stopBackgroundAndShowWin();
+		}
 		for (Player player : players) {
 			String playerName = player.getName();
 			if (playerName.equals(currentPlayer)) {
 				player.updateState(state);
 			}
 		}
+	}
+	private boolean gameIsOver(String winner, ArrayList<Integer> openCoordinates) {
+		return winner != null || openCoordinates.isEmpty();
 	}
 }

@@ -52,7 +52,6 @@ class NumberScroller {
 	private InteractableSendable messenger;
 	private Table numberTable = new Table();
 	private NumberButtonListener listener = new NumberButtonListener();
-	private ArrayList<Integer> numberList;
 	private class NumberButtonListener extends ClickListener {
 
 		@Override
@@ -64,7 +63,6 @@ class NumberScroller {
 			if (tapCount >= 2) {
 				Timer.instance().clear();
 				int number = getClickedNumber(event);
-				Assets.clickSound.play();
 				messenger.chooseNumber(null, number);
 			} else {
 				Persistence persistence = Persistence.getInstance();
@@ -141,7 +139,6 @@ class NumberScroller {
 	}
 
 	void update(ArrayList<Integer> numberList) {
-		this.numberList = numberList;
 		numberTable.clearChildren();
 		if (numberTextButtonStyle == null) {
 			numberTextButtonStyle = buildButtonStyle();

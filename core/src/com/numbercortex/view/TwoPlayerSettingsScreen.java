@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -87,7 +86,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			this.addActor(choiceTwoCheckbox);
 			ButtonGroup group = new ButtonGroup(choiceOneCheckbox, choiceTwoCheckbox);
 			for (final Button button : group.getButtons()) {
-				button.addListener(new ClickListener() {
+				button.addListener(new ClickListenerWithSound() {
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
 						if (groupState == GroupState.CLICKABLE) {
@@ -142,7 +141,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			this.addActor(label);
 			this.addActor(increaseValue);
 			this.addActor(decreaseValue);
-			increaseValue.addListener(new ClickListener() {
+			increaseValue.addListener(new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					if (value >= 999) {
@@ -153,7 +152,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 					gameSettings.setTime(value);
 				}
 			});
-			decreaseValue.addListener(new ClickListener() {
+			decreaseValue.addListener(new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					if (value <= 1) {
@@ -580,7 +579,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
 		final TextButton playButton = new TextButton("Play", textButtonStyle);
 		playButton.setBounds(306, Launch.SCREEN_HEIGHT - 1096, 284, 94);
-		playButton.addListener(new ClickListener() {
+		playButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				saveUnsyncedPreferences();
@@ -599,7 +598,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
 		final TextButton backButton = new TextButton("Back", textButtonStyle);
 		backButton.setBounds(55, Launch.SCREEN_HEIGHT - 1096, 222, 94);
-		backButton.addListener(new ClickListener() {
+		backButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.titleScreen);
@@ -615,7 +614,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
 		final TextButton resumeButton = new TextButton("Resume", textButtonStyle);
 		resumeButton.setBounds(178, Launch.SCREEN_HEIGHT - 1096, 284, 94);
-		resumeButton.addListener(new ClickListener() {
+		resumeButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				resumeAction();

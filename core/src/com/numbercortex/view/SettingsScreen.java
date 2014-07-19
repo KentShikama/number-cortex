@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.numbercortex.GameSettings;
 import com.numbercortex.Launch;
@@ -65,7 +64,7 @@ public class SettingsScreen extends BackCatchingScreen implements Screen {
 			if (icon != null) {
 				this.addActor(icon);
 			}
-			checkbox.addListener(new ClickListener() {
+			checkbox.addListener(new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					if (groupState == GroupState.CLICKABLE) {

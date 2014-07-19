@@ -21,7 +21,9 @@ public class Assets {
 	
 	static Music backgroundMusic;
 	static Sound clickSound;
+	static Sound missClickSound;
 	static Sound winSound;
+	static Sound loseSound;
 
 	private static final String BACKGROUND_TEXTURE = "background/number_background.png";
 
@@ -42,7 +44,10 @@ public class Assets {
 	
 	private static final String BACKGROUND_MUSIC = "audio/operation_clandestine.mp3";
 	private static final String CLICK_SOUND = "audio/click.wav";
+	private static final String MISS_CLICK_SOUND = "audio/miss.wav";
 	private static final String WIN_SOUND = "audio/win.mp3";
+	private static final String LOSE_SOUND = "audio/lose.mp3";
+
 
 	public static void loadBackground() {
 		manager.load(BACKGROUND_TEXTURE, Texture.class);
@@ -100,12 +105,16 @@ public class Assets {
 	public static void loadAudio() {
 		manager.load(BACKGROUND_MUSIC, Music.class);
 		manager.load(CLICK_SOUND, Sound.class);
+		manager.load(MISS_CLICK_SOUND, Sound.class);
 		manager.load(WIN_SOUND, Sound.class);
+		manager.load(LOSE_SOUND, Sound.class);
 	}
 	public static void assignAudio() {
 		backgroundMusic = manager.get(BACKGROUND_MUSIC, Music.class);
 		clickSound = manager.get(CLICK_SOUND, Sound.class);
+		missClickSound = manager.get(MISS_CLICK_SOUND, Sound.class);
 		winSound = manager.get(WIN_SOUND, Sound.class);
+		loseSound = manager.get(LOSE_SOUND, Sound.class);
 	}
 
 	public static void dispose() {

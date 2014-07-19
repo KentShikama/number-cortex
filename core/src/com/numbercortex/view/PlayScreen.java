@@ -22,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.Launch;
@@ -75,8 +74,7 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		board.clearBoard();
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
-		Assets.backgroundMusic.play();
-		Assets.backgroundMusic.setLooping(true);
+		Sound.loopGameBGM();
 	}
 	private void buildBackground(Persistence preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
@@ -112,7 +110,7 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		exitButton = new Image(exitRectangleTexture);
 		exitButton.setBounds(44, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(),
 				exitRectangleTexture.getRegionHeight());
-		exitButton.addListener(new ClickListener() {
+		exitButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Dialog dialog = buildQuitCancelDialog();
@@ -125,10 +123,10 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		informationButton = new Image(informationRectangleTexture);
 		informationButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136, informationRectangleTexture.getRegionWidth(),
 				informationRectangleTexture.getRegionHeight());
-		informationButton.addListener(new ClickListener() {
+		informationButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Assets.backgroundMusic.pause();
+				Sound.pauseGameBGM();
 				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
 				} else {
@@ -160,8 +158,6 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 			updateNumberScroller(state);
 		} else {
 			updateBoardMap(state);
-			Assets.backgroundMusic.stop();
-			Assets.winSound.play();
 			animateEndingSequence(state);
 			Persistence.getInstance().setInPlay(false);
 		}
@@ -327,12 +323,12 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 		}
 	}
 	private Dialog buildQuitCancelDialog() {
-		Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListener() {
+		Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Persistence persistence = Persistence.getInstance();
 				persistence.setInPlay(false);
-				Assets.backgroundMusic.stop();
+				Sound.stopGameBGM();
 				game.setScreen(ScreenTracker.titleScreen);
 			}
 		});

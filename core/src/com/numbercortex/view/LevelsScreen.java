@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.numbercortex.Launch;
@@ -58,16 +57,16 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 		return new TextButton(String.valueOf(level), levelButtonStyle);
 	}
 
-	private ArrayList<ClickListener> listeners = buildClicklisteners(18);
-	private ArrayList<ClickListener> buildClicklisteners(int numberOfLevels) {
-		ArrayList<ClickListener> listeners = new ArrayList<ClickListener>();
+	private ArrayList<ClickListenerWithSound> listeners = buildClickListenerWithSounds(18);
+	private ArrayList<ClickListenerWithSound> buildClickListenerWithSounds(int numberOfLevels) {
+		ArrayList<ClickListenerWithSound> listeners = new ArrayList<ClickListenerWithSound>();
 		for (int i = 0; i < numberOfLevels; i++) {
-			listeners.add(buildClickListener(i + 1));
+			listeners.add(buildClickListenerWithSound(i + 1));
 		}
 		return listeners;
 	}
-	private ClickListener buildClickListener(final int level) {
-		ClickListener listener = new ClickListener() {
+	private ClickListenerWithSound buildClickListenerWithSound(final int level) {
+		ClickListenerWithSound listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				TextButton button = (TextButton) event.getListenerActor();
@@ -151,7 +150,7 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 		TextButton levelButton = textButtons.get(level - 1);
 		levelButton.setText(String.valueOf(level));
 		levelButton.setDisabled(false);
-		ClickListener listener = listeners.get(level - 1);
+		ClickListenerWithSound listener = listeners.get(level - 1);
 		levelButton.addListener(listener);
 		return levelButton;
 	}
@@ -164,7 +163,7 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 	private void addBackButton() {
 		TextureRegion backButtonTexture = Assets.levelsSkin.getRegion("back_button");
 		Image backButton = new Image(backButtonTexture);
-		backButton.addListener(new ClickListener() {
+		backButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.titleScreen);

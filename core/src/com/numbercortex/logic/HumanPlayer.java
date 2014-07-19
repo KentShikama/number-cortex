@@ -6,6 +6,7 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
 import com.numbercortex.view.PlayScreen;
+import com.numbercortex.view.Sound;
 
 import java.util.Map;
 
@@ -35,12 +36,15 @@ class HumanPlayer implements Player, InteractableSendable {
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		int chosenNumber = state.getChosenNumber();
 		if (chosenNumber == -1) {
+			Sound.click();
 			messenger.chooseNumber(name, nextNumber);
 		} else if (state.getChosenNumber() != -1 && nextCoordinateChosen) {
+			Sound.click();
 			messenger.placeNumber(name, savedCoordinate);
 			messenger.chooseNumber(name, nextNumber);
 			nextCoordinateChosen = false;
 		} else {
+			Sound.missClick();
 			screen.flashChosenNumber(chosenNumber);
 		}
 	}

@@ -37,7 +37,8 @@ class ComputerPlayer implements Player {
 		screen.updateState(state, this);
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-		if (state.getWinner() != null || openCoordinates.isEmpty()) {
+		String winner = state.getWinner();
+		if (winner != null || openCoordinates.isEmpty()) {
 			return;
 		}
 		int chosenNumber = state.getChosenNumber();

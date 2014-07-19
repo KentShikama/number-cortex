@@ -11,6 +11,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
 import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.ScreenTracker;
+import com.numbercortex.view.Sound;
 
 public class SinglePlayerGameManager implements GameManager {
 
@@ -157,18 +158,24 @@ public class SinglePlayerGameManager implements GameManager {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		if (playerWinsGame(winner) || tutorialEnds(winner, openCoordinates)) {
+			Sound.stopBackgroundAndShowWin();
 			unlockNextLevelIfOnMaxLevel(openCoordinates);
+		} else if (gameIsOver(winner, openCoordinates)) {
+			Sound.stopBackgroundAndShowLose();
 		}
 	}
 	private boolean playerWinsGame(String winner) {
 		return winner != null && winner.equals("Player");
 	}
 	private boolean tutorialEnds(String winner, ArrayList<Integer> openCoordinates) {
-		return currentLevel == 0 && (winner != null || openCoordinates.isEmpty());
+		return currentLevel == 0 && gameIsOver(winner, openCoordinates);
+	}
+	private boolean gameIsOver(String winner, ArrayList<Integer> openCoordinates) {
+		return winner != null || openCoordinates.isEmpty();
 	}
 	private void unlockNextLevelIfOnMaxLevel(ArrayList<Integer> openCoordinates) {
 		int maxLevel = preferences.getMaxLevel();
-		if (currentLevel == maxLevel) {
+		if (currentLevel == maxLevel && currentLevel != 18) {
 			String message = getUnlockMessage(currentLevel);
 			if (message != null) {
 				screen.showConfirmationDialog(5.1f, message); // Delay depends on winning animation

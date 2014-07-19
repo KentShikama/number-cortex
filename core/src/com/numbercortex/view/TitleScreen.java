@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
@@ -45,12 +44,12 @@ class TitleScreen implements Screen {
 			button.setBounds(175, Launch.SCREEN_HEIGHT - (836 + index * 80) + 30, buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
 			if (screen != null) {
-				ClickListener listener = new TitleScreenListener();
+				ClickListenerWithSound listener = new TitleScreenListener();
 				button.addListener(listener);
 			}
 		}
 
-		class TitleScreenListener extends ClickListener {
+		class TitleScreenListener extends ClickListenerWithSound {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				float moveTime = 0.35f;
