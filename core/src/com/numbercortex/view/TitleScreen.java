@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -25,51 +26,34 @@ import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 
 class TitleScreen implements Screen {
-	class TitleScreenButton {
+	class TitleScreenButton extends Group {
 
-		private Button button;
-		private int index;
 		private Screen screen;
 		private ModeTracker.Mode mode;
 
 		TitleScreenButton(String buttonName, int index, Screen screen, ModeTracker.Mode mode) {
-			this.index = index;
 			this.screen = screen;
 			this.mode = mode;
 
 			Drawable buttonDrawable = Assets.homeSkin.getDrawable(buttonName);
 			TextureRegion buttonTexture = Assets.homeSkin.getRegion(buttonName);
-			Button.ButtonStyle buttonStyle = new Button.ButtonStyle(buttonDrawable, buttonDrawable, buttonDrawable);
-			button = new Button(buttonStyle);
+			Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
+			buttonStyle.up = buttonDrawable;
+			Button button = new Button(buttonStyle);
 			button.setBounds(175, Launch.SCREEN_HEIGHT - (836 + index * 80) + 30, buttonTexture.getRegionWidth(),
 					buttonTexture.getRegionHeight());
 			if (screen != null) {
 				ClickListenerWithSound listener = new TitleScreenListener();
 				button.addListener(listener);
 			}
+			this.addActor(button);
 		}
 
 		class TitleScreenListener extends ClickListenerWithSound {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				float moveTime = 0.35f;
-				Button button = (Button) event.getTarget();
-				for (Actor actor : stage.getActors()) {
-					DelayAction delayAction = Actions.delay(moveTime - moveTime / 2);
-					AlphaAction fadeOutAction = Actions.fadeOut(0.35f);
-					SequenceAction sequence = Actions.sequence(delayAction, fadeOutAction);
-					if (actor == button) {
-						MoveToAction moveToAction = Actions.moveTo(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT
-								- (836 + index * 80) + 30, moveTime);
-						Action screenSwitchAction = buildScreenSwitchAction();
-						SequenceAction clickedButtonSequence = Actions.sequence(delayAction, fadeOutAction,
-								screenSwitchAction);
-						ParallelAction parallel = Actions.parallel(moveToAction, clickedButtonSequence);
-						button.addAction(parallel);
-					} else {
-						actor.addAction(sequence);
-					}
-				}
+				Action screenSwitchAction = buildScreenSwitchAction();
+				TitleScreenButton.this.addAction(screenSwitchAction);
 			}
 			private Action buildScreenSwitchAction() {
 				Action completeAction = new Action() {
@@ -136,9 +120,9 @@ class TitleScreen implements Screen {
 		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
 				ScreenTracker.twoPlayerSettingsScreen, ModeTracker.Mode.TWO_PLAYER);
 		TitleScreenButton optionsButton = new TitleScreenButton(OPTIONS, 2, null, null);
-		stage.addActor(playButton.button);
-		stage.addActor(passAndPlayButton.button);
-		stage.addActor(optionsButton.button);
+		stage.addActor(playButton);
+		stage.addActor(passAndPlayButton);
+		stage.addActor(optionsButton);
 	}
 	private void buildLineExtension() {
 		TextureRegion lineExtensionTexture = Assets.homeSkin.getRegion(LINE_EXTENSION);
