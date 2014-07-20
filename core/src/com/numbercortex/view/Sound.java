@@ -11,17 +11,17 @@ public class Sound {
 
 	public static void loopGameBGM() {
 		Assets.backgroundMusic.play();
-		Assets.backgroundMusic.setLooping(true);		
+		Assets.backgroundMusic.setLooping(true);
 	}
-	
+
 	public static void pauseGameBGM() {
 		Assets.backgroundMusic.pause();
 	}
-	
+
 	public static void stopGameBGM() {
 		Assets.backgroundMusic.stop();
 	}
-	
+
 	public static void stopBackgroundAndShowWin() {
 		Assets.backgroundMusic.stop();
 		Assets.winSound.play();
@@ -29,8 +29,7 @@ public class Sound {
 
 	public static void stopBackgroundAndShowLose() {
 		Assets.backgroundMusic.stop();
-		Assets.loseSound.play();		
+		Assets.loseSound.play();
 	}
-	
-	
+
 }

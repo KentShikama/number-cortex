@@ -18,7 +18,7 @@ public class Assets {
 	static Skin gameSkin;
 	static Skin dialogSkin;
 	static Skin settingsSkin;
-	
+
 	static Music backgroundMusic;
 	static Sound clickSound;
 	static Sound missClickSound;
@@ -41,13 +41,12 @@ public class Assets {
 
 	private static final String SETTINGS_ATLAS = "settings/settings.atlas";
 	private static final String SETTINGS_SKIN = "settings/settings.json";
-	
+
 	private static final String BACKGROUND_MUSIC = "audio/operation_clandestine.mp3";
 	private static final String CLICK_SOUND = "audio/click.wav";
 	private static final String MISS_CLICK_SOUND = "audio/miss.wav";
 	private static final String WIN_SOUND = "audio/win.mp3";
 	private static final String LOSE_SOUND = "audio/lose.mp3";
-
 
 	public static void loadBackground() {
 		manager.load(BACKGROUND_TEXTURE, Texture.class);
@@ -101,7 +100,7 @@ public class Assets {
 	public static void loadFonts() {
 		FontGenerator.load();
 	}
-	
+
 	public static void loadAudio() {
 		manager.load(BACKGROUND_MUSIC, Music.class);
 		manager.load(CLICK_SOUND, Sound.class);

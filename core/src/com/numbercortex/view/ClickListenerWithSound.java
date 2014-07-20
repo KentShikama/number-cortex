@@ -8,7 +8,8 @@ import com.numbercortex.view.SettingsScreen.GroupState;
 import com.numbercortex.view.SettingsScreen.SettingGroup;
 
 public class ClickListenerWithSound extends ClickListener {
-	public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+	@Override
+	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 		super.touchDown(event, x, y, pointer, button);
 		Actor targetActor = event.getTarget();
 		SettingGroup settingGroup = getSettingsGroup(targetActor);
@@ -24,7 +25,7 @@ public class ClickListenerWithSound extends ClickListener {
 		}
 		return true;
 	}
-	
+
 	private SettingGroup getSettingsGroup(Actor actor) {
 		if (actor == null) {
 			return null;

@@ -203,7 +203,7 @@ public class Persistence {
 	public void setFadeOnTap(boolean fadeOnTap) {
 		this.fadeOnTap = fadeOnTap;
 	}
-	
+
 	public boolean isSound() {
 		return sound;
 	}

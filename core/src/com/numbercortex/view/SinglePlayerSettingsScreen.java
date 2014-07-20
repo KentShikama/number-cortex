@@ -542,7 +542,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			if (persistence.isInPlay()) {
 				resumeAction();
 			} else {
-				game.setScreen(ScreenTracker.levelsScreen);				
+				game.setScreen(ScreenTracker.levelsScreen);
 			}
 		}
 		super.render(delta);
