@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
@@ -44,7 +45,7 @@ public class Launch extends Game {
 		Assets.assignDialogScreen();
 		Assets.assignAudio();
 		
-		StretchViewport stretchViewport = new StretchViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		FillViewport stretchViewport = new FillViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		backgroundStage = new Stage(stretchViewport);
 		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
 		backgroundStage.addActor(background);

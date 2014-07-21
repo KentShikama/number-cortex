@@ -1,6 +1,6 @@
 
 settings.png
-size: 990,246
+size: 941,245
 format: RGBA8888
 filter: MipMapLinearNearest, Nearest
 repeat: none
@@ -27,42 +27,42 @@ checked_checkbox
   index: -1
 diagonals_icon
   rotate: false
-  xy: 799, 131
+  xy: 850, 198
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 down_arrow
   rotate: false
-  xy: 92, 13
+  xy: 160, 13
   size: 62, 62
   orig: 62, 62
   offset: 0, 0
   index: -1
 empty_checkbox
   rotate: false
-  xy: 799, 180
+  xy: 92, 9
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 empty_star
   rotate: false
-  xy: 931, 190
+  xy: 728, 189
   size: 59, 56
   orig: 59, 56
   offset: 0, 0
   index: -1
 four_square_icon
   rotate: false
-  xy: 289, 61
+  xy: 899, 203
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 full_star
   rotate: false
-  xy: 220, 19
+  xy: 789, 189
   size: 59, 56
   orig: 59, 56
   offset: 0, 0
@@ -70,8 +70,8 @@ full_star
 grid_line
   rotate: false
   xy: 2, 241
-  size: 646, 5
-  orig: 646, 5
+  size: 601, 4
+  orig: 601, 4
   offset: 0, 0
   index: -1
 level_info_label
@@ -83,9 +83,9 @@ level_info_label
   index: -1
 level_wrap
   rotate: false
-  xy: 664, 123
-  size: 133, 123
-  orig: 133, 123
+  xy: 369, 48
+  size: 4, 123
+  orig: 4, 123
   offset: 0, 0
   index: -1
 name_texfield
@@ -97,14 +97,14 @@ name_texfield
   index: -1
 time_icon
   rotate: false
-  xy: 867, 184
+  xy: 224, 13
   size: 62, 62
   orig: 62, 62
   offset: 0, 0
   index: -1
 up_arrow
   rotate: false
-  xy: 156, 13
+  xy: 664, 183
   size: 62, 62
   orig: 62, 62
   offset: 0, 0

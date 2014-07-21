@@ -195,8 +195,8 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		stage.addActor(timeGroup);
 	}
 	private Image buildLevelWrap() {
-		int positionX = 507;
-		int positionY = Launch.SCREEN_HEIGHT - 123;
+		int positionX = 507 - 20;
+		int positionY = Launch.SCREEN_HEIGHT - 123 - 62;
 		TextureRegion iconTexture = Assets.settingsSkin.getRegion("level_wrap");
 		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
 		return timeIcon;
@@ -209,7 +209,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		tahoma86Style.fontColor = Launch.BRIGHT_YELLOW;
 		Label levelLabel = new Label("" + level, tahoma86Style);
 		levelLabel.setAlignment(Align.center);
-		levelLabel.setBounds(535 - 6, Launch.SCREEN_HEIGHT - 84 - 6, 94, 64);
+		levelLabel.setBounds(535 - 6 - 20, Launch.SCREEN_HEIGHT - 84 - 6 - 62, 94, 64);
 		return levelLabel;
 	}
 

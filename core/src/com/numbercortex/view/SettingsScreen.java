@@ -90,7 +90,7 @@ public class SettingsScreen extends BackCatchingScreen implements Screen {
 			TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
 			for (int i = 0; i < position.length; i++) {
 				Image gridLine = new Image(gridLineTexture);
-				gridLine.setPosition(0, Launch.SCREEN_HEIGHT - position[i]);
+				gridLine.setPosition(26, Launch.SCREEN_HEIGHT - position[i]);
 				this.addActor(gridLine);
 			}
 		}
