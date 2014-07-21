@@ -100,7 +100,6 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 		
 		table.clear();
 
-		addBackground();
 		addTitle();
 		addBoardSizeLabel(BOARD_SIZE_3_LABEL);
 		addLevelButtons(1, 9);
@@ -112,10 +111,6 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
-	}
-	private void addBackground() {
-		Background background = new Background(Launch.SEA_BLUE);
-		stage.addActor(background);
 	}
 	private void addTitle() {
 		Drawable titleDrawable = Assets.levelsSkin.getDrawable(TITLE);
@@ -176,17 +171,9 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 		table.row();
 	}
 	private void addScrollPane() {
-		ScrollPane.ScrollPaneStyle style = buildScrollPaneStyle();
-		ScrollPane pane = new ScrollPane(table, style);
+		ScrollPane pane = new ScrollPane(table);
 		pane.setBounds(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage.addActor(pane);
-	}
-	private ScrollPane.ScrollPaneStyle buildScrollPaneStyle() {
-		TextureRegion background = new TextureRegion(Assets.backgroundTexture);
-		Drawable backgroundDrawable = new TextureRegionDrawable(background);
-		ScrollPane.ScrollPaneStyle style = new ScrollPane.ScrollPaneStyle();
-		style.background = backgroundDrawable;
-		return style;
 	}
 
 	@Override
