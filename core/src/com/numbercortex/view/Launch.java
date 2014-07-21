@@ -11,13 +11,13 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
+import com.numbercortex.ModeTracker.Mode;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
 public class Launch extends Game {
-	private Stage backgroundStage;
 
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 1136;
@@ -26,8 +26,14 @@ public class Launch extends Game {
 	public static final Color RETRO_RED = new Color(200f / 255, 99f / 255, 91f / 255, 1);
 	public static final Color BRIGHT_YELLOW = new Color(250f / 255, 235f / 255, 102f / 255, 1);
 
+	private Stage backgroundStage;
+
 	@Override
 	public void create() {
+		loadAndAssignAssets();
+		showGame();
+	}
+	private void loadAndAssignAssets() {
 		Assets.manager = new AssetManager();
 		Assets.loadBackground();
 		Assets.loadHome();
@@ -44,29 +50,27 @@ public class Launch extends Game {
 		Assets.assignLevelsScreen();
 		Assets.assignDialogScreen();
 		Assets.assignAudio();
-		
+		Assets.loadAndAssignFonts();
+	}
+	private void showGame() {		
+		Persistence persistence = Persistence.getInstance().load();
+		backgroundStage = buildBackground();
+		ModeTracker.mode = buildMode(persistence);
+		ScreenTracker.initializeScreens(this);
+		GameManager gameManager = buildGameManager(persistence);
+		Screen screen = buildCurrentScreen(persistence);
+		resumeGameIfApplicable(gameManager, screen);
+	}
+	private Stage buildBackground() {
 		FillViewport stretchViewport = new FillViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
-		backgroundStage = new Stage(stretchViewport);
+		Stage backgroundStage = new Stage(stretchViewport);
 		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
 		backgroundStage.addActor(background);
-
-		Assets.loadFonts();
-		Persistence persistence = Persistence.getInstance().load();
-
+		return backgroundStage;
+	}
+	private Mode buildMode(Persistence persistence) {
 		String currentModeString = persistence.getMode();
-		ModeTracker.mode = ModeTracker.getMode(currentModeString);
-
-		ScreenTracker.initializeScreens(this);
-
-		GameManager gameManager = buildGameManager(persistence);
-
-		String currentScreenString = persistence.getCurrentScreen();
-		Screen screen = ScreenTracker.getScreen(currentScreenString);
-		setScreen(screen);
-
-		if (screen instanceof PlayScreen) {
-			gameManager.resumeGame();
-		}
+		return ModeTracker.getMode(currentModeString);
 	}
 	private GameManager buildGameManager(Persistence persistence) {
 		GameManager gameManager = null;
@@ -80,6 +84,17 @@ public class Launch extends Game {
 		}
 		return gameManager;
 	}
+	private Screen buildCurrentScreen(Persistence persistence) {
+		String currentScreenString = persistence.getCurrentScreen();
+		Screen screen = ScreenTracker.getScreen(currentScreenString);
+		setScreen(screen);
+		return screen;
+	}
+	private void resumeGameIfApplicable(GameManager gameManager, Screen screen) {
+		if (screen instanceof PlayScreen) {
+			gameManager.resumeGame();
+		}
+	}
 
 	@Override
 	public void dispose() {
@@ -91,15 +106,22 @@ public class Launch extends Game {
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if (!(this.getScreen() instanceof PlayScreen)) {
-			int screenWidth = Gdx.graphics.getWidth();
-			int screenHeight = Gdx.graphics.getHeight();
-			backgroundStage.getViewport().update(screenWidth, screenHeight, true);
-			backgroundStage.draw();
-			super.resize(screenWidth, screenHeight);
-		}
+		renderBackgroundIfApplicable();
 		super.render();
 	}
+	private void renderBackgroundIfApplicable() {
+		if (!(this.getScreen() instanceof PlayScreen)) {
+			renderBackground();
+		}
+	}
+	private void renderBackground() {
+		int screenWidth = Gdx.graphics.getWidth();
+		int screenHeight = Gdx.graphics.getHeight();
+		backgroundStage.getViewport().update(screenWidth, screenHeight, true);
+		backgroundStage.draw();
+		super.resize(screenWidth, screenHeight);
+	}
+	
 	@Override
 	public void resume() {
 		super.resume();

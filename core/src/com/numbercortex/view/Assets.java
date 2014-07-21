@@ -97,7 +97,7 @@ public class Assets {
 		settingsSkin = manager.get(SETTINGS_SKIN, Skin.class);
 	}
 
-	public static void loadFonts() {
+	public static void loadAndAssignFonts() {
 		FontGenerator.load();
 	}
 
