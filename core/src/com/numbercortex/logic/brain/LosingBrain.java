@@ -26,7 +26,8 @@ class LosingBrain implements Brain {
 		int chosenNumber = state.getChosenNumber();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-		ArrayList<Integer> nonWinningCoordinates = utility.getNonWinningCoordinatesIfExistent(chosenNumber, coordinateNumberMap, openCoordinates);
+		ArrayList<Integer> nonWinningCoordinates = utility.getNonWinningCoordinatesIfExistent(chosenNumber,
+				coordinateNumberMap, openCoordinates);
 		if (nonWinningCoordinates.isEmpty()) {
 			return utility.assignRandomNumberFromList(openCoordinates);
 		} else {
@@ -48,7 +49,7 @@ class LosingBrain implements Brain {
 				return utility.assignRandomNumberFromList(unsafeNumbers);
 			}
 		} else {
-			return utility.assignRandomNumberFromList(availableNumbers);	
+			return utility.assignRandomNumberFromList(availableNumbers);
 		}
 	}
 

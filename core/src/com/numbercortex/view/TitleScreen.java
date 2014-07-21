@@ -3,7 +3,6 @@ package com.numbercortex.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -91,7 +90,7 @@ class TitleScreen implements Screen {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		mainStage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(mainStage);
-		
+
 		buildTitle();
 		buildButtons();
 		buildLineExtension();

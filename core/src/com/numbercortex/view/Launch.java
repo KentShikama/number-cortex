@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.ModeTracker.Mode;
@@ -52,7 +51,7 @@ public class Launch extends Game {
 		Assets.assignAudio();
 		Assets.loadAndAssignFonts();
 	}
-	private void showGame() {		
+	private void showGame() {
 		Persistence persistence = Persistence.getInstance().load();
 		backgroundStage = buildBackground();
 		ModeTracker.mode = buildMode(persistence);
@@ -121,12 +120,13 @@ public class Launch extends Game {
 		backgroundStage.draw();
 		super.resize(screenWidth, screenHeight);
 	}
-	
+
 	@Override
 	public void resume() {
 		super.resume();
 		Assets.manager.finishLoading();
 	}
+	@Override
 	public void pause() {
 		super.pause();
 		Persistence.getInstance().save();

@@ -26,7 +26,7 @@ class BrainCalculator {
 		}
 		return chosenCoordinate;
 	}
-	
+
 	ArrayList<Integer> getNonWinningCoordinatesIfExistent(int chosenNumber, Map<Integer, Integer> coordinateNumberMap,
 			ArrayList<Integer> openCoordinates) {
 		ArrayList<Integer> nonWinningCoordinates = new ArrayList<Integer>();

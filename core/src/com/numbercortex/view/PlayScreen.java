@@ -57,6 +57,7 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		this.game = game;
 	}
 
+	@Override
 	public void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences) {
 		this.settings = settings;
 		this.preferences = preferences;
@@ -66,7 +67,7 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
-		
+
 		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
@@ -147,6 +148,7 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		numberScroller = NumberScroller.createNumberScroller(stage);
 	}
 
+	@Override
 	public void updateState(CortexState state, Player currentPlayer) {
 		final String winner = state.getWinner();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
@@ -247,10 +249,12 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		AnimationUtilities.delayFadeAndRemoveActor(helpButton, delay);
 	}
 
+	@Override
 	public void showConfirmationDialog(String... dialogMessages) {
 		Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
 		confirmationDialogs.show(stage);
 	}
+	@Override
 	public void showConfirmationDialog(float delay, final String... dialogMessages) {
 		DelayAction delayAction = Actions.delay(delay);
 		Action showConfirmationDialogAction = new Action() {
@@ -264,10 +268,12 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
 	}
 
+	@Override
 	public void flashChosenNumber(int chosenNumber) {
 		messageArea.flashChosenNumber(chosenNumber);
 	}
 
+	@Override
 	public void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction) {
 		NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
 		MoveToAction moveToAction = buildMoveToAction(coordinate, nextNumberCell);
@@ -288,6 +294,7 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		return moveToAction;
 	}
 
+	@Override
 	public void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction) {
 		numberScroller.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
 	}

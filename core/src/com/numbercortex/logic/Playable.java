@@ -8,7 +8,7 @@ import com.numbercortex.Persistence;
 public interface Playable {
 	void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences);
 	void updateState(CortexState state, Player player);
-	
+
 	void showConfirmationDialog(String... dialogMessages);
 	void showConfirmationDialog(float delay, final String... dialogMessages);
 	void flashChosenNumber(int chosenNumber);
