@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.numbercortex.Launch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
@@ -79,33 +79,30 @@ class TitleScreen implements Screen {
 	private static final String OPTIONS = "options";
 	private static final String LINE_EXTENSION = "line_extension";
 
-	private Stage stage;
 	private Game game;
+	private Stage mainStage;
 
 	TitleScreen(Game game) {
 		this.game = game;
-		stage = ((Launch) game).getStage();
 	}
 
 	@Override
 	public void show() {
-		stage.clear();
-		buildBackground();
+		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		mainStage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(mainStage);
+		
 		buildTitle();
 		buildButtons();
 		buildLineExtension();
 		Gdx.input.setCatchBackKey(false);
-	}
-	private void buildBackground() {
-		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
-		stage.addActor(background);
 	}
 	private void buildTitle() {
 		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
 		Image title = new Image(titleTexture);
 		title.setBounds(63, Launch.SCREEN_HEIGHT - 762 + 30, titleTexture.getRegionWidth(),
 				titleTexture.getRegionHeight());
-		stage.addActor(title);
+		mainStage.addActor(title);
 	}
 	private void buildButtons() {
 		TitleScreenButton playButton = new TitleScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
@@ -113,27 +110,26 @@ class TitleScreen implements Screen {
 		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
 				ScreenTracker.twoPlayerSettingsScreen, ModeTracker.Mode.TWO_PLAYER);
 		TitleScreenButton optionsButton = new TitleScreenButton(OPTIONS, 2, null, null);
-		stage.addActor(playButton);
-		stage.addActor(passAndPlayButton);
-		stage.addActor(optionsButton);
+		mainStage.addActor(playButton);
+		mainStage.addActor(passAndPlayButton);
+		mainStage.addActor(optionsButton);
 	}
 	private void buildLineExtension() {
 		TextureRegion lineExtensionTexture = Assets.homeSkin.getRegion(LINE_EXTENSION);
 		Image lineExtension = new Image(lineExtensionTexture);
 		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - 1036 + 30, lineExtensionTexture.getRegionWidth(),
 				lineExtensionTexture.getRegionHeight());
-		stage.addActor(lineExtension);
+		mainStage.addActor(lineExtension);
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(delta);
-		stage.draw();
+		mainStage.act(delta);
+		mainStage.draw();
 	}
 	@Override
 	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
+		mainStage.getViewport().update(width, height, true);
 	}
 	@Override
 	public void pause() {

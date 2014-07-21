@@ -9,7 +9,6 @@ import com.numbercortex.GameSettings;
 import com.numbercortex.GameSettingsLoader;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
-import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.ScreenTracker;
 import com.numbercortex.view.Sound;
 
@@ -17,7 +16,7 @@ public class SinglePlayerGameManager implements GameManager {
 
 	private static final String TAG = SinglePlayerGameManager.class.getCanonicalName();
 
-	private PlayScreen screen;
+	private Playable screen;
 
 	private ArrayList<Player> players;
 	private CortexModel model;
@@ -55,7 +54,7 @@ public class SinglePlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static ArrayList<Player> buildPlayers(GameManager messenger, PlayScreen screen, GameSettings settings) {
+	private static ArrayList<Player> buildPlayers(GameManager messenger, Playable screen, GameSettings settings) {
 		ArrayList<Player> players = new ArrayList<Player>();
 		Player human = new HumanPlayer("Player", screen, messenger, settings);
 		Player computer = new ComputerPlayer(screen, messenger, settings);

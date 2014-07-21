@@ -8,7 +8,6 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
-import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.ScreenTracker;
 import com.numbercortex.view.Sound;
 
@@ -16,7 +15,7 @@ public class TwoPlayerGameManager implements GameManager {
 
 	private static final String TAG = TwoPlayerGameManager.class.getCanonicalName();
 
-	private PlayScreen screen;
+	private Playable screen;
 
 	private ArrayList<Player> players;
 	private CortexModel model;
@@ -52,7 +51,7 @@ public class TwoPlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static ArrayList<Player> buildPlayers(GameManager messenger, PlayScreen screen, Persistence preferences,
+	private static ArrayList<Player> buildPlayers(GameManager messenger, Playable screen, Persistence preferences,
 			GameSettings settings) {
 		ArrayList<Player> players = new ArrayList<Player>();
 		String playerOneName = preferences.getPlayerOneName();

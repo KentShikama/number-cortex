@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.GameSettings;
-import com.numbercortex.Launch;
 
 public class SettingsScreen extends BackCatchingScreen implements Screen {
 
@@ -99,14 +99,14 @@ public class SettingsScreen extends BackCatchingScreen implements Screen {
 
 	SettingsScreen(Game game) {
 		this.game = game;
-		stage = ((Launch) game).getStage();
 	}
 
 	@Override
 	public void show() {
-		stage.clear();
-		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
-		stage.addActor(background);
+		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		stage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(stage);
+
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
 	}
@@ -118,7 +118,6 @@ public class SettingsScreen extends BackCatchingScreen implements Screen {
 	}
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();
 	}

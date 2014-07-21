@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Screen;
-import com.numbercortex.Launch;
 
 public class ScreenTracker {
 

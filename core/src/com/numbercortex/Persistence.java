@@ -57,7 +57,7 @@ public class Persistence {
 		return Singleton.instance;
 	}
 
-	Persistence load() {
+	public Persistence load() {
 		preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
 		loadCusomizationPreferences();
 		loadApplicationState();

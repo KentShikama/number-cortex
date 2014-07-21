@@ -8,16 +8,15 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.logic.brain.Brain;
 import com.numbercortex.logic.brain.BrainFactory;
-import com.numbercortex.view.PlayScreen;
 
 class ComputerPlayer implements Player {
 
 	private String name;
-	private PlayScreen screen;
+	private Playable screen;
 	private GameManager messenger;
 	private Brain brain;
 
-	ComputerPlayer(PlayScreen playScreen, GameManager messenger, GameSettings settings) {
+	ComputerPlayer(Playable playScreen, GameManager messenger, GameSettings settings) {
 		this.screen = playScreen;
 		this.messenger = messenger;
 
@@ -93,7 +92,7 @@ class ComputerPlayer implements Player {
 	}
 
 	@Override
-	public PlayScreen getScreen() {
+	public Playable getScreen() {
 		return screen;
 	}
 }

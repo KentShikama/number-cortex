@@ -9,7 +9,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -22,19 +21,20 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
-import com.numbercortex.Launch;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.BoardUtilities;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.InteractableSendable;
+import com.numbercortex.logic.Playable;
 import com.numbercortex.logic.Player;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
-public class PlayScreen extends BackCatchingScreen implements Screen {
+class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 
 	public static final String TAG = "Play Screen";
 
@@ -55,7 +55,6 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 
 	PlayScreen(Game game) {
 		this.game = game;
-		stage = ((Launch) game).getStage();
 	}
 
 	public void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences) {
@@ -65,7 +64,10 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 
 	@Override
 	public void show() {
-		stage.clear();
+		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		stage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(stage);
+		
 		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
@@ -300,7 +302,6 @@ public class PlayScreen extends BackCatchingScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		handleBackKey();
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();
 	}

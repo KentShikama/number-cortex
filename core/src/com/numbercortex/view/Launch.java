@@ -1,21 +1,25 @@
-package com.numbercortex;
+package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.numbercortex.CortexState;
+import com.numbercortex.ModeTracker;
+import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
-import com.numbercortex.view.Assets;
-import com.numbercortex.view.PlayScreen;
-import com.numbercortex.view.ScreenTracker;
 
 public class Launch extends Game {
-	private Stage stage;
+	private Stage backgroundStage;
+
+	private FPSLogger fps;
 
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 1136;
@@ -26,6 +30,8 @@ public class Launch extends Game {
 
 	@Override
 	public void create() {
+		fps = new FPSLogger();
+
 		Assets.manager = new AssetManager();
 		Assets.loadBackground();
 		Assets.loadHome();
@@ -42,10 +48,11 @@ public class Launch extends Game {
 		Assets.assignLevelsScreen();
 		Assets.assignDialogScreen();
 		Assets.assignAudio();
-
-		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
-		stage = new Stage(fitViewport);
-		Gdx.input.setInputProcessor(stage);
+		
+		StretchViewport stretchViewport = new StretchViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		backgroundStage = new Stage(stretchViewport);
+		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
+		backgroundStage.addActor(background);
 
 		Assets.loadFonts();
 		Persistence persistence = Persistence.getInstance().load();
@@ -78,10 +85,6 @@ public class Launch extends Game {
 		return gameManager;
 	}
 
-	public Stage getStage() {
-		return stage;
-	}
-
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -91,9 +94,17 @@ public class Launch extends Game {
 
 	@Override
 	public void render() {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if (!(this.getScreen() instanceof PlayScreen)) {
+			int screenWidth = Gdx.graphics.getWidth();
+			int screenHeight = Gdx.graphics.getHeight();
+			backgroundStage.getViewport().update(screenWidth, screenHeight, true);
+			backgroundStage.draw();
+			super.resize(screenWidth, screenHeight);
+		}
 		super.render();
+//		fps.log();
 	}
-
 	@Override
 	public void resume() {
 		super.resume();

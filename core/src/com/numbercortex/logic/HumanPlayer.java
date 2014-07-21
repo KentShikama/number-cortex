@@ -5,7 +5,6 @@ import com.numbercortex.GameSettings;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
-import com.numbercortex.view.PlayScreen;
 import com.numbercortex.view.Sound;
 
 import java.util.Map;
@@ -15,7 +14,7 @@ class HumanPlayer implements Player, InteractableSendable {
 	private static final String TAG = HumanPlayer.class.getCanonicalName();
 
 	private String name;
-	private PlayScreen screen;
+	private Playable screen;
 	private GameManager messenger;
 	private CortexState state;
 
@@ -24,7 +23,7 @@ class HumanPlayer implements Player, InteractableSendable {
 
 	private WinHandler winHandler;
 
-	HumanPlayer(String name, PlayScreen screen, GameManager messenger, GameSettings settings) {
+	HumanPlayer(String name, Playable screen, GameManager messenger, GameSettings settings) {
 		this.messenger = messenger;
 		this.screen = screen;
 		this.name = name;
@@ -105,7 +104,7 @@ class HumanPlayer implements Player, InteractableSendable {
 	}
 
 	@Override
-	public PlayScreen getScreen() {
+	public Playable getScreen() {
 		return screen;
 	}
 

@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.numbercortex.Launch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
@@ -90,12 +90,14 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 
 	LevelsScreen(Game game) {
 		this.game = game;
-		stage = ((Launch) game).getStage();
 	}
 
 	@Override
 	public void show() {
-		stage.clear();
+		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		stage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(stage);
+		
 		table.clear();
 
 		addBackground();
@@ -212,7 +214,6 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 			backKey = false;
 			game.setScreen(ScreenTracker.titleScreen);
 		}
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(delta);
 		stage.draw();
 	}
