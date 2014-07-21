@@ -135,7 +135,6 @@ class TitleScreen implements Screen {
 	public void pause() {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
-		persistence.save();
 	}
 	@Override
 	public void resume() {}

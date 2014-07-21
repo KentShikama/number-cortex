@@ -200,7 +200,6 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ModeTracker.mode.name());
-		persistence.save();
 	}
 	@Override
 	public void dispose() {
@@ -208,14 +207,17 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 	}
 	@Override
 	public void render(float delta) {
+		handleBackKey();
+		stage.act(delta);
+		stage.draw();
+	}
+	private void handleBackKey() {
 		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
 			game.setScreen(ScreenTracker.titleScreen);
 		}
-		stage.act(delta);
-		stage.draw();
 	}
 	@Override
 	public void resize(int width, int height) {

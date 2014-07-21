@@ -653,16 +653,15 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	}
 	@Override
 	public void pause() {
-		super.pause();
 		saveUnsyncedPreferences();
-		persistPreferences();
+		saveOtherPreferences();
 	}
 	private void saveUnsyncedPreferences() {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setPlayerOneName(playerOneNameField.getText());
 		persistence.setPlayerTwoName(playerTwoNameField.getText());
 	}
-	private void persistPreferences() {
+	private void saveOtherPreferences() {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ModeTracker.mode.name());
@@ -671,6 +670,5 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);
 		}
-		persistence.save();
 	}
 }

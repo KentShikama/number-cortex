@@ -12,7 +12,7 @@ public class Assets {
 
 	public static AssetManager manager;
 
-	public static Texture backgroundTexture;
+	static Texture backgroundTexture;
 	static Skin homeSkin;
 	static Skin levelsSkin;
 	static Skin gameSkin;

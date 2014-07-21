@@ -61,7 +61,6 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		this.settings = settings;
 		this.preferences = preferences;
 	}
-
 	@Override
 	public void show() {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
@@ -294,12 +293,6 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 	}
 
 	@Override
-	public void resume() {
-		if (FontGenerator.isNull()) {
-			FontGenerator.load();
-		}
-	}
-	@Override
 	public void render(float delta) {
 		handleBackKey();
 		stage.act(delta);
@@ -360,7 +353,6 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 			persistence.setCurrentScreen(TitleScreen.TAG); // Show title screen if game had ended
 		}
 		persistence.setMode(ModeTracker.mode.name());
-		persistence.save();
 	}
 	private GameManager getGameManagerInstance() {
 		GameManager gameManager;
@@ -371,13 +363,18 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 		}
 		return gameManager;
 	}
-
-	@Override
-	public void hide() {}
 	@Override
 	public void dispose() {
 		MessageArea.dispose();
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
 	}
+	@Override
+	public void resume() {
+		if (FontGenerator.isNull()) {
+			FontGenerator.load();
+		}
+	}
+	@Override
+	public void hide() {}
 }

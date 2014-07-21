@@ -533,6 +533,10 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 	@Override
 	public void render(float delta) {
+		handleBackKey();
+		super.render(delta);
+	}
+	private void handleBackKey() {
 		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 			backKey = true;
 		} else if (backKey) {
@@ -544,7 +548,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 				game.setScreen(ScreenTracker.levelsScreen);
 			}
 		}
-		super.render(delta);
 	}
 	private void resumeAction() {
 		GameManager manager = SinglePlayerGameManager.getInstance();
@@ -558,7 +561,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	}
 	@Override
 	public void pause() {
-		super.pause();
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 		persistence.setMode(ModeTracker.mode.name());
@@ -567,6 +569,5 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			CortexState currentState = gameManager.getState();
 			persistence.setCurrentCortexState(currentState);
 		}
-		persistence.save();
 	}
 }

@@ -6,14 +6,12 @@ import com.numbercortex.GameSettings;
 import com.numbercortex.Persistence;
 
 public interface Playable {
+	void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences);
 	void updateState(CortexState state, Player player);
 	
 	void showConfirmationDialog(String... dialogMessages);
 	void showConfirmationDialog(float delay, final String... dialogMessages);
 	void flashChosenNumber(int chosenNumber);
-	
-	void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences);
-	
 	void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction);
 	void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction);
 }

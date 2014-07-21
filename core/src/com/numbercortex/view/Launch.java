@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -19,8 +18,6 @@ import com.numbercortex.logic.TwoPlayerGameManager;
 public class Launch extends Game {
 	private Stage backgroundStage;
 
-	private FPSLogger fps;
-
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 1136;
 	public static final Color SEA_BLUE = new Color(79f / 255, 120f / 255, 141f / 255, 1);
@@ -30,8 +27,6 @@ public class Launch extends Game {
 
 	@Override
 	public void create() {
-		fps = new FPSLogger();
-
 		Assets.manager = new AssetManager();
 		Assets.loadBackground();
 		Assets.loadHome();
@@ -103,12 +98,15 @@ public class Launch extends Game {
 			super.resize(screenWidth, screenHeight);
 		}
 		super.render();
-//		fps.log();
 	}
 	@Override
 	public void resume() {
 		super.resume();
 		Assets.manager.finishLoading();
+	}
+	public void pause() {
+		super.pause();
+		Persistence.getInstance().save();
 	}
 
 }
