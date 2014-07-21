@@ -117,6 +117,7 @@ public class Assets {
 	}
 
 	public static void dispose() {
+		ScreenTracker.dispose();
 		FontGenerator.dispose();
 		CortexDialog.dispose();
 		Assets.manager.dispose();
