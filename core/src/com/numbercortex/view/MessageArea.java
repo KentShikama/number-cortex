@@ -31,8 +31,8 @@ class MessageArea {
 
 	private static final int MAXIMUM_POSSIBLE_LEVEL = 18;
 
-	private static TextButtonStyle textButtonStyle = buildLabelStyle();
-	private static TextButtonStyle buildLabelStyle() {
+	private static TextButtonStyle textButtonStyle = buildBorderlessTextButtonStyle();
+	private static TextButtonStyle buildBorderlessTextButtonStyle() {
 		BitmapFont font = FontGenerator.getGillSans57();
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
@@ -41,8 +41,8 @@ class MessageArea {
 	}
 
 	private static final String TEXT_BUTTON_BORDER_TEXTURE_NAME = "white_button";
-	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildTextButtonStyle();
-	private static TextButton.TextButtonStyle buildTextButtonStyle() {
+	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildBorderedTextButtonStyle();
+	private static TextButton.TextButtonStyle buildBorderedTextButtonStyle() {
 		BitmapFont font = FontGenerator.getGillSans57();
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.font = font;
@@ -52,8 +52,8 @@ class MessageArea {
 	}
 
 	private static final String NEXT_NUMBER_TEXTURE_NAME = "next_number";
-	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildButtonStyle(NEXT_NUMBER_TEXTURE_NAME);
-	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
+	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildNextNumberStyle(NEXT_NUMBER_TEXTURE_NAME);
+	private static NumberTextButton.NumberTextButtonStyle buildNextNumberStyle(String textureName) {
 		BitmapFont font = FontGenerator.getBoardNumberFont();
 		Drawable numberRectangle = Assets.gameSkin.getDrawable(textureName);
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
@@ -93,7 +93,7 @@ class MessageArea {
 	}
 	private static TextButton buildMessageLabelLong() {
 		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle();
+			textButtonStyle = buildBorderlessTextButtonStyle();
 		}
 		TextButton messageLabelLong = new TextButton("", textButtonStyle);
 		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2, 145);
@@ -102,7 +102,7 @@ class MessageArea {
 	}
 	private static TextButton buildMessageLabelShort() {
 		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle();
+			textButtonStyle = buildBorderlessTextButtonStyle();
 		}
 		TextButton messageLabelShort = new TextButton("", textButtonStyle);
 		messageLabelShort.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2 - 165, 145);
@@ -116,7 +116,7 @@ class MessageArea {
 	}
 	private static NumberTextButton buildNextNumberSquare() {
 		if (nextNumberStyle == null) {
-			nextNumberStyle = buildButtonStyle(NEXT_NUMBER_TEXTURE_NAME);
+			nextNumberStyle = buildNextNumberStyle(NEXT_NUMBER_TEXTURE_NAME);
 		}
 		NumberTextButton nextNumberSquare = new NumberTextButton("", nextNumberStyle);
 		nextNumberSquare.setBounds(475, Launch.SCREEN_HEIGHT - 175, 141, 141);
@@ -125,7 +125,7 @@ class MessageArea {
 	}
 	private static TextButton buildMenuButton(final Game game) {
 		if (borderedTextButtonStyle == null) {
-			borderedTextButtonStyle = buildTextButtonStyle();
+			borderedTextButtonStyle = buildBorderedTextButtonStyle();
 		}
 		TextButton menuButton = new TextButton("Menu", borderedTextButtonStyle);
 		menuButton.addListener(new ClickListenerWithSound() {
@@ -138,7 +138,7 @@ class MessageArea {
 	}
 	private static TextButton buildPlayButton(final Game game) {
 		if (borderedTextButtonStyle == null) {
-			borderedTextButtonStyle = buildTextButtonStyle();
+			borderedTextButtonStyle = buildBorderedTextButtonStyle();
 		}
 		TextButton playButton = new TextButton("Play", borderedTextButtonStyle);
 		playButton.addListener(new ClickListenerWithSound() {
@@ -155,7 +155,7 @@ class MessageArea {
 	}
 	private static TextButton buildContinueButton(final Game game) {
 		if (borderedTextButtonStyle == null) {
-			borderedTextButtonStyle = buildTextButtonStyle();
+			borderedTextButtonStyle = buildBorderedTextButtonStyle();
 		}
 		TextButton continueButton = new TextButton("Continue", borderedTextButtonStyle);
 		continueButton.addListener(new ClickListenerWithSound() {
