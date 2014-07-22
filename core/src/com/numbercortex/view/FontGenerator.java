@@ -16,11 +16,13 @@ class FontGenerator {
 	private static BitmapFont gillSans50Compact;
 	private static BitmapFont gillSans40;
 	
+	private static BitmapFont gillSansLight100;
+	
 	private FontGenerator() {}
 
 	static boolean isNull() {
 		if (numberScrollerFont == null || boardNumberFont == null || levelNumberFont == null || gillSans57 == null
-				|| gillSans50 == null || gillSans50Compact == null || gillSans40 == null) {
+				|| gillSans50 == null || gillSans50Compact == null || gillSans40 == null || gillSansLight100 == null) {
 			return true;
 		} else {
 			return false;
@@ -50,6 +52,9 @@ class FontGenerator {
 		return gillSans40;
 	}
 
+	static BitmapFont getGillSansLight100() {
+		return gillSansLight100;
+	}
 
 	static void load() {
 		int numberScrollerFontSize = 86;
@@ -58,6 +63,7 @@ class FontGenerator {
 
 		createNumberFonts(numberScrollerFontSize, boardNumberFontSize, levelNumberFontSize);
 		createGillSansFonts();
+		createGillSansLightFonts();
 	}
 	private static void createNumberFonts(int numberScrollerFontSize, int boardNumberFontSize, int levelFontSize) {
 		FreeTypeFontGenerator tahomaGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Tahoma.ttf"));
@@ -83,6 +89,12 @@ class FontGenerator {
 		gillSans40.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		gillSansGenerator.dispose();
 	}
+	private static void createGillSansLightFonts() {
+		FreeTypeFontGenerator gillSansLightGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GillSansLight.ttf"));
+		gillSansLight100 = gillSansLightGenerator.generateFont(140);
+		gillSansLight100.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		gillSansLightGenerator.dispose();
+	}
 
 	static void dispose() {
 		numberScrollerFont = null;
@@ -93,5 +105,7 @@ class FontGenerator {
 		gillSans50 = null;
 		gillSans50Compact = null;
 		gillSans40 = null;
+		
+		gillSansLight100 = null;
 	}
 }
