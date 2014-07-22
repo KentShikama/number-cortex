@@ -19,7 +19,6 @@ import com.numbercortex.GameSettings;
 public class SettingsScreen extends GameScreen {
 
 	Stage stage;
-	Game game;
 	GameSettings gameSettings;
 
 	static Label.LabelStyle labelStyle50 = buildLabelStyle50();

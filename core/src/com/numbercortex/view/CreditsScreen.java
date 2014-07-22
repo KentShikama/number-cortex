@@ -19,7 +19,6 @@ public class CreditsScreen extends GameScreen {
 
 	public static final String TAG = "Credits Screen";
 	private Stage stage;
-	private Game game;
 
 	private ArrayList<String> contentBlocks = new ArrayList<String>();
 

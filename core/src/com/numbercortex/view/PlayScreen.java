@@ -44,7 +44,6 @@ class PlayScreen extends GameScreen implements Playable {
 	private MessageArea messageArea;
 	private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 
-	private Game game;
 	private Stage stage;
 
 	private GameSettings settings;
