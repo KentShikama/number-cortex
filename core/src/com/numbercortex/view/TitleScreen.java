@@ -4,13 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
@@ -19,7 +18,6 @@ import com.numbercortex.logic.SinglePlayerGameManager;
 
 class TitleScreen implements Screen {
 	class TitleScreenButton extends Group {
-
 		private Screen screen;
 		private ModeTracker.Mode mode;
 
@@ -27,45 +25,56 @@ class TitleScreen implements Screen {
 			this.screen = screen;
 			this.mode = mode;
 
-			Drawable buttonDrawable = Assets.homeSkin.getDrawable(buttonName);
-			TextureRegion buttonTexture = Assets.homeSkin.getRegion(buttonName);
-			Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
-			buttonStyle.up = buttonDrawable;
-			Button button = new Button(buttonStyle);
-			button.setBounds(175, Launch.SCREEN_HEIGHT - (836 + index * 80) + 30, buttonTexture.getRegionWidth(),
-					buttonTexture.getRegionHeight());
+			TextureRegion buttonBoxTexture = Assets.homeSkin.getRegion("button_box");
+			addArmature(index, screen, buttonBoxTexture);
+			addContent(buttonName, index, buttonBoxTexture);
+		}
+		private void addArmature(int index, Screen screen, TextureRegion buttonBoxTexture) {
+			Image buttonBackground = new Image(buttonBoxTexture);
+			buttonBackground.setBounds(175, Launch.SCREEN_HEIGHT - (BUTTON_STARTING_Y_COORDINATE + index * 80),
+					buttonBoxTexture.getRegionWidth(), buttonBoxTexture.getRegionHeight());
+			this.addActor(buttonBackground);
 			if (screen != null) {
 				ClickListenerWithSound listener = new TitleScreenListener();
-				button.addListener(listener);
+				buttonBackground.addListener(listener);
 			}
-			this.addActor(button);
+		}
+		private void addContent(String buttonName, int index, TextureRegion buttonBoxTexture) {
+			Table buttonTable = new Table();
+			addIcon(buttonName, buttonTable);
+			addText(buttonName, buttonTable);
+			buttonTable.setBounds(175, Launch.SCREEN_HEIGHT - (BUTTON_STARTING_Y_COORDINATE + index * 80),
+					buttonBoxTexture.getRegionWidth(), buttonBoxTexture.getRegionHeight());
+			this.addActor(buttonTable);
+		}
+		private void addIcon(String buttonName, Table buttonTable) {
+			String buttonIconName = buttonName.toLowerCase().replace(" ", "_").replace("&", "and") + "_icon";
+			TextureRegion buttonIconTexture = Assets.homeSkin.getRegion(buttonIconName);
+			Image buttonIcon = new Image(buttonIconTexture);
+			buttonTable.add(buttonIcon).right().pad(6);
+		}
+		private void addText(String buttonName, Table buttonTable) {
+			Label.LabelStyle labelStyle = new Label.LabelStyle();
+			labelStyle.font = FontGenerator.getGillSans40();
+			labelStyle.fontColor = Launch.BRIGHT_YELLOW;
+			Label buttonLabel = new Label(buttonName, labelStyle);
+			buttonTable.add(buttonLabel).center().pad(6);
 		}
 
 		class TitleScreenListener extends ClickListenerWithSound {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Action screenSwitchAction = buildScreenSwitchAction();
-				TitleScreenButton.this.addAction(screenSwitchAction);
-			}
-			private Action buildScreenSwitchAction() {
-				Action completeAction = new Action() {
-					@Override
-					public boolean act(float delta) {
-						if (screen != null) {
-							if (mode == ModeTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getMaxLevel() == 0) {
-								ModeTracker.mode = mode;
-								GameManager manager = SinglePlayerGameManager.createNewGameManager();
-								game.setScreen(ScreenTracker.playScreen);
-								manager.startNewGame();
-							} else {
-								ModeTracker.mode = mode;
-								game.setScreen(screen);
-							}
-						}
-						return true;
+				if (screen != null) {
+					if (mode == ModeTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getMaxLevel() == 0) {
+						ModeTracker.mode = mode;
+						GameManager manager = SinglePlayerGameManager.createNewGameManager();
+						game.setScreen(ScreenTracker.playScreen);
+						manager.startNewGame();
+					} else {
+						ModeTracker.mode = mode;
+						game.setScreen(screen);
 					}
-				};
-				return completeAction;
+				}
 			}
 		}
 	}
@@ -73,10 +82,13 @@ class TitleScreen implements Screen {
 	public static final String TAG = "Title Screen";
 
 	private static final String TITLE = "number_cortex_title";
-	private static final String PLAY_BUTTON = "play";
-	private static final String PASS_AND_PLAY_BUTTON = "pass_and_play";
-	private static final String OPTIONS = "options";
+	private static final String PLAY_BUTTON = "Play";
+	private static final String PASS_AND_PLAY_BUTTON = "Pass & Play";
+	private static final String OPTIONS = "Options";
+	private static final String MORE = "More";
 	private static final String LINE_EXTENSION = "line_extension";
+	
+	private static final int BUTTON_STARTING_Y_COORDINATE = 734;
 
 	private Game game;
 	private Stage mainStage;
@@ -99,7 +111,7 @@ class TitleScreen implements Screen {
 	private void buildTitle() {
 		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
 		Image title = new Image(titleTexture);
-		title.setBounds(63, Launch.SCREEN_HEIGHT - 762 + 30, titleTexture.getRegionWidth(),
+		title.setBounds(63, Launch.SCREEN_HEIGHT - 660, titleTexture.getRegionWidth(),
 				titleTexture.getRegionHeight());
 		mainStage.addActor(title);
 	}
@@ -109,14 +121,16 @@ class TitleScreen implements Screen {
 		TitleScreenButton passAndPlayButton = new TitleScreenButton(PASS_AND_PLAY_BUTTON, 1,
 				ScreenTracker.twoPlayerSettingsScreen, ModeTracker.Mode.TWO_PLAYER);
 		TitleScreenButton optionsButton = new TitleScreenButton(OPTIONS, 2, null, null);
+		TitleScreenButton moreButton = new TitleScreenButton(MORE, 3, null, null);
 		mainStage.addActor(playButton);
 		mainStage.addActor(passAndPlayButton);
 		mainStage.addActor(optionsButton);
+		mainStage.addActor(moreButton);
 	}
 	private void buildLineExtension() {
 		TextureRegion lineExtensionTexture = Assets.homeSkin.getRegion(LINE_EXTENSION);
 		Image lineExtension = new Image(lineExtensionTexture);
-		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - 1036 + 30, lineExtensionTexture.getRegionWidth(),
+		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - (BUTTON_STARTING_Y_COORDINATE + 280), lineExtensionTexture.getRegionWidth(),
 				lineExtensionTexture.getRegionHeight());
 		mainStage.addActor(lineExtension);
 	}

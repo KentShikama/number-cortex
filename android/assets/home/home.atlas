@@ -1,41 +1,90 @@
 
 home.png
-size: 825,718
+size: 604,678
 format: RGBA8888
 filter: MipMapLinearNearest, Nearest
 repeat: none
+button_box
+  rotate: false
+  xy: 2, 77
+  size: 300, 83
+  orig: 300, 83
+  offset: 0, 0
+  index: -1
+credits_icon
+  rotate: false
+  xy: 2, 2
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+left_arrow
+  rotate: false
+  xy: 525, 592
+  size: 26, 45
+  orig: 26, 45
+  offset: 0, 0
+  index: -1
 line_extension
   rotate: false
-  xy: 304, 130
+  xy: 525, 550
   size: 3, 40
   orig: 3, 40
   offset: 0, 0
   index: -1
+more_games_icon
+  rotate: false
+  xy: 346, 132
+  size: 29, 28
+  orig: 29, 28
+  offset: 0, 0
+  index: -1
+more_icon
+  rotate: false
+  xy: 564, 646
+  size: 40, 32
+  orig: 40, 32
+  offset: 0, 0
+  index: -1
 number_cortex_title
   rotate: false
-  xy: 2, 172
-  size: 521, 546
-  orig: 521, 546
+  xy: 2, 162
+  size: 521, 516
+  orig: 521, 516
   offset: 0, 0
   index: -1
-options
+options_icon
   rotate: false
-  xy: 2, 87
-  size: 300, 83
-  orig: 300, 83
+  xy: 43, 41
+  size: 35, 34
+  orig: 35, 34
   offset: 0, 0
   index: -1
-pass_and_play
+pass_and_play_icon
   rotate: false
-  xy: 525, 635
-  size: 300, 83
-  orig: 300, 83
+  xy: 2, 39
+  size: 39, 36
+  orig: 39, 36
   offset: 0, 0
   index: -1
-play
+play_icon
   rotate: false
-  xy: 2, 2
-  size: 300, 83
-  orig: 300, 83
+  xy: 525, 639
+  size: 37, 39
+  orig: 37, 39
+  offset: 0, 0
+  index: -1
+rate_game_icon
+  rotate: false
+  xy: 304, 90
+  size: 34, 33
+  orig: 34, 33
+  offset: 0, 0
+  index: -1
+website_icon
+  rotate: false
+  xy: 304, 125
+  size: 40, 35
+  orig: 40, 35
   offset: 0, 0
   index: -1

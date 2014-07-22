@@ -14,12 +14,13 @@ class FontGenerator {
 	private static BitmapFont gillSans57;
 	private static BitmapFont gillSans50;
 	private static BitmapFont gillSans50Compact;
-
+	private static BitmapFont gillSans40;
+	
 	private FontGenerator() {}
 
 	static boolean isNull() {
 		if (numberScrollerFont == null || boardNumberFont == null || levelNumberFont == null || gillSans57 == null
-				|| gillSans50 == null || gillSans50Compact == null) {
+				|| gillSans50 == null || gillSans50Compact == null || gillSans40 == null) {
 			return true;
 		} else {
 			return false;
@@ -45,6 +46,10 @@ class FontGenerator {
 	static BitmapFont getGillSans50Compact() {
 		return gillSans50Compact;
 	}
+	static BitmapFont getGillSans40() {
+		return gillSans40;
+	}
+
 
 	static void load() {
 		int numberScrollerFontSize = 86;
@@ -65,16 +70,18 @@ class FontGenerator {
 		tahomaGenerator.dispose();
 	}
 	private static void createGillSansFonts() {
-		FreeTypeFontGenerator timesGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GillSans.ttc"));
-		gillSans57 = timesGenerator.generateFont(57);
+		FreeTypeFontGenerator gillSansGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GillSans.ttc"));
+		gillSans57 = gillSansGenerator.generateFont(57);
 		gillSans57.getData().down = (float) (-57 * 1.1);
 		gillSans57.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		gillSans50 = timesGenerator.generateFont(50);
+		gillSans50 = gillSansGenerator.generateFont(50);
 		gillSans50.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		gillSans50Compact = timesGenerator.generateFont(50);
+		gillSans50Compact = gillSansGenerator.generateFont(50);
 		gillSans50Compact.getData().down = -48f;
 		gillSans50Compact.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		timesGenerator.dispose();
+		gillSans40 = gillSansGenerator.generateFont(41);
+		gillSans40.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		gillSansGenerator.dispose();
 	}
 
 	static void dispose() {
@@ -85,5 +92,6 @@ class FontGenerator {
 		gillSans57 = null;
 		gillSans50 = null;
 		gillSans50Compact = null;
+		gillSans40 = null;
 	}
 }
