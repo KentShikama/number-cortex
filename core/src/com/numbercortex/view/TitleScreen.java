@@ -21,7 +21,7 @@ public class TitleScreen extends HomeScreen {
 
 	@Override
 	void setUpBackKeyCatch() {
-		Gdx.input.setCatchBackKey(false);		
+		Gdx.input.setCatchBackKey(false);
 	}
 	@Override
 	void buildButtons(Stage stage) {

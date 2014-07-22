@@ -27,7 +27,7 @@ public class MoreScreen extends HomeScreen {
 	@Override
 	void setUpBackKeyCatch() {
 		Gdx.input.setCatchBackKey(true);
-		backKey = false;		
+		backKey = false;
 	}
 	@Override
 	void buildButtons(Stage stage) {
@@ -66,8 +66,7 @@ public class MoreScreen extends HomeScreen {
 		Label buttonLabel = new Label("Home", labelStyle);
 		table.add(buttonLabel).left().pad(6);
 	}
-	
-	
+
 	@Override
 	void handleBackKey() {
 		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
@@ -75,7 +74,7 @@ public class MoreScreen extends HomeScreen {
 		} else if (backKey) {
 			backKey = false;
 			game.setScreen(ScreenTracker.titleScreen);
-		}		
+		}
 	}
 	@Override
 	public void pause() {

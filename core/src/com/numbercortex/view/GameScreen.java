@@ -6,7 +6,7 @@ import com.badlogic.gdx.Screen;
 public class GameScreen implements Screen {
 	boolean backKey;
 	Game game;
-	
+
 	GameScreen(Game game) {
 		this.game = game;
 	}
