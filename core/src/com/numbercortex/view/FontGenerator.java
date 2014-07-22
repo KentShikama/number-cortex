@@ -20,15 +20,6 @@ class FontGenerator {
 
 	private FontGenerator() {}
 
-	static boolean isNull() {
-		if (numberScrollerFont == null || boardNumberFont == null || levelNumberFont == null || gillSans57 == null
-				|| gillSans50 == null || gillSans50Compact == null || gillSans40 == null || gillSansLight100 == null) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	static BitmapFont getBoardNumberFont() {
 		return boardNumberFont;
 	}
