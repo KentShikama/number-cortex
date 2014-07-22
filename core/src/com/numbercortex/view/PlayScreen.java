@@ -376,10 +376,4 @@ class PlayScreen extends GameScreen implements Playable {
 		NumberCortexBoard.dispose();
 		NumberScroller.dispose();
 	}
-	@Override
-	public void resume() {
-		if (FontGenerator.isNull()) {
-			FontGenerator.load();
-		}
-	}
 }

@@ -92,12 +92,18 @@ class MessageArea {
 		return instance;
 	}
 	private static TextButton buildMessageLabelLong() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle();
+		}
 		TextButton messageLabelLong = new TextButton("", textButtonStyle);
 		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2, 145);
 		messageLabelLong.getLabel().setWrap(true);
 		return messageLabelLong;
 	}
 	private static TextButton buildMessageLabelShort() {
+		if (textButtonStyle == null) {
+			textButtonStyle = buildTextButtonStyle();
+		}
 		TextButton messageLabelShort = new TextButton("", textButtonStyle);
 		messageLabelShort.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2 - 165, 145);
 		messageLabelShort.getLabel().setWrap(true);
@@ -283,6 +289,7 @@ class MessageArea {
 	}
 
 	static void dispose() {
+		textButtonStyle = null;
 		borderedTextButtonStyle = null;
 		nextNumberStyle = null;
 	}

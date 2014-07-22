@@ -171,13 +171,6 @@ class LevelsScreen extends GameScreen {
 		pane.setBounds(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage.addActor(pane);
 	}
-
-	@Override
-	public void resume() {
-		if (FontGenerator.isNull()) {
-			FontGenerator.load();
-		}
-	}
 	@Override
 	public void pause() {
 		Persistence persistence = Persistence.getInstance();

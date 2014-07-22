@@ -103,14 +103,16 @@ public class SettingsScreen extends GameScreen {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
-
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
+		reloadLabelStylesIfApplicable();
 	}
-	@Override
-	public void resume() {
-		if (FontGenerator.isNull()) {
-			FontGenerator.load();
+	private void reloadLabelStylesIfApplicable() {
+		if (labelStyle50 == null) {
+			labelStyle50 = buildLabelStyle50();
+		}
+		if (labelStyle57 == null) {
+			labelStyle57 = buildLabelStyle57();
 		}
 	}
 	@Override
@@ -121,5 +123,11 @@ public class SettingsScreen extends GameScreen {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+	}
+	@Override
+	public void dispose() {
+		super.dispose();
+		labelStyle50 = null;
+		labelStyle57 = null;
 	}
 }
