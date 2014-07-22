@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -76,7 +77,6 @@ class LevelsScreen extends GameScreen {
 		return listener;
 	}
 
-	private static final String TITLE = "level_selector";
 	private static final String BOARD_SIZE_3_LABEL = "3x3";
 	private static final String BOARD_SIZE_4_LABEL = "4x4";
 	private static final String UNLOCKED_LEVEL = "empty_rectangle";
@@ -109,9 +109,19 @@ class LevelsScreen extends GameScreen {
 		backKey = false;
 	}
 	private void addTitle() {
-		Drawable titleDrawable = Assets.levelsSkin.getDrawable(TITLE);
-		Image title = new Image(titleDrawable);
-		table.add(title).expandX().padTop(90).padBottom(60).colspan(3);
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = FontGenerator.getGillSansLight100();
+		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
+		Label title = new Label("Levels", labelStyle);
+		
+		TextureRegion levelsIconTexture = Assets.levelsSkin.getRegion("levels_icon");
+		Image levelsIcon = new Image(levelsIconTexture);
+		
+		Table titleTable = new Table();
+		titleTable.add(title).right().pad(10);
+		titleTable.add(levelsIcon).left().pad(10);
+		
+		table.add(titleTable).expandX().padTop(80).padBottom(30).colspan(3);
 		table.row();
 	}
 	private void addBoardSizeLabel(String boardSizeLabelString) {
@@ -154,17 +164,28 @@ class LevelsScreen extends GameScreen {
 		return levelButton;
 	}
 	private void addBackButton() {
-		TextureRegion backButtonTexture = Assets.levelsSkin.getRegion("back_button");
-		Image backButton = new Image(backButtonTexture);
-		backButton.addListener(new ClickListenerWithSound() {
+		Table navigationTable = new Table();
+		addIcon(navigationTable);
+		addText(navigationTable);
+		navigationTable.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.titleScreen);
 			}
 		});
-		table.add();
-		table.add(backButton).padTop(30).padBottom(30);
-		table.row();
+		table.add(navigationTable).padTop(14).padBottom(18);
+	}
+	private void addIcon(Table table) {
+		TextureRegion buttonIconTexture = Assets.homeSkin.getRegion("left_arrow");
+		Image buttonIcon = new Image(buttonIconTexture);
+		table.add(buttonIcon).center().pad(6);
+	}
+	private void addText(Table table) {
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+		labelStyle.font = FontGenerator.getGillSans40();
+		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
+		Label buttonLabel = new Label("Home", labelStyle);
+		table.add(buttonLabel).left().pad(6);
 	}
 	private void addScrollPane() {
 		ScrollPane pane = new ScrollPane(table);
