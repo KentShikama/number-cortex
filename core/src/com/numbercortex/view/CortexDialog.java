@@ -79,6 +79,9 @@ class CortexDialog extends Dialog {
 	}
 	private static void addContentLabel(String labelText, Dialog dialog) {
 		Table contentTable = dialog.getContentTable();
+		if (labelStyle == null) {
+			labelStyle = buildLabelStyle();
+		}
 		Label contentLabel = new Label(labelText, labelStyle);
 		contentLabel.setWrap(true);
 		contentLabel.setAlignment(Align.center);
@@ -100,6 +103,7 @@ class CortexDialog extends Dialog {
 	}
 
 	static void dispose() {
+		labelStyle = null;
 		textButtonStyle = null;
 	}
 }
