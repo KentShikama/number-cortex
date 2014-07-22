@@ -40,7 +40,7 @@ public class MoreScreen extends HomeScreen {
 		addIcon(navigationTable);
 		addText(navigationTable);
 		navigationTable.setBounds(0, 0, 220, 100);
-		navigationTable.addListener(new ClickListener() {
+		navigationTable.addListener(new ClickListenerWithSound() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.titleScreen);
 			}

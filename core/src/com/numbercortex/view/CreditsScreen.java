@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.Persistence;
 
@@ -85,7 +84,7 @@ public class CreditsScreen extends BackCatchingScreen implements Screen {
 		addIcon(navigationTable);
 		addText(navigationTable);
 		navigationTable.setBounds(0, 0, 220, 100);
-		navigationTable.addListener(new ClickListener() {
+		navigationTable.addListener(new ClickListenerWithSound() {
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.moreScreen);
 			}
