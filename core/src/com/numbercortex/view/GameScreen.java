@@ -13,16 +13,23 @@ public class GameScreen implements Screen {
 	boolean backKey;
 	Game game;
 	
-	class BackBottomNavigation extends Group {
-		BackBottomNavigation(String previousScreenName, final GameScreen previousScreen) {
-			addContent(previousScreenName);
+	private enum Direction {
+		LEFT, RIGHT;
+	}
+	private class BottomNavigation extends Group {
+		BottomNavigation(Direction direction, String previousScreenName, final GameScreen previousScreen) {
+			addContent(direction, previousScreenName);
 			addArmature(previousScreen);
 		}	
-		private void addContent(String previousScreenName) {
+		private void addContent(Direction direction, String previousScreenName) {
 			Table navigationTable = new Table();
 			addIcon(navigationTable);
 			addText(previousScreenName, navigationTable);
-			navigationTable.setBounds(0, 0, 220, 100);
+			if (direction == Direction.LEFT) {
+				navigationTable.setBounds(0, 0, 220, 100);
+			} else {
+				navigationTable.setBounds(Launch.SCREEN_WIDTH - 220, 0, 220, 100);
+			}
 			this.addActor(navigationTable);
 		}
 		private void addIcon(Table table) {
@@ -49,9 +56,15 @@ public class GameScreen implements Screen {
 			this.addActor(buttonBackground);
 		}
 	}
-	
-	class ForwardBottomNavigation extends Group {
-		
+	class BackBottomNavigation extends BottomNavigation {
+		BackBottomNavigation(String previousScreenName, final GameScreen previousScreen) {
+			super(Direction.LEFT, previousScreenName, previousScreen);
+		}	
+	}
+	class ForwardBottomNavigation extends BottomNavigation {
+		ForwardBottomNavigation(String previousScreenName, GameScreen previousScreen) {
+			super(Direction.RIGHT, previousScreenName, previousScreen);
+		}		
 	}
 
 	GameScreen(Game game) {
