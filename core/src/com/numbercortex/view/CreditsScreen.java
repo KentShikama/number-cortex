@@ -77,29 +77,8 @@ public class CreditsScreen extends GameScreen {
 		return label;
 	}
 	private void buildBottomNavigation(Stage stage) {
-		Table navigationTable = new Table();
-		addIcon(navigationTable);
-		addText(navigationTable);
-		navigationTable.setBounds(0, 0, 220, 100);
-		navigationTable.addListener(new ClickListenerWithSound() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(ScreenTracker.moreScreen);
-			}
-		});
-		stage.addActor(navigationTable);
-	}
-	private void addIcon(Table table) {
-		TextureRegion buttonIconTexture = Assets.homeSkin.getRegion("left_arrow");
-		Image buttonIcon = new Image(buttonIconTexture);
-		table.add(buttonIcon).center().pad(6);
-	}
-	private void addText(Table table) {
-		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = FontGenerator.getGillSans40();
-		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
-		Label buttonLabel = new Label("More", labelStyle);
-		table.add(buttonLabel).left().pad(6);
+		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("More", ScreenTracker.moreScreen);
+		stage.addActor(backBottomNavigation);
 	}
 
 	@Override

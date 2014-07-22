@@ -42,31 +42,9 @@ public class MoreScreen extends HomeScreen {
 	}
 	@Override
 	void buildBottomNavigation(Stage stage) {
-		Table navigationTable = new Table();
-		addIcon(navigationTable);
-		addText(navigationTable);
-		navigationTable.setBounds(0, 0, 220, 100);
-		navigationTable.addListener(new ClickListenerWithSound() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(ScreenTracker.titleScreen);
-			}
-		});
-		stage.addActor(navigationTable);
+		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("Home", ScreenTracker.titleScreen);
+		stage.addActor(backBottomNavigation);
 	}
-	private void addIcon(Table table) {
-		TextureRegion buttonIconTexture = Assets.homeSkin.getRegion("left_arrow");
-		Image buttonIcon = new Image(buttonIconTexture);
-		table.add(buttonIcon).center().pad(6);
-	}
-	private void addText(Table table) {
-		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = FontGenerator.getGillSans40();
-		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
-		Label buttonLabel = new Label("Home", labelStyle);
-		table.add(buttonLabel).left().pad(6);
-	}
-
 	@Override
 	void handleBackKey() {
 		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
