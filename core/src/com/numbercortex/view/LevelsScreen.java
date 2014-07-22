@@ -173,7 +173,7 @@ class LevelsScreen extends GameScreen {
 				game.setScreen(ScreenTracker.titleScreen);
 			}
 		});
-		table.add(navigationTable).padTop(14).padBottom(18);
+		table.add(navigationTable).padTop(14).padBottom(20);
 	}
 	private void addIcon(Table table) {
 		TextureRegion buttonIconTexture = Assets.homeSkin.getRegion("left_arrow");
