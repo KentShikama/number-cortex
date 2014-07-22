@@ -11,6 +11,7 @@ public class ScreenTracker {
 
 	public static TitleScreen titleScreen;
 	public static MoreScreen moreScreen;
+	public static CreditsScreen creditsScreen;
 	public static LevelsScreen levelsScreen;
 	public static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
 	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
@@ -19,6 +20,7 @@ public class ScreenTracker {
 	public static void initializeScreens(Launch game) {
 		titleScreen = new TitleScreen(game);
 		moreScreen = new MoreScreen(game);
+		creditsScreen = new CreditsScreen(game);
 		singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
 		twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);
 		levelsScreen = new LevelsScreen(game);
@@ -31,6 +33,7 @@ public class ScreenTracker {
 			screenMap = new HashMap<String, Screen>();
 			screenMap.put(TitleScreen.TAG, titleScreen);
 			screenMap.put(MoreScreen.TAG, moreScreen);
+			screenMap.put(CreditsScreen.TAG, creditsScreen);
 			screenMap.put(LevelsScreen.TAG, levelsScreen);
 			screenMap.put(SinglePlayerSettingsScreen.TAG, singlePlayerSettingsScreen);
 			screenMap.put(TwoPlayerSettingsScreen.TAG, twoPlayerSettingsScreen);
@@ -51,6 +54,7 @@ public class ScreenTracker {
 		twoPlayerSettingsScreen.dispose();
 		titleScreen = null;
 		moreScreen = null;
+		creditsScreen = null;
 		singlePlayerSettingsScreen = null;
 		twoPlayerSettingsScreen = null;
 		levelsScreen = null;
