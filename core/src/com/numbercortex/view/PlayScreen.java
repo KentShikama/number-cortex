@@ -36,7 +36,7 @@ import com.numbercortex.logic.Player;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
-class PlayScreen extends BackCatchingScreen implements Screen, Playable {
+class PlayScreen extends GameScreen implements Playable {
 
 	public static final String TAG = "Play Screen";
 
@@ -56,7 +56,7 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 	private Image helpButton;
 
 	PlayScreen(Game game) {
-		this.game = game;
+		super(game);
 	}
 
 	@Override
@@ -384,6 +384,4 @@ class PlayScreen extends BackCatchingScreen implements Screen, Playable {
 			FontGenerator.load();
 		}
 	}
-	@Override
-	public void hide() {}
 }

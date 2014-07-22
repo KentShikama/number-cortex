@@ -16,7 +16,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 
-abstract class HomeScreen implements Screen {
+abstract class HomeScreen extends GameScreen {
 	class HomeScreenButton extends Group {
 		private Screen screen;
 		private ModeTracker.Mode mode;
@@ -84,11 +84,10 @@ abstract class HomeScreen implements Screen {
 
 	private static final int FIRST_BUTTON_CENTER_OFFSET_Y = 734;
 
-	Game game;
 	private Stage mainStage;
 
 	HomeScreen(Game game) {
-		this.game = game;
+		super(game);
 	}
 
 	@Override
@@ -96,13 +95,13 @@ abstract class HomeScreen implements Screen {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		mainStage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(mainStage);
-
+		setUpBackKeyCatch();
 		buildTitle(mainStage);
 		buildButtons(mainStage);
 		buildLineExtension(mainStage);
 		buildBottomNavigation(mainStage);
-		Gdx.input.setCatchBackKey(false);
 	}
+	abstract void setUpBackKeyCatch();
 	private void buildTitle(Stage stage) {
 		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
 		Image title = new Image(titleTexture);
@@ -122,17 +121,14 @@ abstract class HomeScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		handleBackKey();
 		mainStage.act(delta);
 		mainStage.draw();
 	}
+	abstract void handleBackKey();
+
 	@Override
 	public void resize(int width, int height) {
 		mainStage.getViewport().update(width, height, true);
 	}
-	@Override
-	public void resume() {}
-	@Override
-	public void dispose() {}
-	@Override
-	public void hide() {}
 }

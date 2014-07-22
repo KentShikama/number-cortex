@@ -19,11 +19,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
-class LevelsScreen extends BackCatchingScreen implements Screen {
+class LevelsScreen extends GameScreen {
 
 	public static final String TAG = "Levels Screen";
 
-	private Game game;
 	private Stage stage;
 	private Table table = new Table();
 
@@ -87,7 +86,7 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 	private static Persistence preferences = Persistence.getInstance();
 
 	LevelsScreen(Game game) {
-		this.game = game;
+		super(game);
 	}
 
 	@Override
@@ -208,6 +207,4 @@ class LevelsScreen extends BackCatchingScreen implements Screen {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
-	@Override
-	public void hide() {}
 }

@@ -1,6 +1,7 @@
 package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
@@ -18,6 +19,10 @@ public class TitleScreen extends HomeScreen {
 		super(game);
 	}
 
+	@Override
+	void setUpBackKeyCatch() {
+		Gdx.input.setCatchBackKey(false);		
+	}
 	@Override
 	void buildButtons(Stage stage) {
 		HomeScreenButton playButton = new HomeScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,
@@ -39,4 +44,7 @@ public class TitleScreen extends HomeScreen {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 	}
+
+	@Override
+	void handleBackKey() {}
 }

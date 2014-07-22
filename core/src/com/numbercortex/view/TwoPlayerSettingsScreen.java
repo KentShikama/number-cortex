@@ -643,12 +643,10 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	}
 	@Override
 	public void dispose() {
-		super.dispose();
 		textFieldStyle = null;
 	}
 	@Override
 	public void hide() {
-		super.hide();
 		saveUnsyncedPreferences();
 	}
 	@Override

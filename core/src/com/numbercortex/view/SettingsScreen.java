@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.GameSettings;
 
-public class SettingsScreen extends BackCatchingScreen implements Screen {
+public class SettingsScreen extends GameScreen {
 
 	Stage stage;
 	Game game;
@@ -97,7 +97,7 @@ public class SettingsScreen extends BackCatchingScreen implements Screen {
 	}
 
 	SettingsScreen(Game game) {
-		this.game = game;
+		super(game);
 	}
 
 	@Override
@@ -124,10 +124,4 @@ public class SettingsScreen extends BackCatchingScreen implements Screen {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
-	@Override
-	public void hide() {}
-	@Override
-	public void dispose() {}
-	@Override
-	public void pause() {}
 }

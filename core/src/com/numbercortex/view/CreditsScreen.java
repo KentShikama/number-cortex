@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.Persistence;
 
-public class CreditsScreen extends BackCatchingScreen implements Screen {
+public class CreditsScreen extends GameScreen {
 
 	public static final String TAG = "Credits Screen";
 	private Stage stage;
@@ -25,7 +25,7 @@ public class CreditsScreen extends BackCatchingScreen implements Screen {
 	private ArrayList<String> contentBlocks = new ArrayList<String>();
 
 	public CreditsScreen(Game game) {
-		this.game = game;
+		super(game);
 	}
 
 	@Override
@@ -121,18 +121,11 @@ public class CreditsScreen extends BackCatchingScreen implements Screen {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
-			game.setScreen(ScreenTracker.titleScreen);
+			game.setScreen(ScreenTracker.moreScreen);
 		}
 	}
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
-	@Override
-	public void resume() {}
-	@Override
-	public void dispose() {}
-	@Override
-	public void hide() {}
-
 }

@@ -1,6 +1,8 @@
 package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,6 +24,11 @@ public class MoreScreen extends HomeScreen {
 		super(game);
 	}
 
+	@Override
+	void setUpBackKeyCatch() {
+		Gdx.input.setCatchBackKey(true);
+		backKey = false;		
+	}
 	@Override
 	void buildButtons(Stage stage) {
 		HomeScreenButton playButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, null, null);
@@ -59,7 +66,17 @@ public class MoreScreen extends HomeScreen {
 		Label buttonLabel = new Label("Home", labelStyle);
 		table.add(buttonLabel).left().pad(6);
 	}
-
+	
+	
+	@Override
+	void handleBackKey() {
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+			backKey = true;
+		} else if (backKey) {
+			backKey = false;
+			game.setScreen(ScreenTracker.titleScreen);
+		}		
+	}
 	@Override
 	public void pause() {
 		Persistence persistence = Persistence.getInstance();
