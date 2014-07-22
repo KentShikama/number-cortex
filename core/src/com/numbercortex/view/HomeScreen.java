@@ -38,7 +38,7 @@ abstract class HomeScreen extends GameScreen {
 			this.addActor(buttonTable);
 		}
 		private void addIcon(String buttonName, Table buttonTable) {
-			String buttonIconName = buttonName.toLowerCase().replace(" ", "_").replace("&", "and") + "_icon";
+			String buttonIconName = buttonName.toLowerCase().replace(" ", "_") + "_icon";
 			TextureRegion buttonIconTexture = Assets.homeSkin.getRegion(buttonIconName);
 			Image buttonIcon = new Image(buttonIconTexture);
 			buttonTable.add(buttonIcon).right().pad(6);

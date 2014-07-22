@@ -60,7 +60,7 @@ options_icon
   orig: 35, 34
   offset: 0, 0
   index: -1
-pass_and_play_icon
+pass_&_play_icon
   rotate: false
   xy: 2, 39
   size: 39, 36
