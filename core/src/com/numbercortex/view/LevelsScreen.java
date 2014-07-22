@@ -121,7 +121,7 @@ class LevelsScreen extends GameScreen {
 		titleTable.add(title).right().pad(10);
 		titleTable.add(levelsIcon).left().pad(10);
 		
-		table.add(titleTable).expandX().padTop(80).padBottom(30).colspan(3);
+		table.add(titleTable).expandX().padTop(80).padBottom(26).colspan(3);
 		table.row();
 	}
 	private void addBoardSizeLabel(String boardSizeLabelString) {
