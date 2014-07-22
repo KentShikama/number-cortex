@@ -81,7 +81,7 @@ abstract class HomeScreen implements Screen {
 
 	private static final String TITLE = "number_cortex_title";
 	private static final String LINE_EXTENSION = "line_extension";
-	
+
 	private static final int FIRST_BUTTON_CENTER_OFFSET_Y = 734;
 
 	Game game;
@@ -114,12 +114,12 @@ abstract class HomeScreen implements Screen {
 	private void buildLineExtension(Stage stage) {
 		TextureRegion lineExtensionTexture = Assets.homeSkin.getRegion(LINE_EXTENSION);
 		Image lineExtension = new Image(lineExtensionTexture);
-		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - (FIRST_BUTTON_CENTER_OFFSET_Y + 280), lineExtensionTexture.getRegionWidth(),
-				lineExtensionTexture.getRegionHeight());
+		lineExtension.setBounds(175, Launch.SCREEN_HEIGHT - (FIRST_BUTTON_CENTER_OFFSET_Y + 280),
+				lineExtensionTexture.getRegionWidth(), lineExtensionTexture.getRegionHeight());
 		stage.addActor(lineExtension);
 	}
-	abstract void buildBottomNavigation(Stage stage); 
-	
+	abstract void buildBottomNavigation(Stage stage);
+
 	@Override
 	public void render(float delta) {
 		mainStage.act(delta);

@@ -3,6 +3,8 @@ package com.numbercortex.view;
 import java.util.ArrayList;
 import java.util.Map;
 
+import libgdx.NumberTextButton;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -165,7 +167,7 @@ class NumberCortexBoard {
 				return true;
 			}
 			private void toggleCell(final int winningValue, final NumberTextButton cell, final Label cellLabel) {
-				if (cell.isHighlighted) {
+				if (cell.isHighlighted()) {
 					cellLabel.setText(String.valueOf(winningValue));
 					cell.setHighlighted(false);
 				} else {

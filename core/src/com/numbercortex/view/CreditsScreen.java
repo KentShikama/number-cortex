@@ -21,13 +21,13 @@ public class CreditsScreen extends BackCatchingScreen implements Screen {
 	public static final String TAG = "Credits Screen";
 	private Stage stage;
 	private Game game;
-	
+
 	private ArrayList<String> contentBlocks = new ArrayList<String>();
 
 	public CreditsScreen(Game game) {
 		this.game = game;
 	}
-	
+
 	@Override
 	public void show() {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
@@ -35,21 +35,20 @@ public class CreditsScreen extends BackCatchingScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
-		
+
 		buildContentBlocks();
-		
+
 		Table table = new Table();
 		Label title = buildTitle(stage);
 		table.add(title).center().padBottom(80);
 		table.row();
-		
+
 		for (String contentBlock : contentBlocks) {
 			Label contentBlockLabel = buildContentBlockLabel(contentBlock);
 			table.add(contentBlockLabel).width(480).center().padBottom(40);
 			table.row();
 		}
-		
-		
+
 		table.setFillParent(true);
 		stage.addActor(table);
 		buildBottomNavigation(stage);
@@ -85,6 +84,7 @@ public class CreditsScreen extends BackCatchingScreen implements Screen {
 		addText(navigationTable);
 		navigationTable.setBounds(0, 0, 220, 100);
 		navigationTable.addListener(new ClickListenerWithSound() {
+			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(ScreenTracker.moreScreen);
 			}
@@ -109,7 +109,7 @@ public class CreditsScreen extends BackCatchingScreen implements Screen {
 		Persistence persistence = Persistence.getInstance();
 		persistence.setCurrentScreen(TAG);
 	}
-	
+
 	@Override
 	public void render(float delta) {
 		handleBackKey();

@@ -1,4 +1,4 @@
-package com.numbercortex.view;
+package libgdx;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 
-class HighlightableButton extends Table implements Disableable {
+public class HighlightableButton extends Table implements Disableable {
 	private ButtonStyle style;
 	boolean isChecked, isDisabled, isHighlighted;
 	ButtonGroup buttonGroup;

@@ -1,5 +1,7 @@
 package com.numbercortex.view;
 
+import libgdx.NumberTextButton;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -215,7 +217,7 @@ class MessageArea {
 				return true;
 			}
 			private void toggleCell() {
-				if (nextNumberSquare.isHighlighted) {
+				if (nextNumberSquare.isHighlighted()) {
 					nextNumberSquare.setText(String.valueOf(chosenNumber));
 					nextNumberSquare.setHighlighted(false);
 				} else {

@@ -1,4 +1,4 @@
-package com.numbercortex.view;
+package libgdx;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,8 +13,8 @@ import com.esotericsoftware.tablelayout.Cell;
 /**
  * An extension of the com.badlogic.gdx.scenes.scene2d.ui.TextButton class allowing for the label to directly be modified
  */
-class NumberTextButton extends HighlightableButton {
-	static class NumberTextButtonStyle extends ButtonStyle {
+public class NumberTextButton extends HighlightableButton {
+	public static class NumberTextButtonStyle extends ButtonStyle {
 		public BitmapFont font;
 		public Color fontColor, downFontColor, overFontColor, checkedFontColor, checkedOverFontColor,
 				disabledFontColor;
@@ -55,7 +55,7 @@ class NumberTextButton extends HighlightableButton {
 
 	private String name;
 
-	NumberTextButton(String text, NumberTextButtonStyle style) {
+	public NumberTextButton(String text, NumberTextButtonStyle style) {
 		super();
 		setStyle(style);
 		this.style = style;

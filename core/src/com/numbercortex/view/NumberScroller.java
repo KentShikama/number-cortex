@@ -2,6 +2,8 @@ package com.numbercortex.view;
 
 import java.util.ArrayList;
 
+import libgdx.NumberTextButton;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Action;

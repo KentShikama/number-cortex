@@ -6,7 +6,7 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
 public class TitleScreen extends HomeScreen {
-	
+
 	public static final String TAG = "Title Screen";
 
 	private static final String PLAY_BUTTON = "Play";
@@ -17,7 +17,7 @@ public class TitleScreen extends HomeScreen {
 	TitleScreen(Game game) {
 		super(game);
 	}
-	
+
 	@Override
 	void buildButtons(Stage stage) {
 		HomeScreenButton playButton = new HomeScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen,

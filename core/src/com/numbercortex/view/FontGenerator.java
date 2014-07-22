@@ -15,9 +15,9 @@ class FontGenerator {
 	private static BitmapFont gillSans50;
 	private static BitmapFont gillSans50Compact;
 	private static BitmapFont gillSans40;
-	
+
 	private static BitmapFont gillSansLight100;
-	
+
 	private FontGenerator() {}
 
 	static boolean isNull() {
@@ -90,7 +90,8 @@ class FontGenerator {
 		gillSansGenerator.dispose();
 	}
 	private static void createGillSansLightFonts() {
-		FreeTypeFontGenerator gillSansLightGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/GillSansLight.ttf"));
+		FreeTypeFontGenerator gillSansLightGenerator = new FreeTypeFontGenerator(
+				Gdx.files.internal("fonts/GillSansLight.ttf"));
 		gillSansLight100 = gillSansLightGenerator.generateFont(140);
 		gillSansLight100.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		gillSansLightGenerator.dispose();
@@ -105,7 +106,7 @@ class FontGenerator {
 		gillSans50 = null;
 		gillSans50Compact = null;
 		gillSans40 = null;
-		
+
 		gillSansLight100 = null;
 	}
 }
