@@ -163,13 +163,13 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	}
 	private Label buildLevelLabel() {
 		int level = gameSettings.getLevel();
-		Label.LabelStyle tahoma86Style = new Label.LabelStyle();
-		BitmapFont tahoma86 = FontGenerator.getNumberScrollerFont();
-		tahoma86Style.font = tahoma86;
-		tahoma86Style.fontColor = Launch.BRIGHT_YELLOW;
-		Label levelLabel = new Label("" + level, tahoma86Style);
+		Label.LabelStyle gillSansLightStyle = new Label.LabelStyle();
+		BitmapFont font = FontGenerator.getGillSansLight200();
+		gillSansLightStyle.font = font;
+		gillSansLightStyle.fontColor = Launch.BRIGHT_YELLOW;
+		Label levelLabel = new Label("" + level, gillSansLightStyle);
 		levelLabel.setAlignment(Align.center);
-		levelLabel.setBounds(535 - 6 - 20, Launch.SCREEN_HEIGHT - 84 - 6 - 62, 94, 64);
+		levelLabel.setBounds(0, Launch.SCREEN_HEIGHT - 300, Launch.SCREEN_WIDTH, 300);
 		return levelLabel;
 	}
 
