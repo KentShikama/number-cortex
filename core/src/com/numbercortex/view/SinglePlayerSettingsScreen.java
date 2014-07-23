@@ -149,19 +149,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		Persistence persistence = Persistence.getInstance();
 		gameSettings = GameSettingsLoader.loadLevel(persistence.getCurrentLevel());
 
-		addGridLines();
-
-		addTitle();
-		addLevelWrap();
-
-		addTime();
-		addBoardSizeGroup();
+		addLevelTitle();
 
 		addDifficultyGroup();
 
 		addEvenOdd();
 		addSingleDouble();
-
 		addPrimeComposite(persistence);
 		addMiddleExtreme(persistence);
 
@@ -169,31 +162,16 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		addFourSquaresGroup(persistence);
 	}
 
-	private void addGridLines() {
-		int[] position = { 230, 366, 496, 778, 962 };
+	@Override
+	void addGridLines() {
+		int[] position = { 366, 496, 778 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
 	}
 
-	private void addTitle() {
-		TextureRegion titleTexture = Assets.settingsSkin.getRegion("level_info_label");
-		Image title = new Image(titleTexture);
-		title.setPosition(64, Launch.SCREEN_HEIGHT - 152);
-		stage.addActor(title);
-	}
-
-	private void addLevelWrap() {
-		Image levelWrap = buildLevelWrap();
+	private void addLevelTitle() {
 		Label levelLabel = buildLevelLabel();
-		LabelSettingGroup timeGroup = new LabelSettingGroup(levelWrap, levelLabel, GroupState.VISIBLE);
-		stage.addActor(timeGroup);
-	}
-	private Image buildLevelWrap() {
-		int positionX = 507 - 20;
-		int positionY = Launch.SCREEN_HEIGHT - 123 - 62;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("level_wrap");
-		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
-		return timeIcon;
+		stage.addActor(levelLabel);
 	}
 	private Label buildLevelLabel() {
 		int level = gameSettings.getLevel();
@@ -205,48 +183,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		levelLabel.setAlignment(Align.center);
 		levelLabel.setBounds(535 - 6 - 20, Launch.SCREEN_HEIGHT - 84 - 6 - 62, 94, 64);
 		return levelLabel;
-	}
-
-	private void addTime() {
-		Image timeIcon = buildTimeIcon();
-		Label timeLabel = buildTimeLabel();
-		LabelSettingGroup timeGroup = new LabelSettingGroup(timeIcon, timeLabel, GroupState.VISIBLE);
-		stage.addActor(timeGroup);
-	}
-	private Image buildTimeIcon() {
-		int positionX = 78;
-		int positionY = Launch.SCREEN_HEIGHT - 332;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("time_icon");
-		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
-		return timeIcon;
-	}
-	private Label buildTimeLabel() {
-		int time = gameSettings.getTime();
-		Label boardSizeLabel = new Label("N/A", labelStyle57); // TODO: Implement time in levels
-		boardSizeLabel.setAlignment(Align.center);
-		boardSizeLabel.setPosition(168 - 6, Launch.SCREEN_HEIGHT - 330 - 6);
-		return boardSizeLabel;
-	}
-
-	private void addBoardSizeGroup() {
-		Image boardSizeIcon = buildBoardSizeIcon();
-		Label boardSizeLabel = buildBoardSizeLabel();
-		LabelSettingGroup boardSizeGroup = new LabelSettingGroup(boardSizeIcon, boardSizeLabel, GroupState.VISIBLE);
-		stage.addActor(boardSizeGroup);
-	}
-	private Image buildBoardSizeIcon() {
-		int positionX = 341;
-		int positionY = Launch.SCREEN_HEIGHT - 336;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("board_size_icon");
-		Image boardSizeIcon = buildIcon(iconTexture, positionX, positionY);
-		return boardSizeIcon;
-	}
-	private Label buildBoardSizeLabel() {
-		int numberOfRows = gameSettings.getNumberOfRows();
-		Label boardSizeLabel = new Label(numberOfRows + "x" + numberOfRows, labelStyle57);
-		boardSizeLabel.setAlignment(Align.center);
-		boardSizeLabel.setPosition(458 - 6, Launch.SCREEN_HEIGHT - 330 - 6);
-		return boardSizeLabel;
 	}
 
 	private void addDifficultyGroup() {

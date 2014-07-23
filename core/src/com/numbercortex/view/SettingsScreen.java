@@ -109,6 +109,9 @@ public abstract class SettingsScreen extends GameScreen {
 		reloadLabelStylesIfApplicable();
 
 		Persistence persistence = Persistence.getInstance();
+		
+		addGridLines();
+
 		if (persistence.isInPlay()) {
 			addResumeButton();
 		} else {
@@ -124,6 +127,7 @@ public abstract class SettingsScreen extends GameScreen {
 			labelStyle57 = buildLabelStyle57();
 		}
 	}
+	abstract void addGridLines();
 	abstract void addResumeButton();
 	abstract void addPlayButton();
 	abstract void addBackButton();

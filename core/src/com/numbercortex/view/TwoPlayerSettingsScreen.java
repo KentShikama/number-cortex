@@ -203,17 +203,13 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			groupState = GroupState.CLICKABLE;
 		}
 
-		addGridLines();
-
 		addPlayerOneName(persistence);
 		addPlayerTwoName(persistence);
 
-		addTime();
 		addBoardSize();
 
 		addEvenOdd();
 		addSingleDouble();
-
 		addPrimeComposite();
 		addMiddleExtreme();
 
@@ -221,8 +217,9 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		addFourSquaresGroup();
 	}
 
-	private void addGridLines() {
-		int[] position = { 276, 496, 778, 962 };
+	@Override
+	void addGridLines() {
+		int[] position = { 276, 496, 778 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
 	}
@@ -275,45 +272,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		playerTwoNameField.setMaxLength(20);
 		playerTwoNameField.setMessageText("Edit...");
 		return playerTwoNameField;
-	}
-
-	private void addTime() {
-		Image icon = buildTimeIcon();
-		Label label = buildTimeLabel();
-		Image increaseValueControlImage = buildIncreaseValueControlImage();
-		Image decreaseValueControlImage = buildDecreaseValueControlImage();
-		int initialValue = gameSettings.getTime();
-		SpinnerGroup spinnerGroup = new SpinnerGroup(initialValue, label, increaseValueControlImage,
-				decreaseValueControlImage);
-		SpinnerSettingGroup timeGroup = new SpinnerSettingGroup(icon, spinnerGroup, GroupState.TRANSPARENT);
-		stage.addActor(timeGroup);
-	}
-	private Image buildTimeIcon() {
-		int positionX = 90;
-		int positionY = Launch.SCREEN_HEIGHT - 380;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("time_icon");
-		Image timeIcon = buildIcon(iconTexture, positionX, positionY);
-		return timeIcon;
-	}
-	private Label buildTimeLabel() {
-		Label label = new Label("", labelStyle57);
-		label.setAlignment(Align.center);
-		label.setBounds(76, Launch.SCREEN_HEIGHT - 456, 100, 60);
-		return label;
-	}
-	private Image buildIncreaseValueControlImage() {
-		int positionX = 209;
-		int positionY = Launch.SCREEN_HEIGHT - 376;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("up_arrow");
-		Image increaseValueControlImage = buildIcon(iconTexture, positionX, positionY);
-		return increaseValueControlImage;
-	}
-	private Image buildDecreaseValueControlImage() {
-		int positionX = 209;
-		int positionY = Launch.SCREEN_HEIGHT - 454;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("down_arrow");
-		Image decreaseValueControlImage = buildIcon(iconTexture, positionX, positionY);
-		return decreaseValueControlImage;
 	}
 
 	private void addBoardSize() {
