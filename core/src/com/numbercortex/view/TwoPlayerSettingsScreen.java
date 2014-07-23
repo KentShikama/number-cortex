@@ -72,8 +72,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	private TextField playerOneNameField;
 	private TextField playerTwoNameField;
 
-	private GroupState groupState;
-
 	class TwoChoiceRadioSettingGroup extends SettingGroup {
 		public TwoChoiceRadioSettingGroup(Label choiceOneLabel, Label choiceTwoLabel, ImageButton choiceOneCheckbox,
 				ImageButton choiceTwoCheckbox, final GroupState groupState) {
@@ -197,34 +195,35 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 
 		Persistence persistence = Persistence.getInstance();
 		gameSettings = persistence.getTwoPlayerGameSettings();
+		GroupState groupState;
 		if (persistence.isInPlay()) {
 			groupState = GroupState.VISIBLE;
 		} else {
 			groupState = GroupState.CLICKABLE;
 		}
 
-		addPlayerOneName(persistence);
-		addPlayerTwoName(persistence);
+		addPlayerOneName(persistence, groupState);
+		addPlayerTwoName(persistence, groupState);
 
-		addBoardSize();
+		addBoardSize(groupState);
 
-		addEvenOdd();
-		addSingleDouble();
-		addPrimeComposite();
-		addMiddleExtreme();
+		addEvenOdd(groupState);
+		addSingleDouble(groupState);
+		addPrimeComposite(groupState);
+		addMiddleExtreme(groupState);
 
-		addDiagonalsGroup();
-		addFourSquaresGroup();
+		addDiagonalsGroup(groupState);
+		addFourSquaresGroup(groupState);
 	}
 
 	@Override
 	void addGridLines() {
-		int[] position = { 276, 496, 778 };
+		int[] position = { 276, 524, 806 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
 	}
 
-	private void addPlayerOneName(Persistence persistence) {
+	private void addPlayerOneName(Persistence persistence, GroupState groupState) {
 		Label playerOneNameLabel = buildPlayerOneNameLabel();
 		playerOneNameField = buildPlayerOneNameField(persistence);
 		TextFieldSettingGroup playerOneNameGroup = new TextFieldSettingGroup(playerOneNameLabel, playerOneNameField,
@@ -249,7 +248,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		return playerOneNameField;
 	}
 
-	private void addPlayerTwoName(Persistence persistence) {
+	private void addPlayerTwoName(Persistence persistence, GroupState groupState) {
 		Label playerTwoNameLabel = buildPlayerTwoNameLabel();
 		playerTwoNameField = buildPlayerTwoNameField(persistence);
 		TextFieldSettingGroup playerTwoNameGroup = new TextFieldSettingGroup(playerTwoNameLabel, playerTwoNameField,
@@ -274,7 +273,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		return playerTwoNameField;
 	}
 
-	private void addBoardSize() {
+	private void addBoardSize(GroupState groupState) {
 		Label label3x3 = buildLabel3x3();
 		Label label4x4 = buildLabel4x4();
 		ImageButton checkbox3x3 = buildCheckbox3x3();
@@ -320,204 +319,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			}
 		});
 		return checkbox4x4;
-	}
-
-	private void addEvenOdd() {
-		Label evenOddLabel = buildEvenOddLabel();
-		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
-		CheckboxSettingGroup evenOddGroup = new CheckboxSettingGroup(evenOddLabel, evenOddCheckbox, groupState);
-		stage.addActor(evenOddGroup);
-	}
-	private Label buildEvenOddLabel() {
-		Label evenOddLabel = new Label("Even\nOdd", labelStyle50);
-		evenOddLabel.setAlignment(Align.center);
-		evenOddLabel.setPosition(65 - 6, Launch.SCREEN_HEIGHT - 621 - 12);
-		return evenOddLabel;
-	}
-	private ImageButton buildEvenOddCheckbox() {
-		int positionX = 206;
-		int positionY = Launch.SCREEN_HEIGHT - 606;
-		boolean isChecked = gameSettings.isEvenOdd();
-		final ImageButton evenOddCheckbox = buildCheckbox(positionX, positionY, isChecked);
-		evenOddCheckbox.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setEvenOdd(evenOddCheckbox.isChecked());
-			}
-		});
-		return evenOddCheckbox;
-	}
-
-	private void addSingleDouble() {
-		Label singleDoubleLabel = buildSingleDoubleLabel();
-		ImageButton singleDoubleCheckbox = buildSingleDoubleCheckbox();
-		CheckboxSettingGroup singleDoubleGroup = new CheckboxSettingGroup(singleDoubleLabel, singleDoubleCheckbox,
-				groupState);
-		stage.addActor(singleDoubleGroup);
-	}
-	private Label buildSingleDoubleLabel() {
-		Label singleDoubleLabel = new Label("Single\nDouble", labelStyle50);
-		singleDoubleLabel.setAlignment(Align.center);
-		singleDoubleLabel.setPosition(349 - 6, Launch.SCREEN_HEIGHT - 621 - 12);
-		return singleDoubleLabel;
-	}
-	private ImageButton buildSingleDoubleCheckbox() {
-		int positionX = 528;
-		int positionY = Launch.SCREEN_HEIGHT - 606;
-		boolean isChecked = gameSettings.isSingleDouble();
-		final ImageButton singleDoubleCheckbox = buildCheckbox(positionX, positionY, isChecked);
-		singleDoubleCheckbox.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setSingleDouble(singleDoubleCheckbox.isChecked());
-			}
-		});
-		return singleDoubleCheckbox;
-	}
-
-	private void addPrimeComposite() {
-		Label primeCompositeLabel = buildPrimeCompositeLabel();
-		ImageButton primeCompositeCheckbox = buildPrimeCompositeCheckbox();
-		CheckboxSettingGroup primeCompositeGroup = new CheckboxSettingGroup(primeCompositeLabel,
-				primeCompositeCheckbox, groupState);
-		stage.addActor(primeCompositeGroup);
-	}
-	private Label buildPrimeCompositeLabel() {
-		Label primeCompositeLabel = new Label("Prime\nComp.", labelStyle50);
-		primeCompositeLabel.setAlignment(Align.center);
-		primeCompositeLabel.setPosition(47 - 6, Launch.SCREEN_HEIGHT - 744 - 12);
-		return primeCompositeLabel;
-	}
-	private ImageButton buildPrimeCompositeCheckbox() {
-		int positionX = 206;
-		int positionY = Launch.SCREEN_HEIGHT - 729;
-		boolean isChecked = gameSettings.isPrimeComposite();
-		final ImageButton primeCompositeCheckbox = buildCheckbox(positionX, positionY, isChecked);
-		primeCompositeCheckbox.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setPrimeComposite(primeCompositeCheckbox.isChecked());
-			}
-		});
-		return primeCompositeCheckbox;
-	}
-
-	private void addMiddleExtreme() {
-		Label middleExtremeLabel = buildMiddleExtremeLabel();
-		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
-		CheckboxSettingGroup middleExtremeGroup = new CheckboxSettingGroup(middleExtremeLabel, middleExtremeCheckbox,
-				groupState);
-		stage.addActor(middleExtremeGroup);
-	}
-	private Label buildMiddleExtremeLabel() {
-		Label middleExtremeLabel = new Label("Middle\nExtreme", labelStyle50);
-		middleExtremeLabel.setAlignment(Align.center);
-		middleExtremeLabel.setPosition(339 - 6, Launch.SCREEN_HEIGHT - 744 - 12);
-		return middleExtremeLabel;
-	}
-	private ImageButton buildMiddleExtremeCheckbox() {
-		int positionX = 528;
-		int positionY = Launch.SCREEN_HEIGHT - 729;
-		boolean isChecked = gameSettings.isMiddleExtreme();
-		final ImageButton middleExtremeCheckbox = buildCheckbox(positionX, positionY, isChecked);
-		middleExtremeCheckbox.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setMiddleExtreme(middleExtremeCheckbox.isChecked());
-			}
-		});
-		return middleExtremeCheckbox;
-	}
-
-	private void addDiagonalsGroup() {
-		Label diagonalsLabel = buildDiagonalsLabel();
-		ImageButton diagonalsCheckbox = buildDiagonalsCheckbox();
-		Image diagonalsIcon = buildDiagonalsIcon();
-		CheckboxSettingGroup diagonalsGroup = new CheckboxSettingGroup(diagonalsLabel, diagonalsCheckbox,
-				diagonalsIcon, groupState);
-		stage.addActor(diagonalsGroup);
-	}
-	private Label buildDiagonalsLabel() {
-		Label diagonalsLabel = new Label("Diag.", labelStyle50);
-		diagonalsLabel.setAlignment(Align.center);
-		diagonalsLabel.setPosition(71, Launch.SCREEN_HEIGHT - 929 - 6);
-		return diagonalsLabel;
-	}
-	private ImageButton buildDiagonalsCheckbox() {
-		int positionX = 206;
-		int positionY = Launch.SCREEN_HEIGHT - 902;
-		boolean isChecked = gameSettings.isDiagonals();
-		final ImageButton diagonalsCheckbox = buildCheckbox(positionX, positionY, isChecked);
-		diagonalsCheckbox.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setDiagonals(diagonalsCheckbox.isChecked());
-			}
-		});
-		return diagonalsCheckbox;
-	}
-	private Image buildDiagonalsIcon() {
-		int positionX = 94;
-		int positionY = Launch.SCREEN_HEIGHT - 862;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("diagonals_icon");
-		Image diagonalsIcon = buildIcon(iconTexture, positionX, positionY);
-		return diagonalsIcon;
-	}
-
-	private void addFourSquaresGroup() {
-		Label fourSquareLabel = buildFourSquareLabel();
-		ImageButton fourSquareCheckbox = buildFourSquareCheckbox();
-		Image fourSquareIcon = buildFourSquareIcon();
-		CheckboxSettingGroup fourSquareGroup = new CheckboxSettingGroup(fourSquareLabel, fourSquareCheckbox,
-				fourSquareIcon, groupState);
-		stage.addActor(fourSquareGroup);
-	}
-	private Label buildFourSquareLabel() {
-		Label fourSquareLabel = new Label("Four\nSquare", labelStyle50);
-		fourSquareLabel.setAlignment(Align.center);
-		fourSquareLabel.setPosition(350, Launch.SCREEN_HEIGHT - 961);
-		return fourSquareLabel;
-	}
-	private ImageButton buildFourSquareCheckbox() {
-		int positionX = 528;
-		int positionY = Launch.SCREEN_HEIGHT - 902;
-		boolean isChecked = gameSettings.isFourSquare();
-		final ImageButton fourSquareCheckbox = buildCheckbox(positionX, positionY, isChecked);
-		fourSquareCheckbox.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setFourSquare(fourSquareCheckbox.isChecked());
-			}
-		});
-		return fourSquareCheckbox;
-	}
-	private Image buildFourSquareIcon() {
-		int positionX = 398;
-		int positionY = Launch.SCREEN_HEIGHT - 840;
-		TextureRegion iconTexture = Assets.settingsSkin.getRegion("four_square_icon");
-		Image diagonalsIcon = buildIcon(iconTexture, positionX, positionY);
-		return diagonalsIcon;
-	}
-
-	private static Image buildIcon(TextureRegion iconTexture, int positionX, int positionY) {
-		Image diagonalsIcon = new Image(iconTexture);
-		diagonalsIcon.setPosition(positionX, positionY);
-		return diagonalsIcon;
-	}
-	private static ImageButton buildCheckbox(int positionX, int positionY, boolean isChecked) {
-		TextureRegion checkedCheckboxTexture = Assets.settingsSkin.getRegion("checked_checkbox");
-		Drawable checkedCheckboxDrawable = new TextureRegionDrawable(checkedCheckboxTexture);
-		TextureRegion emptyCheckBoxTexture = Assets.settingsSkin.getRegion("empty_checkbox");
-		Drawable emptyCheckBoxDrawable = new TextureRegionDrawable(emptyCheckBoxTexture);
-		final ImageButton checkbox = new ImageButton(emptyCheckBoxDrawable, emptyCheckBoxDrawable,
-				checkedCheckboxDrawable);
-		checkbox.setBounds(positionX, positionY, checkedCheckboxTexture.getRegionWidth(),
-				checkedCheckboxTexture.getRegionHeight());
-		checkbox.left();
-		checkbox.bottom();
-		checkbox.setChecked(isChecked);
-		checkbox.clearListeners();
-		return checkbox;
 	}
 
 	@Override
