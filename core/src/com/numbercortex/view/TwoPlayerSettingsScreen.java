@@ -324,8 +324,13 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	}
 	private void saveUnsyncedPreferences() {
 		Persistence persistence = Persistence.getInstance();
-		persistence.setPlayerOneName(playerOneNameField.getText());
-		persistence.setPlayerTwoName(playerTwoNameField.getText());
+		String playerOneName = playerOneNameField.getText();
+		String playerTwoName = playerTwoNameField.getText();
+		if (playerOneName.equals(playerTwoName)) {
+			playerTwoName = playerTwoName + " 2";
+		}
+		persistence.setPlayerOneName(playerOneName);
+		persistence.setPlayerTwoName(playerTwoName);
 	}
 	private void saveOtherPreferences() {
 		Persistence persistence = Persistence.getInstance();
