@@ -15,8 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.GameSettings;
+import com.numbercortex.Persistence;
 
-public class SettingsScreen extends GameScreen {
+public abstract class SettingsScreen extends GameScreen {
 
 	Stage stage;
 	GameSettings gameSettings;
@@ -106,6 +107,14 @@ public class SettingsScreen extends GameScreen {
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
 		reloadLabelStylesIfApplicable();
+
+		Persistence persistence = Persistence.getInstance();
+		if (persistence.isInPlay()) {
+			addResumeButton();
+		} else {
+			addPlayButton();
+			addBackButton();
+		}
 	}
 	private void reloadLabelStylesIfApplicable() {
 		if (labelStyle50 == null) {
@@ -115,6 +124,10 @@ public class SettingsScreen extends GameScreen {
 			labelStyle57 = buildLabelStyle57();
 		}
 	}
+	abstract void addResumeButton();
+	abstract void addPlayButton();
+	abstract void addBackButton();
+
 	@Override
 	public void render(float delta) {
 		stage.act(delta);

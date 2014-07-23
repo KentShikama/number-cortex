@@ -25,9 +25,6 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
-import com.numbercortex.logic.TwoPlayerGameManager;
-import com.numbercortex.view.GameScreen.BackBottomNavigation;
-import com.numbercortex.view.GameScreen.ForwardBottomNavigation;
 
 class SinglePlayerSettingsScreen extends SettingsScreen {
 
@@ -170,13 +167,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 		addDiagonalsGroup();
 		addFourSquaresGroup(persistence);
-
-		if (persistence.isInPlay()) {
-			addResumeButton();
-		} else {
-			addPlayButton();
-			addBackButton();
-		}
 	}
 
 	private void addGridLines() {
@@ -490,7 +480,8 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		return checkbox;
 	}
 
-	private void addPlayButton() {
+	@Override
+	void addPlayButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -500,13 +491,15 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			}
 		};
 		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
-		stage.addActor(forwardBottomNavigation);	
+		stage.addActor(forwardBottomNavigation);
 	}
-	private void addBackButton() {
+	@Override
+	void addBackButton() {
 		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("Levels", ScreenTracker.levelsScreen);
 		stage.addActor(backBottomNavigation);
 	}
-	private void addResumeButton() {
+	@Override
+	void addResumeButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -514,7 +507,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			}
 		};
 		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
-		stage.addActor(forwardBottomNavigation);	
+		stage.addActor(forwardBottomNavigation);
 	}
 
 	@Override

@@ -72,9 +72,10 @@ public class GameScreen implements Screen {
 		}
 		@Override
 		TextureRegion buildFlippedIconTexture(TextureRegion buttonIconTexture) {
-			TextureRegion flippedTexture = new TextureRegion(buttonIconTexture, 0, 0, buttonIconTexture.getRegionWidth(), buttonIconTexture.getRegionHeight());
+			TextureRegion flippedTexture = new TextureRegion(buttonIconTexture, 0, 0,
+					buttonIconTexture.getRegionWidth(), buttonIconTexture.getRegionHeight());
 			return flippedTexture;
-		}		
+		}
 		@Override
 		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
 			navigationTable.add(buttonIcon).center().pad(6).padBottom(10);
@@ -94,7 +95,8 @@ public class GameScreen implements Screen {
 		}
 		@Override
 		TextureRegion buildFlippedIconTexture(TextureRegion buttonIconTexture) {
-			TextureRegion flippedTexture = new TextureRegion(buttonIconTexture, buttonIconTexture.getRegionWidth(), 0, -buttonIconTexture.getRegionWidth(), buttonIconTexture.getRegionHeight());
+			TextureRegion flippedTexture = new TextureRegion(buttonIconTexture, buttonIconTexture.getRegionWidth(), 0,
+					-buttonIconTexture.getRegionWidth(), buttonIconTexture.getRegionHeight());
 			return flippedTexture;
 		}
 		@Override

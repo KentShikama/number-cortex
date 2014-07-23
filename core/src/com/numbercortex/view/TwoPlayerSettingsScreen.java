@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -30,7 +29,6 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
-import com.numbercortex.view.GameScreen.BackBottomNavigation;
 
 class TwoPlayerSettingsScreen extends SettingsScreen {
 
@@ -221,13 +219,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 
 		addDiagonalsGroup();
 		addFourSquaresGroup();
-
-		if (persistence.isInPlay()) {
-			addResumeButton();
-		} else {
-			addPlayButton();
-			addBackButton();
-		}
 	}
 
 	private void addGridLines() {
@@ -571,7 +562,8 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		return checkbox;
 	}
 
-	private void addPlayButton() {
+	@Override
+	void addPlayButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -582,13 +574,15 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			}
 		};
 		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
-		stage.addActor(forwardBottomNavigation);	
+		stage.addActor(forwardBottomNavigation);
 	}
-	private void addBackButton() {
+	@Override
+	void addBackButton() {
 		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("Home", ScreenTracker.titleScreen);
 		stage.addActor(backBottomNavigation);
 	}
-	private void addResumeButton() {
+	@Override
+	void addResumeButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -596,7 +590,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			}
 		};
 		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
-		stage.addActor(forwardBottomNavigation);	
+		stage.addActor(forwardBottomNavigation);
 	}
 
 	@Override
