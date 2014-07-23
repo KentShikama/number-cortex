@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -27,6 +28,8 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
+import com.numbercortex.view.SettingsScreen.GroupState;
+import com.numbercortex.view.SettingsScreen.SettingGroup;
 
 class TwoPlayerSettingsScreen extends SettingsScreen {
 
@@ -101,6 +104,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			}
 		}
 	}
+	
 	private class TextFieldSettingGroup extends SettingGroup {
 		private TextFieldSettingGroup(Label label, TextField textField, GroupState groupState) {
 			super(groupState);
@@ -211,6 +215,11 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	}
 
 	private void addBoardSize(GroupState groupState) {
+		Image boardSizeIcon = buildBoardSizeIcon();
+		Label boardSizeLabel = buildBoardSizeLabel();
+		stage.addActor(boardSizeIcon);
+		stage.addActor(boardSizeLabel);
+
 		Label label3x3 = buildLabel3x3();
 		Label label4x4 = buildLabel4x4();
 		ImageButton checkbox3x3 = buildCheckbox3x3();
@@ -218,6 +227,19 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		TwoChoiceRadioSettingGroup boardSizeGroup = new TwoChoiceRadioSettingGroup(label3x3, label4x4, checkbox3x3,
 				checkbox4x4, groupState);
 		stage.addActor(boardSizeGroup);
+	}
+	private Image buildBoardSizeIcon() {
+		int positionX = 144;
+		int positionY = Launch.SCREEN_HEIGHT - 416;
+		TextureRegion iconTexture = Assets.settingsSkin.getRegion("board_size_icon");
+		Image boardSizeIcon = buildIcon(iconTexture, positionX, positionY);
+		return boardSizeIcon;
+	}
+	private Label buildBoardSizeLabel() {
+		Label label = new Label("Board Size", labelStyle50);
+		label.setAlignment(Align.center);
+		label.setPosition(80, Launch.SCREEN_HEIGHT - 490);
+		return label;
 	}
 	private Label buildLabel3x3() {
 		Label label = new Label("3x3", labelStyle57);
