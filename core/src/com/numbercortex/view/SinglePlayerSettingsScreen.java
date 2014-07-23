@@ -30,17 +30,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 	public static final String TAG = "Single Player Settings Screen";
 
-	private static final String TEXT_BUTTON_BORDER_TEXTURE_NAME = "button_rectangle";
-	private static TextButton.TextButtonStyle textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
-	private static TextButton.TextButtonStyle buildTextButtonStyle(String textureButtonTextureName) {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion(textureButtonTextureName);
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
-		return textButtonStyle;
-	}
-
 	class DifficultyGroup extends SettingGroup {
 
 		public DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
@@ -468,11 +457,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		GameManager manager = SinglePlayerGameManager.getInstance();
 		game.setScreen(ScreenTracker.playScreen);
 		manager.resumeGame();
-	}
-	@Override
-	public void dispose() {
-		super.dispose();
-		textButtonStyle = null;
 	}
 	@Override
 	public void pause() {
