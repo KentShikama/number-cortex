@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -115,7 +114,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 		addLevelTitle();
 		addDifficultyGroup();
-		
+
 		addEvenOdd(GroupState.VISIBLE);
 		addSingleDouble(GroupState.VISIBLE);
 		addPrimeComposite(persistence);
@@ -169,7 +168,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			addPrimeComposite(GroupState.TRANSPARENT);
 		}
 	}
-	
+
 	private void addMiddleExtreme(Persistence persistence) {
 		if (persistence.getMaxLevel() > 6) {
 			addMiddleExtreme(GroupState.VISIBLE);
@@ -177,7 +176,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			addMiddleExtreme(GroupState.TRANSPARENT);
 		}
 	}
-	
+
 	private void addFourSquaresGroup(Persistence persistence) {
 		if (persistence.getMaxLevel() > 13) {
 			addFourSquaresGroup(GroupState.VISIBLE);
@@ -185,7 +184,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			addFourSquaresGroup(GroupState.TRANSPARENT);
 		}
 	}
-	
+
 	@Override
 	void addPlayButton() {
 		ClickListener listener = new ClickListenerWithSound() {

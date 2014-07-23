@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.GameSettings;
@@ -133,7 +132,7 @@ public abstract class SettingsScreen extends GameScreen {
 		}
 	}
 	abstract void addGridLines();
-	
+
 	void addEvenOdd(GroupState state) {
 		Label evenOddLabel = buildEvenOddLabel();
 		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
@@ -312,7 +311,6 @@ public abstract class SettingsScreen extends GameScreen {
 		return diagonalsIcon;
 	}
 
-
 	static Image buildIcon(TextureRegion iconTexture, int positionX, int positionY) {
 		Image diagonalsIcon = new Image(iconTexture);
 		diagonalsIcon.setPosition(positionX, positionY);
@@ -333,7 +331,7 @@ public abstract class SettingsScreen extends GameScreen {
 		checkbox.clearListeners();
 		return checkbox;
 	}
-	
+
 	abstract void addResumeButton();
 	abstract void addPlayButton();
 	abstract void addBackButton();
