@@ -152,7 +152,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 	@Override
 	void addGridLines() {
-		int[] position = { 366, 496, 778 };
+		int[] position = { 324, 524, 806 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
 	}
@@ -169,21 +169,21 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		gillSansLightStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label levelLabel = new Label("" + level, gillSansLightStyle);
 		levelLabel.setAlignment(Align.center);
-		levelLabel.setBounds(0, Launch.SCREEN_HEIGHT - 300, Launch.SCREEN_WIDTH, 300);
+		levelLabel.setBounds(0, Launch.SCREEN_HEIGHT - 340, Launch.SCREEN_WIDTH, 300);
 		return levelLabel;
 	}
 
 	private void addDifficultyGroup() {
 		Label difficultyLabel = buildDifficultyLabel();
 		int difficultyRating = gameSettings.getDifficulty();
-		StarGroup starGroup = new StarGroup(276, Launch.SCREEN_HEIGHT - 456, difficultyRating);
+		StarGroup starGroup = new StarGroup(158, Launch.SCREEN_HEIGHT - 490, difficultyRating);
 		DifficultyGroup difficultyGroup = new DifficultyGroup(difficultyLabel, starGroup, GroupState.VISIBLE);
 		stage.addActor(difficultyGroup);
 	}
 	private Label buildDifficultyLabel() {
 		Label difficultyLabel = new Label("Difficulty", labelStyle57);
 		difficultyLabel.setAlignment(Align.center);
-		difficultyLabel.setPosition(41 - 6, Launch.SCREEN_HEIGHT - 447 - 12);
+		difficultyLabel.setPosition(220, Launch.SCREEN_HEIGHT - 416);
 		return difficultyLabel;
 	}
 
@@ -196,12 +196,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	private Label buildEvenOddLabel() {
 		Label evenOddLabel = new Label("Even\nOdd", labelStyle50);
 		evenOddLabel.setAlignment(Align.center);
-		evenOddLabel.setPosition(65 - 6, Launch.SCREEN_HEIGHT - 621 - 12);
+		evenOddLabel.setPosition(65 - 6, Launch.SCREEN_HEIGHT - 665);
 		return evenOddLabel;
 	}
 	private ImageButton buildEvenOddCheckbox() {
 		int positionX = 206;
-		int positionY = Launch.SCREEN_HEIGHT - 606;
+		int positionY = Launch.SCREEN_HEIGHT - 634;
 		boolean isChecked = gameSettings.isEvenOdd();
 		final ImageButton evenOddCheckbox = buildCheckbox(positionX, positionY, isChecked);
 		evenOddCheckbox.addListener(new ChangeListener() {
@@ -224,12 +224,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	private Label buildSingleDoubleLabel() {
 		Label singleDoubleLabel = new Label("Single\nDouble", labelStyle50);
 		singleDoubleLabel.setAlignment(Align.center);
-		singleDoubleLabel.setPosition(349 - 6, Launch.SCREEN_HEIGHT - 621 - 12);
+		singleDoubleLabel.setPosition(349 - 6, Launch.SCREEN_HEIGHT - 665);
 		return singleDoubleLabel;
 	}
 	private ImageButton buildSingleDoubleCheckbox() {
 		int positionX = 528;
-		int positionY = Launch.SCREEN_HEIGHT - 606;
+		int positionY = Launch.SCREEN_HEIGHT - 634;
 		boolean isChecked = gameSettings.isSingleDouble();
 		final ImageButton singleDoubleCheckbox = buildCheckbox(positionX, positionY, isChecked);
 		singleDoubleCheckbox.addListener(new ChangeListener() {
@@ -257,12 +257,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	private Label buildPrimeCompositeLabel() {
 		Label primeCompositeLabel = new Label("Prime\nComp.", labelStyle50);
 		primeCompositeLabel.setAlignment(Align.center);
-		primeCompositeLabel.setPosition(47 - 6, Launch.SCREEN_HEIGHT - 744 - 12);
+		primeCompositeLabel.setPosition(47 - 6, Launch.SCREEN_HEIGHT - 788);
 		return primeCompositeLabel;
 	}
 	private ImageButton buildPrimeCompositeCheckbox() {
 		int positionX = 206;
-		int positionY = Launch.SCREEN_HEIGHT - 729;
+		int positionY = Launch.SCREEN_HEIGHT - 757;
 		boolean isChecked = gameSettings.isPrimeComposite();
 		final ImageButton primeCompositeCheckbox = buildCheckbox(positionX, positionY, isChecked);
 		primeCompositeCheckbox.addListener(new ChangeListener() {
@@ -290,12 +290,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	private Label buildMiddleExtremeLabel() {
 		Label middleExtremeLabel = new Label("Middle\nExtreme", labelStyle50);
 		middleExtremeLabel.setAlignment(Align.center);
-		middleExtremeLabel.setPosition(339 - 6, Launch.SCREEN_HEIGHT - 744 - 12);
+		middleExtremeLabel.setPosition(339 - 6, Launch.SCREEN_HEIGHT - 788);
 		return middleExtremeLabel;
 	}
 	private ImageButton buildMiddleExtremeCheckbox() {
 		int positionX = 528;
-		int positionY = Launch.SCREEN_HEIGHT - 729;
+		int positionY = Launch.SCREEN_HEIGHT - 757;
 		boolean isChecked = gameSettings.isMiddleExtreme();
 		final ImageButton middleExtremeCheckbox = buildCheckbox(positionX, positionY, isChecked);
 		middleExtremeCheckbox.addListener(new ChangeListener() {
@@ -318,12 +318,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	private Label buildDiagonalsLabel() {
 		Label diagonalsLabel = new Label("Diag.", labelStyle50);
 		diagonalsLabel.setAlignment(Align.center);
-		diagonalsLabel.setPosition(71, Launch.SCREEN_HEIGHT - 929 - 6);
+		diagonalsLabel.setPosition(71, Launch.SCREEN_HEIGHT - 958);
 		return diagonalsLabel;
 	}
 	private ImageButton buildDiagonalsCheckbox() {
 		int positionX = 206;
-		int positionY = Launch.SCREEN_HEIGHT - 902;
+		int positionY = Launch.SCREEN_HEIGHT - 930;
 		boolean isChecked = gameSettings.isDiagonals();
 		final ImageButton diagonalsCheckbox = buildCheckbox(positionX, positionY, isChecked);
 		diagonalsCheckbox.addListener(new ChangeListener() {
@@ -336,7 +336,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	}
 	private Image buildDiagonalsIcon() {
 		int positionX = 94;
-		int positionY = Launch.SCREEN_HEIGHT - 862;
+		int positionY = Launch.SCREEN_HEIGHT - 890;
 		TextureRegion iconTexture = Assets.settingsSkin.getRegion("diagonals_icon");
 		Image diagonalsIcon = buildIcon(iconTexture, positionX, positionY);
 		return diagonalsIcon;
@@ -359,12 +359,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	private Label buildFourSquareLabel() {
 		Label fourSquareLabel = new Label("Four\nSquare", labelStyle50);
 		fourSquareLabel.setAlignment(Align.center);
-		fourSquareLabel.setPosition(350, Launch.SCREEN_HEIGHT - 961);
+		fourSquareLabel.setPosition(350, Launch.SCREEN_HEIGHT - 989);
 		return fourSquareLabel;
 	}
 	private ImageButton buildFourSquareCheckbox() {
 		int positionX = 528;
-		int positionY = Launch.SCREEN_HEIGHT - 902;
+		int positionY = Launch.SCREEN_HEIGHT - 930;
 		boolean isChecked = gameSettings.isFourSquare();
 		final ImageButton fourSquareCheckbox = buildCheckbox(positionX, positionY, isChecked);
 		fourSquareCheckbox.addListener(new ChangeListener() {
@@ -377,7 +377,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	}
 	private Image buildFourSquareIcon() {
 		int positionX = 398;
-		int positionY = Launch.SCREEN_HEIGHT - 840;
+		int positionY = Launch.SCREEN_HEIGHT - 868;
 		TextureRegion iconTexture = Assets.settingsSkin.getRegion("four_square_icon");
 		Image diagonalsIcon = buildIcon(iconTexture, positionX, positionY);
 		return diagonalsIcon;
