@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -24,6 +25,9 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
+import com.numbercortex.logic.TwoPlayerGameManager;
+import com.numbercortex.view.GameScreen.BackBottomNavigation;
+import com.numbercortex.view.GameScreen.ForwardBottomNavigation;
 
 class SinglePlayerSettingsScreen extends SettingsScreen {
 
@@ -487,48 +491,30 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	}
 
 	private void addPlayButton() {
-		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
-		}
-		final TextButton playButton = new TextButton("Play", textButtonStyle);
-		playButton.setBounds(306, Launch.SCREEN_HEIGHT - 1096, 284, 94);
-		playButton.addListener(new ClickListenerWithSound() {
+		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				GameManager manager = SinglePlayerGameManager.createNewGameManager();
 				game.setScreen(ScreenTracker.playScreen);
 				manager.startNewGame();
 			}
-		});
-		stage.addActor(playButton);
+		};
+		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
+		stage.addActor(forwardBottomNavigation);	
 	}
 	private void addBackButton() {
-		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
-		}
-		final TextButton backButton = new TextButton("Back", textButtonStyle);
-		backButton.setBounds(55, Launch.SCREEN_HEIGHT - 1096, 222, 94);
-		backButton.addListener(new ClickListenerWithSound() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(ScreenTracker.levelsScreen);
-			}
-		});
-		stage.addActor(backButton);
+		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("Levels", ScreenTracker.levelsScreen);
+		stage.addActor(backBottomNavigation);
 	}
 	private void addResumeButton() {
-		if (textButtonStyle == null) {
-			textButtonStyle = buildTextButtonStyle(TEXT_BUTTON_BORDER_TEXTURE_NAME);
-		}
-		final TextButton resumeButton = new TextButton("Resume", textButtonStyle);
-		resumeButton.setBounds(178, Launch.SCREEN_HEIGHT - 1096, 284, 94);
-		resumeButton.addListener(new ClickListenerWithSound() {
+		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				resumeAction();
 			}
-		});
-		stage.addActor(resumeButton);
+		};
+		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
+		stage.addActor(forwardBottomNavigation);	
 	}
 
 	@Override

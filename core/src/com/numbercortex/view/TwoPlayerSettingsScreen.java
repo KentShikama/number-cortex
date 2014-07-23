@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -29,6 +30,7 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
+import com.numbercortex.view.GameScreen.BackBottomNavigation;
 
 class TwoPlayerSettingsScreen extends SettingsScreen {
 
@@ -221,10 +223,10 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		addFourSquaresGroup();
 
 		if (persistence.isInPlay()) {
-			buildResumeButton();
+			addResumeButton();
 		} else {
-			buildPlayButton();
-			buildBackButton();
+			addPlayButton();
+			addBackButton();
 		}
 	}
 
@@ -569,15 +571,8 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		return checkbox;
 	}
 
-	private void buildPlayButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
-		final TextButton playButton = new TextButton("Play", textButtonStyle);
-		playButton.setBounds(306, Launch.SCREEN_HEIGHT - 1096, 284, 94);
-		playButton.addListener(new ClickListenerWithSound() {
+	private void addPlayButton() {
+		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				saveUnsyncedPreferences();
@@ -585,40 +580,23 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 				game.setScreen(ScreenTracker.playScreen);
 				manager.startNewGame();
 			}
-		});
-		stage.addActor(playButton);
+		};
+		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
+		stage.addActor(forwardBottomNavigation);	
 	}
-	private void buildBackButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
-		final TextButton backButton = new TextButton("Back", textButtonStyle);
-		backButton.setBounds(55, Launch.SCREEN_HEIGHT - 1096, 222, 94);
-		backButton.addListener(new ClickListenerWithSound() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(ScreenTracker.titleScreen);
-			}
-		});
-		stage.addActor(backButton);
+	private void addBackButton() {
+		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("Home", ScreenTracker.titleScreen);
+		stage.addActor(backBottomNavigation);
 	}
-	private void buildResumeButton() {
-		TextureRegion textButtonTexture = Assets.settingsSkin.getRegion("button_rectangle");
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.font = FontGenerator.getGillSans57();
-		textButtonStyle.fontColor = Launch.BRIGHT_YELLOW;
-		textButtonStyle.up = new TextureRegionDrawable(textButtonTexture);
-		final TextButton resumeButton = new TextButton("Resume", textButtonStyle);
-		resumeButton.setBounds(178, Launch.SCREEN_HEIGHT - 1096, 284, 94);
-		resumeButton.addListener(new ClickListenerWithSound() {
+	private void addResumeButton() {
+		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				resumeAction();
 			}
-		});
-		stage.addActor(resumeButton);
+		};
+		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
+		stage.addActor(forwardBottomNavigation);	
 	}
 
 	@Override
