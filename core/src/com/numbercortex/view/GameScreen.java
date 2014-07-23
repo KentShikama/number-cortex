@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
 			addArmature(listener);
 		}
 		abstract void setBounds(Actor navigationTable);
-		abstract void setFlip(TextureRegion buttonIconTexture);
+		abstract TextureRegion buildFlippedIconTexture(TextureRegion buttonIconTexture);
 		abstract void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel);
 		private void addContent(String previousScreenName) {
 			Table navigationTable = new Table();
@@ -41,8 +41,8 @@ public class GameScreen implements Screen {
 		}
 		private Image addIcon() {
 			TextureRegion buttonIconTexture = Assets.homeSkin.getRegion("left_arrow");
-			setFlip(buttonIconTexture);
-			Image buttonIcon = new Image(buttonIconTexture);
+			TextureRegion flippedIconTexture = buildFlippedIconTexture(buttonIconTexture);
+			Image buttonIcon = new Image(flippedIconTexture);
 			return buttonIcon;
 		}
 		private Label addText(String text) {
@@ -71,13 +71,10 @@ public class GameScreen implements Screen {
 			actor.setBounds(0, 0, 220, 100);
 		}
 		@Override
-		void setFlip(TextureRegion buttonIconTexture) {
-			if (buttonIconTexture.isFlipX()) {
-				buttonIconTexture.flip(true, false);
-			} else {
-				buttonIconTexture.flip(false, false);
-			}
-		}
+		TextureRegion buildFlippedIconTexture(TextureRegion buttonIconTexture) {
+			TextureRegion flippedTexture = new TextureRegion(buttonIconTexture, 0, 0, buttonIconTexture.getRegionWidth(), buttonIconTexture.getRegionHeight());
+			return flippedTexture;
+		}		
 		@Override
 		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
 			navigationTable.add(buttonIcon).center().pad(6).padBottom(10);
@@ -96,12 +93,9 @@ public class GameScreen implements Screen {
 			actor.setBounds(Launch.SCREEN_WIDTH - 220, 0, 220, 100);
 		}
 		@Override
-		void setFlip(TextureRegion buttonIconTexture) {
-			if (buttonIconTexture.isFlipX()) {
-				buttonIconTexture.flip(false, false);
-			} else {
-				buttonIconTexture.flip(true, false);
-			}
+		TextureRegion buildFlippedIconTexture(TextureRegion buttonIconTexture) {
+			TextureRegion flippedTexture = new TextureRegion(buttonIconTexture, buttonIconTexture.getRegionWidth(), 0, -buttonIconTexture.getRegionWidth(), buttonIconTexture.getRegionHeight());
+			return flippedTexture;
 		}
 		@Override
 		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
