@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class GameScreen implements Screen {
 	boolean backKey;
@@ -16,8 +17,16 @@ public class GameScreen implements Screen {
 
 	private abstract class BottomNavigation extends Group {
 		BottomNavigation(String previousScreenName, final GameScreen previousScreen) {
+			this(previousScreenName, new ClickListenerWithSound() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					game.setScreen(previousScreen);
+				}
+			});
+		}
+		BottomNavigation(String previousScreenName, ClickListener listener) {
 			addContent(previousScreenName);
-			addArmature(previousScreen);
+			addArmature(listener);
 		}
 		abstract void setBounds(Actor navigationTable);
 		abstract void setFlip(TextureRegion buttonIconTexture);
@@ -43,15 +52,10 @@ public class GameScreen implements Screen {
 			Label buttonLabel = new Label(text, labelStyle);
 			return buttonLabel;
 		}
-		private void addArmature(final GameScreen previousScreen) {
+		private void addArmature(ClickListener listener) {
 			Image buttonBackground = new Image();
 			setBounds(buttonBackground);
-			buttonBackground.addListener(new ClickListenerWithSound() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					game.setScreen(previousScreen);
-				}
-			});
+			buttonBackground.addListener(listener);
 			this.addActor(buttonBackground);
 		}
 	}
@@ -59,12 +63,13 @@ public class GameScreen implements Screen {
 		BackBottomNavigation(String previousScreenName, final GameScreen previousScreen) {
 			super(previousScreenName, previousScreen);
 		}
-
+		BackBottomNavigation(String previousScreenName, ClickListener listener) {
+			super(previousScreenName, listener);
+		}
 		@Override
 		void setBounds(Actor actor) {
 			actor.setBounds(0, 0, 220, 100);
 		}
-
 		@Override
 		void setFlip(TextureRegion buttonIconTexture) {
 			if (buttonIconTexture.isFlipX()) {
@@ -73,7 +78,6 @@ public class GameScreen implements Screen {
 				buttonIconTexture.flip(false, false);
 			}
 		}
-
 		@Override
 		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
 			navigationTable.add(buttonIcon).center().pad(6).padBottom(10);
@@ -84,12 +88,13 @@ public class GameScreen implements Screen {
 		ForwardBottomNavigation(String previousScreenName, GameScreen previousScreen) {
 			super(previousScreenName, previousScreen);
 		}
-
+		ForwardBottomNavigation(String previousScreenName, ClickListener listener) {
+			super(previousScreenName, listener);
+		}
 		@Override
 		void setBounds(Actor actor) {
 			actor.setBounds(Launch.SCREEN_WIDTH - 220, 0, 220, 100);
 		}
-
 		@Override
 		void setFlip(TextureRegion buttonIconTexture) {
 			if (buttonIconTexture.isFlipX()) {
@@ -98,7 +103,6 @@ public class GameScreen implements Screen {
 				buttonIconTexture.flip(true, false);
 			}
 		}
-
 		@Override
 		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
 			navigationTable.add(buttonLabel).right().pad(6).padBottom(10);
