@@ -113,14 +113,14 @@ class LevelsScreen extends GameScreen {
 		labelStyle.font = FontGenerator.getGillSansLight100();
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label title = new Label("Levels", labelStyle);
-		
+
 		TextureRegion levelsIconTexture = Assets.levelsSkin.getRegion("levels_icon");
 		Image levelsIcon = new Image(levelsIconTexture);
-		
+
 		Table titleTable = new Table();
 		titleTable.add(title).right().pad(10);
 		titleTable.add(levelsIcon).left().pad(10);
-		
+
 		table.add(titleTable).expandX().padTop(80).padBottom(22).colspan(3);
 		table.row();
 	}

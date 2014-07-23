@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public class GameScreen implements Screen {
 	boolean backKey;
 	Game game;
-	
+
 	private abstract class BottomNavigation extends Group {
 		BottomNavigation(String previousScreenName, final GameScreen previousScreen) {
 			addContent(previousScreenName);
@@ -62,22 +62,22 @@ public class GameScreen implements Screen {
 
 		@Override
 		void setBounds(Actor actor) {
-			actor.setBounds(0, 0, 220, 100);			
-		}	
-		
+			actor.setBounds(0, 0, 220, 100);
+		}
+
 		@Override
 		void setFlip(TextureRegion buttonIconTexture) {
 			if (buttonIconTexture.isFlipX()) {
-				buttonIconTexture.flip(true, false);				
+				buttonIconTexture.flip(true, false);
 			} else {
-				buttonIconTexture.flip(false, false);				
+				buttonIconTexture.flip(false, false);
 			}
 		}
 
 		@Override
 		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
 			navigationTable.add(buttonIcon).center().pad(6).padBottom(10);
-			navigationTable.add(buttonLabel).left().pad(6).padBottom(10);			
+			navigationTable.add(buttonLabel).left().pad(6).padBottom(10);
 		}
 	}
 	class ForwardBottomNavigation extends BottomNavigation {
@@ -89,19 +89,19 @@ public class GameScreen implements Screen {
 		void setBounds(Actor actor) {
 			actor.setBounds(Launch.SCREEN_WIDTH - 220, 0, 220, 100);
 		}
-		
+
 		@Override
 		void setFlip(TextureRegion buttonIconTexture) {
 			if (buttonIconTexture.isFlipX()) {
-				buttonIconTexture.flip(false, false);				
+				buttonIconTexture.flip(false, false);
 			} else {
-				buttonIconTexture.flip(true, false);				
+				buttonIconTexture.flip(true, false);
 			}
 		}
-		
+
 		@Override
 		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
-			navigationTable.add(buttonLabel).right().pad(6).padBottom(10);			
+			navigationTable.add(buttonLabel).right().pad(6).padBottom(10);
 			navigationTable.add(buttonIcon).center().pad(6).padBottom(10);
 		}
 	}
