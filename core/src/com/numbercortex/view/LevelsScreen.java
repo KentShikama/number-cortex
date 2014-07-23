@@ -110,7 +110,7 @@ class LevelsScreen extends GameScreen {
 	}
 	private void addTitle() {
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = FontGenerator.getGillSansLight100();
+		labelStyle.font = FontGenerator.getGillSansLight140();
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label title = new Label("Levels", labelStyle);
 
