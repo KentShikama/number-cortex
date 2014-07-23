@@ -218,7 +218,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 
 	@Override
 	void addGridLines() {
-		int[] position = { 276, 524, 806 };
+		int[] position = { 302, 524, 806 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
 	}
@@ -233,7 +233,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	private Label buildPlayerOneNameLabel() {
 		Label label = new Label("Name (P1)", labelStyle57);
 		label.setAlignment(Align.center);
-		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 111);
+		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 122);
 		return label;
 	}
 	private TextField buildPlayerOneNameField(Persistence persistence) {
@@ -242,7 +242,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			textFieldStyle = buildTextFieldStyle();
 		}
 		TextField playerOneNameField = new TextField(playerOneName, textFieldStyle);
-		playerOneNameField.setBounds(324, Launch.SCREEN_HEIGHT - 130, 268, 93);
+		playerOneNameField.setBounds(324, Launch.SCREEN_HEIGHT - 140, 268, 93);
 		playerOneNameField.setMaxLength(20);
 		playerOneNameField.setMessageText("Edit...");
 		return playerOneNameField;
@@ -258,7 +258,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	private Label buildPlayerTwoNameLabel() {
 		Label label = new Label("Name (P2)", labelStyle57);
 		label.setAlignment(Align.center);
-		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 228);
+		label.setPosition(48 - 6, Launch.SCREEN_HEIGHT - 242);
 		return label;
 	}
 	private TextField buildPlayerTwoNameField(Persistence persistence) {
@@ -267,7 +267,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			textFieldStyle = buildTextFieldStyle();
 		}
 		TextField playerTwoNameField = new TextField(playerTwoName, textFieldStyle);
-		playerTwoNameField.setBounds(324, Launch.SCREEN_HEIGHT - 247, 268, 93);
+		playerTwoNameField.setBounds(324, Launch.SCREEN_HEIGHT - 262, 268, 93);
 		playerTwoNameField.setMaxLength(20);
 		playerTwoNameField.setMessageText("Edit...");
 		return playerTwoNameField;
@@ -285,18 +285,18 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	private Label buildLabel3x3() {
 		Label label = new Label("3x3", labelStyle57);
 		label.setAlignment(Align.center);
-		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 368);
+		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 396);
 		return label;
 	}
 	private Label buildLabel4x4() {
 		Label label = new Label("4x4", labelStyle57);
 		label.setAlignment(Align.center);
-		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 470);
+		label.setPosition(466 - 6, Launch.SCREEN_HEIGHT - 498);
 		return label;
 	}
 	private ImageButton buildCheckbox3x3() {
 		int positionX = 364;
-		int positionY = Launch.SCREEN_HEIGHT - 366;
+		int positionY = Launch.SCREEN_HEIGHT - 394;
 		boolean isChecked = (gameSettings.getNumberOfRows() == 3);
 		final ImageButton checkbox3x3 = buildCheckbox(positionX, positionY, isChecked);
 		checkbox3x3.addListener(new ChangeListener() {
@@ -309,7 +309,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	}
 	private ImageButton buildCheckbox4x4() {
 		int positionX = 364;
-		int positionY = Launch.SCREEN_HEIGHT - 469;
+		int positionY = Launch.SCREEN_HEIGHT - 498;
 		boolean isChecked = (gameSettings.getNumberOfRows() == 4);
 		final ImageButton checkbox4x4 = buildCheckbox(positionX, positionY, isChecked);
 		checkbox4x4.addListener(new ChangeListener() {
