@@ -72,8 +72,8 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 	private TextField playerOneNameField;
 	private TextField playerTwoNameField;
 
-	class TwoChoiceRadioSettingGroup extends SettingGroup {
-		public TwoChoiceRadioSettingGroup(Label choiceOneLabel, Label choiceTwoLabel, ImageButton choiceOneCheckbox,
+	private class TwoChoiceRadioSettingGroup extends SettingGroup {
+		private TwoChoiceRadioSettingGroup(Label choiceOneLabel, Label choiceTwoLabel, ImageButton choiceOneCheckbox,
 				ImageButton choiceTwoCheckbox, final GroupState groupState) {
 			super(groupState);
 			this.addActor(choiceOneLabel);
@@ -92,7 +92,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 				});
 			}
 		}
-
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			SnapshotArray<Actor> children = this.getChildren();
@@ -104,67 +103,8 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			}
 		}
 	}
-
-	class SpinnerSettingGroup extends SettingGroup {
-
-		public SpinnerSettingGroup(Image icon, SpinnerGroup spinner, GroupState groupState) {
-			super(groupState);
-			this.addActor(icon);
-			this.addActor(spinner);
-			if (groupState != GroupState.CLICKABLE) {
-				for (Actor actor : spinner.getChildren()) {
-					actor.clearListeners();
-				}
-			}
-		}
-
-		@Override
-		public void draw(Batch batch, float parentAlpha) {
-			SnapshotArray<Actor> children = this.getChildren();
-			if (groupState == GroupState.TRANSPARENT) {
-				parentAlpha = 0.5f;
-			}
-			for (Actor child : children) {
-				child.draw(batch, parentAlpha);
-			}
-		}
-	}
-	class SpinnerGroup extends Group {
-		private int value;
-		public SpinnerGroup(int initialValue, final Label label, Image increaseValue, Image decreaseValue) {
-			value = initialValue;
-			label.setText(value + "s");
-			this.addActor(label);
-			this.addActor(increaseValue);
-			this.addActor(decreaseValue);
-			increaseValue.addListener(new ClickListenerWithSound() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					if (value >= 999) {
-						return;
-					}
-					value++;
-					label.setText(value + "s");
-					gameSettings.setTime(value);
-				}
-			});
-			decreaseValue.addListener(new ClickListenerWithSound() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					if (value <= 1) {
-						return;
-					}
-					value--;
-					label.setText(value + "s");
-					gameSettings.setTime(value);
-				}
-			});
-		}
-	}
-
-	class TextFieldSettingGroup extends SettingGroup {
-
-		public TextFieldSettingGroup(Label label, TextField textField, GroupState groupState) {
+	private class TextFieldSettingGroup extends SettingGroup {
+		private TextFieldSettingGroup(Label label, TextField textField, GroupState groupState) {
 			super(groupState);
 			this.addActor(label);
 			this.addActor(textField);
@@ -172,7 +112,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 				textField.setDisabled(true);
 			}
 		}
-
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			SnapshotArray<Actor> children = this.getChildren();

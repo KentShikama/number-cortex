@@ -28,9 +28,8 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 	public static final String TAG = "Single Player Settings Screen";
 
-	class DifficultyGroup extends SettingGroup {
-
-		public DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
+	private class DifficultyGroup extends SettingGroup {
+		private DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
 			super(groupState);
 			SnapshotArray<Actor> starButtons = starGroup.getChildren();
 			for (Actor starButton : starButtons) {
@@ -47,7 +46,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			this.addActor(label);
 			this.addActor(starGroup);
 		}
-
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			if (groupState == GroupState.TRANSPARENT) {
@@ -59,13 +57,12 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			}
 		}
 	}
-	class StarGroup extends Group {
+	private class StarGroup extends Group {
 		private int rating;
-
-		public StarGroup(int startPositionX, int startPositionY, int rating) {
+		private StarGroup(int startPositionX, int startPositionY, int rating) {
 			this(startPositionX, startPositionY, 68, rating, 5);
 		}
-		public StarGroup(int startPositionX, int startPositionY, int offsetX, int rating, int ratingCount) {
+		private StarGroup(int startPositionX, int startPositionY, int offsetX, int rating, int ratingCount) {
 			for (int i = 0; i < ratingCount; i++) {
 				TextureRegion checkedStarTexture = Assets.settingsSkin.getRegion("full_star");
 				Drawable checkedStarDrawable = new TextureRegionDrawable(checkedStarTexture);
@@ -105,26 +102,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		}
 	}
 
-	class LabelSettingGroup extends SettingGroup {
-
-		public LabelSettingGroup(Image icon, Label label, GroupState groupState) {
-			super(groupState);
-			this.addActor(icon);
-			this.addActor(label);
-		}
-
-		@Override
-		public void draw(Batch batch, float parentAlpha) {
-			if (groupState == GroupState.TRANSPARENT) {
-				parentAlpha = 0.5f;
-			}
-			SnapshotArray<Actor> children = this.getChildren();
-			for (Actor child : children) {
-				child.draw(batch, parentAlpha);
-			}
-		}
-	}
-
 	SinglePlayerSettingsScreen(Game game) {
 		super(game);
 	}
@@ -141,31 +118,11 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		
 		addEvenOdd(GroupState.VISIBLE);
 		addSingleDouble(GroupState.VISIBLE);
-		
-		GroupState state;
-		if (persistence.getMaxLevel() > 3) {
-			state = GroupState.VISIBLE;
-		} else {
-			state = GroupState.TRANSPARENT;
-		}
-		addPrimeComposite(state);
-		
-		GroupState state2;
-		if (persistence.getMaxLevel() > 6) {
-			state2 = GroupState.VISIBLE;
-		} else {
-			state2 = GroupState.TRANSPARENT;
-		}
-		addMiddleExtreme(state2);
+		addPrimeComposite(persistence);
+		addMiddleExtreme(persistence);
 
 		addDiagonalsGroup(GroupState.VISIBLE);
-		GroupState state3;
-		if (persistence.getMaxLevel() > 13) {
-			state3 = GroupState.VISIBLE;
-		} else {
-			state3 = GroupState.TRANSPARENT;
-		}
-		addFourSquaresGroup(state3);
+		addFourSquaresGroup(persistence);
 	}
 
 	@Override
@@ -205,6 +162,30 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		return difficultyLabel;
 	}
 
+	private void addPrimeComposite(Persistence persistence) {
+		if (persistence.getMaxLevel() > 3) {
+			addPrimeComposite(GroupState.VISIBLE);
+		} else {
+			addPrimeComposite(GroupState.TRANSPARENT);
+		}
+	}
+	
+	private void addMiddleExtreme(Persistence persistence) {
+		if (persistence.getMaxLevel() > 6) {
+			addMiddleExtreme(GroupState.VISIBLE);
+		} else {
+			addMiddleExtreme(GroupState.TRANSPARENT);
+		}
+	}
+	
+	private void addFourSquaresGroup(Persistence persistence) {
+		if (persistence.getMaxLevel() > 13) {
+			addFourSquaresGroup(GroupState.VISIBLE);
+		} else {
+			addFourSquaresGroup(GroupState.TRANSPARENT);
+		}
+	}
+	
 	@Override
 	void addPlayButton() {
 		ClickListener listener = new ClickListenerWithSound() {
