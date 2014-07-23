@@ -1,111 +1,69 @@
 
 settings.png
-size: 941,245
+size: 723,101
 format: RGBA8888
 filter: MipMapLinearNearest, Nearest
 repeat: none
 board_size_icon
   rotate: false
-  xy: 2, 2
+  xy: 272, 22
   size: 88, 73
   orig: 88, 73
   offset: 0, 0
   index: -1
-button_rectangle
-  rotate: false
-  xy: 2, 77
-  size: 285, 94
-  orig: 285, 94
-  offset: 0, 0
-  index: -1
 checked_checkbox
   rotate: false
-  xy: 289, 105
+  xy: 362, 29
   size: 78, 66
   orig: 78, 66
   offset: 0, 0
   index: -1
 diagonals_icon
   rotate: false
-  xy: 850, 198
+  xy: 632, 54
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
-down_arrow
-  rotate: false
-  xy: 160, 13
-  size: 62, 62
-  orig: 62, 62
-  offset: 0, 0
-  index: -1
 empty_checkbox
   rotate: false
-  xy: 92, 9
+  xy: 442, 29
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 empty_star
   rotate: false
-  xy: 728, 189
+  xy: 510, 39
   size: 59, 56
   orig: 59, 56
   offset: 0, 0
   index: -1
 four_square_icon
   rotate: false
-  xy: 899, 203
+  xy: 681, 59
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 full_star
   rotate: false
-  xy: 789, 189
+  xy: 571, 39
   size: 59, 56
   orig: 59, 56
   offset: 0, 0
   index: -1
 grid_line
   rotate: false
-  xy: 2, 241
+  xy: 2, 97
   size: 601, 4
   orig: 601, 4
   offset: 0, 0
   index: -1
-level_info_label
-  rotate: false
-  xy: 2, 173
-  size: 390, 66
-  orig: 390, 66
-  offset: 0, 0
-  index: -1
-level_wrap
-  rotate: false
-  xy: 369, 48
-  size: 4, 123
-  orig: 4, 123
-  offset: 0, 0
-  index: -1
 name_texfield
   rotate: false
-  xy: 394, 146
+  xy: 2, 2
   size: 268, 93
   orig: 268, 93
-  offset: 0, 0
-  index: -1
-time_icon
-  rotate: false
-  xy: 224, 13
-  size: 62, 62
-  orig: 62, 62
-  offset: 0, 0
-  index: -1
-up_arrow
-  rotate: false
-  xy: 664, 183
-  size: 62, 62
-  orig: 62, 62
   offset: 0, 0
   index: -1
