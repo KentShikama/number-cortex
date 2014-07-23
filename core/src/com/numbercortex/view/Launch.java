@@ -61,6 +61,11 @@ public class Launch extends Game {
 		Screen screen = buildCurrentScreen(persistence);
 		resumeGameIfApplicable(gameManager, screen);
 	}
+	private void resumeGameIfApplicable(GameManager gameManager, Screen screen) {
+		if (screen instanceof PlayScreen) {
+			gameManager.resumeGame();
+		}
+	}
 	private Stage buildBackground() {
 		FillViewport stretchViewport = new FillViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
 		Stage backgroundStage = new Stage(stretchViewport);
@@ -90,12 +95,22 @@ public class Launch extends Game {
 		setScreen(screen);
 		return screen;
 	}
-	private void resumeGameIfApplicable(GameManager gameManager, Screen screen) {
-		if (screen instanceof PlayScreen) {
+
+	@Override
+	public void resize (int width, int height) {
+		super.resize(width, height);
+		Screen currentScreen = this.getScreen(); 
+		if (currentScreen instanceof PlayScreen) {
+			GameManager gameManager;
+			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+				gameManager = SinglePlayerGameManager.getInstance();
+			} else {
+				gameManager = TwoPlayerGameManager.getInstance();
+			}
 			gameManager.resumeGame();
 		}
 	}
-
+	
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
