@@ -109,7 +109,7 @@ public abstract class SettingsScreen extends GameScreen {
 		reloadLabelStylesIfApplicable();
 
 		Persistence persistence = Persistence.getInstance();
-		
+
 		addGridLines();
 
 		if (persistence.isInPlay()) {
