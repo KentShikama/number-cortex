@@ -59,7 +59,8 @@ class NumberCortexBoard {
 			}
 			instance.cells = buildCells(instance.isBlue, instance.numberOfRows);
 		}
-		resetCellPositions(instance.numberOfRows, instance.cells);
+		float worldWidth = stage.getViewport().getWorldWidth();
+		resetCellPositions(instance.numberOfRows, instance.cells, worldWidth);
 		addCellsToStageIfAbsent(stage, instance);
 		return instance;
 	}
@@ -105,13 +106,14 @@ class NumberCortexBoard {
 			return false;
 		}
 	}
-	private static void resetCellPositions(int numberOfRows, ArrayList<NumberTextButton> cells) {
+	private static void resetCellPositions(int numberOfRows, ArrayList<NumberTextButton> cells, float worldWidth) {
 		int squareLength = Launch.SCREEN_WIDTH / numberOfRows + 1;
 		for (int i = 0; i < numberOfRows * numberOfRows; i++) {
 			int left = (i % numberOfRows) * squareLength;
 			int bottom = ((numberOfRows - 1) - i / numberOfRows) * squareLength;
 			NumberTextButton button = cells.get(i);
-			button.setBounds(left, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength, squareLength);
+			float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
+			button.setBounds(left + offsetFromOriginalWidth, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength, squareLength);
 		}
 	}
 	private static void addCellsToStageIfAbsent(Stage stage, NumberCortexBoard instance) {

@@ -80,48 +80,55 @@ class MessageArea {
 	private MessageArea() {}
 
 	static MessageArea createMessageArea(Stage stage, Game game) {
+		float worldWidth = stage.getViewport().getWorldWidth();
 		MessageArea instance = Singleton.INSTANCE;
 		instance.stage = stage;
-		instance.messageLabelLong = buildMessageLabelLong();
-		instance.messageLabelShort = buildMessageLabelShort();
-		instance.nextNumberSquare = buildNextNumberSquare();
-		instance.buttonTable = buildButtonTable();
+		instance.messageLabelLong = buildMessageLabelLong(worldWidth);
+		instance.messageLabelShort = buildMessageLabelShort(worldWidth);
+		instance.nextNumberSquare = buildNextNumberSquare(worldWidth);
+		instance.buttonTable = buildButtonTable(worldWidth);
 		instance.menuButton = buildMenuButton(game);
 		instance.playButton = buildPlayButton(game);
 		instance.continueButton = buildContinueButton(game);
 		return instance;
 	}
-	private static TextButton buildMessageLabelLong() {
+	private static TextButton buildMessageLabelLong(float worldWidth) {
 		if (textButtonStyle == null) {
 			textButtonStyle = buildBorderlessTextButtonStyle();
 		}
 		TextButton messageLabelLong = new TextButton("", textButtonStyle);
-		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2, 145);
+		int paddingFromEdge = 30;
+		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
+		messageLabelLong.setBounds(paddingFromEdge + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - paddingFromEdge * 2, 145);
 		messageLabelLong.getLabel().setWrap(true);
 		return messageLabelLong;
 	}
-	private static TextButton buildMessageLabelShort() {
+	private static TextButton buildMessageLabelShort(float worldWidth) {
 		if (textButtonStyle == null) {
 			textButtonStyle = buildBorderlessTextButtonStyle();
 		}
 		TextButton messageLabelShort = new TextButton("", textButtonStyle);
-		messageLabelShort.setBounds(30, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - 30 * 2 - 165, 145);
+		int paddingFromEdge = 30;
+		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
+		messageLabelShort.setBounds(paddingFromEdge + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - paddingFromEdge * 2 - 165, 145);
 		messageLabelShort.getLabel().setWrap(true);
 		return messageLabelShort;
 	}
-	private static Table buildButtonTable() {
-		Table buttonTable = new Table();
-		buttonTable.setBounds(30, Launch.SCREEN_HEIGHT - 370, Launch.SCREEN_WIDTH - 30 * 2, 145);
-		return buttonTable;
-	}
-	private static NumberTextButton buildNextNumberSquare() {
+	private static NumberTextButton buildNextNumberSquare(float worldWidth) {
 		if (nextNumberStyle == null) {
 			nextNumberStyle = buildNextNumberStyle(NEXT_NUMBER_TEXTURE_NAME);
 		}
 		NumberTextButton nextNumberSquare = new NumberTextButton("", nextNumberStyle);
-		nextNumberSquare.setBounds(475, Launch.SCREEN_HEIGHT - 175, 141, 141);
+		int offsetFromOriginalWidth = (int) ((worldWidth - Launch.SCREEN_WIDTH)/2);
+		nextNumberSquare.setBounds(worldWidth - 165 - offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175, 141, 141);
 		nextNumberSquare.setName(NEXT_NUMBER_SQUARE_NAME);
 		return nextNumberSquare;
+	}
+	private static Table buildButtonTable(float worldWidth) {
+		Table buttonTable = new Table();
+		int paddingFromEdge = 30;
+		buttonTable.setBounds(paddingFromEdge, Launch.SCREEN_HEIGHT - 370, worldWidth - paddingFromEdge * 2, 145);
+		return buttonTable;
 	}
 	private static TextButton buildMenuButton(final Game game) {
 		if (borderedTextButtonStyle == null) {
@@ -273,7 +280,7 @@ class MessageArea {
 		return showNextOptions;
 	}
 	private void updateMessageWithButtons(String message) {
-		messageLabelLong.setBounds(30, Launch.SCREEN_HEIGHT - 225, Launch.SCREEN_WIDTH - 30 * 2, 145);
+		messageLabelLong.setY(Launch.SCREEN_HEIGHT - 225);
 		buttonTable.clear();
 		buttonTable.add(menuButton).pad(20).padTop(50);
 		stage.addActor(buttonTable);

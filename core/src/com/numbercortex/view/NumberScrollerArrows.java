@@ -15,7 +15,7 @@ class NumberScrollerArrows {
 	private ImageButton leftArrowButton;
 	private ImageButton rightArrowButton;
 
-	NumberScrollerArrows(final ScrollPane scroller) {
+	NumberScrollerArrows(final ScrollPane scroller, float worldWidth) {
 		Drawable leftArrowRectangleSkin = Assets.gameSkin.getDrawable(LEFT_ARROW);
 		Drawable rightArrowRectangleSkin = Assets.gameSkin.getDrawable(RIGHT_ARROW);
 
@@ -37,7 +37,7 @@ class NumberScrollerArrows {
 			}
 		});
 		rightArrowButton = new ImageButton(rightArrowRectangleSkin);
-		rightArrowButton.setBounds(539, Launch.SCREEN_HEIGHT - 1013, arrowRectangleTextureWidth,
+		rightArrowButton.setBounds(worldWidth - arrowRectangleTextureWidth, Launch.SCREEN_HEIGHT - 1013, arrowRectangleTextureWidth,
 				arrowRectangleTextureHeight);
 		rightArrowButton.addListener(new ClickListener() {
 			@Override

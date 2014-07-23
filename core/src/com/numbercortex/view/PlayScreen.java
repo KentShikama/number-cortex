@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
@@ -64,23 +65,27 @@ class PlayScreen extends GameScreen implements Playable {
 	}
 	@Override
 	public void show() {
-		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT/1.2), Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
-
+		Gdx.input.setCatchBackKey(true);
+		backKey = false;		
+		Sound.loopGameBGM();
+	}
+	@Override
+	public void resize(int width, int height) {
+		stage.getViewport().update(width, height, true);
 		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
 		buildNumberScroller();
 		buildBottomButtons();
 		board.clearBoard();
-		Gdx.input.setCatchBackKey(true);
-		backKey = false;
-		Sound.loopGameBGM();
 	}
 	private void buildBackground(Persistence preferences) {
 		Color backgroundProperty = getBackgroundColor(preferences);
-		Background background = new Background(backgroundProperty);
+		float worldWidth = stage.getViewport().getWorldWidth();
+		Background background = new Background(backgroundProperty, worldWidth);
 		stage.addActor(background);
 	}
 	private Color getBackgroundColor(Persistence preferences) {
@@ -100,17 +105,22 @@ class PlayScreen extends GameScreen implements Playable {
 		board = NumberCortexBoard.createNumberCortexBoard(stage, isBlue, numberOfRows);
 		handler.notifyBoardConstruction(board);
 	}
+	private void buildNumberScroller() {
+		numberScroller = NumberScroller.createNumberScroller(stage);
+	}
 	private void buildBottomButtons() {
 		TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
 		TextureRegion informationRectangleTexture = Assets.gameSkin.getRegion("information");
 		TextureRegion helpRectangleTexture = Assets.gameSkin.getRegion("help");
-		bulidExitButton(exitRectangleTexture);
-		buildInformationButton(informationRectangleTexture);
-		buildHelpButton(helpRectangleTexture);
+		float worldWidth = stage.getViewport().getWorldWidth();
+		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
+		bulidExitButton(exitRectangleTexture, offsetFromOriginalWidth);
+		buildInformationButton(informationRectangleTexture, offsetFromOriginalWidth);
+		buildHelpButton(helpRectangleTexture, offsetFromOriginalWidth);
 	}
-	private void bulidExitButton(TextureRegion exitRectangleTexture) {
+	private void bulidExitButton(TextureRegion exitRectangleTexture, float offsetFromOriginalWidth) {
 		exitButton = new Image(exitRectangleTexture);
-		exitButton.setBounds(44, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(),
+		exitButton.setBounds(44 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(),
 				exitRectangleTexture.getRegionHeight());
 		exitButton.addListener(new ClickListenerWithSound() {
 			@Override
@@ -121,9 +131,9 @@ class PlayScreen extends GameScreen implements Playable {
 		});
 		stage.addActor(exitButton);
 	}
-	private void buildInformationButton(TextureRegion informationRectangleTexture) {
+	private void buildInformationButton(TextureRegion informationRectangleTexture, float offsetFromOriginalWidth) {
 		informationButton = new Image(informationRectangleTexture);
-		informationButton.setBounds(434, Launch.SCREEN_HEIGHT - 1136, informationRectangleTexture.getRegionWidth(),
+		informationButton.setBounds(434 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, informationRectangleTexture.getRegionWidth(),
 				informationRectangleTexture.getRegionHeight());
 		informationButton.addListener(new ClickListenerWithSound() {
 			@Override
@@ -138,14 +148,11 @@ class PlayScreen extends GameScreen implements Playable {
 		});
 		stage.addActor(informationButton);
 	}
-	private void buildHelpButton(TextureRegion helpRectangleTexture) {
+	private void buildHelpButton(TextureRegion helpRectangleTexture, float offsetFromOriginalWidth) {
 		helpButton = new Image(helpRectangleTexture);
-		helpButton.setBounds(543, Launch.SCREEN_HEIGHT - 1136, helpRectangleTexture.getRegionWidth(),
+		helpButton.setBounds(543 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, helpRectangleTexture.getRegionWidth(),
 				helpRectangleTexture.getRegionHeight());
 		stage.addActor(helpButton);
-	}
-	private void buildNumberScroller() {
-		numberScroller = NumberScroller.createNumberScroller(stage);
 	}
 
 	@Override
@@ -343,10 +350,6 @@ class PlayScreen extends GameScreen implements Playable {
 			}
 		}
 		return dialogAlreadyExists;
-	}
-	@Override
-	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
 	}
 	@Override
 	public void pause() {

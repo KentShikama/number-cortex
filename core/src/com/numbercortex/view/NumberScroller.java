@@ -97,12 +97,13 @@ class NumberScroller {
 	private NumberScroller() {}
 
 	static NumberScroller createNumberScroller(Stage stage) {
+		float worldWidth = stage.getViewport().getWorldWidth();
 		NumberScroller numberScrollerInstance = Singleton.INSTANCE;
 		if (style == null) {
 			style = buildScrollPaneStyle();
 		}
-		numberScrollerInstance.numberScroller = buildNumberScroller(numberScrollerInstance.numberTable, style);
-		numberScrollerInstance.arrows = new NumberScrollerArrows(numberScrollerInstance.numberScroller);
+		numberScrollerInstance.numberScroller = buildNumberScroller(numberScrollerInstance.numberTable, style, worldWidth);
+		numberScrollerInstance.arrows = new NumberScrollerArrows(numberScrollerInstance.numberScroller, worldWidth);
 		stage.addActor(numberScrollerInstance.numberScroller);
 		numberScrollerInstance.arrows.addArrows(stage);
 		return numberScrollerInstance;
@@ -110,10 +111,10 @@ class NumberScroller {
 	/**
 	 * The width of the numberScroller is enlarged by 1 pixel to prevent the background color from showing through
 	 */
-	private static ScrollPane buildNumberScroller(Table numberTable, ScrollPane.ScrollPaneStyle style) {
+	private static ScrollPane buildNumberScroller(Table numberTable, ScrollPane.ScrollPaneStyle style, float worldWidth) {
 		ScrollPane numberScroller = new ScrollPane(numberTable, style);
-		int scrollerRectangleWidth = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionWidth();
-		int scrollerRectangleHeight = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionHeight();
+		float scrollerRectangleWidth = worldWidth - 200;
+		float scrollerRectangleHeight = Assets.gameSkin.getRegion(SCROLLER_RECTANGLE).getRegionHeight();
 		numberScroller.setBounds(101 - 1, Launch.SCREEN_HEIGHT - 1013, scrollerRectangleWidth + 2,
 				scrollerRectangleHeight);
 		numberScroller.setOverscroll(true, false);

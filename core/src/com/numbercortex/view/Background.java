@@ -11,18 +11,22 @@ class Background extends Actor {
 
 	private Color backgroundProperty;
 	private ShapeRenderer shapeRenderer;
+	private float worldWidth;
 
 	private Texture backgroundTexture;
-
-	Background(Color backgroundProperty) {
-		this.backgroundProperty = backgroundProperty;
-		this.shapeRenderer = new ShapeRenderer();
+	
+	Background(Color backgroundProperty, float worldWidth) {
+		this(backgroundProperty, null, worldWidth);
 	}
-
 	Background(Color backgroundProperty, Texture backgroundTexture) {
+		this(backgroundProperty, backgroundTexture, Launch.SCREEN_WIDTH);
+
+	}
+	private Background(Color backgroundProperty, Texture backgroundTexture, float worldWidth) {
 		this.backgroundProperty = backgroundProperty;
-		this.shapeRenderer = new ShapeRenderer();
 		this.backgroundTexture = backgroundTexture;
+		this.worldWidth = worldWidth;
+		this.shapeRenderer = new ShapeRenderer();
 	}
 
 	@Override
@@ -31,7 +35,7 @@ class Background extends Actor {
 		shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(backgroundProperty);
-		shapeRenderer.rect(0, 0, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		shapeRenderer.rect(0, 0, worldWidth, Launch.SCREEN_HEIGHT);
 		shapeRenderer.end();
 		batch.begin();
 		if (backgroundTexture != null) {
