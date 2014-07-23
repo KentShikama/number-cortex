@@ -3,6 +3,7 @@ package com.numbercortex.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -13,40 +14,38 @@ public class GameScreen implements Screen {
 	boolean backKey;
 	Game game;
 	
-	private enum Direction {
-		LEFT, RIGHT;
-	}
-	private class BottomNavigation extends Group {
-		BottomNavigation(Direction direction, String previousScreenName, final GameScreen previousScreen) {
-			addContent(direction, previousScreenName);
+	private abstract class BottomNavigation extends Group {
+		BottomNavigation(String previousScreenName, final GameScreen previousScreen) {
+			addContent(previousScreenName);
 			addArmature(previousScreen);
-		}	
-		private void addContent(Direction direction, String previousScreenName) {
+		}
+		abstract void setBounds(Actor navigationTable);
+		abstract void setFlip(TextureRegion buttonIconTexture);
+		abstract void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel);
+		private void addContent(String previousScreenName) {
 			Table navigationTable = new Table();
-			addIcon(navigationTable);
-			addText(previousScreenName, navigationTable);
-			if (direction == Direction.LEFT) {
-				navigationTable.setBounds(0, 0, 220, 100);
-			} else {
-				navigationTable.setBounds(Launch.SCREEN_WIDTH - 220, 0, 220, 100);
-			}
+			Image buttonIcon = addIcon();
+			Label buttonLabel = addText(previousScreenName);
+			addContentsToTable(navigationTable, buttonIcon, buttonLabel);
+			setBounds(navigationTable);
 			this.addActor(navigationTable);
 		}
-		private void addIcon(Table table) {
+		private Image addIcon() {
 			TextureRegion buttonIconTexture = Assets.homeSkin.getRegion("left_arrow");
+			setFlip(buttonIconTexture);
 			Image buttonIcon = new Image(buttonIconTexture);
-			table.add(buttonIcon).center().pad(6).padBottom(10);
+			return buttonIcon;
 		}
-		private void addText(String text, Table table) {
+		private Label addText(String text) {
 			Label.LabelStyle labelStyle = new Label.LabelStyle();
 			labelStyle.font = FontGenerator.getGillSans50();
 			labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 			Label buttonLabel = new Label(text, labelStyle);
-			table.add(buttonLabel).left().pad(6).padBottom(10);
+			return buttonLabel;
 		}
 		private void addArmature(final GameScreen previousScreen) {
 			Image buttonBackground = new Image();
-			buttonBackground.setBounds(0, 0, 220, 100);
+			setBounds(buttonBackground);
 			buttonBackground.addListener(new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
@@ -58,13 +57,53 @@ public class GameScreen implements Screen {
 	}
 	class BackBottomNavigation extends BottomNavigation {
 		BackBottomNavigation(String previousScreenName, final GameScreen previousScreen) {
-			super(Direction.LEFT, previousScreenName, previousScreen);
+			super(previousScreenName, previousScreen);
+		}
+
+		@Override
+		void setBounds(Actor actor) {
+			actor.setBounds(0, 0, 220, 100);			
 		}	
+		
+		@Override
+		void setFlip(TextureRegion buttonIconTexture) {
+			if (buttonIconTexture.isFlipX()) {
+				buttonIconTexture.flip(true, false);				
+			} else {
+				buttonIconTexture.flip(false, false);				
+			}
+		}
+
+		@Override
+		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
+			navigationTable.add(buttonIcon).center().pad(6).padBottom(10);
+			navigationTable.add(buttonLabel).left().pad(6).padBottom(10);			
+		}
 	}
 	class ForwardBottomNavigation extends BottomNavigation {
 		ForwardBottomNavigation(String previousScreenName, GameScreen previousScreen) {
-			super(Direction.RIGHT, previousScreenName, previousScreen);
-		}		
+			super(previousScreenName, previousScreen);
+		}
+
+		@Override
+		void setBounds(Actor actor) {
+			actor.setBounds(Launch.SCREEN_WIDTH - 220, 0, 220, 100);
+		}
+		
+		@Override
+		void setFlip(TextureRegion buttonIconTexture) {
+			if (buttonIconTexture.isFlipX()) {
+				buttonIconTexture.flip(false, false);				
+			} else {
+				buttonIconTexture.flip(true, false);				
+			}
+		}
+		
+		@Override
+		void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel) {
+			navigationTable.add(buttonLabel).right().pad(6).padBottom(10);			
+			navigationTable.add(buttonIcon).center().pad(6).padBottom(10);
+		}
 	}
 
 	GameScreen(Game game) {
