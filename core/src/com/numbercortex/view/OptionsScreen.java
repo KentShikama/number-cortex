@@ -40,11 +40,11 @@ public class OptionsScreen extends SettingsScreen {
 		table.clear();
 		table.setBounds(0, 100, Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT - 100);
 		addTitle();
-		addSound(persistence);
-		addMusic(persistence);
-		addGridLine();
 		addYourName();
 		addYourNameTextField(persistence);
+		addGridLine();
+		addSound(persistence);
+		addMusic(persistence);
 		addTextFieldFeedback();
 		stage.addActor(table);
 
@@ -71,6 +71,57 @@ public class OptionsScreen extends SettingsScreen {
 		Label title = new Label("Options", labelStyle);
 		return title;
 	}
+	
+	private void addYourName() {
+		Label yourNameLabel = new Label("Your Name", labelStyle57);
+		table.add(yourNameLabel).center().colspan(2).padBottom(24);
+		table.row();
+	}
+
+	private void addYourNameTextField(Persistence persistence) {
+		TextField yourNameField = buildYourNameTextField(persistence);
+		table.add(yourNameField).center().width(268).colspan(2).padBottom(60);
+		table.row();
+	}
+	private TextField buildYourNameTextField(Persistence persistence) {
+		String yourName = persistence.getYourName();
+		if (textFieldStyle == null) {
+			textFieldStyle = buildTextFieldStyle();
+		}
+		TextField yourNameTextField = new TextField(yourName, textFieldStyle);
+		TextField.TextFieldListener listener = buildYourNameFieldListener();
+		yourNameTextField.setTextFieldListener(listener);
+		yourNameTextField.setMaxLength(20);
+		if (persistence.isInPlay()) {
+			yourNameTextField.setDisabled(true);
+			yourNameTextField.addListener(new ClickListener() {
+				public void clicked(InputEvent event, float x, float y) {
+					Sound.missClick();
+					textFieldFeedback.setText("Cannot edit during game");
+				}
+			});
+		}
+		return yourNameTextField;
+	}
+	private TextField.TextFieldListener buildYourNameFieldListener() {
+		TextField.TextFieldListener listener = new TextField.TextFieldListener() {
+			@Override
+			public void keyTyped(TextField textField, char c) {
+				String yourName = textField.getText();
+				Persistence persistence = Persistence.getInstance();
+				persistence.setYourName(yourName);
+			}
+		};
+		return listener;
+	}
+
+	private void addGridLine() {
+		TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
+		Image gridLine = new Image(gridLineTexture);
+		table.add(gridLine).center().colspan(2).padBottom(40);
+		table.row();
+	}
+	
 	private void addSound(Persistence persistence) {
 		Label soundLabel = new Label("Sound", labelStyle57);
 		table.add(soundLabel).right().padRight(48).padBottom(24);
@@ -121,55 +172,6 @@ public class OptionsScreen extends SettingsScreen {
 		return musicCheckbox;
 	}
 
-	private void addGridLine() {
-		TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
-		Image gridLine = new Image(gridLineTexture);
-		table.add(gridLine).center().colspan(2).padBottom(40);
-		table.row();
-	}
-
-	private void addYourName() {
-		Label yourNameLabel = new Label("Your Name", labelStyle57);
-		table.add(yourNameLabel).center().colspan(2).padBottom(24);
-		table.row();
-	}
-
-	private void addYourNameTextField(Persistence persistence) {
-		TextField yourNameField = buildYourNameTextField(persistence);
-		table.add(yourNameField).center().width(268).colspan(2).padBottom(24);
-		table.row();
-	}
-	private TextField buildYourNameTextField(Persistence persistence) {
-		String yourName = persistence.getYourName();
-		if (textFieldStyle == null) {
-			textFieldStyle = buildTextFieldStyle();
-		}
-		TextField yourNameTextField = new TextField(yourName, textFieldStyle);
-		TextField.TextFieldListener listener = buildYourNameFieldListener();
-		yourNameTextField.setTextFieldListener(listener);
-		yourNameTextField.setMaxLength(20);
-		if (persistence.isInPlay()) {
-			yourNameTextField.setDisabled(true);
-			yourNameTextField.addListener(new ClickListener() {
-				public void clicked(InputEvent event, float x, float y) {
-					Sound.missClick();
-					textFieldFeedback.setText("Cannot edit during game");
-				}
-			});
-		}
-		return yourNameTextField;
-	}
-	private TextField.TextFieldListener buildYourNameFieldListener() {
-		TextField.TextFieldListener listener = new TextField.TextFieldListener() {
-			@Override
-			public void keyTyped(TextField textField, char c) {
-				String yourName = textField.getText();
-				Persistence persistence = Persistence.getInstance();
-				persistence.setYourName(yourName);
-			}
-		};
-		return listener;
-	}
 	private void addTextFieldFeedback() {
 		textFieldFeedback = new Label(" ", labelStyle57);
 		table.add(textFieldFeedback).center().colspan(2);
