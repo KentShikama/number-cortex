@@ -20,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
+import com.numbercortex.logic.InteractableSendable;
+import com.numbercortex.logic.Player;
 
 class MessageArea {
 
@@ -244,13 +246,13 @@ class MessageArea {
 		return toggleAction;
 	}
 
-	void showEndingMessageSequence(final String winner, final String winningAttribute, float delay) {
+	void showEndingMessageSequence(final Player winner, final String winningAttribute, float delay) {
 		Action showWinner = buildShowWinnerAction(winner, winningAttribute);
 		DelayAction delayAction = Actions.delay(delay);
 		Action showNextOptions = buildShowNextOptionsAction(winner);
 		stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
 	}
-	private Action buildShowWinnerAction(final String winner, final String winningAttribute) {
+	private Action buildShowWinnerAction(final Player winner, final String winningAttribute) {
 		Action showWinner = new Action() {
 			@Override
 			public boolean act(float delta) {
@@ -258,7 +260,8 @@ class MessageArea {
 					String tieMessage = "Tie game!";
 					updateMessage(tieMessage);
 				} else {
-					String winningMessage = winner + " wins!\n" + "(" + winningAttribute + ")";
+					String winnerName = winner.getName();
+					String winningMessage = winnerName + " wins!\n" + "(" + winningAttribute + ")";
 					updateMessage(winningMessage);
 				}
 				return true;
@@ -266,11 +269,11 @@ class MessageArea {
 		};
 		return showWinner;
 	}
-	private Action buildShowNextOptionsAction(final String winner) {
+	private Action buildShowNextOptionsAction(final Player winner) {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner != null && !winner.contains(" AI ") && Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
+				if (winner != null && winner instanceof InteractableSendable && Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
 					updateMessageWithButtons(CONTINUE);
 				} else {
 					updateMessageWithButtons(REPLAY);

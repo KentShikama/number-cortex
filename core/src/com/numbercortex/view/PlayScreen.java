@@ -175,7 +175,7 @@ class PlayScreen extends GameScreen implements Playable {
 			updateNumberScroller(state);
 		} else {
 			updateBoardMap(state);
-			animateEndingSequence(state);
+			animateEndingSequence(state, currentPlayer);
 			Persistence.getInstance().setInPlay(false);
 		}
 	}
@@ -218,8 +218,7 @@ class PlayScreen extends GameScreen implements Playable {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
 	}
-	private void animateEndingSequence(CortexState state) {
-		String winner = state.getWinner();
+	private void animateEndingSequence(CortexState state, Player winner) {
 		String winningAttribute = state.getWinningAttribute();
 		float currentAnimationTime = 0f;
 		if (winner != null) {

@@ -56,12 +56,20 @@ public class SinglePlayerGameManager implements GameManager {
 	}
 	private static ArrayList<Player> buildPlayers(GameManager messenger, Playable screen, GameSettings settings, Persistence preferences) {
 		ArrayList<Player> players = new ArrayList<Player>();
-		String playerName = preferences.getYourName();
-		Player human = new HumanPlayer(playerName, screen, messenger, settings);
 		Player computer = new ComputerPlayer(screen, messenger, settings);
+		String playerName = adjustPlayerNameIfNeeded(preferences, computer);
+		Player human = new HumanPlayer(playerName, screen, messenger, settings);
 		players.add(human);
 		players.add(computer);
 		return players;
+	}
+	private static String adjustPlayerNameIfNeeded(Persistence preferences, Player computer) {
+		String playerName = preferences.getYourName();
+		String computerName = computer.getName();
+		if (computerName.equals(playerName)) {
+			playerName = playerName + " ";
+		}
+		return playerName;
 	}
 	private static GameSettings buildSettings(SinglePlayerGameManager messenger, Persistence preferences) {
 		int level = preferences.getCurrentLevel();
@@ -159,18 +167,28 @@ public class SinglePlayerGameManager implements GameManager {
 		return null;
 	}
 	private void handleLevelUnlockingIfApplicable(CortexState state) {
-		String winner = state.getWinner();
+		String winnerName = state.getWinner();
+		Player winner = getWinner(winnerName);
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-		if (playerWinsGame(winner) || tutorialEnds(winner, openCoordinates)) {
+		if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
 			Sound.stopBackgroundAndShowWin();
 			unlockNextLevelIfOnMaxLevel(openCoordinates);
-		} else if (gameIsOver(winner, openCoordinates)) {
+		} else if (gameIsOver(winnerName, openCoordinates)) {
 			Sound.stopBackgroundAndShowLose();
 		}
 	}
-	private boolean playerWinsGame(String winner) {
-		return winner != null && winner.equals("Player");
+	private Player getWinner(String winnerName) {
+		for (Player player : players) {
+			String playerName = player.getName();
+			if (playerName.equals(winnerName)) {
+				return player;
+			}
+		}
+		return null;
+	}
+	private boolean playerWinsGame(Player winner) {
+		return winner != null && (winner instanceof InteractableSendable);
 	}
 	private boolean tutorialEnds(String winner, ArrayList<Integer> openCoordinates) {
 		return currentLevel == 0 && gameIsOver(winner, openCoordinates);

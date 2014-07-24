@@ -10,7 +10,7 @@ import com.numbercortex.logic.BoardUtilities;
 class EasyBrain implements Brain {
 
 	private BrainCalculator utility;
-	private String name = " Easy AI ";
+	private String name = "Easy AI";
 
 	EasyBrain(GameSettings settings) {
 		this.utility = new BrainCalculator(settings);

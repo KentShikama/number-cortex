@@ -9,7 +9,7 @@ import com.numbercortex.logic.BoardUtilities;
 
 class HardBrain implements Brain {
 
-	private String name = " Hard AI ";
+	private String name = "Hard AI";
 	private BrainCalculator utility;
 
 	HardBrain(GameSettings settings) {

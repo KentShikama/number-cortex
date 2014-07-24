@@ -165,9 +165,6 @@ public class OptionsScreen extends SettingsScreen {
 			public void keyTyped(TextField textField, char c) {
 				String yourName = textField.getText();
 				Persistence persistence = Persistence.getInstance();
-				if (yourName.contains(" AI ")) {
-					yourName = yourName.replace(" AI ", " AI");
-				}
 				persistence.setYourName(yourName);
 			}
 		};
