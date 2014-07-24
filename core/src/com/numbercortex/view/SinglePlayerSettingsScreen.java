@@ -111,6 +111,8 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 		Persistence persistence = Persistence.getInstance();
 		gameSettings = GameSettingsLoader.loadLevel(persistence.getCurrentLevel());
+		
+		addGridLines();
 
 		addLevelTitle();
 		addDifficultyGroup();
@@ -122,10 +124,16 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 		addDiagonalsGroup(GroupState.VISIBLE);
 		addFourSquaresGroup(persistence);
+		
+		if (persistence.isInPlay()) {
+			addResumeButton();
+		} else {
+			addPlayButton();
+			addBackButton();
+		}
 	}
 
-	@Override
-	void addGridLines() {
+	private void addGridLines() {
 		int[] position = { 324, 524, 806 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
@@ -185,8 +193,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		}
 	}
 
-	@Override
-	void addPlayButton() {
+	private void addPlayButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -198,13 +205,11 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
 		stage.addActor(forwardBottomNavigation);
 	}
-	@Override
-	void addBackButton() {
+	private void addBackButton() {
 		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("Levels", ScreenTracker.levelsScreen);
 		stage.addActor(backBottomNavigation);
 	}
-	@Override
-	void addResumeButton() {
+	private void addResumeButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

@@ -45,7 +45,7 @@ public class SinglePlayerGameManager implements GameManager {
 		messenger.preferences = Persistence.getInstance();
 		messenger.screen = ScreenTracker.playScreen;
 		messenger.settings = buildSettings(messenger, messenger.preferences);
-		messenger.players = buildPlayers(messenger, messenger.screen, messenger.settings);
+		messenger.players = buildPlayers(messenger, messenger.screen, messenger.settings, messenger.preferences);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);
 		if (state == null) {
 			messenger.model = new DefaultCortexModel(messenger, messenger.settings);
@@ -54,9 +54,10 @@ public class SinglePlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static ArrayList<Player> buildPlayers(GameManager messenger, Playable screen, GameSettings settings) {
+	private static ArrayList<Player> buildPlayers(GameManager messenger, Playable screen, GameSettings settings, Persistence preferences) {
 		ArrayList<Player> players = new ArrayList<Player>();
-		Player human = new HumanPlayer("Player", screen, messenger, settings);
+		String playerName = preferences.getYourName();
+		Player human = new HumanPlayer(playerName, screen, messenger, settings);
 		Player computer = new ComputerPlayer(screen, messenger, settings);
 		players.add(human);
 		players.add(computer);

@@ -3,10 +3,6 @@ package com.numbercortex.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -20,8 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
@@ -32,41 +26,6 @@ import com.numbercortex.logic.TwoPlayerGameManager;
 class TwoPlayerSettingsScreen extends SettingsScreen {
 
 	public static final String TAG = "Two Player Settings Screen";
-
-	private static TextField.TextFieldStyle textFieldStyle = buildTextFieldStyle();
-	private static TextField.TextFieldStyle buildTextFieldStyle() {
-		TextureRegion textFieldTexture = Assets.settingsSkin.getRegion("name_texfield");
-		Drawable textFieldDrawable = new TextureRegionDrawable(textFieldTexture);
-		TextField.TextFieldStyle style = new TextField.TextFieldStyle();
-		style.background = textFieldDrawable;
-		style.font = FontGenerator.getGillSans57();
-		style.fontColor = Launch.BRIGHT_YELLOW;
-		style.messageFont = FontGenerator.getGillSans57();
-		style.messageFontColor = new Color(Launch.SEA_BLUE).add(0.2f, 0.2f, 0.2f, 0);
-		style.background.setLeftWidth(style.background.getLeftWidth() + 15);
-		style.background.setRightWidth(style.background.getRightWidth() + 15);
-		addSelectionStyle(style);
-		addCursorStyle(style);
-		return style;
-	}
-	private static void addSelectionStyle(TextField.TextFieldStyle style) {
-		Pixmap bluePixmap = new Pixmap(1, 1, Format.RGBA8888);
-		bluePixmap.setColor(new Color(Launch.SEA_BLUE).sub(0.5f, 0.5f, 0.5f, 0.5f));
-		bluePixmap.fill();
-		Assets.settingsSkin.add("selection", new Texture(bluePixmap));
-		Drawable selectionDrawable = Assets.settingsSkin.getDrawable("selection");
-		style.selection = selectionDrawable;
-	}
-	private static void addCursorStyle(TextField.TextFieldStyle style) {
-		Pixmap pixmap = new Pixmap(2, 70, Format.RGBA8888);
-		pixmap.setColor(Launch.BRIGHT_YELLOW);
-		pixmap.fill();
-		Assets.settingsSkin.add("cursor", new Texture(pixmap));
-		TextureRegion cursorTexture = Assets.settingsSkin.getRegion("cursor");
-		Drawable cursorDrawable = new TextureRegionDrawable(cursorTexture);
-		style.cursor = cursorDrawable;
-		style.cursor.setMinWidth(2f);
-	}
 
 	private TextField playerOneNameField;
 	private TextField playerTwoNameField;
@@ -140,6 +99,8 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		} else {
 			groupState = GroupState.CLICKABLE;
 		}
+		
+		addGridLines();
 
 		addPlayerOneName(persistence, groupState);
 		addPlayerTwoName(persistence, groupState);
@@ -153,10 +114,16 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 
 		addDiagonalsGroup(groupState);
 		addFourSquaresGroup(groupState);
+		
+		if (persistence.isInPlay()) {
+			addResumeButton();
+		} else {
+			addPlayButton();
+			addBackButton();
+		}
 	}
 
-	@Override
-	void addGridLines() {
+	private void addGridLines() {
 		int[] position = { 302, 524, 806 };
 		GridLines gridLines = new GridLines(position);
 		stage.addActor(gridLines);
@@ -278,8 +245,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		return checkbox4x4;
 	}
 
-	@Override
-	void addPlayButton() {
+	private void addPlayButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -292,13 +258,11 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
 		stage.addActor(forwardBottomNavigation);
 	}
-	@Override
-	void addBackButton() {
+	private void addBackButton() {
 		BackBottomNavigation backBottomNavigation = new BackBottomNavigation("Home", ScreenTracker.titleScreen);
 		stage.addActor(backBottomNavigation);
 	}
-	@Override
-	void addResumeButton() {
+	private void addResumeButton() {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -328,10 +292,6 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		GameManager manager = TwoPlayerGameManager.getInstance();
 		game.setScreen(ScreenTracker.playScreen);
 		manager.resumeGame();
-	}
-	@Override
-	public void dispose() {
-		textFieldStyle = null;
 	}
 	@Override
 	public void hide() {

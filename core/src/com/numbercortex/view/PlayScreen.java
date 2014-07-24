@@ -152,6 +152,13 @@ class PlayScreen extends GameScreen implements Playable {
 		optionsButton = new Image(optionsRectangleTexture);
 		optionsButton.setBounds(543 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136,
 				optionsRectangleTexture.getRegionWidth(), optionsRectangleTexture.getRegionHeight());
+		optionsButton.addListener(new ClickListenerWithSound() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Sound.pauseGameBGM();
+				game.setScreen(ScreenTracker.optionsScreen);
+			}
+		});
 		stage.addActor(optionsButton);
 	}
 

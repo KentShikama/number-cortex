@@ -29,7 +29,7 @@ public class TitleScreen extends HomeScreen {
 				ModeTracker.Mode.SINGLE_PLAYER);
 		HomeScreenButton passAndPlayButton = new HomeScreenButton(PASS_AND_PLAY_BUTTON, 1,
 				ScreenTracker.twoPlayerSettingsScreen, ModeTracker.Mode.TWO_PLAYER);
-		HomeScreenButton optionsButton = new HomeScreenButton(OPTIONS, 2, null, null);
+		HomeScreenButton optionsButton = new HomeScreenButton(OPTIONS, 2, ScreenTracker.optionsScreen, null);
 		HomeScreenButton moreButton = new HomeScreenButton(MORE, 3, ScreenTracker.moreScreen, null);
 		stage.addActor(playButton);
 		stage.addActor(passAndPlayButton);

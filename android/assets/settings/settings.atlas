@@ -1,69 +1,76 @@
 
 settings.png
-size: 723,101
+size: 828,112
 format: RGBA8888
 filter: MipMapLinearNearest, Nearest
 repeat: none
 board_size_icon
   rotate: false
-  xy: 272, 22
+  xy: 377, 33
   size: 88, 73
   orig: 88, 73
   offset: 0, 0
   index: -1
 checked_checkbox
   rotate: false
-  xy: 362, 29
+  xy: 467, 40
   size: 78, 66
   orig: 78, 66
   offset: 0, 0
   index: -1
 diagonals_icon
   rotate: false
-  xy: 632, 54
+  xy: 737, 65
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 empty_checkbox
   rotate: false
-  xy: 442, 29
+  xy: 547, 40
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 empty_star
   rotate: false
-  xy: 510, 39
+  xy: 615, 56
   size: 59, 56
   orig: 59, 56
   offset: 0, 0
   index: -1
 four_square_icon
   rotate: false
-  xy: 681, 59
+  xy: 786, 70
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 full_star
   rotate: false
-  xy: 571, 39
+  xy: 676, 56
   size: 59, 56
   orig: 59, 56
   offset: 0, 0
   index: -1
 grid_line
   rotate: false
-  xy: 2, 97
+  xy: 2, 108
   size: 601, 4
   orig: 601, 4
   offset: 0, 0
   index: -1
 name_texfield
   rotate: false
-  xy: 2, 2
+  xy: 2, 13
   size: 268, 93
   orig: 268, 93
+  offset: 0, 0
+  index: -1
+options_icon
+  rotate: false
+  xy: 272, 2
+  size: 103, 104
+  orig: 103, 104
   offset: 0, 0
   index: -1

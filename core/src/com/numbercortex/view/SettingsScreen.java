@@ -2,6 +2,10 @@ package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -36,12 +41,47 @@ public abstract class SettingsScreen extends GameScreen {
 	}
 
 	static Label.LabelStyle labelStyle57 = buildLabelStyle57();
-	private static Label.LabelStyle buildLabelStyle57() {
+	static Label.LabelStyle buildLabelStyle57() {
 		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
 		BitmapFont gillSans57 = FontGenerator.getGillSans57();
 		labelStyle57.font = gillSans57;
 		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle57;
+	}
+	
+	static TextField.TextFieldStyle textFieldStyle = buildTextFieldStyle();
+	static TextField.TextFieldStyle buildTextFieldStyle() {
+		TextureRegion textFieldTexture = Assets.settingsSkin.getRegion("name_texfield");
+		Drawable textFieldDrawable = new TextureRegionDrawable(textFieldTexture);
+		TextField.TextFieldStyle style = new TextField.TextFieldStyle();
+		style.background = textFieldDrawable;
+		style.font = FontGenerator.getGillSans57();
+		style.fontColor = Launch.BRIGHT_YELLOW;
+		style.messageFont = FontGenerator.getGillSans57();
+		style.messageFontColor = new Color(Launch.SEA_BLUE).add(0.2f, 0.2f, 0.2f, 0);
+		style.background.setLeftWidth(style.background.getLeftWidth() + 15);
+		style.background.setRightWidth(style.background.getRightWidth() + 15);
+		addSelectionStyle(style);
+		addCursorStyle(style);
+		return style;
+	}
+	private static void addSelectionStyle(TextField.TextFieldStyle style) {
+		Pixmap bluePixmap = new Pixmap(1, 1, Format.RGBA8888);
+		bluePixmap.setColor(new Color(Launch.SEA_BLUE).sub(0.5f, 0.5f, 0.5f, 0.5f));
+		bluePixmap.fill();
+		Assets.settingsSkin.add("selection", new Texture(bluePixmap));
+		Drawable selectionDrawable = Assets.settingsSkin.getDrawable("selection");
+		style.selection = selectionDrawable;
+	}
+	private static void addCursorStyle(TextField.TextFieldStyle style) {
+		Pixmap pixmap = new Pixmap(2, 70, Format.RGBA8888);
+		pixmap.setColor(Launch.BRIGHT_YELLOW);
+		pixmap.fill();
+		Assets.settingsSkin.add("cursor", new Texture(pixmap));
+		TextureRegion cursorTexture = Assets.settingsSkin.getRegion("cursor");
+		Drawable cursorDrawable = new TextureRegionDrawable(cursorTexture);
+		style.cursor = cursorDrawable;
+		style.cursor.setMinWidth(2f);
 	}
 
 	enum GroupState {
@@ -111,17 +151,6 @@ public abstract class SettingsScreen extends GameScreen {
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
 		reloadLabelStylesIfApplicable();
-
-		Persistence persistence = Persistence.getInstance();
-
-		addGridLines();
-
-		if (persistence.isInPlay()) {
-			addResumeButton();
-		} else {
-			addPlayButton();
-			addBackButton();
-		}
 	}
 	private void reloadLabelStylesIfApplicable() {
 		if (labelStyle50 == null) {
@@ -131,8 +160,6 @@ public abstract class SettingsScreen extends GameScreen {
 			labelStyle57 = buildLabelStyle57();
 		}
 	}
-	abstract void addGridLines();
-
 	void addEvenOdd(GroupState state) {
 		Label evenOddLabel = buildEvenOddLabel();
 		ImageButton evenOddCheckbox = buildEvenOddCheckbox();
@@ -332,10 +359,6 @@ public abstract class SettingsScreen extends GameScreen {
 		return checkbox;
 	}
 
-	abstract void addResumeButton();
-	abstract void addPlayButton();
-	abstract void addBackButton();
-
 	@Override
 	public void render(float delta) {
 		stage.act(delta);
@@ -345,10 +368,9 @@ public abstract class SettingsScreen extends GameScreen {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
-	@Override
-	public void dispose() {
-		super.dispose();
+	public static void disposeAll() {
 		labelStyle50 = null;
 		labelStyle57 = null;
+		textFieldStyle = null;
 	}
 }

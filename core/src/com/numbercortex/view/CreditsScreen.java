@@ -34,7 +34,7 @@ public class CreditsScreen extends GameScreen {
 		buildContentBlocks();
 
 		Table table = new Table();
-		Label title = buildTitle(stage);
+		Label title = buildTitle();
 		table.add(title).center().padBottom(80);
 		table.row();
 
@@ -57,7 +57,7 @@ public class CreditsScreen extends GameScreen {
 		contentBlocks.add(yongchul);
 		contentBlocks.add(libraries);
 	}
-	private Label buildTitle(Stage stage) {
+	private Label buildTitle() {
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = FontGenerator.getGillSansLight140();
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;

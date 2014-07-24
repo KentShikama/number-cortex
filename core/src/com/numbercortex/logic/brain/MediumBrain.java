@@ -9,7 +9,7 @@ import com.numbercortex.logic.BoardUtilities;
 
 class MediumBrain implements Brain {
 
-	private String name = "Medium AI";
+	private String name = " Medium AI ";
 	private BrainCalculator utility;
 
 	MediumBrain(GameSettings settings) {

@@ -270,8 +270,7 @@ class MessageArea {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner != null && winner.equals("Player")
-						&& Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
+				if (winner != null && !winner.contains(" AI ") && Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
 					updateMessageWithButtons(CONTINUE);
 				} else {
 					updateMessageWithButtons(REPLAY);

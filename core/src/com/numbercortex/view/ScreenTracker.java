@@ -16,6 +16,7 @@ public class ScreenTracker {
 	public static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
 	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
 	public static PlayScreen playScreen;
+	public static OptionsScreen optionsScreen;
 
 	public static void initializeScreens(Launch game) {
 		titleScreen = new TitleScreen(game);
@@ -25,6 +26,7 @@ public class ScreenTracker {
 		twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);
 		levelsScreen = new LevelsScreen(game);
 		playScreen = new PlayScreen(game);
+		optionsScreen = new OptionsScreen(game);
 	}
 
 	private static Map<String, Screen> screenMap;
@@ -38,6 +40,7 @@ public class ScreenTracker {
 			screenMap.put(SinglePlayerSettingsScreen.TAG, singlePlayerSettingsScreen);
 			screenMap.put(TwoPlayerSettingsScreen.TAG, twoPlayerSettingsScreen);
 			screenMap.put(PlayScreen.TAG, playScreen);
+			screenMap.put(OptionsScreen.TAG, optionsScreen);
 		}
 		if (name.isEmpty()) {
 			return titleScreen;
@@ -50,8 +53,7 @@ public class ScreenTracker {
 	public static void dispose() {
 		playScreen.dispose();
 		levelsScreen.dispose();
-		singlePlayerSettingsScreen.dispose();
-		twoPlayerSettingsScreen.dispose();
+		SettingsScreen.disposeAll();
 		titleScreen = null;
 		moreScreen = null;
 		creditsScreen = null;
@@ -59,6 +61,7 @@ public class ScreenTracker {
 		twoPlayerSettingsScreen = null;
 		levelsScreen = null;
 		playScreen = null;
+		optionsScreen = null;
 		screenMap = null;
 	}
 }
