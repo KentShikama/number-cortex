@@ -98,8 +98,9 @@ class MessageArea {
 		}
 		TextButton messageLabelLong = new TextButton("", textButtonStyle);
 		int paddingFromEdge = 30;
-		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
-		messageLabelLong.setBounds(paddingFromEdge + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - paddingFromEdge * 2, 145);
+		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
+		messageLabelLong.setBounds(paddingFromEdge + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175,
+				Launch.SCREEN_WIDTH - paddingFromEdge * 2, 145);
 		messageLabelLong.getLabel().setWrap(true);
 		return messageLabelLong;
 	}
@@ -109,8 +110,9 @@ class MessageArea {
 		}
 		TextButton messageLabelShort = new TextButton("", textButtonStyle);
 		int paddingFromEdge = 30;
-		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
-		messageLabelShort.setBounds(paddingFromEdge + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175, Launch.SCREEN_WIDTH - paddingFromEdge * 2 - 165, 145);
+		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
+		messageLabelShort.setBounds(paddingFromEdge + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175,
+				Launch.SCREEN_WIDTH - paddingFromEdge * 2 - 165, 145);
 		messageLabelShort.getLabel().setWrap(true);
 		return messageLabelShort;
 	}
@@ -119,7 +121,7 @@ class MessageArea {
 			nextNumberStyle = buildNextNumberStyle(NEXT_NUMBER_TEXTURE_NAME);
 		}
 		NumberTextButton nextNumberSquare = new NumberTextButton("", nextNumberStyle);
-		int offsetFromOriginalWidth = (int) ((worldWidth - Launch.SCREEN_WIDTH)/2);
+		int offsetFromOriginalWidth = (int) ((worldWidth - Launch.SCREEN_WIDTH) / 2);
 		nextNumberSquare.setBounds(worldWidth - 165 - offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 175, 141, 141);
 		nextNumberSquare.setName(NEXT_NUMBER_SQUARE_NAME);
 		return nextNumberSquare;

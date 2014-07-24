@@ -28,8 +28,6 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
-import com.numbercortex.view.SettingsScreen.GroupState;
-import com.numbercortex.view.SettingsScreen.SettingGroup;
 
 class TwoPlayerSettingsScreen extends SettingsScreen {
 
@@ -104,7 +102,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			}
 		}
 	}
-	
+
 	private class TextFieldSettingGroup extends SettingGroup {
 		private TextFieldSettingGroup(Label label, TextField textField, GroupState groupState) {
 			super(groupState);

@@ -112,8 +112,9 @@ class NumberCortexBoard {
 			int left = (i % numberOfRows) * squareLength;
 			int bottom = ((numberOfRows - 1) - i / numberOfRows) * squareLength;
 			NumberTextButton button = cells.get(i);
-			float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
-			button.setBounds(left + offsetFromOriginalWidth, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength, squareLength);
+			float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
+			button.setBounds(left + offsetFromOriginalWidth, bottom + (Launch.SCREEN_HEIGHT - 850), squareLength,
+					squareLength);
 		}
 	}
 	private static void addCellsToStageIfAbsent(Stage stage, NumberCortexBoard instance) {

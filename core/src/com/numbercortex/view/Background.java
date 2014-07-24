@@ -14,7 +14,7 @@ class Background extends Actor {
 	private float worldWidth;
 
 	private Texture backgroundTexture;
-	
+
 	Background(Color backgroundProperty, float worldWidth) {
 		this(backgroundProperty, null, worldWidth);
 	}

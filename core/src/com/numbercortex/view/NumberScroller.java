@@ -102,7 +102,8 @@ class NumberScroller {
 		if (style == null) {
 			style = buildScrollPaneStyle();
 		}
-		numberScrollerInstance.numberScroller = buildNumberScroller(numberScrollerInstance.numberTable, style, worldWidth);
+		numberScrollerInstance.numberScroller = buildNumberScroller(numberScrollerInstance.numberTable, style,
+				worldWidth);
 		numberScrollerInstance.arrows = new NumberScrollerArrows(numberScrollerInstance.numberScroller, worldWidth);
 		stage.addActor(numberScrollerInstance.numberScroller);
 		numberScrollerInstance.arrows.addArrows(stage);
