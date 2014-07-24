@@ -19,6 +19,7 @@ class HumanPlayer implements Player, InteractableSendable {
 	private CortexState state;
 
 	private int savedCoordinate;
+	private int savedChosenNumber;
 	private boolean nextCoordinateChosen;
 
 	private WinHandler winHandler;
@@ -34,10 +35,10 @@ class HumanPlayer implements Player, InteractableSendable {
 	public void chooseNumber(String player, int nextNumber) {
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		int chosenNumber = state.getChosenNumber();
-		if (chosenNumber == -1) {
+		if (chosenNumber == -1 && !nextCoordinateChosen) {
 			Sound.click();
 			messenger.chooseNumber(name, nextNumber);
-		} else if (state.getChosenNumber() != -1 && nextCoordinateChosen) {
+		} else if (state.getChosenNumber() == -1 && nextCoordinateChosen) {
 			Sound.click();
 			messenger.placeNumber(name, savedCoordinate);
 			messenger.chooseNumber(name, nextNumber);
@@ -62,6 +63,10 @@ class HumanPlayer implements Player, InteractableSendable {
 	private void savePostPlaceState(int coordinate) {
 		this.savedCoordinate = coordinate;
 		nextCoordinateChosen = true;
+		int chosenNumber = state.getChosenNumber();
+		if (chosenNumber != -1) {
+			savedChosenNumber = chosenNumber;
+		}
 	}
 	private void postPlaceUpdate(int coordinate) {
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
@@ -69,7 +74,7 @@ class HumanPlayer implements Player, InteractableSendable {
 		handleUpdatedMap(coordinate, coordinateNumberMap);
 	}
 	private void updateCoordinateNumberMap(int coordinate, Map<Integer, Integer> coordinateNumberMap) {
-		int chosenNumber = state.getChosenNumber();
+		int chosenNumber = savedChosenNumber;
 		eliminateOldChosenNumberPosition(coordinateNumberMap, chosenNumber);
 		coordinateNumberMap.put(coordinate, chosenNumber);
 	}
@@ -88,7 +93,7 @@ class HumanPlayer implements Player, InteractableSendable {
 			CortexState temporaryState = new CortexState.CortexStateBuilder(state.getMessage(),
 					state.getCurrentPlayer(), state.getPlayers(), -1, coordinateNumberMap, state.getAvailableNumbers())
 					.build();
-			screen.updateState(temporaryState, this);
+			messenger.setState(temporaryState);
 		}
 	}
 

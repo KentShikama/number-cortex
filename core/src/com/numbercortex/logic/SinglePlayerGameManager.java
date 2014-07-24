@@ -72,6 +72,11 @@ public class SinglePlayerGameManager implements GameManager {
 	public CortexState getState() {
 		return state;
 	}
+	@Override
+	public void setState(CortexState temporaryState) {
+		this.state = temporaryState;
+		updateState(state);
+	}
 
 	@Override
 	public void chooseNumber(String playerName, int nextNumber) {
