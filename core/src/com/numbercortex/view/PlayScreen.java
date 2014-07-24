@@ -218,14 +218,17 @@ class PlayScreen extends GameScreen implements Playable {
 		ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
 		numberScroller.update(availableNumbers);
 	}
-	private void animateEndingSequence(CortexState state, Player winner) {
+	private void animateEndingSequence(CortexState state, Player currentPlayer) {
 		String winningAttribute = state.getWinningAttribute();
 		float currentAnimationTime = 0f;
-		if (winner != null) {
+		Player winner;
+		if (winningAttribute != null) {
 			currentAnimationTime += handleShowingOfWinningCoordinates(state);
+			winner = currentPlayer;
 		} else {
 			int tieDelay = 1;
 			currentAnimationTime += tieDelay;
+			winner = null;
 		}
 		currentAnimationTime += moveDownBoardAndRemoveOtherElements(currentAnimationTime);
 		messageArea.showEndingMessageSequence(winner, winningAttribute, currentAnimationTime);
