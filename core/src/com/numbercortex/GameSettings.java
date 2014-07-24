@@ -12,7 +12,7 @@ public class GameSettings implements Serializable {
 	private boolean evenOdd;
 	private boolean singleDouble;
 	private boolean primeComposite;
-	private boolean middleExtreme;
+	private boolean middleEdge;
 
 	private boolean diagonals;
 	private boolean fourSquare;
@@ -61,11 +61,11 @@ public class GameSettings implements Serializable {
 		this.primeComposite = primeComposite;
 	}
 
-	public boolean isMiddleExtreme() {
-		return middleExtreme;
+	public boolean isMiddleEdge() {
+		return middleEdge;
 	}
-	public void setMiddleExtreme(boolean middleExtreme) {
-		this.middleExtreme = middleExtreme;
+	public void setMiddleEdge(boolean middleEdge) {
+		this.middleEdge = middleEdge;
 	}
 
 	public boolean isDiagonals() {

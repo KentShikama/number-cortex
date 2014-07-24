@@ -110,7 +110,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		addEvenOdd(groupState);
 		addSingleDouble(groupState);
 		addPrimeComposite(groupState);
-		addMiddleExtreme(groupState);
+		addMiddleEdge(groupState);
 
 		addDiagonalsGroup(groupState);
 		addFourSquaresGroup(groupState);

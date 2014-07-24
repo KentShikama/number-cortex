@@ -241,31 +241,31 @@ public abstract class SettingsScreen extends GameScreen {
 		return primeCompositeCheckbox;
 	}
 
-	void addMiddleExtreme(GroupState state) {
-		Label middleExtremeLabel = buildMiddleExtremeLabel();
-		ImageButton middleExtremeCheckbox = buildMiddleExtremeCheckbox();
-		CheckboxSettingGroup middleExtremeGroup = new CheckboxSettingGroup(middleExtremeLabel, middleExtremeCheckbox,
+	void addMiddleEdge(GroupState state) {
+		Label middleEdgeLabel = buildMiddleEdgeLabel();
+		ImageButton middleEdgeCheckbox = buildMiddleEdgeCheckbox();
+		CheckboxSettingGroup middleEdgeGroup = new CheckboxSettingGroup(middleEdgeLabel, middleEdgeCheckbox,
 				state);
-		stage.addActor(middleExtremeGroup);
+		stage.addActor(middleEdgeGroup);
 	}
-	private Label buildMiddleExtremeLabel() {
-		Label middleExtremeLabel = new Label("Middle\nExtreme", labelStyle50);
-		middleExtremeLabel.setAlignment(Align.center);
-		middleExtremeLabel.setPosition(339 - 6, Launch.SCREEN_HEIGHT - 788);
-		return middleExtremeLabel;
+	private Label buildMiddleEdgeLabel() {
+		Label middleEdgeLabel = new Label("Middle\nEdge", labelStyle50);
+		middleEdgeLabel.setAlignment(Align.center);
+		middleEdgeLabel.setPosition(339 - 6, Launch.SCREEN_HEIGHT - 788);
+		return middleEdgeLabel;
 	}
-	private ImageButton buildMiddleExtremeCheckbox() {
+	private ImageButton buildMiddleEdgeCheckbox() {
 		int positionX = 528;
 		int positionY = Launch.SCREEN_HEIGHT - 757;
-		boolean isChecked = gameSettings.isMiddleExtreme();
-		final ImageButton middleExtremeCheckbox = buildCheckbox(positionX, positionY, isChecked);
-		middleExtremeCheckbox.addListener(new ChangeListener() {
+		boolean isChecked = gameSettings.isMiddleEdge();
+		final ImageButton middleEdgeCheckbox = buildCheckbox(positionX, positionY, isChecked);
+		middleEdgeCheckbox.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				gameSettings.setMiddleExtreme(middleExtremeCheckbox.isChecked());
+				gameSettings.setMiddleEdge(middleEdgeCheckbox.isChecked());
 			}
 		});
-		return middleExtremeCheckbox;
+		return middleEdgeCheckbox;
 	}
 
 	void addDiagonalsGroup(GroupState state) {

@@ -219,7 +219,7 @@ public class SinglePlayerGameManager implements GameManager {
 			case 3:
 				return "New rule: Primes and Composites! Adding to the current ruleset, you can make a 3-in-a-row of all primes (1*, 3, 5, 7, 9, 11, 13, 15, 17) or all composites (2, 4, 6, 8, 10, 12, 14, 16).";
 			case 6:
-				return "New rule: Middles and Extremes! Adding to the current ruleset, you can make a 3-in-a-row of all middles (5 ~ 12) or all extremes (1 ~ 4 and 13 ~ 17).";
+				return "New rule: Middles and Edges! Adding to the current ruleset, you can make a 3-in-a-row of all middles (5 ~ 12) or all edges (1 ~ 4 and 13 ~ 17).";
 			case 9:
 				return "Board size increase! You must now make a 4-in-a-row of numbers of the same attribute in order to win.";
 			case 13:

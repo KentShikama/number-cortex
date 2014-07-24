@@ -132,7 +132,7 @@ public class WinHandler {
 		if (settings.isPrimeComposite() && isValidPrimeComposite(set)) {
 			return true;
 		}
-		if (settings.isMiddleExtreme() && isValidMiddleExtreme(set)) {
+		if (settings.isMiddleEdge() && isValidMiddleEdge(set)) {
 			return true;
 		}
 		return false;
@@ -190,7 +190,7 @@ public class WinHandler {
 		}
 		return true;
 	}
-	private boolean isValidMiddleExtreme(int[] set) {
+	private boolean isValidMiddleEdge(int[] set) {
 		for (int i = 0; i < set.length - 1; i++) {
 			if (isMiddle(set[i]) != isMiddle(set[i + 1])) {
 				return false;
@@ -199,7 +199,7 @@ public class WinHandler {
 		if (isMiddle(set[0]) == true) {
 			winningAttribute = "Middles - 5~12";
 		} else {
-			winningAttribute = "Extremes - 1~4 & 13+";
+			winningAttribute = "Edges - 1~4 & 13+";
 		}
 		return true;
 	}

@@ -136,7 +136,7 @@ public class Persistence {
 		twoPlayerGameSettings.setDiagonals(true);
 		twoPlayerGameSettings.setEvenOdd(true);
 		twoPlayerGameSettings.setFourSquare(false);
-		twoPlayerGameSettings.setMiddleExtreme(false);
+		twoPlayerGameSettings.setMiddleEdge(false);
 		twoPlayerGameSettings.setNumberOfRows(4);
 		twoPlayerGameSettings.setPrimeComposite(true);
 		twoPlayerGameSettings.setSingleDouble(true);

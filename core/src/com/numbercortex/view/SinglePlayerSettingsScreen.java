@@ -120,7 +120,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		addEvenOdd(GroupState.VISIBLE);
 		addSingleDouble(GroupState.VISIBLE);
 		addPrimeComposite(persistence);
-		addMiddleExtreme(persistence);
+		addMiddleEdge(persistence);
 
 		addDiagonalsGroup(GroupState.VISIBLE);
 		addFourSquaresGroup(persistence);
@@ -177,11 +177,11 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		}
 	}
 
-	private void addMiddleExtreme(Persistence persistence) {
+	private void addMiddleEdge(Persistence persistence) {
 		if (persistence.getMaxLevel() > 6) {
-			addMiddleExtreme(GroupState.VISIBLE);
+			addMiddleEdge(GroupState.VISIBLE);
 		} else {
-			addMiddleExtreme(GroupState.TRANSPARENT);
+			addMiddleEdge(GroupState.TRANSPARENT);
 		}
 	}
 
