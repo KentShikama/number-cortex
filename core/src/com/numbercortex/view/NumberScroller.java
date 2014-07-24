@@ -65,22 +65,6 @@ class NumberScroller {
 				Timer.instance().clear();
 				int number = getClickedNumber(event);
 				messenger.chooseNumber(null, number);
-			} else {
-				Persistence persistence = Persistence.getInstance();
-				if (persistence.isFadeOnTap()) {
-					final Label label = (Label) event.getTarget();
-					Timer.schedule(new Task() {
-						@Override
-						public void run() {
-							Label.LabelStyle style = label.getStyle();
-							if (style.fontColor.a < 0.75) {
-								label.getStyle().fontColor.a = 1;
-							} else {
-								label.getStyle().fontColor.a = 0.5f;
-							}
-						}
-					}, 0.4f);
-				}
 			}
 		}
 		private int getClickedNumber(InputEvent event) {
