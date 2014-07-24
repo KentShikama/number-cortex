@@ -29,7 +29,7 @@ public class Sound {
 
 	public static void stopBackgroundAndShowLose() {
 		Assets.backgroundMusic.stop();
-		Assets.loseSound.play();
+		Assets.loseSound.play(0.5f);
 	}
 
 }
