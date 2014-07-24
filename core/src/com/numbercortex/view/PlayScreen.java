@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.ModeTracker;
@@ -52,7 +51,7 @@ class PlayScreen extends GameScreen implements Playable {
 
 	private Image exitButton;
 	private Image informationButton;
-	private Image helpButton;
+	private Image optionsButton;
 
 	PlayScreen(Game game) {
 		super(game);
@@ -65,11 +64,12 @@ class PlayScreen extends GameScreen implements Playable {
 	}
 	@Override
 	public void show() {
-		ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT/1.2), Launch.SCREEN_HEIGHT);
+		ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT,
+				(float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
 		stage = new Stage(fitViewport);
 		Gdx.input.setInputProcessor(stage);
 		Gdx.input.setCatchBackKey(true);
-		backKey = false;		
+		backKey = false;
 		Sound.loopGameBGM();
 	}
 	@Override
@@ -111,17 +111,17 @@ class PlayScreen extends GameScreen implements Playable {
 	private void buildBottomButtons() {
 		TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
 		TextureRegion informationRectangleTexture = Assets.gameSkin.getRegion("information");
-		TextureRegion helpRectangleTexture = Assets.gameSkin.getRegion("help");
+		TextureRegion optionsRectangleTexture = Assets.gameSkin.getRegion("options");
 		float worldWidth = stage.getViewport().getWorldWidth();
-		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH)/2;
+		float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
 		bulidExitButton(exitRectangleTexture, offsetFromOriginalWidth);
 		buildInformationButton(informationRectangleTexture, offsetFromOriginalWidth);
-		buildHelpButton(helpRectangleTexture, offsetFromOriginalWidth);
+		buildHelpButton(optionsRectangleTexture, offsetFromOriginalWidth);
 	}
 	private void bulidExitButton(TextureRegion exitRectangleTexture, float offsetFromOriginalWidth) {
 		exitButton = new Image(exitRectangleTexture);
-		exitButton.setBounds(44 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(),
-				exitRectangleTexture.getRegionHeight());
+		exitButton.setBounds(44 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136,
+				exitRectangleTexture.getRegionWidth(), exitRectangleTexture.getRegionHeight());
 		exitButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -133,8 +133,8 @@ class PlayScreen extends GameScreen implements Playable {
 	}
 	private void buildInformationButton(TextureRegion informationRectangleTexture, float offsetFromOriginalWidth) {
 		informationButton = new Image(informationRectangleTexture);
-		informationButton.setBounds(434 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, informationRectangleTexture.getRegionWidth(),
-				informationRectangleTexture.getRegionHeight());
+		informationButton.setBounds(434 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136,
+				informationRectangleTexture.getRegionWidth(), informationRectangleTexture.getRegionHeight());
 		informationButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -148,11 +148,11 @@ class PlayScreen extends GameScreen implements Playable {
 		});
 		stage.addActor(informationButton);
 	}
-	private void buildHelpButton(TextureRegion helpRectangleTexture, float offsetFromOriginalWidth) {
-		helpButton = new Image(helpRectangleTexture);
-		helpButton.setBounds(543 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, helpRectangleTexture.getRegionWidth(),
-				helpRectangleTexture.getRegionHeight());
-		stage.addActor(helpButton);
+	private void buildHelpButton(TextureRegion optionsRectangleTexture, float offsetFromOriginalWidth) {
+		optionsButton = new Image(optionsRectangleTexture);
+		optionsButton.setBounds(543 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136,
+				optionsRectangleTexture.getRegionWidth(), optionsRectangleTexture.getRegionHeight());
+		stage.addActor(optionsButton);
 	}
 
 	@Override
@@ -250,10 +250,10 @@ class PlayScreen extends GameScreen implements Playable {
 		numberScroller.removeScroller(delay);
 		exitButton.clearListeners();
 		informationButton.clearListeners();
-		helpButton.clearListeners();
+		optionsButton.clearListeners();
 		AnimationUtilities.delayFadeAndRemoveActor(exitButton, delay);
 		AnimationUtilities.delayFadeAndRemoveActor(informationButton, delay);
-		AnimationUtilities.delayFadeAndRemoveActor(helpButton, delay);
+		AnimationUtilities.delayFadeAndRemoveActor(optionsButton, delay);
 	}
 
 	@Override
