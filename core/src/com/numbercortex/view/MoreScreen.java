@@ -28,19 +28,19 @@ public class MoreScreen extends HomeScreen {
 	}
 	@Override
 	void buildButtons(Stage stage) {
-		HomeScreenButton playButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, null);
-		HomeScreenButton passAndPlayButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, null);
+		HomeScreenButton moreGamesButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, null);
+		HomeScreenButton rateGameButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, null);
 		ClickListener websiteButtonListener = new ClickListenerWithSound() {
 			public void clicked (InputEvent event, float x, float y) {
 				Gdx.net.openURI("http://www.numbercortex.com");
 			}
 		};
 		HomeScreenButton websiteButton = new HomeScreenButton(WEBSITE_BUTTON, 2, websiteButtonListener);
-		HomeScreenButton moreButton = new HomeScreenButton(CREDITS, 3, ScreenTracker.creditsScreen, null);
-		stage.addActor(playButton);
-		stage.addActor(passAndPlayButton);
+		HomeScreenButton creditsButton = new HomeScreenButton(CREDITS, 3, ScreenTracker.creditsScreen, null);
+		stage.addActor(moreGamesButton);
+		stage.addActor(rateGameButton);
 		stage.addActor(websiteButton);
-		stage.addActor(moreButton);
+		stage.addActor(creditsButton);
 	}
 	@Override
 	void buildBottomNavigation(Stage stage) {
