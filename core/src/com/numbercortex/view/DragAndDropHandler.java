@@ -21,7 +21,7 @@ public class DragAndDropHandler {
 	private int chosenNumber;
 
 	private int placementCount;
-	public static final int MAXIMUM_PLACEMENT_COUNT = 2;
+	public static final int MAXIMUM_PLACEMENT_COUNT = 1;
 
 	private DragAndDropHandler() {}
 	private static class Singleton {
