@@ -27,34 +27,78 @@ public class Launch extends Game {
 	public static final Color BRIGHT_YELLOW = new Color(250f / 255, 235f / 255, 102f / 255, 1);
 
 	private Stage backgroundStage;
+	private boolean assigned;
 
 	@Override
 	public void create() {
-		loadAndAssignAssets();
-		showGame();
+		loadAndAssignStartingAssets();
+		loadAssets();
 	}
-	private void loadAndAssignAssets() {
+	private void loadAndAssignStartingAssets() {
 		Assets.manager = new AssetManager();
 		Assets.loadBackground();
+		Assets.manager.finishLoading();
+		Assets.assignBackgroundScreen();
+		backgroundStage = buildBackground();
+	}
+	private Stage buildBackground() {
+		FillViewport stretchViewport = new FillViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
+		Stage backgroundStage = new Stage(stretchViewport);
+		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
+		backgroundStage.addActor(background);
+		return backgroundStage;
+	}
+	private void loadAssets() {
 		Assets.loadHome();
 		Assets.loadSettings();
 		Assets.loadGame();
 		Assets.loadLevels();
 		Assets.loadDialog();
 		Assets.loadAudio();
-		Assets.manager.finishLoading();
-		Assets.assignBackgroundScreen();
-		Assets.assignHomeScreen();
-		Assets.assignSettingsScreen();
-		Assets.assignPlayScreen();
-		Assets.assignLevelsScreen();
-		Assets.assignDialogScreen();
-		Assets.assignAudio();
 		Assets.loadAndAssignFonts();
+		assigned = false;
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		Screen currentScreen = this.getScreen();
+		if (currentScreen instanceof PlayScreen) {
+			GameManager gameManager;
+			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+				gameManager = SinglePlayerGameManager.getInstance();
+			} else {
+				gameManager = TwoPlayerGameManager.getInstance();
+			}
+			gameManager.resumeGame();
+		}
+	}
+
+	@Override
+	public void render() {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		if (Assets.manager.update()) {
+			assignAssetsAndShowGameIfApplicable();
+			renderBackgroundIfApplicable();
+			super.render();
+		} else {
+			renderBackground();
+		}
+	}
+	private void assignAssetsAndShowGameIfApplicable() {
+		if (!assigned) {
+			Assets.assignHomeScreen();
+			Assets.assignSettingsScreen();
+			Assets.assignPlayScreen();
+			Assets.assignLevelsScreen();
+			Assets.assignDialogScreen();
+			Assets.assignAudio();
+			showGame();
+			assigned = true;
+		}
 	}
 	private void showGame() {
 		Persistence persistence = Persistence.getInstance().load();
-		backgroundStage = buildBackground();
 		ModeTracker.mode = buildMode(persistence);
 		ScreenTracker.initializeScreens(this);
 		GameManager gameManager = buildGameManager(persistence);
@@ -65,13 +109,6 @@ public class Launch extends Game {
 		if (screen instanceof PlayScreen) {
 			gameManager.resumeGame();
 		}
-	}
-	private Stage buildBackground() {
-		FillViewport stretchViewport = new FillViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
-		Stage backgroundStage = new Stage(stretchViewport);
-		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
-		backgroundStage.addActor(background);
-		return backgroundStage;
 	}
 	private Mode buildMode(Persistence persistence) {
 		String currentModeString = persistence.getMode();
@@ -94,28 +131,6 @@ public class Launch extends Game {
 		Screen screen = ScreenTracker.getScreen(currentScreenString);
 		setScreen(screen);
 		return screen;
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
-		Screen currentScreen = this.getScreen();
-		if (currentScreen instanceof PlayScreen) {
-			GameManager gameManager;
-			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-				gameManager = SinglePlayerGameManager.getInstance();
-			} else {
-				gameManager = TwoPlayerGameManager.getInstance();
-			}
-			gameManager.resumeGame();
-		}
-	}
-
-	@Override
-	public void render() {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		renderBackgroundIfApplicable();
-		super.render();
 	}
 	private void renderBackgroundIfApplicable() {
 		if (!(this.getScreen() instanceof PlayScreen)) {
