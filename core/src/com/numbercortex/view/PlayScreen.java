@@ -174,11 +174,35 @@ class PlayScreen extends GameScreen implements Playable {
 			updateBoardMap(state);
 			updateNumberScroller(state);
 		} else {
-			updateBoardMap(state);
-			animateEndingSequence(state, currentPlayer);
-			Persistence.getInstance().setInPlay(false);
+			if (Persistence.getInstance().isInPlay()) {
+				updateBoardMap(state);
+				animateEndingSequence(state, currentPlayer);
+				Persistence.getInstance().setInPlay(false);
+			} else {
+				updateBoardMap(state);
+				recreateEndingInstantly(state, currentPlayer);
+			}
 		}
 	}
+	private void recreateEndingInstantly(CortexState state, Player currentPlayer) {
+		String winningAttribute = state.getWinningAttribute();
+		moveDownBoardAndRemoveOtherElements();
+		Player winner;
+		if (winningAttribute != null) {
+			winner = currentPlayer;
+		} else {
+			winner = null;
+		}
+		messageArea.showEndingMessageSequence(winner);
+	}
+	private void moveDownBoardAndRemoveOtherElements() {
+		board.bringCellsDown();
+		numberScroller.removeScroller();
+		exitButton.remove();
+		informationButton.remove();
+		optionsButton.remove();
+	}
+
 	private void updateCurrentPlayer(Player currentPlayer) {
 		if (currentPlayer instanceof InteractableSendable) {
 			InteractableSendable sendable = (InteractableSendable) currentPlayer;
@@ -363,14 +387,10 @@ class PlayScreen extends GameScreen implements Playable {
 	@Override
 	public void pause() {
 		Persistence persistence = Persistence.getInstance();
-		if (persistence.isInPlay()) {
-			persistence.setCurrentScreen(TAG);
-			GameManager gameManager = getGameManagerInstance();
-			CortexState currentState = gameManager.getState();
-			persistence.setCurrentCortexState(currentState);
-		} else {
-			persistence.setCurrentScreen(TitleScreen.TAG); // Show title screen if game had ended
-		}
+		persistence.setCurrentScreen(TAG);
+		GameManager gameManager = getGameManagerInstance();
+		CortexState currentState = gameManager.getState();
+		persistence.setCurrentCortexState(currentState);
 		persistence.setMode(ModeTracker.mode.name());
 	}
 	private GameManager getGameManagerInstance() {

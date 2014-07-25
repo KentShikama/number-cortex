@@ -246,6 +246,11 @@ class MessageArea {
 		return toggleAction;
 	}
 
+	void showEndingMessageSequence(final Player winner) {
+		updateMessage("");
+		Action showNextOptions = buildShowNextOptionsAction(winner);
+		stage.addAction(showNextOptions);
+	}
 	void showEndingMessageSequence(final Player winner, final String winningAttribute, float delay) {
 		Action showWinner = buildShowWinnerAction(winner, winningAttribute);
 		DelayAction delayAction = Actions.delay(delay);
@@ -273,7 +278,7 @@ class MessageArea {
 		Action showNextOptions = new Action() {
 			@Override
 			public boolean act(float delta) {
-				if (winner != null && winner instanceof InteractableSendable && Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
+				if (winner != null && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER && winner instanceof InteractableSendable && Persistence.getInstance().getCurrentLevel() != MAXIMUM_POSSIBLE_LEVEL) {
 					updateMessageWithButtons(CONTINUE);
 				} else {
 					updateMessageWithButtons(REPLAY);

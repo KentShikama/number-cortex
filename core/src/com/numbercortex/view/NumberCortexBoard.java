@@ -196,6 +196,11 @@ class NumberCortexBoard {
 		return numberOfRows;
 	}
 
+	void bringCellsDown() {
+		for (NumberTextButton button : cells) {
+			button.moveBy(0, -220);
+		}
+	}
 	void bringCellsDown(float delay) {
 		for (NumberTextButton button : cells) {
 			DelayAction delayAction = Actions.delay(delay);

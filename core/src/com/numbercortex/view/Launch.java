@@ -101,22 +101,23 @@ public class Launch extends Game {
 		Persistence persistence = Persistence.getInstance().load();
 		ModeTracker.mode = buildMode(persistence);
 		ScreenTracker.initializeScreens(this);
-		GameManager gameManager = buildGameManager(persistence);
 		Screen screen = buildCurrentScreen(persistence);
+		GameManager gameManager = buildGameManager(persistence, screen);
+		setScreen(screen);
 		resumeGameIfApplicable(gameManager, screen);
-	}
-	private void resumeGameIfApplicable(GameManager gameManager, Screen screen) {
-		if (screen instanceof PlayScreen) {
-			gameManager.resumeGame();
-		}
 	}
 	private Mode buildMode(Persistence persistence) {
 		String currentModeString = persistence.getMode();
 		return ModeTracker.getMode(currentModeString);
 	}
-	private GameManager buildGameManager(Persistence persistence) {
+	private Screen buildCurrentScreen(Persistence persistence) {
+		String currentScreenString = persistence.getCurrentScreen();
+		Screen screen = ScreenTracker.getScreen(currentScreenString);
+		return screen;
+	}
+	private GameManager buildGameManager(Persistence persistence, Screen screen) {
 		GameManager gameManager = null;
-		if (persistence.isInPlay()) {
+		if (persistence.isInPlay() || screen instanceof PlayScreen) {
 			CortexState currentCortexState = persistence.getCurrentCortexState();
 			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 				gameManager = SinglePlayerGameManager.createNewGameManager(currentCortexState);
@@ -126,11 +127,10 @@ public class Launch extends Game {
 		}
 		return gameManager;
 	}
-	private Screen buildCurrentScreen(Persistence persistence) {
-		String currentScreenString = persistence.getCurrentScreen();
-		Screen screen = ScreenTracker.getScreen(currentScreenString);
-		setScreen(screen);
-		return screen;
+	private void resumeGameIfApplicable(GameManager gameManager, Screen screen) {
+		if (screen instanceof PlayScreen) {
+			gameManager.resumeGame();
+		}
 	}
 	private void renderBackgroundIfApplicable() {
 		if (!(this.getScreen() instanceof PlayScreen)) {

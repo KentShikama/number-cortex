@@ -78,9 +78,7 @@ public class Persistence {
 		currentScreen = preferences.getString(CURRENT_SCREEN, "");
 		mode = preferences.getString(MODE, "");
 		isInPlay = preferences.getBoolean(IS_IN_PLAY, false);
-		if (isInPlay) {
-			loadCurrentCortexSettings();
-		}
+		loadCurrentCortexSettings();
 	}
 	private void loadCurrentCortexSettings() {
 		String currentCortexStateJson = preferences.getString(CURRENT_CORTEX_STATE, "");
@@ -97,8 +95,17 @@ public class Persistence {
 		int chosenNumber = json.readValue("chosenNumber", Integer.class, root);
 		Map<Integer, Integer> checkedCoordinateNumberMap = readCheckedCoordinateNumberMap(json, root);
 		ArrayList<Integer> availableNumbers = json.readValue("availableNumbers", ArrayList.class, Integer.class, root);
-		CortexState currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
-				chosenNumber, checkedCoordinateNumberMap, availableNumbers).build();
+		CortexState currentCortexState;
+		String winnerName = json.readValue("winner", String.class, root);
+		if (winnerName != null) {
+			String winningAttribute = json.readValue("winningAttribute", String.class, root);
+			int[] winningCoordinates = json.readValue("winningValues", int[].class, root);
+			currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
+					chosenNumber, checkedCoordinateNumberMap, availableNumbers).win(winnerName, winningAttribute, winningCoordinates).build();
+		} else {
+			currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
+					chosenNumber, checkedCoordinateNumberMap, availableNumbers).build();
+		}
 		return currentCortexState;
 	}
 	private Map<Integer, Integer> readCheckedCoordinateNumberMap(Json json, JsonValue root) {

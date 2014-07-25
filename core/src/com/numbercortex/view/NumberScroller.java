@@ -117,6 +117,10 @@ class NumberScroller {
 		}
 	}
 
+	void removeScroller() {
+		numberScroller.remove();
+		arrows.remove();
+	}
 	void removeScroller(float delay) {
 		for (Actor numberButton : numberTable.getChildren()) {
 			numberButton.clearListeners();
