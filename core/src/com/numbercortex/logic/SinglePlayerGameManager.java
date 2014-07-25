@@ -167,17 +167,21 @@ public class SinglePlayerGameManager implements GameManager {
 		return null;
 	}
 	private void handleLevelUnlockingIfApplicable(CortexState state) {
-		String winnerName = state.getWinner();
-		Player winner = getWinner(winnerName);
-		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
-		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-		if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
-			Sound.stopBackgroundAndShowWin();
-			unlockNextLevelIfOnMaxLevel(openCoordinates);
-		} else if (winnerName != null) {
-			Sound.stopBackgroundAndShowLose();
-		} else if (winnerName == null && openCoordinates.isEmpty()) {
-			Sound.stopGameBGM();;
+		if (!Persistence.getInstance().isInPlay()) {
+			Sound.stopGameBGM();
+		} else {
+			String winnerName = state.getWinner();
+			Player winner = getWinner(winnerName);
+			Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
+			ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
+			if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
+				Sound.stopBackgroundAndShowWin();
+				unlockNextLevelIfOnMaxLevel(openCoordinates);
+			} else if (winnerName != null) {
+				Sound.stopBackgroundAndShowLose();
+			} else if (winnerName == null && openCoordinates.isEmpty()) {
+				Sound.stopGameBGM();
+			}
 		}
 	}
 	private Player getWinner(String winnerName) {
