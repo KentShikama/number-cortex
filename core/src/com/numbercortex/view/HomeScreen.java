@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
@@ -18,16 +19,13 @@ import com.numbercortex.logic.SinglePlayerGameManager;
 
 abstract class HomeScreen extends GameScreen {
 	class HomeScreenButton extends Group {
-		private Screen screen;
-		private ModeTracker.Mode mode;
-
 		HomeScreenButton(String buttonName, int index, Screen screen, ModeTracker.Mode mode) {
-			this.screen = screen;
-			this.mode = mode;
-
+			this(buttonName, index, new DefaultHomeScreenListener(screen, mode));
+		}
+		HomeScreenButton(String buttonName, int index, ClickListener listener) {
 			TextureRegion buttonBoxTexture = Assets.homeSkin.getRegion("button_box");
 			addContent(buttonName, index, buttonBoxTexture);
-			addArmature(index, screen, buttonBoxTexture);
+			addArmature(listener, index, buttonBoxTexture);
 		}
 		private void addContent(String buttonName, int index, TextureRegion buttonBoxTexture) {
 			Table buttonTable = new Table();
@@ -50,32 +48,42 @@ abstract class HomeScreen extends GameScreen {
 			Label buttonLabel = new Label(buttonName, labelStyle);
 			buttonTable.add(buttonLabel).center().pad(6);
 		}
-		private void addArmature(int index, Screen screen, TextureRegion buttonBoxTexture) {
+		private void addArmature(ClickListener listener, int index, TextureRegion buttonBoxTexture) {
 			Image buttonBackground = new Image(buttonBoxTexture);
 			buttonBackground.setBounds(175, Launch.SCREEN_HEIGHT - (FIRST_BUTTON_CENTER_OFFSET_Y + index * 80),
 					buttonBoxTexture.getRegionWidth(), buttonBoxTexture.getRegionHeight());
 			this.addActor(buttonBackground);
-			if (screen != null) {
-				ClickListenerWithSound listener = new TitleScreenListener();
+			if (listener != null) {
 				buttonBackground.addListener(listener);
 			}
 		}
-
-		class TitleScreenListener extends ClickListenerWithSound {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				if (screen != null) {
-					if (mode == ModeTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getMaxLevel() == 0) {
-						ModeTracker.mode = mode;
-						GameManager manager = SinglePlayerGameManager.createNewGameManager();
-						game.setScreen(ScreenTracker.playScreen);
-						manager.startNewGame();
-					} else {
-						ModeTracker.mode = mode;
-						game.setScreen(screen);
-					}
+	}
+	class DefaultHomeScreenListener extends ClickListenerWithSound {
+		private Screen screen;
+		private ModeTracker.Mode mode;
+		DefaultHomeScreenListener(Screen screen, ModeTracker.Mode mode) {
+			this.screen = screen;
+			this.mode = mode;
+		}
+		@Override
+		public void clicked(InputEvent event, float x, float y) {
+			if (screen != null) {
+				if (isFirstTimePlaying()) {
+					startFirstGame();
+				} else {
+					ModeTracker.mode = mode;
+					game.setScreen(screen);
 				}
 			}
+		}
+		private boolean isFirstTimePlaying() {
+			return mode == ModeTracker.Mode.SINGLE_PLAYER && Persistence.getInstance().getMaxLevel() == 0;
+		}
+		private void startFirstGame() {
+			ModeTracker.mode = mode;
+			GameManager manager = SinglePlayerGameManager.createNewGameManager();
+			game.setScreen(ScreenTracker.playScreen);
+			manager.startNewGame();
 		}
 	}
 

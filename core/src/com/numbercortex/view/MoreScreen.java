@@ -3,7 +3,9 @@ package com.numbercortex.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.Persistence;
 
 public class MoreScreen extends HomeScreen {
@@ -26,13 +28,18 @@ public class MoreScreen extends HomeScreen {
 	}
 	@Override
 	void buildButtons(Stage stage) {
-		HomeScreenButton playButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, null, null);
-		HomeScreenButton passAndPlayButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, null, null);
-		HomeScreenButton optionsButton = new HomeScreenButton(WEBSITE_BUTTON, 2, null, null);
+		HomeScreenButton playButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, null);
+		HomeScreenButton passAndPlayButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, null);
+		ClickListener websiteButtonListener = new ClickListenerWithSound() {
+			public void clicked (InputEvent event, float x, float y) {
+				Gdx.net.openURI("http://www.numbercortex.com");
+			}
+		};
+		HomeScreenButton websiteButton = new HomeScreenButton(WEBSITE_BUTTON, 2, websiteButtonListener);
 		HomeScreenButton moreButton = new HomeScreenButton(CREDITS, 3, ScreenTracker.creditsScreen, null);
 		stage.addActor(playButton);
 		stage.addActor(passAndPlayButton);
-		stage.addActor(optionsButton);
+		stage.addActor(websiteButton);
 		stage.addActor(moreButton);
 	}
 	@Override
