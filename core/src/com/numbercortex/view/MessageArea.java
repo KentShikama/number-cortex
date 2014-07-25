@@ -251,7 +251,7 @@ class MessageArea {
 		Action showNextOptions = buildShowNextOptionsAction(winner);
 		stage.addAction(showNextOptions);
 	}
-	void showEndingMessageSequence(final Player winner, final String winningAttribute, float delay) {
+	void showEndingMessageSequenceWithAnimation(final Player winner, final String winningAttribute, float delay) {
 		Action showWinner = buildShowWinnerAction(winner, winningAttribute);
 		DelayAction delayAction = Actions.delay(delay);
 		Action showNextOptions = buildShowNextOptionsAction(winner);

@@ -121,12 +121,12 @@ class NumberScroller {
 		numberScroller.remove();
 		arrows.remove();
 	}
-	void removeScroller(float delay) {
+	void removeScrollerWithAnimation(float delay) {
 		for (Actor numberButton : numberTable.getChildren()) {
 			numberButton.clearListeners();
 		}
 		AnimationUtilities.delayFadeAndRemoveActor(numberScroller, delay);
-		arrows.remove(delay);
+		arrows.removeWithAnimation(delay);
 	}
 
 	void update(ArrayList<Integer> numberList) {

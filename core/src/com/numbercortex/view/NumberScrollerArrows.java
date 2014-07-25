@@ -66,7 +66,7 @@ class NumberScrollerArrows {
 		leftArrowButton.remove();
 		rightArrowButton.remove();
 	}
-	void remove(float delay) {
+	void removeWithAnimation(float delay) {
 		AnimationUtilities.delayFadeAndRemoveActor(leftArrowButton, delay);
 		AnimationUtilities.delayFadeAndRemoveActor(rightArrowButton, delay);
 	}

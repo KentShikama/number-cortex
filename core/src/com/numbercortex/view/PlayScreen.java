@@ -255,7 +255,7 @@ class PlayScreen extends GameScreen implements Playable {
 			winner = null;
 		}
 		currentAnimationTime += moveDownBoardAndRemoveOtherElements(currentAnimationTime);
-		messageArea.showEndingMessageSequence(winner, winningAttribute, currentAnimationTime);
+		messageArea.showEndingMessageSequenceWithAnimation(winner, winningAttribute, currentAnimationTime);
 	}
 	private float handleShowingOfWinningCoordinates(CortexState state) {
 		int[] winningValues = state.getWinningValues();
@@ -275,12 +275,12 @@ class PlayScreen extends GameScreen implements Playable {
 		return winningMap;
 	}
 	private float moveDownBoardAndRemoveOtherElements(float delay) {
-		board.bringCellsDown(delay);
+		board.bringCellsDownWithAnimation(delay);
 		removeOtherElementsWithAnimation(delay);
 		return 1f;
 	}
 	private void removeOtherElementsWithAnimation(float delay) {
-		numberScroller.removeScroller(delay);
+		numberScroller.removeScrollerWithAnimation(delay);
 		exitButton.clearListeners();
 		informationButton.clearListeners();
 		optionsButton.clearListeners();
