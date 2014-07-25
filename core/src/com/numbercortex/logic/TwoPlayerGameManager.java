@@ -117,9 +117,10 @@ public class TwoPlayerGameManager implements GameManager {
 		String winner = state.getWinner();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-		if (winner != null) {
+		Persistence persistence = Persistence.getInstance();
+		if (winner != null && persistence.isInPlay()) {
 			Sound.stopBackgroundAndShowWin();
-		} else if (winner == null && openCoordinates.isEmpty()) {
+		} else if (isTieGame(winner, openCoordinates) || !persistence.isInPlay()) {
 			Sound.stopGameBGM();
 		}
 		for (Player player : players) {
@@ -128,5 +129,8 @@ public class TwoPlayerGameManager implements GameManager {
 				player.updateState(state);
 			}
 		}
+	}
+	private boolean isTieGame(String winner, ArrayList<Integer> openCoordinates) {
+		return winner == null && openCoordinates.isEmpty();
 	}
 }
