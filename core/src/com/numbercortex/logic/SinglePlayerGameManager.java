@@ -167,9 +167,7 @@ public class SinglePlayerGameManager implements GameManager {
 		return null;
 	}
 	private void handleLevelUnlockingIfApplicable(CortexState state) {
-		if (!Persistence.getInstance().isInPlay()) {
-			Sound.stopGameBGM();
-		} else {
+		if (Persistence.getInstance().isInPlay()) {
 			String winnerName = state.getWinner();
 			Player winner = getWinner(winnerName);
 			Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
@@ -182,6 +180,8 @@ public class SinglePlayerGameManager implements GameManager {
 			} else if (winnerName == null && openCoordinates.isEmpty()) {
 				Sound.stopGameBGM();
 			}
+		} else {
+			Sound.stopGameBGM();
 		}
 	}
 	private Player getWinner(String winnerName) {
