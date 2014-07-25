@@ -117,8 +117,10 @@ public class TwoPlayerGameManager implements GameManager {
 		String winner = state.getWinner();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
-		if (gameIsOver(winner, openCoordinates)) {
+		if (winner != null) {
 			Sound.stopBackgroundAndShowWin();
+		} else if (winner == null && openCoordinates.isEmpty()) {
+			Sound.stopGameBGM();
 		}
 		for (Player player : players) {
 			String playerName = player.getName();
@@ -126,8 +128,5 @@ public class TwoPlayerGameManager implements GameManager {
 				player.updateState(state);
 			}
 		}
-	}
-	private boolean gameIsOver(String winner, ArrayList<Integer> openCoordinates) {
-		return winner != null || openCoordinates.isEmpty();
 	}
 }

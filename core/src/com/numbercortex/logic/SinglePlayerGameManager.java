@@ -174,8 +174,10 @@ public class SinglePlayerGameManager implements GameManager {
 		if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
 			Sound.stopBackgroundAndShowWin();
 			unlockNextLevelIfOnMaxLevel(openCoordinates);
-		} else if (gameIsOver(winnerName, openCoordinates)) {
+		} else if (winnerName != null) {
 			Sound.stopBackgroundAndShowLose();
+		} else if (winnerName == null && openCoordinates.isEmpty()) {
+			Sound.stopGameBGM();;
 		}
 	}
 	private Player getWinner(String winnerName) {
