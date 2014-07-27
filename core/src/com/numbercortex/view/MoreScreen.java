@@ -31,7 +31,8 @@ public class MoreScreen extends HomeScreen {
 		HomeScreenButton moreGamesButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, null);
 		HomeScreenButton rateGameButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, null);
 		ClickListener websiteButtonListener = new ClickListenerWithSound() {
-			public void clicked (InputEvent event, float x, float y) {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
 				Gdx.net.openURI("http://www.numbercortex.com");
 			}
 		};

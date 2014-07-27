@@ -111,7 +111,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 		Persistence persistence = Persistence.getInstance();
 		gameSettings = GameSettingsLoader.loadLevel(persistence.getCurrentLevel());
-		
+
 		addGridLines();
 
 		addLevelTitle();
@@ -124,7 +124,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
 		addDiagonalsGroup(GroupState.VISIBLE);
 		addFourSquaresGroup(persistence);
-		
+
 		if (persistence.isInPlay()) {
 			addResumeButton();
 		} else {

@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.CortexState;
@@ -71,7 +70,7 @@ public class OptionsScreen extends SettingsScreen {
 		Label title = new Label("Options", labelStyle);
 		return title;
 	}
-	
+
 	private void addYourName() {
 		Label yourNameLabel = new Label("Your Name", labelStyle57);
 		table.add(yourNameLabel).center().colspan(2).padBottom(24);
@@ -95,6 +94,7 @@ public class OptionsScreen extends SettingsScreen {
 		if (persistence.isInPlay()) {
 			yourNameTextField.setDisabled(true);
 			yourNameTextField.addListener(new ClickListener() {
+				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					Sound.missClick();
 					textFieldFeedback.setText("Cannot edit during game");
@@ -121,7 +121,7 @@ public class OptionsScreen extends SettingsScreen {
 		table.add(gridLine).center().colspan(2).padBottom(40);
 		table.row();
 	}
-	
+
 	private void addSound(Persistence persistence) {
 		Label soundLabel = new Label("Sound", labelStyle57);
 		table.add(soundLabel).right().padRight(48).padBottom(24);
@@ -175,7 +175,7 @@ public class OptionsScreen extends SettingsScreen {
 	private void addTextFieldFeedback() {
 		textFieldFeedback = new Label(" ", labelStyle57);
 		table.add(textFieldFeedback).center().colspan(2);
-		table.row();		
+		table.row();
 	}
 
 	private void addNavigationButton() {

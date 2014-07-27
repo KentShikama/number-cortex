@@ -99,7 +99,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		} else {
 			groupState = GroupState.CLICKABLE;
 		}
-		
+
 		addGridLines();
 
 		addPlayerOneName(persistence, groupState);
@@ -114,7 +114,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 
 		addDiagonalsGroup(groupState);
 		addFourSquaresGroup(groupState);
-		
+
 		if (persistence.isInPlay()) {
 			addResumeButton();
 		} else {

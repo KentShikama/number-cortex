@@ -7,7 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.ModeTracker.Mode;
@@ -42,9 +42,11 @@ public class Launch extends Game {
 		backgroundStage = buildBackground();
 	}
 	private Stage buildBackground() {
-		FillViewport stretchViewport = new FillViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
-		Stage backgroundStage = new Stage(stretchViewport);
-		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture);
+		ExtendViewport extendViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT,
+				(float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
+		Stage backgroundStage = new Stage(extendViewport);
+		float worldWidth = extendViewport.getWorldWidth();
+		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture, worldWidth);
 		backgroundStage.addActor(background);
 		return backgroundStage;
 	}
@@ -62,6 +64,7 @@ public class Launch extends Game {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
+		backgroundStage = buildBackground();
 		Screen currentScreen = this.getScreen();
 		if (currentScreen instanceof PlayScreen) {
 			GameManager gameManager;

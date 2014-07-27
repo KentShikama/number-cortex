@@ -18,11 +18,7 @@ class Background extends Actor {
 	Background(Color backgroundProperty, float worldWidth) {
 		this(backgroundProperty, null, worldWidth);
 	}
-	Background(Color backgroundProperty, Texture backgroundTexture) {
-		this(backgroundProperty, backgroundTexture, Launch.SCREEN_WIDTH);
-
-	}
-	private Background(Color backgroundProperty, Texture backgroundTexture, float worldWidth) {
+	Background(Color backgroundProperty, Texture backgroundTexture, float worldWidth) {
 		this.backgroundProperty = backgroundProperty;
 		this.backgroundTexture = backgroundTexture;
 		this.worldWidth = worldWidth;
@@ -39,7 +35,7 @@ class Background extends Actor {
 		shapeRenderer.end();
 		batch.begin();
 		if (backgroundTexture != null) {
-			batch.draw(backgroundTexture, 0, 0);
+			batch.draw(backgroundTexture, 0, 0, worldWidth, (float) (worldWidth * 1.775));
 		}
 	}
 

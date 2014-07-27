@@ -24,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.GameSettings;
-import com.numbercortex.Persistence;
 
 public abstract class SettingsScreen extends GameScreen {
 
@@ -48,7 +47,7 @@ public abstract class SettingsScreen extends GameScreen {
 		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle57;
 	}
-	
+
 	static TextField.TextFieldStyle textFieldStyle = buildTextFieldStyle();
 	static TextField.TextFieldStyle buildTextFieldStyle() {
 		TextureRegion textFieldTexture = Assets.settingsSkin.getRegion("name_texfield");
@@ -244,8 +243,7 @@ public abstract class SettingsScreen extends GameScreen {
 	void addMiddleEdge(GroupState state) {
 		Label middleEdgeLabel = buildMiddleEdgeLabel();
 		ImageButton middleEdgeCheckbox = buildMiddleEdgeCheckbox();
-		CheckboxSettingGroup middleEdgeGroup = new CheckboxSettingGroup(middleEdgeLabel, middleEdgeCheckbox,
-				state);
+		CheckboxSettingGroup middleEdgeGroup = new CheckboxSettingGroup(middleEdgeLabel, middleEdgeCheckbox, state);
 		stage.addActor(middleEdgeGroup);
 	}
 	private Label buildMiddleEdgeLabel() {
