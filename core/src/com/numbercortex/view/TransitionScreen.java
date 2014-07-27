@@ -28,7 +28,7 @@ public class TransitionScreen extends GameScreen {
 	}
 
 	public void transition(Direction direction, GameScreen nextScreen) {
-		transition(direction, nextScreen, 0.35f);
+		transition(direction, nextScreen, 0.4f);
 	}
 
 	private void transition(Direction direction, GameScreen nextScreen, float duration) {
@@ -56,24 +56,53 @@ public class TransitionScreen extends GameScreen {
 		
 		game.setScreen(this);
 
-		SequenceAction action = Actions.sequence(Actions.fadeOut(0.0001f),
-				Actions.fadeIn(duration));
-		nextScreen.stage.addAction(action);
-		currentScreen.stage.addAction(Actions.sequence(Actions.fadeOut(duration), Actions.run(new Runnable() {
-			@Override
-			public void run() {
-				game.setScreen(nextScreen);
-				if (nextScreen instanceof PlayScreen) {
-					GameManager gameManager;
-					if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-						gameManager = SinglePlayerGameManager.getInstance();
-					} else {
-						gameManager = TwoPlayerGameManager.getInstance();
+		if (direction == Direction.LEFT) {
+			nextScreen.stage.getRoot().setPosition(-nextScreen.stage.getWidth(), 0);
+			SequenceAction fadeAction = Actions.sequence(Actions.fadeOut(0.0001f),
+					Actions.fadeIn(duration));
+			MoveToAction moveNextScreenIn = Actions.moveTo(0, 0, duration, Interpolation.exp10Out);
+			nextScreen.stage.addAction(Actions.parallel(fadeAction, moveNextScreenIn));
+			MoveToAction moveCurrentScreenOut = Actions.moveTo(currentScreen.stage.getWidth(), 0, duration, Interpolation.exp10Out);
+			AlphaAction fadeOutAction = Actions.fadeOut((float) (duration/1.5), Interpolation.exp10Out);
+			currentScreen.stage.addAction(Actions.sequence(Actions.parallel(moveCurrentScreenOut, fadeOutAction), Actions.run(new Runnable() {
+				@Override
+				public void run() {
+					game.setScreen(nextScreen);
+					if (nextScreen instanceof PlayScreen) {
+						GameManager gameManager;
+						if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+							gameManager = SinglePlayerGameManager.getInstance();
+						} else {
+							gameManager = TwoPlayerGameManager.getInstance();
+						}
+						gameManager.resumeGame();
 					}
-					gameManager.resumeGame();
 				}
-			}
-		})));
+			})));
+		} else {
+			nextScreen.stage.getRoot().setPosition(nextScreen.stage.getWidth(), 0);
+			SequenceAction fadeAction = Actions.sequence(Actions.fadeOut(0.0001f),
+					Actions.fadeIn(duration));
+			MoveToAction moveNextScreenIn = Actions.moveTo(0, 0, duration, Interpolation.exp10Out);
+			nextScreen.stage.addAction(Actions.parallel(fadeAction, moveNextScreenIn));
+			MoveToAction moveCurrentScreenOut = Actions.moveTo(-currentScreen.stage.getWidth(), 0, duration, Interpolation.exp10Out);
+			AlphaAction fadeOutAction = Actions.fadeOut((float) (duration/1.5), Interpolation.exp10Out);
+			currentScreen.stage.addAction(Actions.sequence(Actions.parallel(moveCurrentScreenOut, fadeOutAction), Actions.run(new Runnable() {
+				@Override
+				public void run() {
+					game.setScreen(nextScreen);
+					if (nextScreen instanceof PlayScreen) {
+						GameManager gameManager;
+						if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+							gameManager = SinglePlayerGameManager.getInstance();
+						} else {
+							gameManager = TwoPlayerGameManager.getInstance();
+						}
+						gameManager.resumeGame();
+					}
+				}
+			})));
+		}
 	}
 
 	@Override
