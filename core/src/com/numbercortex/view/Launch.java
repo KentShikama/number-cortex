@@ -37,7 +37,6 @@ public class Launch extends Game {
 		loadAndAssignStartingAssets();
 		loadAssets();
 		fps = new FPSLogger();
-
 	}
 	private void loadAndAssignStartingAssets() {
 		Assets.manager = new AssetManager();
@@ -69,13 +68,7 @@ public class Launch extends Game {
 		super.resize(width, height);
 		addBackground();
 		if (this.getScreen() instanceof PlayScreen) {
-			GameManager gameManager;
-			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-				gameManager = SinglePlayerGameManager.getInstance();
-			} else {
-				gameManager = TwoPlayerGameManager.getInstance();
-			}
-			gameManager.resumeGame();
+			resumeGame();
 		}
 	}
 	private void addBackground() {
@@ -87,6 +80,16 @@ public class Launch extends Game {
 		numberBackgroundStage.addActor(numberBackground);
 		plainBackgroundStage.addActor(plainBackground);
 	}
+	private void resumeGame() {
+		GameManager gameManager;
+		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+			gameManager = SinglePlayerGameManager.getInstance();
+		} else {
+			gameManager = TwoPlayerGameManager.getInstance();
+		}
+		gameManager.resumeGame();
+	}
+
 	
 	@Override
 	public void render() {
@@ -100,6 +103,18 @@ public class Launch extends Game {
 			renderBackground();
 		}
 	}
+	private void renderBackground() {
+		int screenWidth = Gdx.graphics.getWidth();
+		int screenHeight = Gdx.graphics.getHeight();
+		if (this.getScreen() instanceof PlayScreen || this.getScreen() == null) {
+			plainBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
+			plainBackgroundStage.draw();
+		} else {
+			numberBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
+			numberBackgroundStage.draw();
+		}
+	}
+	
 	private void assignAssetsAndShowGameIfApplicable() {
 		if (!assigned) {
 			Assets.assignHomeScreen();
@@ -147,17 +162,7 @@ public class Launch extends Game {
 			gameManager.resumeGame();
 		}
 	}
-	private void renderBackground() {
-		int screenWidth = Gdx.graphics.getWidth();
-		int screenHeight = Gdx.graphics.getHeight();
-		if (this.getScreen() instanceof PlayScreen || this.getScreen() == null) {
-			plainBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
-			plainBackgroundStage.draw();
-		} else {
-			numberBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
-			numberBackgroundStage.draw();
-		}
-	}
+
 
 	@Override
 	public void pause() {
