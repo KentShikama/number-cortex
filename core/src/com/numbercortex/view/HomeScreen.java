@@ -92,7 +92,7 @@ abstract class HomeScreen extends GameScreen {
 
 	private static final int FIRST_BUTTON_CENTER_OFFSET_Y = 734;
 
-	private Stage mainStage;
+	private Stage stage;
 
 	HomeScreen(Game game) {
 		super(game);
@@ -101,13 +101,13 @@ abstract class HomeScreen extends GameScreen {
 	@Override
 	public void show() {
 		FitViewport fitViewport = new FitViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT);
-		mainStage = new Stage(fitViewport);
-		Gdx.input.setInputProcessor(mainStage);
+		stage = new Stage(fitViewport);
+		Gdx.input.setInputProcessor(stage);
 		setUpBackKeyCatch();
-		buildTitle(mainStage);
-		buildButtons(mainStage);
-		buildLineExtension(mainStage);
-		buildBottomNavigation(mainStage);
+		buildTitle(stage);
+		buildButtons(stage);
+		buildLineExtension(stage);
+		buildBottomNavigation(stage);
 	}
 	abstract void setUpBackKeyCatch();
 	private void buildTitle(Stage stage) {
@@ -130,13 +130,13 @@ abstract class HomeScreen extends GameScreen {
 	@Override
 	public void render(float delta) {
 		handleBackKey();
-		mainStage.act(delta);
-		mainStage.draw();
+		stage.act(delta);
+		stage.draw();
 	}
 	abstract void handleBackKey();
 
 	@Override
 	public void resize(int width, int height) {
-		mainStage.getViewport().update(width, height, true);
+		stage.getViewport().update(width, height, true);
 	}
 }
