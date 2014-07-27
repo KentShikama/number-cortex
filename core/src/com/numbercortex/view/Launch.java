@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -26,20 +27,25 @@ public class Launch extends Game {
 	public static final Color RETRO_RED = new Color(200f / 255, 99f / 255, 91f / 255, 1);
 	public static final Color BRIGHT_YELLOW = new Color(250f / 255, 235f / 255, 102f / 255, 1);
 
-	private Stage backgroundStage;
+	private Stage numberBackgroundStage;
+	private Stage plainBackgroundStage;
 	private boolean assigned;
+	private FPSLogger fps;
 
 	@Override
 	public void create() {
 		loadAndAssignStartingAssets();
 		loadAssets();
+		fps = new FPSLogger();
+
 	}
 	private void loadAndAssignStartingAssets() {
 		Assets.manager = new AssetManager();
 		Assets.loadBackground();
 		Assets.manager.finishLoading();
 		Assets.assignBackgroundScreen();
-		backgroundStage = buildBackgroundStage();
+		numberBackgroundStage = buildBackgroundStage();
+		plainBackgroundStage = buildBackgroundStage();
 	}
 	private Stage buildBackgroundStage() {
 		ExtendViewport extendViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT,
@@ -73,18 +79,22 @@ public class Launch extends Game {
 		}
 	}
 	private void addBackground() {
-		backgroundStage.clear();
-		float worldWidth = backgroundStage.getViewport().getWorldWidth();
-		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture, worldWidth);
-		backgroundStage.addActor(background);
+		numberBackgroundStage.clear();
+		plainBackgroundStage.clear();
+		float worldWidth = numberBackgroundStage.getViewport().getWorldWidth();
+		Background numberBackground = new Background(Launch.SEA_BLUE, Assets.backgroundTexture, worldWidth);
+		Background plainBackground = new Background(Launch.SEA_BLUE, worldWidth);
+		numberBackgroundStage.addActor(numberBackground);
+		plainBackgroundStage.addActor(plainBackground);
 	}
-
+	
 	@Override
 	public void render() {
+		fps.log();
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (Assets.manager.update()) {
 			assignAssetsAndShowGameIfApplicable();
-			renderBackgroundIfApplicable();
+			renderBackground();
 			super.render();
 		} else {
 			renderBackground();
@@ -137,16 +147,16 @@ public class Launch extends Game {
 			gameManager.resumeGame();
 		}
 	}
-	private void renderBackgroundIfApplicable() {
-//		if (!(this.getScreen() instanceof PlayScreen)) {
-			renderBackground();
-//		}
-	}
 	private void renderBackground() {
 		int screenWidth = Gdx.graphics.getWidth();
 		int screenHeight = Gdx.graphics.getHeight();
-		backgroundStage.getViewport().update(screenWidth, screenHeight, true);
-		backgroundStage.draw();
+		if (this.getScreen() instanceof PlayScreen || this.getScreen() == null) {
+			plainBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
+			plainBackgroundStage.draw();
+		} else {
+			numberBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
+			numberBackgroundStage.draw();
+		}
 	}
 
 	@Override

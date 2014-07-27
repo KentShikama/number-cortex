@@ -76,25 +76,11 @@ class PlayScreen extends GameScreen implements Playable {
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 		stage.clear();
-		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
 		buildNumberScroller();
 		buildBottomButtons();
 		board.clearBoard();
-	}
-	private void buildBackground(Persistence preferences) {
-		Color backgroundProperty = getBackgroundColor(preferences);
-		float worldWidth = stage.getViewport().getWorldWidth();
-		Background background = new Background(backgroundProperty, worldWidth);
-		stage.addActor(background);
-	}
-	private Color getBackgroundColor(Persistence preferences) {
-		if (preferences.isBlue()) {
-			return Launch.SEA_BLUE;
-		} else {
-			return Launch.RETRO_RED;
-		}
 	}
 	private void buildMessageArea(Game game) {
 		messageArea = MessageArea.createMessageArea(stage, game);

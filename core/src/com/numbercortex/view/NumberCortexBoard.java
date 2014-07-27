@@ -119,12 +119,17 @@ class NumberCortexBoard {
 	}
 	private static void addCellsToStageIfAbsent(Stage stage, NumberCortexBoard instance) {
 		for (NumberTextButton cell : instance.cells) {
-			for (Actor actor : stage.getActors()) {
-				if (actor == cell) {
-					continue;
-				}
+			if (stage.getActors().size == 0) {
 				cell.setText("");
 				stage.addActor(cell);
+			} else {
+				for (Actor actor : stage.getActors()) {
+					if (actor == cell) {
+						continue;
+					}
+					cell.setText("");
+					stage.addActor(cell);
+				}
 			}
 		}
 	}
