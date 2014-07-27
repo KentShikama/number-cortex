@@ -57,13 +57,12 @@ public class Launch extends Game {
 		Assets.loadAndAssignFonts();
 		assigned = false;
 	}
-
+	
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		addBackground();
-		Screen currentScreen = this.getScreen();
-		if (currentScreen instanceof PlayScreen) {
+		if (this.getScreen() instanceof PlayScreen) {
 			GameManager gameManager;
 			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 				gameManager = SinglePlayerGameManager.getInstance();
@@ -139,16 +138,15 @@ public class Launch extends Game {
 		}
 	}
 	private void renderBackgroundIfApplicable() {
-		if (!(this.getScreen() instanceof PlayScreen)) {
+//		if (!(this.getScreen() instanceof PlayScreen)) {
 			renderBackground();
-		}
+//		}
 	}
 	private void renderBackground() {
 		int screenWidth = Gdx.graphics.getWidth();
 		int screenHeight = Gdx.graphics.getHeight();
 		backgroundStage.getViewport().update(screenWidth, screenHeight, true);
 		backgroundStage.draw();
-		super.resize(screenWidth, screenHeight);
 	}
 
 	@Override

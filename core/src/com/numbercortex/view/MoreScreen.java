@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.Persistence;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 public class MoreScreen extends HomeScreen {
 
@@ -54,7 +55,7 @@ public class MoreScreen extends HomeScreen {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
-			game.setScreen(ScreenTracker.titleScreen);
+			ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 		}
 	}
 	@Override

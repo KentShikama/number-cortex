@@ -27,7 +27,6 @@ import com.numbercortex.GameSettings;
 
 public abstract class SettingsScreen extends GameScreen {
 
-	Stage stage;
 	GameSettings gameSettings;
 
 	static Label.LabelStyle labelStyle50 = buildLabelStyle50();
@@ -359,6 +358,7 @@ public abstract class SettingsScreen extends GameScreen {
 
 	@Override
 	public void render(float delta) {
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		stage.act(delta);
 		stage.draw();
 	}

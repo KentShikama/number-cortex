@@ -22,6 +22,7 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 class SinglePlayerSettingsScreen extends SettingsScreen {
 
@@ -198,7 +199,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				GameManager manager = SinglePlayerGameManager.createNewGameManager();
-				game.setScreen(ScreenTracker.playScreen);
+				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 				manager.startNewGame();
 			}
 		};
@@ -234,13 +235,13 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 			if (persistence.isInPlay()) {
 				resumeAction();
 			} else {
-				game.setScreen(ScreenTracker.levelsScreen);
+				ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.levelsScreen);
 			}
 		}
 	}
 	private void resumeAction() {
 		GameManager manager = SinglePlayerGameManager.getInstance();
-		game.setScreen(ScreenTracker.playScreen);
+		ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 		manager.resumeGame();
 	}
 	@Override

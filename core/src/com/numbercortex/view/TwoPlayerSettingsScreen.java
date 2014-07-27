@@ -22,6 +22,7 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 class TwoPlayerSettingsScreen extends SettingsScreen {
 
@@ -251,7 +252,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				saveUnsyncedPreferences();
 				GameManager manager = TwoPlayerGameManager.createNewGameManager();
-				game.setScreen(ScreenTracker.playScreen);
+				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 				manager.startNewGame();
 			}
 		};
@@ -283,14 +284,14 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			if (persistence.isInPlay()) {
 				resumeAction();
 			} else {
-				game.setScreen(ScreenTracker.titleScreen);
+				ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 			}
 		}
 		super.render(delta);
 	}
 	private void resumeAction() {
 		GameManager manager = TwoPlayerGameManager.getInstance();
-		game.setScreen(ScreenTracker.playScreen);
+		ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 		manager.resumeGame();
 	}
 	@Override

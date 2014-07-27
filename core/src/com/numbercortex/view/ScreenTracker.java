@@ -17,6 +17,8 @@ public class ScreenTracker {
 	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
 	public static PlayScreen playScreen;
 	public static OptionsScreen optionsScreen;
+	
+	public static TransitionScreen transitionScreen;
 
 	public static void initializeScreens(Launch game) {
 		titleScreen = new TitleScreen(game);
@@ -27,6 +29,8 @@ public class ScreenTracker {
 		levelsScreen = new LevelsScreen(game);
 		playScreen = new PlayScreen(game);
 		optionsScreen = new OptionsScreen(game);
+		
+		transitionScreen = new TransitionScreen(game);
 	}
 
 	private static Map<String, Screen> screenMap;
@@ -62,6 +66,7 @@ public class ScreenTracker {
 		levelsScreen = null;
 		playScreen = null;
 		optionsScreen = null;
+		transitionScreen = null;
 		screenMap = null;
 	}
 }

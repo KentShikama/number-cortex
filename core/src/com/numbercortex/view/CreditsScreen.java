@@ -11,11 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.Persistence;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 public class CreditsScreen extends GameScreen {
 
 	public static final String TAG = "Credits Screen";
-	private Stage stage;
 
 	private ArrayList<String> contentBlocks = new ArrayList<String>();
 
@@ -86,6 +86,7 @@ public class CreditsScreen extends GameScreen {
 
 	@Override
 	public void render(float delta) {
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		handleBackKey();
 		stage.act(delta);
 		stage.draw();
@@ -95,7 +96,7 @@ public class CreditsScreen extends GameScreen {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
-			game.setScreen(ScreenTracker.moreScreen);
+			ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.moreScreen);
 		}
 	}
 	@Override

@@ -22,6 +22,7 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.InteractableSendable;
 import com.numbercortex.logic.Player;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 class MessageArea {
 
@@ -142,7 +143,7 @@ class MessageArea {
 		menuButton.addListener(new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(ScreenTracker.titleScreen);
+				ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 			}
 		});
 		return menuButton;
@@ -156,9 +157,9 @@ class MessageArea {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+					ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.singlePlayerSettingsScreen);
 				} else {
-					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);
+					ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.twoPlayerSettingsScreen);
 				}
 			}
 		});
@@ -176,7 +177,7 @@ class MessageArea {
 				int currentLevel = persistence.getCurrentLevel();
 				int nextLevel = currentLevel + 1;
 				persistence.setCurrentLevel(nextLevel);
-				game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+				ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.singlePlayerSettingsScreen);
 			}
 		});
 		return continueButton;

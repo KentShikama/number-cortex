@@ -16,6 +16,7 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 abstract class HomeScreen extends GameScreen {
 	class HomeScreenButton extends Group {
@@ -72,7 +73,8 @@ abstract class HomeScreen extends GameScreen {
 					startFirstGame();
 				} else {
 					ModeTracker.mode = mode;
-					game.setScreen(screen);
+					ScreenTracker.transitionScreen.transition(Direction.RIGHT, (GameScreen) screen);
+//					game.setScreen(screen);
 				}
 			}
 		}
@@ -82,7 +84,7 @@ abstract class HomeScreen extends GameScreen {
 		private void startFirstGame() {
 			ModeTracker.mode = mode;
 			GameManager manager = SinglePlayerGameManager.createNewGameManager();
-			game.setScreen(ScreenTracker.playScreen);
+			ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 			manager.startNewGame();
 		}
 	}
@@ -91,8 +93,6 @@ abstract class HomeScreen extends GameScreen {
 	private static final String LINE_EXTENSION = "line_extension";
 
 	private static final int FIRST_BUTTON_CENTER_OFFSET_Y = 734;
-
-	private Stage stage;
 
 	HomeScreen(Game game) {
 		super(game);
@@ -129,6 +129,7 @@ abstract class HomeScreen extends GameScreen {
 
 	@Override
 	public void render(float delta) {
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		handleBackKey();
 		stage.act(delta);
 		stage.draw();

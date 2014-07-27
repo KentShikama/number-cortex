@@ -18,12 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 class LevelsScreen extends GameScreen {
 
 	public static final String TAG = "Levels Screen";
 
-	private Stage stage;
 	private Table table = new Table();
 
 	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
@@ -70,7 +70,7 @@ class LevelsScreen extends GameScreen {
 				if (!button.isDisabled()) {
 					Persistence persistence = Persistence.getInstance();
 					persistence.setCurrentLevel(level);
-					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+					ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.singlePlayerSettingsScreen);
 				}
 			}
 		};
@@ -185,6 +185,7 @@ class LevelsScreen extends GameScreen {
 	}
 	@Override
 	public void render(float delta) {
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		handleBackKey();
 		stage.act(delta);
 		stage.draw();
@@ -194,7 +195,7 @@ class LevelsScreen extends GameScreen {
 			backKey = true;
 		} else if (backKey) {
 			backKey = false;
-			game.setScreen(ScreenTracker.titleScreen);
+			ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 		}
 	}
 	@Override

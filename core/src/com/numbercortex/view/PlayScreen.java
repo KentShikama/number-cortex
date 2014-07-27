@@ -34,6 +34,7 @@ import com.numbercortex.logic.Playable;
 import com.numbercortex.logic.Player;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 class PlayScreen extends GameScreen implements Playable {
 
@@ -43,8 +44,6 @@ class PlayScreen extends GameScreen implements Playable {
 	private NumberScroller numberScroller;
 	private MessageArea messageArea;
 	private DragAndDropHandler handler = DragAndDropHandler.getInstance();
-
-	private Stage stage;
 
 	private GameSettings settings;
 	private Persistence preferences;
@@ -71,6 +70,7 @@ class PlayScreen extends GameScreen implements Playable {
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
 		Sound.loopGameBGM();
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	@Override
 	public void resize(int width, int height) {
@@ -141,9 +141,9 @@ class PlayScreen extends GameScreen implements Playable {
 			public void clicked(InputEvent event, float x, float y) {
 				Sound.pauseGameBGM();
 				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-					game.setScreen(ScreenTracker.singlePlayerSettingsScreen);
+					ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.singlePlayerSettingsScreen);
 				} else {
-					game.setScreen(ScreenTracker.twoPlayerSettingsScreen);
+					ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.twoPlayerSettingsScreen);
 				}
 			}
 		});
@@ -157,7 +157,7 @@ class PlayScreen extends GameScreen implements Playable {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Sound.pauseGameBGM();
-				game.setScreen(ScreenTracker.optionsScreen);
+				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.optionsScreen);
 			}
 		});
 		stage.addActor(optionsButton);
@@ -342,6 +342,7 @@ class PlayScreen extends GameScreen implements Playable {
 
 	@Override
 	public void render(float delta) {
+		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		handleBackKey();
 		stage.act(delta);
 		stage.draw();
@@ -358,7 +359,7 @@ class PlayScreen extends GameScreen implements Playable {
 		boolean dialogAlreadyExists = checkIfDialogAlreadyExists();
 		final Persistence persistence = Persistence.getInstance();
 		if (!persistence.isInPlay()) {
-			game.setScreen(ScreenTracker.titleScreen);
+			ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 		} else if (!dialogAlreadyExists) {
 			Dialog dialog = buildQuitCancelDialog();
 			dialog.show(stage);
@@ -371,7 +372,7 @@ class PlayScreen extends GameScreen implements Playable {
 				Persistence persistence = Persistence.getInstance();
 				persistence.setInPlay(false);
 				Sound.stopGameBGM();
-				game.setScreen(ScreenTracker.titleScreen);
+				ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 			}
 		});
 		return dialog;

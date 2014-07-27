@@ -19,6 +19,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 public class OptionsScreen extends SettingsScreen {
 
@@ -195,7 +196,7 @@ public class OptionsScreen extends SettingsScreen {
 			listener = new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					game.setScreen(ScreenTracker.titleScreen);
+					ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 				}
 			};
 		}
@@ -205,6 +206,7 @@ public class OptionsScreen extends SettingsScreen {
 
 	@Override
 	public void render(float delta) {
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		handleBackKey();
 		stage.act(delta);
 		stage.draw();
@@ -222,12 +224,12 @@ public class OptionsScreen extends SettingsScreen {
 		if (persistence.isInPlay()) {
 			resumeAction();
 		} else {
-			game.setScreen(ScreenTracker.titleScreen);
+			ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 		}
 	}
 	private void resumeAction() {
 		GameManager manager = getGameManagerInstance();
-		game.setScreen(ScreenTracker.playScreen);
+		ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.playScreen);
 		manager.resumeGame();
 	}
 	@Override

@@ -11,8 +11,6 @@ import java.util.Map;
 
 class HumanPlayer implements Player, InteractableSendable {
 
-	private static final String TAG = HumanPlayer.class.getCanonicalName();
-
 	private String name;
 	private Playable screen;
 	private GameManager messenger;
