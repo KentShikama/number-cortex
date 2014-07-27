@@ -74,6 +74,7 @@ public class Launch extends Game {
 		}
 	}
 	private void addBackground() {
+		backgroundStage.clear();
 		float worldWidth = backgroundStage.getViewport().getWorldWidth();
 		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture, worldWidth);
 		backgroundStage.addActor(background);

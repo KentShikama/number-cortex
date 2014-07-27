@@ -75,6 +75,7 @@ class PlayScreen extends GameScreen implements Playable {
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+		stage.clear();
 		buildBackground(preferences);
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
