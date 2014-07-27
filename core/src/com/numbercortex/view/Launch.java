@@ -39,15 +39,12 @@ public class Launch extends Game {
 		Assets.loadBackground();
 		Assets.manager.finishLoading();
 		Assets.assignBackgroundScreen();
-		backgroundStage = buildBackground();
+		backgroundStage = buildBackgroundStage();
 	}
-	private Stage buildBackground() {
+	private Stage buildBackgroundStage() {
 		ExtendViewport extendViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT,
 				(float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
 		Stage backgroundStage = new Stage(extendViewport);
-		float worldWidth = extendViewport.getWorldWidth();
-		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture, worldWidth);
-		backgroundStage.addActor(background);
 		return backgroundStage;
 	}
 	private void loadAssets() {
@@ -64,7 +61,7 @@ public class Launch extends Game {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		backgroundStage = buildBackground();
+		addBackground();
 		Screen currentScreen = this.getScreen();
 		if (currentScreen instanceof PlayScreen) {
 			GameManager gameManager;
@@ -75,6 +72,11 @@ public class Launch extends Game {
 			}
 			gameManager.resumeGame();
 		}
+	}
+	private void addBackground() {
+		float worldWidth = backgroundStage.getViewport().getWorldWidth();
+		Background background = new Background(Launch.SEA_BLUE, Assets.backgroundTexture, worldWidth);
+		backgroundStage.addActor(background);
 	}
 
 	@Override
