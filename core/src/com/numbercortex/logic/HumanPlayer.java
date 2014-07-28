@@ -46,6 +46,16 @@ class HumanPlayer implements Player, InteractableSendable {
 			screen.flashChosenNumber(chosenNumber);
 		}
 	}
+	
+	@Override
+	public void handleConfirmedSingleTap(int tappedNumber) {
+		int chosenNumber = state.getChosenNumber();
+		if (chosenNumber != -1 && !nextCoordinateChosen) {
+			Sound.missClick();
+			screen.flashChosenNumber(chosenNumber);
+		}
+	}
+
 
 	@Override
 	public void placeNumber(String player, int coordinate) {

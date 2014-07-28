@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.numbercortex.logic.InteractableSendable;
 
 class NumberScroller {
@@ -59,10 +60,17 @@ class NumberScroller {
 				return;
 			}
 			int tapCount = this.getTapCount();
+			final int number = getClickedNumber(event);
 			if (tapCount >= 2) {
 				Timer.instance().clear();
-				int number = getClickedNumber(event);
 				messenger.chooseNumber(null, number);
+			} else {
+				Timer.schedule(new Task() {
+					@Override
+					public void run() {
+						messenger.handleConfirmedSingleTap(number);
+					}
+				}, 0.4f);
 			}
 		}
 		private int getClickedNumber(InputEvent event) {

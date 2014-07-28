@@ -219,7 +219,7 @@ class MessageArea {
 		nextNumberSquare.addAction(repeatAction);
 	}
 	private RepeatAction buildRepeatableFlashingAction(int chosenNumber) {
-		DelayAction delayAction = Actions.delay(0.5f);
+		DelayAction delayAction = Actions.delay(0.3f);
 		Action toggleAction = buildToggleAction(chosenNumber);
 		SequenceAction sequence = Actions.sequence(toggleAction, delayAction);
 		RepeatAction repeatAction = new RepeatAction();
