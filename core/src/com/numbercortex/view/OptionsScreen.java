@@ -125,7 +125,7 @@ class OptionsScreen extends SettingsScreen {
 		table.add(gridLine).center().height(4).colspan(2).padBottom(28);
 		table.row();
 	}
-	
+
 	private void addDoubleTap(Persistence persistence) {
 		Label doubleTapLabel = new Label("Double Tap\nto Choose", labelStyle57);
 		doubleTapLabel.setAlignment(Align.center);

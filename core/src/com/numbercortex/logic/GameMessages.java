@@ -14,7 +14,7 @@ class GameMessages {
 		} else if (turnCount == 4) {
 			return new String[] { "Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits." };
 		} else if (turnCount == 7) {
-			return new String[] { "Note that you and your opponent share the same set of numbers. Good luck!"};
+			return new String[] { "Note that you and your opponent share the same set of numbers. Good luck!" };
 		}
 		return null;
 	}

@@ -45,10 +45,10 @@ class TransitionScreen extends GameScreen {
 			final float duration) {
 		this.currentScreen = currentScreen;
 		this.nextScreen = nextScreen;
-		
+
 		currentScreen.hide();
 		nextScreen.show();
-		
+
 		game.setScreen(this);
 		animateNextScreen(direction, nextScreen, duration);
 		animateCurrentScreenAndSwitchScreens(direction, currentScreen, nextScreen, duration);
@@ -66,12 +66,10 @@ class TransitionScreen extends GameScreen {
 	private void animateCurrentScreenAndSwitchScreens(Direction direction, final GameScreen currentScreen,
 			final GameScreen nextScreen, final float duration) {
 		MoveToAction moveCurrentScreenOut;
-		if (direction == Direction.LEFT) {			
-			moveCurrentScreenOut = Actions.moveTo(currentScreen.stage.getWidth(), 0, duration,
-					Interpolation.exp10Out);
-		} else {			
-			moveCurrentScreenOut = Actions.moveTo(-currentScreen.stage.getWidth(), 0, duration,
-					Interpolation.exp10Out);
+		if (direction == Direction.LEFT) {
+			moveCurrentScreenOut = Actions.moveTo(currentScreen.stage.getWidth(), 0, duration, Interpolation.exp10Out);
+		} else {
+			moveCurrentScreenOut = Actions.moveTo(-currentScreen.stage.getWidth(), 0, duration, Interpolation.exp10Out);
 		}
 		AlphaAction fadeOutAction = Actions.fadeOut((float) (duration / 1.5), Interpolation.exp10Out);
 		ParallelAction fadeAndMoveOutCurrentScreen = Actions.parallel(moveCurrentScreenOut, fadeOutAction);
