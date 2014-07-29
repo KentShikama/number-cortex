@@ -99,12 +99,11 @@ public class SinglePlayerGameManager implements GameManager {
 
 	@Override
 	public void resumeGame() {
-		if (state == null) {
-			return;
-		}
-		updateState(state);
-		if (Persistence.getInstance().isInPlay()) {
-			Sound.loopGameBGM();
+		if (state != null) {
+			updateState(state);
+			if (Persistence.getInstance().isInPlay()) {
+				Sound.loopGameBGM();
+			}		
 		}
 	}
 
@@ -136,44 +135,23 @@ public class SinglePlayerGameManager implements GameManager {
 	@Override
 	public void updateState(CortexState state) {
 		this.state = state;
-		this.currentPlayer = state.getCurrentPlayer();
-		updateCurrentPlayerState(state);
-	}
-	private void updateCurrentPlayerState(CortexState state) {
 		handleTutorialMessages(state);
-		handleLevelUnlockingIfApplicable(state);
-		for (Player player : players) {
-			String playerName = player.getName();
-			if (playerName.equals(currentPlayer)) {
-				player.updateState(state);
-			}
-		}
+		handleGameEndState(state);
+		updateCurrentPlayerState(state);
 	}
 	private void handleTutorialMessages(CortexState state) {
 		if (currentLevel == 0) {
 			int turnCount = BoardUtilities.getTurnNumber(state);
-			String[] messages = getTutorialMessage(turnCount);
+			String[] messages = GameMessages.getTutorialMessage(turnCount);
 			if (messages != null) {
 				screen.showConfirmationDialog(messages);
 			}
 		}
 	}
-	private String[] getTutorialMessage(int turnCount) {
-		if (turnCount == 1) {
-			return new String[] {
-					"Welcome! Number Cortex is a game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on the board.",
-					"Go ahead and DRAG AND DROP the chosen number onto the board." };
-		} else if (turnCount == 2) {
-			return new String[] { "Number Cortex is unique because you get to choose which number your opponent will play next. DOUBLE TAP your opponents next number from the scroller below." };
-		} else if (turnCount == 5) {
-			return new String[] { "Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits. Good luck!" };
-		}
-		return null;
-	}
-	private void handleLevelUnlockingIfApplicable(CortexState state) {
+	private void handleGameEndState(CortexState state) {
 		if (Persistence.getInstance().isInPlay()) {
 			String winnerName = state.getWinner();
-			Player winner = getWinner(winnerName);
+			Player winner = getPlayerWithName(winnerName);
 			Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 			ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 			if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
@@ -185,15 +163,6 @@ public class SinglePlayerGameManager implements GameManager {
 				Sound.stopGameBGM();
 			}
 		}
-	}
-	private Player getWinner(String winnerName) {
-		for (Player player : players) {
-			String playerName = player.getName();
-			if (playerName.equals(winnerName)) {
-				return player;
-			}
-		}
-		return null;
 	}
 	private boolean playerWinsGame(Player winner) {
 		return winner != null && (winner instanceof InteractableSendable);
@@ -207,7 +176,7 @@ public class SinglePlayerGameManager implements GameManager {
 	private void unlockNextLevelIfOnMaxLevel(ArrayList<Integer> openCoordinates) {
 		int maxLevel = preferences.getMaxLevel();
 		if (currentLevel == maxLevel && currentLevel != 18) {
-			String message = getUnlockMessage(currentLevel);
+			String message = GameMessages.getUnlockMessage(currentLevel);
 			if (message != null) {
 				screen.showConfirmationDialog(5.1f, message); // Delay depends on winning animation
 			}
@@ -220,18 +189,17 @@ public class SinglePlayerGameManager implements GameManager {
 			preferences.setCurrentLevel(1);
 		}
 	}
-	private String getUnlockMessage(int currentLevel) {
-		switch (currentLevel) {
-			case 0:
-				return "Adjustments unlocked! You can now adjust the placement of a number once. Simply drag the placed number to a different square.";
-			case 3:
-				return "New rule: Primes and Composites! Adding to the current ruleset, you can make a 3-in-a-row of all primes (1*, 3, 5, 7, 9, 11, 13, 15, 17) or all composites (2, 4, 6, 8, 10, 12, 14, 16).";
-			case 6:
-				return "New rule: Middles and Edges! Adding to the current ruleset, you can make a 3-in-a-row of all middles (5 ~ 12) or all edges (1 ~ 4 and 13 ~ 17).";
-			case 9:
-				return "Board size increase! You must now make a 4-in-a-row of numbers of the same attribute in order to win.";
-			case 13:
-				return "Four squares unlocked! You may now make a 4-in-a-row by placing a set of winning numbers in a 2 x 2 square.";
+	private void updateCurrentPlayerState(CortexState state) {
+		this.currentPlayer = state.getCurrentPlayer();
+		Player player = getPlayerWithName(currentPlayer);
+		player.updateState(state);
+	}
+	private Player getPlayerWithName(String playerName) {
+		for (Player player : players) {
+			String currentIterationPlayerName = player.getName();
+			if (currentIterationPlayerName.equals(playerName)) {
+				return player;
+			}
 		}
 		return null;
 	}
