@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.CortexState;
@@ -43,6 +44,8 @@ public class OptionsScreen extends SettingsScreen {
 		addYourName();
 		addYourNameTextField(persistence);
 		addGridLine();
+		addDoubleTap(persistence);
+		addGridLine();
 		addSound(persistence);
 		addMusic(persistence);
 		addTextFieldFeedback();
@@ -61,7 +64,7 @@ public class OptionsScreen extends SettingsScreen {
 		titleTable.add(optionsTitle).right().pad(14);
 		titleTable.add(optionsIcon).left().pad(14).padTop(30);
 
-		table.add(titleTable).expandX().padTop(10).padBottom(80).colspan(2);
+		table.add(titleTable).expandX().padTop(28).padBottom(50).colspan(2);
 		table.row();
 	}
 	private Label buildTitle() {
@@ -80,7 +83,7 @@ public class OptionsScreen extends SettingsScreen {
 
 	private void addYourNameTextField(Persistence persistence) {
 		TextField yourNameField = buildYourNameTextField(persistence);
-		table.add(yourNameField).center().width(268).colspan(2).padBottom(60);
+		table.add(yourNameField).center().width(268).colspan(2).padBottom(40);
 		table.row();
 	}
 	private TextField buildYourNameTextField(Persistence persistence) {
@@ -119,8 +122,34 @@ public class OptionsScreen extends SettingsScreen {
 	private void addGridLine() {
 		TextureRegion gridLineTexture = Assets.settingsSkin.getRegion("grid_line");
 		Image gridLine = new Image(gridLineTexture);
-		table.add(gridLine).center().colspan(2).padBottom(40);
+		table.add(gridLine).center().height(4).colspan(2).padBottom(28);
 		table.row();
+	}
+	
+	private void addDoubleTap(Persistence persistence) {
+		Label doubleTapLabel = new Label("Double Tap\nto Choose", labelStyle57);
+		doubleTapLabel.setAlignment(Align.center);
+		table.add(doubleTapLabel).center().width(200).padBottom(20);
+		ImageButton doubleTapCheckbox = buildDoubleTapCheckbox(persistence);
+		table.add(doubleTapCheckbox).width(78).left().bottom().padBottom(50);
+		table.row();
+	}
+	private ImageButton buildDoubleTapCheckbox(final Persistence persistence) {
+		boolean isChecked = persistence.isSound();
+		final ImageButton doubleTapCheckbox = buildCheckbox(0, 0, isChecked);
+		doubleTapCheckbox.addListener(new ClickListenerWithSound() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				doubleTapCheckbox.setChecked(!doubleTapCheckbox.isChecked());
+			}
+		});
+		doubleTapCheckbox.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				persistence.setDoubleTap(doubleTapCheckbox.isChecked());
+			}
+		});
+		return doubleTapCheckbox;
 	}
 
 	private void addSound(Persistence persistence) {
@@ -150,9 +179,9 @@ public class OptionsScreen extends SettingsScreen {
 
 	private void addMusic(Persistence persistence) {
 		Label musicLabel = new Label("Music", labelStyle57);
-		table.add(musicLabel).right().padRight(48).padBottom(64);
+		table.add(musicLabel).right().padRight(48).padBottom(38);
 		ImageButton musicCheckbox = buildMusicCheckbox(persistence);
-		table.add(musicCheckbox).width(78).left().bottom().padBottom(64);
+		table.add(musicCheckbox).width(78).left().bottom().padBottom(38);
 		table.row();
 	}
 	private ImageButton buildMusicCheckbox(final Persistence persistence) {
