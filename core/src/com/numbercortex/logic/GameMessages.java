@@ -6,7 +6,7 @@ public class GameMessages {
 		if (turnCount == 1) {
 			return new String[] {
 					"Welcome! Number Cortex is a game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on the board.",
-					"Go ahead and DRAG AND DROP the chosen number onto the board." };
+					"DRAG AND DROP the chosen number (top right) onto the board." };
 		} else if (turnCount == 2) {
 			return new String[] { "Number Cortex is unique because you get to choose which number your opponent will play next. DOUBLE TAP your opponents next number from the scroller below." };
 		} else if (turnCount == 5) {
