@@ -267,7 +267,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				resumeAction();
+				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 			}
 		};
 		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
@@ -282,17 +282,12 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			backKey = false;
 			Persistence persistence = Persistence.getInstance();
 			if (persistence.isInPlay()) {
-				resumeAction();
+				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 			} else {
 				ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 			}
 		}
 		super.render(delta);
-	}
-	private void resumeAction() {
-		GameManager manager = TwoPlayerGameManager.getInstance();
-		ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
-		manager.resumeGame();
 	}
 	@Override
 	public void hide() {

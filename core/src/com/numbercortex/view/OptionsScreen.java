@@ -188,7 +188,7 @@ public class OptionsScreen extends SettingsScreen {
 			listener = new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					resumeAction();
+					ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.playScreen);
 				}
 			};
 		} else {
@@ -222,15 +222,10 @@ public class OptionsScreen extends SettingsScreen {
 	private void handleScreenSwitch() {
 		Persistence persistence = Persistence.getInstance();
 		if (persistence.isInPlay()) {
-			resumeAction();
+			ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.playScreen);
 		} else {
 			ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 		}
-	}
-	private void resumeAction() {
-		GameManager manager = getGameManagerInstance();
-		ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.playScreen);
-		manager.resumeGame();
 	}
 	@Override
 	public void pause() {
