@@ -119,7 +119,7 @@ public class Launch extends Game {
 		ModeTracker.mode = buildMode(persistence);
 		ScreenTracker.initializeScreens(this);
 		Screen screen = buildCurrentScreen(persistence);
-		GameManager gameManager = buildGameManager(persistence, screen);
+		recreateGameIfApplicable(persistence, screen);
 		setScreen(screen);
 	}
 	private Mode buildMode(Persistence persistence) {
@@ -131,17 +131,15 @@ public class Launch extends Game {
 		Screen screen = ScreenTracker.getScreen(currentScreenString);
 		return screen;
 	}
-	private GameManager buildGameManager(Persistence persistence, Screen screen) {
-		GameManager gameManager = null;
+	private void recreateGameIfApplicable(Persistence persistence, Screen screen) {
 		if (persistence.isInPlay() || screen instanceof PlayScreen) {
 			CortexState currentCortexState = persistence.getCurrentCortexState();
 			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-				gameManager = SinglePlayerGameManager.createNewGameManager(currentCortexState);
+				SinglePlayerGameManager.createNewGameManager(currentCortexState);
 			} else {
-				gameManager = TwoPlayerGameManager.createNewGameManager(currentCortexState);
+				TwoPlayerGameManager.createNewGameManager(currentCortexState);
 			}
 		}
-		return gameManager;
 	}
 
 	@Override
