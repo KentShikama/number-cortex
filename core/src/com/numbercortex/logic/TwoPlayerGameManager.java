@@ -117,10 +117,10 @@ public class TwoPlayerGameManager implements GameManager {
 	@Override
 	public void updateState(CortexState state) {
 		this.state = state;
-		this.currentPlayer = state.getCurrentPlayer();
+		handleEndingSounds(state);
 		updateCurrentPlayerState(state);
 	}
-	private void updateCurrentPlayerState(CortexState state) {
+	private void handleEndingSounds(CortexState state) {
 		String winner = state.getWinner();
 		Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
@@ -130,14 +130,22 @@ public class TwoPlayerGameManager implements GameManager {
 		} else if (isTieGame(winner, openCoordinates)) {
 			Sound.stopGameBGM();
 		}
-		for (Player player : players) {
-			String playerName = player.getName();
-			if (playerName.equals(currentPlayer)) {
-				player.updateState(state);
-			}
-		}
 	}
 	private boolean isTieGame(String winner, ArrayList<Integer> openCoordinates) {
 		return winner == null && openCoordinates.isEmpty();
+	}
+	private void updateCurrentPlayerState(CortexState state) {
+		this.currentPlayer = state.getCurrentPlayer();
+		Player player = getPlayerWithName(currentPlayer);
+		player.updateState(state);
+	}
+	private Player getPlayerWithName(String playerName) {
+		for (Player player : players) {
+			String currentIterationPlayerName = player.getName();
+			if (currentIterationPlayerName.equals(playerName)) {
+				return player;
+			}
+		}
+		return null;
 	}
 }
