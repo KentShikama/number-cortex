@@ -72,36 +72,28 @@ class PlayScreen extends GameScreen implements Playable {
 			return;
 		} else {
 			isShown = true;
-			Gdx.input.setInputProcessor(stage);
-			Gdx.input.setCatchBackKey(true);
-			backKey = false;
-			Sound.loopGameBGM();
-
-			stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-			stage.clear();
-			buildMessageArea(game);
-			buildBoard(settings, preferences);
-			buildNumberScroller();
-			buildBottomButtons();
-			board.clearBoard();
-
-			if (Persistence.getInstance().isInPlay()) {
-				resumeGame();
-			}
+			setUpInputAndBackKey();	
+			buildPlayScreenStage();
+			resumeGame();
 		}
 	}
 	@Override
 	public void hide() {
 		isShown = false;
 	}
-	private void resumeGame() {
-		GameManager gameManager;
-		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-			gameManager = SinglePlayerGameManager.getInstance();
-		} else {
-			gameManager = TwoPlayerGameManager.getInstance();
-		}
-		gameManager.resumeGame();
+	private void setUpInputAndBackKey() {
+		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setCatchBackKey(true);
+		backKey = false;
+	}
+	private void buildPlayScreenStage() {
+		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		stage.clear();
+		buildMessageArea(game);
+		buildBoard(settings, preferences);
+		buildNumberScroller();
+		buildBottomButtons();
+		board.clearBoard();
 	}
 	private void buildMessageArea(Game game) {
 		messageArea = MessageArea.createMessageArea(stage, game);
@@ -168,6 +160,15 @@ class PlayScreen extends GameScreen implements Playable {
 			}
 		});
 		stage.addActor(optionsButton);
+	}
+	private void resumeGame() {
+		GameManager gameManager;
+		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+			gameManager = SinglePlayerGameManager.getInstance();
+		} else {
+			gameManager = TwoPlayerGameManager.getInstance();
+		}
+		gameManager.resumeGame();
 	}
 
 	@Override

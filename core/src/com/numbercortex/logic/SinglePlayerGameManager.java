@@ -99,19 +99,23 @@ public class SinglePlayerGameManager implements GameManager {
 
 	@Override
 	public void resumeGame() {
+		if (state == null) {
+			return;
+		}
 		updateState(state);
+		if (Persistence.getInstance().isInPlay()) {
+			Sound.loopGameBGM();
+		}
 	}
 
 	@Override
 	public void startNewGame() {
 		Persistence persistence = Persistence.getInstance();
-		if (persistence.isInPlay()) {
-			Gdx.app.log(TAG, "Deleting previous game data.");
-		}
 		persistence.setInPlay(true);
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		manuallySetFirstPlayer();
 		registerPlayersAndStartGame();
+		Sound.loopGameBGM();
 	}
 	private void manuallySetFirstPlayer() {
 		switch (currentLevel) {
@@ -180,8 +184,6 @@ public class SinglePlayerGameManager implements GameManager {
 			} else if (winnerName == null && openCoordinates.isEmpty()) {
 				Sound.stopGameBGM();
 			}
-		} else {
-			Sound.stopGameBGM();
 		}
 	}
 	private Player getWinner(String winnerName) {

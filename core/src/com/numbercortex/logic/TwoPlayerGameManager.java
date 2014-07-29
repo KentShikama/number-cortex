@@ -88,7 +88,13 @@ public class TwoPlayerGameManager implements GameManager {
 
 	@Override
 	public void resumeGame() {
+		if (state == null) {
+			return;
+		}
 		updateState(state);
+		if (Persistence.getInstance().isInPlay()) {
+			Sound.loopGameBGM();
+		}
 	}
 
 	@Override
@@ -100,6 +106,7 @@ public class TwoPlayerGameManager implements GameManager {
 		persistence.setInPlay(true);
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		registerPlayersAndStartGame();
+		Sound.loopGameBGM();
 	}
 	private void registerPlayersAndStartGame() {
 		for (Player player : players) {
@@ -120,7 +127,7 @@ public class TwoPlayerGameManager implements GameManager {
 		Persistence persistence = Persistence.getInstance();
 		if (winner != null && persistence.isInPlay()) {
 			Sound.stopBackgroundAndShowWin();
-		} else if (isTieGame(winner, openCoordinates) || !persistence.isInPlay()) {
+		} else if (isTieGame(winner, openCoordinates)) {
 			Sound.stopGameBGM();
 		}
 		for (Player player : players) {
