@@ -74,7 +74,6 @@ abstract class HomeScreen extends GameScreen {
 				} else {
 					ModeTracker.mode = mode;
 					ScreenTracker.transitionScreen.transition(Direction.RIGHT, (GameScreen) screen);
-//					game.setScreen(screen);
 				}
 			}
 		}
