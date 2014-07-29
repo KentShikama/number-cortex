@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.numbercortex.Persistence;
 import com.numbercortex.logic.InteractableSendable;
 
 class NumberScroller {
@@ -65,12 +66,16 @@ class NumberScroller {
 				Timer.instance().clear();
 				messenger.chooseNumber(null, number);
 			} else {
-				Timer.schedule(new Task() {
-					@Override
-					public void run() {
-						messenger.handleConfirmedSingleTap(number);
-					}
-				}, 0.4f);
+				if (!Persistence.getInstance().isDoubleTap()) {
+					messenger.chooseNumber(null, number);
+				} else {
+					Timer.schedule(new Task() {
+						@Override
+						public void run() {
+							messenger.handleConfirmedSingleTap(number);
+						}
+					}, 0.4f);
+				}
 			}
 		}
 		private int getClickedNumber(InputEvent event) {

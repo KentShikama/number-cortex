@@ -135,7 +135,7 @@ public class OptionsScreen extends SettingsScreen {
 		table.row();
 	}
 	private ImageButton buildDoubleTapCheckbox(final Persistence persistence) {
-		boolean isChecked = persistence.isSound();
+		boolean isChecked = persistence.isDoubleTap();
 		final ImageButton doubleTapCheckbox = buildCheckbox(0, 0, isChecked);
 		doubleTapCheckbox.addListener(new ClickListenerWithSound() {
 			@Override
