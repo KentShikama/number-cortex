@@ -7,7 +7,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.view.SettingsScreen.GroupState;
 import com.numbercortex.view.SettingsScreen.SettingGroup;
 
-public class ClickListenerWithSound extends ClickListener {
+class ClickListenerWithSound extends ClickListener {
 	@Override
 	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 		super.touchDown(event, x, y, pointer, button);

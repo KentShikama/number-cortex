@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.GameSettings;
 
-public abstract class SettingsScreen extends GameScreen {
+abstract class SettingsScreen extends GameScreen {
 
 	GameSettings gameSettings;
 
