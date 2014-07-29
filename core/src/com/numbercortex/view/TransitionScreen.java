@@ -68,15 +68,6 @@ public class TransitionScreen extends GameScreen {
 				@Override
 				public void run() {
 					game.setScreen(nextScreen);
-					if (nextScreen instanceof PlayScreen) {
-						GameManager gameManager;
-						if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-							gameManager = SinglePlayerGameManager.getInstance();
-						} else {
-							gameManager = TwoPlayerGameManager.getInstance();
-						}
-						gameManager.resumeGame();
-					}
 				}
 			})));
 		} else {
@@ -91,15 +82,6 @@ public class TransitionScreen extends GameScreen {
 				@Override
 				public void run() {
 					game.setScreen(nextScreen);
-					if (nextScreen instanceof PlayScreen) {
-						GameManager gameManager;
-						if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-							gameManager = SinglePlayerGameManager.getInstance();
-						} else {
-							gameManager = TwoPlayerGameManager.getInstance();
-						}
-						gameManager.resumeGame();
-					}
 				}
 			})));
 		}

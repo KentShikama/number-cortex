@@ -67,9 +67,6 @@ public class Launch extends Game {
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		addBackground();
-		if (this.getScreen() instanceof PlayScreen) {
-			resumeGame();
-		}
 	}
 	private void addBackground() {
 		numberBackgroundStage.clear();
@@ -80,20 +77,10 @@ public class Launch extends Game {
 		numberBackgroundStage.addActor(numberBackground);
 		plainBackgroundStage.addActor(plainBackground);
 	}
-	private void resumeGame() {
-		GameManager gameManager;
-		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-			gameManager = SinglePlayerGameManager.getInstance();
-		} else {
-			gameManager = TwoPlayerGameManager.getInstance();
-		}
-		gameManager.resumeGame();
-	}
-
 	
 	@Override
 	public void render() {
-		fps.log();
+//		fps.log();
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (Assets.manager.update()) {
 			assignAssetsAndShowGameIfApplicable();
@@ -134,7 +121,6 @@ public class Launch extends Game {
 		Screen screen = buildCurrentScreen(persistence);
 		GameManager gameManager = buildGameManager(persistence, screen);
 		setScreen(screen);
-		resumeGameIfApplicable(gameManager, screen);
 	}
 	private Mode buildMode(Persistence persistence) {
 		String currentModeString = persistence.getMode();
@@ -157,12 +143,6 @@ public class Launch extends Game {
 		}
 		return gameManager;
 	}
-	private void resumeGameIfApplicable(GameManager gameManager, Screen screen) {
-		if (screen instanceof PlayScreen) {
-			gameManager.resumeGame();
-		}
-	}
-
 
 	@Override
 	public void pause() {
