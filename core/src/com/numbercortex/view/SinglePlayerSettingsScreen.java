@@ -211,13 +211,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		stage.addActor(backBottomNavigation);
 	}
 	private void addResumeButton() {
-		ClickListener listener = new ClickListenerWithSound() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
-			}
-		};
-		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", listener);
+		ForwardBottomNavigation forwardBottomNavigation = new ForwardBottomNavigation("Game", ScreenTracker.playScreen);
 		stage.addActor(forwardBottomNavigation);
 	}
 
