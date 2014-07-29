@@ -14,7 +14,6 @@ class SplashScreen extends GameScreen {
 	}
 	
 	private static final String TITLE = "number_cortex_title";
-	private static final int FIRST_BUTTON_CENTER_OFFSET_Y = 734;
 	
 	@Override
 	public void show() {
@@ -25,7 +24,7 @@ class SplashScreen extends GameScreen {
 	private void buildTitle(Stage stage) {
 		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
 		Image title = new Image(titleTexture);
-		title.setBounds(63, Launch.SCREEN_HEIGHT - (FIRST_BUTTON_CENTER_OFFSET_Y - 74) - 140, titleTexture.getRegionWidth(),
+		title.setBounds(63, Launch.SCREEN_HEIGHT - 776, titleTexture.getRegionWidth(),
 				titleTexture.getRegionHeight());
 		stage.addActor(title);
 	}
