@@ -7,7 +7,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
@@ -40,8 +43,10 @@ public class Launch extends Game {
 	private void loadAndAssignStartingAssets() {
 		Assets.manager = new AssetManager();
 		Assets.loadBackground();
+		Assets.loadHome();
 		Assets.manager.finishLoading();
 		Assets.assignBackgroundScreen();
+		Assets.assignHomeScreen();
 		numberBackgroundStage = buildBackgroundStage();
 		plainBackgroundStage = buildBackgroundStage();
 	}
@@ -52,7 +57,6 @@ public class Launch extends Game {
 		return backgroundStage;
 	}
 	private void loadAssets() {
-		Assets.loadHome();
 		Assets.loadSettings();
 		Assets.loadGame();
 		Assets.loadLevels();
@@ -65,16 +69,20 @@ public class Launch extends Game {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		addBackground();
+		addPlainBackground();
+		addNumberBackground();
 	}
-	private void addBackground() {
-		numberBackgroundStage.clear();
+	private void addPlainBackground() {
 		plainBackgroundStage.clear();
+		float worldWidth = plainBackgroundStage.getViewport().getWorldWidth();
+		Background plainBackground = new Background(Launch.SEA_BLUE, worldWidth);
+		plainBackgroundStage.addActor(plainBackground);
+	}
+	private void addNumberBackground() {
+		numberBackgroundStage.clear();
 		float worldWidth = numberBackgroundStage.getViewport().getWorldWidth();
 		Background numberBackground = new Background(Launch.SEA_BLUE, Assets.backgroundTexture, worldWidth);
-		Background plainBackground = new Background(Launch.SEA_BLUE, worldWidth);
 		numberBackgroundStage.addActor(numberBackground);
-		plainBackgroundStage.addActor(plainBackground);
 	}
 
 	@Override
@@ -103,7 +111,6 @@ public class Launch extends Game {
 
 	private void assignAssetsAndShowGameIfApplicable() {
 		if (!assigned) {
-			Assets.assignHomeScreen();
 			Assets.assignSettingsScreen();
 			Assets.assignPlayScreen();
 			Assets.assignLevelsScreen();
