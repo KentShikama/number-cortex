@@ -18,6 +18,7 @@ public class Sound {
 	public static void loopGameBGM() {
 		if (Persistence.getInstance().isMusic()) {
 			Assets.backgroundMusic.play();
+			Assets.backgroundMusic.setVolume(0.9f);
 			Assets.backgroundMusic.setLooping(true);
 		}
 	}
