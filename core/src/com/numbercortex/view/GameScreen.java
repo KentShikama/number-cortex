@@ -20,9 +20,9 @@ public class GameScreen implements Screen {
 	Stage stage;
 
 	private abstract class BottomNavigation extends Group {
-		
+
 		private static final String NAVIGATION_ARROW_ICON = "left_arrow";
-		
+
 		BottomNavigation(String screenName, final GameScreen screen, final Direction direction) {
 			this(screenName, new ClickListenerWithSound() {
 				@Override

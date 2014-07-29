@@ -70,7 +70,8 @@ class LevelsScreen extends GameScreen {
 				if (!button.isDisabled()) {
 					Persistence persistence = Persistence.getInstance();
 					persistence.setCurrentLevel(level);
-					ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.singlePlayerSettingsScreen);
+					ScreenTracker.transitionScreen
+							.transition(Direction.RIGHT, ScreenTracker.singlePlayerSettingsScreen);
 				}
 			}
 		};

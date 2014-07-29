@@ -9,7 +9,6 @@ import libgdx.NumberTextButton;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -72,7 +71,7 @@ class PlayScreen extends GameScreen implements Playable {
 			return;
 		} else {
 			isShown = true;
-			setUpInputAndBackKey();	
+			setUpInputAndBackKey();
 			buildPlayScreenStage();
 			resumeGame();
 		}

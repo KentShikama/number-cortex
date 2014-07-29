@@ -3,7 +3,6 @@ package com.numbercortex.logic;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.badlogic.gdx.Gdx;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.Persistence;

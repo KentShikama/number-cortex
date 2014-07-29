@@ -13,7 +13,6 @@ import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.ModeTracker.Mode;
 import com.numbercortex.Persistence;
-import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 
@@ -62,7 +61,7 @@ public class Launch extends Game {
 		Assets.loadAndAssignFonts();
 		assigned = false;
 	}
-	
+
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
@@ -77,10 +76,10 @@ public class Launch extends Game {
 		numberBackgroundStage.addActor(numberBackground);
 		plainBackgroundStage.addActor(plainBackground);
 	}
-	
+
 	@Override
 	public void render() {
-//		fps.log();
+		fps.log();
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (Assets.manager.update()) {
 			assignAssetsAndShowGameIfApplicable();
@@ -101,7 +100,7 @@ public class Launch extends Game {
 			numberBackgroundStage.draw();
 		}
 	}
-	
+
 	private void assignAssetsAndShowGameIfApplicable() {
 		if (!assigned) {
 			Assets.assignHomeScreen();

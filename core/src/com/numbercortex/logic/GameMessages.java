@@ -1,7 +1,7 @@
 package com.numbercortex.logic;
 
 public class GameMessages {
-	
+
 	static String[] getTutorialMessage(int turnCount) {
 		if (turnCount == 1) {
 			return new String[] {
@@ -14,7 +14,7 @@ public class GameMessages {
 		}
 		return null;
 	}
-	
+
 	static String getUnlockMessage(int currentLevel) {
 		switch (currentLevel) {
 			case 0:
@@ -30,5 +30,5 @@ public class GameMessages {
 		}
 		return null;
 	}
-	
+
 }

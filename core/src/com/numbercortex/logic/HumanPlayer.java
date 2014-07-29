@@ -46,7 +46,7 @@ class HumanPlayer implements Player, InteractableSendable {
 			screen.flashChosenNumber(chosenNumber);
 		}
 	}
-	
+
 	@Override
 	public void handleConfirmedSingleTap(int tappedNumber) {
 		int chosenNumber = state.getChosenNumber();
@@ -55,7 +55,6 @@ class HumanPlayer implements Player, InteractableSendable {
 			screen.flashChosenNumber(chosenNumber);
 		}
 	}
-
 
 	@Override
 	public void placeNumber(String player, int coordinate) {

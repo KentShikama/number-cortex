@@ -100,11 +100,12 @@ public class Persistence {
 		if (winnerName != null) {
 			String winningAttribute = json.readValue("winningAttribute", String.class, root);
 			int[] winningCoordinates = json.readValue("winningValues", int[].class, root);
-			currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
-					chosenNumber, checkedCoordinateNumberMap, availableNumbers).win(winnerName, winningAttribute, winningCoordinates).build();
+			currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
+					checkedCoordinateNumberMap, availableNumbers).win(winnerName, winningAttribute, winningCoordinates)
+					.build();
 		} else {
-			currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players,
-					chosenNumber, checkedCoordinateNumberMap, availableNumbers).build();
+			currentCortexState = new CortexState.CortexStateBuilder(message, currentPlayer, players, chosenNumber,
+					checkedCoordinateNumberMap, availableNumbers).build();
 		}
 		return currentCortexState;
 	}
@@ -203,7 +204,7 @@ public class Persistence {
 	public void setBlue(boolean blue) {
 		this.blue = blue;
 	}
-	
+
 	public String getYourName() {
 		return yourName;
 	}

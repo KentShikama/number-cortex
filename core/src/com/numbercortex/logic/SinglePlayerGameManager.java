@@ -54,7 +54,8 @@ public class SinglePlayerGameManager implements GameManager {
 		}
 		return messenger;
 	}
-	private static ArrayList<Player> buildPlayers(GameManager messenger, Playable screen, GameSettings settings, Persistence preferences) {
+	private static ArrayList<Player> buildPlayers(GameManager messenger, Playable screen, GameSettings settings,
+			Persistence preferences) {
 		ArrayList<Player> players = new ArrayList<Player>();
 		Player computer = new ComputerPlayer(screen, messenger, settings);
 		String playerName = adjustPlayerNameIfNeeded(preferences, computer);
@@ -103,7 +104,7 @@ public class SinglePlayerGameManager implements GameManager {
 			updateState(state);
 			if (Persistence.getInstance().isInPlay()) {
 				Sound.loopGameBGM();
-			}		
+			}
 		}
 	}
 
