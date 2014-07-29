@@ -14,6 +14,7 @@ public class Persistence {
 
 	private static final String BACKGROUND_COLOR = "background_color";
 	private static final String YOUR_NAME = "your_name";
+	private static final String DOUBLE_TAP = "double_tap";
 	private static final String SOUND = "sound";
 	private static final String MUSIC = "music";
 
@@ -31,6 +32,7 @@ public class Persistence {
 
 	private boolean blue;
 	private String yourName;
+	private boolean doubleTap;
 	private boolean sound;
 	private boolean music;
 
@@ -66,6 +68,7 @@ public class Persistence {
 	private void loadCusomizationPreferences() {
 		blue = preferences.getBoolean(BACKGROUND_COLOR, true);
 		yourName = preferences.getString(YOUR_NAME, "Player");
+		doubleTap = preferences.getBoolean(DOUBLE_TAP, false);
 		sound = preferences.getBoolean(SOUND, true);
 		music = preferences.getBoolean(MUSIC, false);
 	}
@@ -160,6 +163,7 @@ public class Persistence {
 	private void saveCustomizationPreferences() {
 		preferences.putBoolean(BACKGROUND_COLOR, blue);
 		preferences.putString(YOUR_NAME, yourName);
+		preferences.putBoolean(DOUBLE_TAP, doubleTap);
 		preferences.putBoolean(SOUND, sound);
 		preferences.putBoolean(MUSIC, music);
 	}
@@ -212,6 +216,13 @@ public class Persistence {
 		this.yourName = yourName;
 	}
 
+	public boolean isDoubleTap() {
+		return doubleTap;
+	}
+	public void setDoubleTap(boolean doubleTap) {
+		this.doubleTap = doubleTap;
+	}
+	
 	public boolean isSound() {
 		return sound;
 	}
