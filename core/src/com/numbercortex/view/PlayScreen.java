@@ -162,12 +162,7 @@ class PlayScreen extends GameScreen implements Playable {
 		stage.addActor(optionsButton);
 	}
 	private void resumeGame() {
-		GameManager gameManager;
-		if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-			gameManager = SinglePlayerGameManager.getInstance();
-		} else {
-			gameManager = TwoPlayerGameManager.getInstance();
-		}
+		GameManager gameManager = getGameManagerInstance();
 		gameManager.resumeGame();
 	}
 
