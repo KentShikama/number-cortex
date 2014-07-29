@@ -9,7 +9,7 @@ import com.numbercortex.logic.BoardUtilities;
 
 class RandomBrain implements Brain {
 
-	private String name = "Random AI";
+	private String name = "Gary (AI)";
 	private BrainCalculator utility;
 
 	RandomBrain(GameSettings settings) {

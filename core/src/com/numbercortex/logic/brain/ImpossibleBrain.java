@@ -9,7 +9,7 @@ import com.numbercortex.logic.BoardUtilities;
 
 class ImpossibleBrain implements Brain {
 
-	private String name = "Impossible AI";
+	private String name = "Hal (AI)";
 	private BrainCalculator utility;
 
 	ImpossibleBrain(GameSettings settings) {
