@@ -3,14 +3,18 @@ package com.numbercortex.logic;
 public class GameMessages {
 
 	static String[] getTutorialMessage(int turnCount) {
-		if (turnCount == 1) {
+		if (turnCount == 0) {
 			return new String[] {
 					"Welcome! Number Cortex is a game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on the board.",
-					"DRAG AND DROP the chosen number (top right) onto the board." };
-		} else if (turnCount == 2) {
-			return new String[] { "Number Cortex is unique because you get to choose which number your opponent will play next. DOUBLE TAP your opponents next number from the scroller below." };
-		} else if (turnCount == 5) {
-			return new String[] { "Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits. Good luck!" };
+					"Number Cortex is unique because you get to choose which number your opponent will play next.",
+					"DOUBLE TAP your opponent's next number from the scroller below." };
+		} else if (turnCount == 3) {
+			return new String[] { "Your opponent (AI) has just chosen a number for you (top right).",
+					"DRAG AND DROP\nthe chosen number onto the board." };
+		} else if (turnCount == 4) {
+			return new String[] { "Your objective is to be the first one to make a 3-in-a-row (horizontally, vertically, or diagonally) of all evens, all odds, all single digits, or all double digits." };
+		} else if (turnCount == 7) {
+			return new String[] { "Note that you and your opponent share the same set of numbers. Good luck!"};
 		}
 		return null;
 	}

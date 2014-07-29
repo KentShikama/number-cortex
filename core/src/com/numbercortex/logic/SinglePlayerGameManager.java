@@ -120,7 +120,7 @@ public class SinglePlayerGameManager implements GameManager {
 	private void manuallySetFirstPlayer() {
 		switch (currentLevel) {
 			case 0:
-				model.setFirstPlayerPosition(1);
+				model.setFirstPlayerPosition(0);
 				break;
 			case 18:
 				model.setFirstPlayerPosition(0);
