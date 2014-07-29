@@ -134,9 +134,9 @@ public class Launch extends Game {
 		if (persistence.isInPlay() || screen instanceof PlayScreen) {
 			CortexState currentCortexState = persistence.getCurrentCortexState();
 			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-				SinglePlayerGameManager.createNewGameManager(currentCortexState);
+				SinglePlayerGameManager.createNewGameManager(ScreenTracker.playScreen, currentCortexState);
 			} else {
-				TwoPlayerGameManager.createNewGameManager(currentCortexState);
+				TwoPlayerGameManager.createNewGameManager(ScreenTracker.playScreen, currentCortexState);
 			}
 		}
 	}

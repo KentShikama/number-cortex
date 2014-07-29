@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class TransitionScreen extends GameScreen {
+class TransitionScreen extends GameScreen {
 
 	private GameScreen currentScreen;
 	private GameScreen nextScreen;
@@ -18,11 +18,11 @@ public class TransitionScreen extends GameScreen {
 		LEFT, RIGHT;
 	}
 
-	public TransitionScreen(Game game) {
+	TransitionScreen(Game game) {
 		super(game);
 	}
 
-	public void transition(Direction direction, GameScreen nextScreen) {
+	void transition(Direction direction, GameScreen nextScreen) {
 		transition(direction, nextScreen, 0.4f);
 	}
 

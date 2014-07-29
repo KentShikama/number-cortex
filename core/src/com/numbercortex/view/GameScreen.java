@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.view.TransitionScreen.Direction;
 
-public class GameScreen implements Screen {
+class GameScreen implements Screen {
 
 	boolean backKey;
 	Game game;

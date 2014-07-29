@@ -5,22 +5,22 @@ import java.util.Map;
 
 import com.badlogic.gdx.Screen;
 
-public class ScreenTracker {
+class ScreenTracker {
 
 	private ScreenTracker() {}
 
-	public static TitleScreen titleScreen;
-	public static MoreScreen moreScreen;
-	public static CreditsScreen creditsScreen;
-	public static LevelsScreen levelsScreen;
-	public static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
-	public static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
-	public static PlayScreen playScreen;
-	public static OptionsScreen optionsScreen;
+	static TitleScreen titleScreen;
+	static MoreScreen moreScreen;
+	static CreditsScreen creditsScreen;
+	static LevelsScreen levelsScreen;
+	static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
+	static TwoPlayerSettingsScreen twoPlayerSettingsScreen;
+	static PlayScreen playScreen;
+	static OptionsScreen optionsScreen;
 
-	public static TransitionScreen transitionScreen;
+	static TransitionScreen transitionScreen;
 
-	public static void initializeScreens(Launch game) {
+	static void initializeScreens(Launch game) {
 		titleScreen = new TitleScreen(game);
 		moreScreen = new MoreScreen(game);
 		creditsScreen = new CreditsScreen(game);
@@ -34,7 +34,7 @@ public class ScreenTracker {
 	}
 
 	private static Map<String, Screen> screenMap;
-	public static Screen getScreen(String name) {
+	static Screen getScreen(String name) {
 		if (screenMap == null) {
 			screenMap = new HashMap<String, Screen>();
 			screenMap.put(TitleScreen.TAG, titleScreen);
@@ -54,7 +54,7 @@ public class ScreenTracker {
 		}
 	}
 
-	public static void dispose() {
+	static void dispose() {
 		playScreen.dispose();
 		levelsScreen.dispose();
 		SettingsScreen.disposeAll();

@@ -22,9 +22,9 @@ import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 import com.numbercortex.view.TransitionScreen.Direction;
 
-public class OptionsScreen extends SettingsScreen {
+class OptionsScreen extends SettingsScreen {
 
-	public static final String TAG = "Options Screen";
+	static final String TAG = "Options Screen";
 	private Table table = new Table();
 	private Label textFieldFeedback;
 

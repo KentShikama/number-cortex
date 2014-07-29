@@ -26,7 +26,7 @@ import com.numbercortex.view.TransitionScreen.Direction;
 
 class SinglePlayerSettingsScreen extends SettingsScreen {
 
-	public static final String TAG = "Single Player Settings Screen";
+	static final String TAG = "Single Player Settings Screen";
 
 	private class DifficultyGroup extends SettingGroup {
 		private DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
@@ -198,7 +198,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 		ClickListener listener = new ClickListenerWithSound() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager manager = SinglePlayerGameManager.createNewGameManager();
+				GameManager manager = SinglePlayerGameManager.createNewGameManager(ScreenTracker.playScreen);
 				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 				manager.startNewGame();
 			}

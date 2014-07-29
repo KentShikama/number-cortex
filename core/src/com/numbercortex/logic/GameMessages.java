@@ -1,6 +1,6 @@
 package com.numbercortex.logic;
 
-public class GameMessages {
+class GameMessages {
 
 	static String[] getTutorialMessage(int turnCount) {
 		if (turnCount == 0) {

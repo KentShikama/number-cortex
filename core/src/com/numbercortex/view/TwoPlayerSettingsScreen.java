@@ -26,7 +26,7 @@ import com.numbercortex.view.TransitionScreen.Direction;
 
 class TwoPlayerSettingsScreen extends SettingsScreen {
 
-	public static final String TAG = "Two Player Settings Screen";
+	static final String TAG = "Two Player Settings Screen";
 
 	private TextField playerOneNameField;
 	private TextField playerTwoNameField;
@@ -251,7 +251,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				saveUnsyncedPreferences();
-				GameManager manager = TwoPlayerGameManager.createNewGameManager();
+				GameManager manager = TwoPlayerGameManager.createNewGameManager(ScreenTracker.playScreen);
 				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 				manager.startNewGame();
 			}

@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.TransitionScreen.Direction;
 
-public class MoreScreen extends HomeScreen {
+class MoreScreen extends HomeScreen {
 
-	public static final String TAG = "More Screen";
+	static final String TAG = "More Screen";
 
 	private static final String MORE_GAMES_BUTTON = "More Games";
 	private static final String RATE_GAME_BUTTON = "Rate Game";

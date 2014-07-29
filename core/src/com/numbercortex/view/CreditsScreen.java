@@ -13,9 +13,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.TransitionScreen.Direction;
 
-public class CreditsScreen extends GameScreen {
+class CreditsScreen extends GameScreen {
 
-	public static final String TAG = "Credits Screen";
+	static final String TAG = "Credits Screen";
 
 	private ArrayList<String> contentBlocks = new ArrayList<String>();
 

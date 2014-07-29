@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-public class Assets {
+class Assets {
 
-	public static AssetManager manager;
+	static AssetManager manager;
 
 	static Texture backgroundTexture;
 	static Skin homeSkin;
@@ -48,67 +48,67 @@ public class Assets {
 	private static final String WIN_SOUND = "audio/win.mp3";
 	private static final String LOSE_SOUND = "audio/lose.mp3";
 
-	public static void loadBackground() {
+	static void loadBackground() {
 		manager.load(BACKGROUND_TEXTURE, Texture.class);
 	}
 
-	public static void assignBackgroundScreen() {
+	static void assignBackgroundScreen() {
 		backgroundTexture = manager.get(BACKGROUND_TEXTURE, Texture.class);
 	}
 
-	public static void loadHome() {
+	static void loadHome() {
 		manager.load(HOME_ATLAS, TextureAtlas.class);
 		manager.load(HOME_SKIN, Skin.class, new SkinLoader.SkinParameter(HOME_ATLAS));
 	}
-	public static void assignHomeScreen() {
+	static void assignHomeScreen() {
 		homeSkin = manager.get(HOME_SKIN, Skin.class);
 	}
 
-	public static void loadLevels() {
+	static void loadLevels() {
 		manager.load(LEVEL_ATLAS, TextureAtlas.class);
 		manager.load(LEVEL_SKIN, Skin.class, new SkinLoader.SkinParameter(LEVEL_ATLAS));
 	}
-	public static void assignLevelsScreen() {
+	static void assignLevelsScreen() {
 		levelsSkin = manager.get(LEVEL_SKIN, Skin.class);
 	}
 
-	public static void loadGame() {
+	static void loadGame() {
 		manager.load(GAME_ATLAS, TextureAtlas.class);
 		manager.load(GAME_SKIN, Skin.class, new SkinLoader.SkinParameter(GAME_ATLAS));
 	}
-	public static void assignPlayScreen() {
+	static void assignPlayScreen() {
 		gameSkin = manager.get(GAME_SKIN, Skin.class);
 	}
 
-	public static void loadDialog() {
+	static void loadDialog() {
 		manager.load(DIALOG_ATLAS, TextureAtlas.class);
 		manager.load(DIALOG_SKIN, Skin.class, new SkinLoader.SkinParameter(DIALOG_ATLAS));
 	}
 
-	public static void assignDialogScreen() {
+	static void assignDialogScreen() {
 		dialogSkin = manager.get(DIALOG_SKIN, Skin.class);
 	}
 
-	public static void loadSettings() {
+	static void loadSettings() {
 		manager.load(SETTINGS_ATLAS, TextureAtlas.class);
 		manager.load(SETTINGS_SKIN, Skin.class, new SkinLoader.SkinParameter(SETTINGS_ATLAS));
 	}
-	public static void assignSettingsScreen() {
+	static void assignSettingsScreen() {
 		settingsSkin = manager.get(SETTINGS_SKIN, Skin.class);
 	}
 
-	public static void loadAndAssignFonts() {
+	static void loadAndAssignFonts() {
 		FontGenerator.load();
 	}
 
-	public static void loadAudio() {
+	static void loadAudio() {
 		manager.load(BACKGROUND_MUSIC, Music.class);
 		manager.load(CLICK_SOUND, Sound.class);
 		manager.load(MISS_CLICK_SOUND, Sound.class);
 		manager.load(WIN_SOUND, Sound.class);
 		manager.load(LOSE_SOUND, Sound.class);
 	}
-	public static void assignAudio() {
+	static void assignAudio() {
 		backgroundMusic = manager.get(BACKGROUND_MUSIC, Music.class);
 		clickSound = manager.get(CLICK_SOUND, Sound.class);
 		missClickSound = manager.get(MISS_CLICK_SOUND, Sound.class);
@@ -116,7 +116,7 @@ public class Assets {
 		loseSound = manager.get(LOSE_SOUND, Sound.class);
 	}
 
-	public static void dispose() {
+	static void dispose() {
 		ScreenTracker.dispose();
 		FontGenerator.dispose();
 		CortexDialog.dispose();

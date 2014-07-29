@@ -7,7 +7,6 @@ import com.numbercortex.CortexState;
 import com.numbercortex.GameSettings;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.DragAndDropHandler;
-import com.numbercortex.view.ScreenTracker;
 import com.numbercortex.view.Sound;
 
 public class TwoPlayerGameManager implements GameManager {
@@ -32,14 +31,14 @@ public class TwoPlayerGameManager implements GameManager {
 	public static GameManager getInstance() {
 		return Singleton.INSTANCE;
 	}
-	public static GameManager createNewGameManager() {
-		return createNewGameManager(null);
+	public static GameManager createNewGameManager(Playable screen) {
+		return createNewGameManager(screen, null);
 	}
-	public static GameManager createNewGameManager(CortexState state) {
+	public static GameManager createNewGameManager(Playable screen, CortexState state) {
 		TwoPlayerGameManager messenger = Singleton.INSTANCE;
 		messenger.state = state;
 		messenger.preferences = Persistence.getInstance();
-		messenger.screen = ScreenTracker.playScreen;
+		messenger.screen = screen;
 		messenger.settings = buildSettings(messenger.preferences);
 		messenger.players = buildPlayers(messenger, messenger.screen, messenger.preferences, messenger.settings);
 		messenger.screen.setGameSettingsAndPreferences(messenger.settings, messenger.preferences);

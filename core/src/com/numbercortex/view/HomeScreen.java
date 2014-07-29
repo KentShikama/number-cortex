@@ -82,7 +82,7 @@ abstract class HomeScreen extends GameScreen {
 		}
 		private void startFirstGame() {
 			ModeTracker.mode = mode;
-			GameManager manager = SinglePlayerGameManager.createNewGameManager();
+			GameManager manager = SinglePlayerGameManager.createNewGameManager(ScreenTracker.playScreen);
 			ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
 			manager.startNewGame();
 		}

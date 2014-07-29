@@ -37,7 +37,7 @@ import com.numbercortex.view.TransitionScreen.Direction;
 
 class PlayScreen extends GameScreen implements Playable {
 
-	public static final String TAG = "Play Screen";
+	static final String TAG = "Play Screen";
 
 	private NumberCortexBoard board;
 	private NumberScroller numberScroller;

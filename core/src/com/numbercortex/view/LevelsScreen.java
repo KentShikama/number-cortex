@@ -22,7 +22,7 @@ import com.numbercortex.view.TransitionScreen.Direction;
 
 class LevelsScreen extends GameScreen {
 
-	public static final String TAG = "Levels Screen";
+	static final String TAG = "Levels Screen";
 
 	private Table table = new Table();
 

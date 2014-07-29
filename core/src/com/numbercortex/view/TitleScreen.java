@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 
-public class TitleScreen extends HomeScreen {
+class TitleScreen extends HomeScreen {
 
-	public static final String TAG = "Title Screen";
+	static final String TAG = "Title Screen";
 
 	private static final String PLAY_BUTTON = "Play";
 	private static final String PASS_AND_PLAY_BUTTON = "Pass & Play";
