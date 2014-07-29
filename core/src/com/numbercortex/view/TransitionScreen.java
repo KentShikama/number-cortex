@@ -2,9 +2,11 @@ package com.numbercortex.view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class TransitionScreen extends GameScreen {
@@ -43,43 +45,43 @@ public class TransitionScreen extends GameScreen {
 			final float duration) {
 		this.currentScreen = currentScreen;
 		this.nextScreen = nextScreen;
-
+		
 		currentScreen.hide();
 		nextScreen.show();
-
+		
 		game.setScreen(this);
-
+		animateNextScreen(direction, nextScreen, duration);
+		animateCurrentScreenAndSwitchScreens(direction, currentScreen, nextScreen, duration);
+	}
+	private void animateNextScreen(Direction direction, final GameScreen nextScreen, final float duration) {
 		if (direction == Direction.LEFT) {
 			nextScreen.stage.getRoot().setPosition(-nextScreen.stage.getWidth(), 0);
-			SequenceAction fadeAction = Actions.sequence(Actions.fadeOut(0.0001f), Actions.fadeIn(duration));
-			MoveToAction moveNextScreenIn = Actions.moveTo(0, 0, duration, Interpolation.exp10Out);
-			nextScreen.stage.addAction(Actions.parallel(fadeAction, moveNextScreenIn));
-			MoveToAction moveCurrentScreenOut = Actions.moveTo(currentScreen.stage.getWidth(), 0, duration,
-					Interpolation.exp10Out);
-			AlphaAction fadeOutAction = Actions.fadeOut((float) (duration / 1.5), Interpolation.exp10Out);
-			currentScreen.stage.addAction(Actions.sequence(Actions.parallel(moveCurrentScreenOut, fadeOutAction),
-					Actions.run(new Runnable() {
-						@Override
-						public void run() {
-							game.setScreen(nextScreen);
-						}
-					})));
 		} else {
 			nextScreen.stage.getRoot().setPosition(nextScreen.stage.getWidth(), 0);
-			SequenceAction fadeAction = Actions.sequence(Actions.fadeOut(0.0001f), Actions.fadeIn(duration));
-			MoveToAction moveNextScreenIn = Actions.moveTo(0, 0, duration, Interpolation.exp10Out);
-			nextScreen.stage.addAction(Actions.parallel(fadeAction, moveNextScreenIn));
-			MoveToAction moveCurrentScreenOut = Actions.moveTo(-currentScreen.stage.getWidth(), 0, duration,
-					Interpolation.exp10Out);
-			AlphaAction fadeOutAction = Actions.fadeOut((float) (duration / 1.5), Interpolation.exp10Out);
-			currentScreen.stage.addAction(Actions.sequence(Actions.parallel(moveCurrentScreenOut, fadeOutAction),
-					Actions.run(new Runnable() {
-						@Override
-						public void run() {
-							game.setScreen(nextScreen);
-						}
-					})));
 		}
+		SequenceAction fadeInAction = Actions.sequence(Actions.fadeOut(0.0001f), Actions.fadeIn(duration));
+		MoveToAction moveNextScreenIn = Actions.moveTo(0, 0, duration, Interpolation.exp10Out);
+		nextScreen.stage.addAction(Actions.parallel(fadeInAction, moveNextScreenIn));
+	}
+	private void animateCurrentScreenAndSwitchScreens(Direction direction, final GameScreen currentScreen,
+			final GameScreen nextScreen, final float duration) {
+		MoveToAction moveCurrentScreenOut;
+		if (direction == Direction.LEFT) {			
+			moveCurrentScreenOut = Actions.moveTo(currentScreen.stage.getWidth(), 0, duration,
+					Interpolation.exp10Out);
+		} else {			
+			moveCurrentScreenOut = Actions.moveTo(-currentScreen.stage.getWidth(), 0, duration,
+					Interpolation.exp10Out);
+		}
+		AlphaAction fadeOutAction = Actions.fadeOut((float) (duration / 1.5), Interpolation.exp10Out);
+		ParallelAction fadeAndMoveOutCurrentScreen = Actions.parallel(moveCurrentScreenOut, fadeOutAction);
+		Action switchScreensAction = Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				game.setScreen(nextScreen);
+			}
+		});
+		currentScreen.stage.addAction(Actions.sequence(fadeAndMoveOutCurrentScreen, switchScreensAction));
 	}
 
 	@Override
