@@ -20,7 +20,7 @@ public class GameMessages {
 			case 0:
 				return "Adjustments unlocked! You can now adjust the placement of a number once. Simply drag the placed number to a different square.";
 			case 3:
-				return "New rule: Primes and Composites! Adding to the current ruleset, you can make a 3-in-a-row of all primes (1*, 3, 5, 7, 9, 11, 13, 15, 17) or all composites (2, 4, 6, 8, 10, 12, 14, 16).";
+				return "New rule: Primes and Composites! Adding to the current ruleset, you can make a 3-in-a-row of all primes (1*, 2, 3, 5, 7, 11, 13, 17) or all composites (4, 6, 8, 10, 12, 14, 15, 16).";
 			case 6:
 				return "New rule: Middles and Edges! Adding to the current ruleset, you can make a 3-in-a-row of all middles (5 ~ 12) or all edges (1 ~ 4 and 13 ~ 17).";
 			case 9:
