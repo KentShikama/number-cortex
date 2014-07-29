@@ -3,12 +3,18 @@ package com.numbercortex.view;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 class SplashScreen extends GameScreen {
 	
+	private Image title;
+
 	SplashScreen(Game game) {
 		super(game);
 	}
@@ -23,10 +29,21 @@ class SplashScreen extends GameScreen {
 	}
 	private void buildTitle(Stage stage) {
 		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
-		Image title = new Image(titleTexture);
+		title = new Image(titleTexture);
 		title.setBounds(63, Launch.SCREEN_HEIGHT - 776, titleTexture.getRegionWidth(),
 				titleTexture.getRegionHeight());
 		stage.addActor(title);
+	}
+	
+	void animatedTitleTransition() {
+		MoveToAction moveUp = Actions.moveTo(63, Launch.SCREEN_HEIGHT - 660, 1f);
+		Action switchToTitle = Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				game.setScreen(ScreenTracker.titleScreen);
+			}
+		});
+		title.addAction(Actions.sequence(moveUp, switchToTitle));
 	}
 	
 	@Override

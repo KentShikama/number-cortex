@@ -30,6 +30,8 @@ public class Launch extends Game {
 	private Stage plainBackgroundStage;
 	private boolean assigned;
 	private FPSLogger fps;
+	
+	private SplashScreen splashScreen;
 
 	@Override
 	public void create() {
@@ -46,7 +48,8 @@ public class Launch extends Game {
 		Assets.assignHomeScreen();
 		plainBackgroundStage = buildBackgroundStage();
 		numberBackgroundStage = buildBackgroundStage();
-		setScreen(new SplashScreen(this));
+		splashScreen = new SplashScreen(this);
+		setScreen(splashScreen);
 	}
 	private Stage buildBackgroundStage() {
 		ExtendViewport extendViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT,
@@ -122,7 +125,11 @@ public class Launch extends Game {
 		ScreenTracker.initializeScreens(this);
 		Screen screen = buildCurrentScreen(persistence);
 		recreateGameIfApplicable(persistence, screen);
-		setScreen(screen);
+		if (screen instanceof TitleScreen) {
+			splashScreen.animatedTitleTransition();
+		} else {
+			setScreen(screen);
+		}
 	}
 	private Mode buildMode(Persistence persistence) {
 		String currentModeString = persistence.getMode();
