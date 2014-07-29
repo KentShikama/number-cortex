@@ -76,7 +76,7 @@ public class OptionsScreen extends SettingsScreen {
 	}
 
 	private void addYourName() {
-		Label yourNameLabel = new Label("Your Name", labelStyle57);
+		Label yourNameLabel = new Label("Your Name (A-z0-9)", labelStyle57);
 		table.add(yourNameLabel).center().colspan(2).padBottom(24);
 		table.row();
 	}
