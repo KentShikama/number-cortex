@@ -18,13 +18,13 @@ import com.numbercortex.logic.TwoPlayerGameManager;
 
 public class Launch extends Game {
 
-	public static final int SCREEN_WIDTH = 640;
-	public static final int SCREEN_HEIGHT = 1136;
+	static final int SCREEN_WIDTH = 640;
+	static final int SCREEN_HEIGHT = 1136;
 
-	public static final Color SEA_BLUE = new Color(79f / 255, 120f / 255, 141f / 255, 1);
-	public static final Color SEA_GREEN = new Color(141f / 255, 185f / 255, 170f / 255, 1);
-	public static final Color RETRO_RED = new Color(200f / 255, 99f / 255, 91f / 255, 1);
-	public static final Color BRIGHT_YELLOW = new Color(250f / 255, 235f / 255, 102f / 255, 1);
+	static final Color SEA_BLUE = new Color(79f / 255, 120f / 255, 141f / 255, 1);
+	static final Color SEA_GREEN = new Color(141f / 255, 185f / 255, 170f / 255, 1);
+	static final Color RETRO_RED = new Color(200f / 255, 99f / 255, 91f / 255, 1);
+	static final Color BRIGHT_YELLOW = new Color(250f / 255, 235f / 255, 102f / 255, 1);
 
 	private Stage numberBackgroundStage;
 	private Stage plainBackgroundStage;
