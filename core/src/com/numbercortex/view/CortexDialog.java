@@ -51,7 +51,7 @@ class CortexDialog extends Dialog {
 				public void clicked(InputEvent event, float x, float y) {
 					createConfirmationDialogs(stage, remainingDialogMessages);
 				}
-			});
+			}).show(stage);
 		}
 	}
 	static Dialog createConfirmationDialog(String dialogMessage, ClickListenerWithSound onConfirmListener) {
