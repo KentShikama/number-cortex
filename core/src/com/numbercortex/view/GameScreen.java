@@ -20,31 +20,34 @@ public class GameScreen implements Screen {
 	Stage stage;
 
 	private abstract class BottomNavigation extends Group {
-		BottomNavigation(String previousScreenName, final GameScreen previousScreen) {
-			this(previousScreenName, new ClickListenerWithSound() {
+		
+		private static final String NAVIGATION_ARROW_ICON = "left_arrow";
+		
+		BottomNavigation(String screenName, final GameScreen screen, final Direction direction) {
+			this(screenName, new ClickListenerWithSound() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					ScreenTracker.transitionScreen.transition(Direction.LEFT, previousScreen);
+					ScreenTracker.transitionScreen.transition(direction, screen);
 				}
 			});
 		}
-		BottomNavigation(String previousScreenName, ClickListener listener) {
-			addContent(previousScreenName);
+		BottomNavigation(String screenName, ClickListener listener) {
+			addContent(screenName);
 			addArmature(listener);
 		}
 		abstract void setBounds(Actor navigationTable);
 		abstract TextureRegion buildFlippedIconTexture(TextureRegion buttonIconTexture);
 		abstract void addContentsToTable(Table navigationTable, Image buttonIcon, Label buttonLabel);
-		private void addContent(String previousScreenName) {
+		private void addContent(String screenName) {
 			Table navigationTable = new Table();
 			Image buttonIcon = addIcon();
-			Label buttonLabel = addText(previousScreenName);
+			Label buttonLabel = addText(screenName);
 			addContentsToTable(navigationTable, buttonIcon, buttonLabel);
 			setBounds(navigationTable);
 			this.addActor(navigationTable);
 		}
 		private Image addIcon() {
-			TextureRegion buttonIconTexture = Assets.homeSkin.getRegion("left_arrow");
+			TextureRegion buttonIconTexture = Assets.homeSkin.getRegion(NAVIGATION_ARROW_ICON);
 			TextureRegion flippedIconTexture = buildFlippedIconTexture(buttonIconTexture);
 			Image buttonIcon = new Image(flippedIconTexture);
 			return buttonIcon;
@@ -65,7 +68,7 @@ public class GameScreen implements Screen {
 	}
 	class BackBottomNavigation extends BottomNavigation {
 		BackBottomNavigation(String previousScreenName, final GameScreen previousScreen) {
-			super(previousScreenName, previousScreen);
+			super(previousScreenName, previousScreen, Direction.LEFT);
 		}
 		BackBottomNavigation(String previousScreenName, ClickListener listener) {
 			super(previousScreenName, listener);
@@ -87,11 +90,11 @@ public class GameScreen implements Screen {
 		}
 	}
 	class ForwardBottomNavigation extends BottomNavigation {
-		ForwardBottomNavigation(String previousScreenName, GameScreen previousScreen) {
-			super(previousScreenName, previousScreen);
+		ForwardBottomNavigation(String nextScreenName, GameScreen nextScreen) {
+			super(nextScreenName, nextScreen, Direction.RIGHT);
 		}
-		ForwardBottomNavigation(String previousScreenName, ClickListener listener) {
-			super(previousScreenName, listener);
+		ForwardBottomNavigation(String nextScreenName, ClickListener listener) {
+			super(nextScreenName, listener);
 		}
 		@Override
 		void setBounds(Actor actor) {
