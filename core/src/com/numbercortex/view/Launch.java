@@ -47,8 +47,9 @@ public class Launch extends Game {
 		Assets.manager.finishLoading();
 		Assets.assignBackgroundScreen();
 		Assets.assignHomeScreen();
-		numberBackgroundStage = buildBackgroundStage();
 		plainBackgroundStage = buildBackgroundStage();
+		numberBackgroundStage = buildBackgroundStage();
+		setScreen(new SplashScreen(this));
 	}
 	private Stage buildBackgroundStage() {
 		ExtendViewport extendViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT,
@@ -91,16 +92,14 @@ public class Launch extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if (Assets.manager.update()) {
 			assignAssetsAndShowGameIfApplicable();
-			renderBackground();
-			super.render();
-		} else {
-			renderBackground();
 		}
+		renderBackground();
+		super.render();
 	}
 	private void renderBackground() {
 		int screenWidth = Gdx.graphics.getWidth();
 		int screenHeight = Gdx.graphics.getHeight();
-		if (this.getScreen() instanceof PlayScreen || this.getScreen() == null) {
+		if (this.getScreen() instanceof PlayScreen) {
 			plainBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
 			plainBackgroundStage.draw();
 		} else {
@@ -151,7 +150,9 @@ public class Launch extends Game {
 	@Override
 	public void pause() {
 		super.pause();
-		Persistence.getInstance().save();
+		if (assigned) {
+			Persistence.getInstance().save();			
+		}
 	}
 	@Override
 	public void dispose() {
