@@ -102,7 +102,8 @@ public class SinglePlayerGameManager implements GameManager {
 		if (state != null) {
 			updateState(state);
 			if (Persistence.getInstance().isInPlay()) {
-				Sound.loopGameBGM();
+				Sound.stopOpeningBGM();
+				Sound.loopGameBGMGradually();
 			}
 		}
 	}
@@ -114,7 +115,8 @@ public class SinglePlayerGameManager implements GameManager {
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		manuallySetFirstPlayer();
 		registerPlayersAndStartGame();
-		Sound.loopGameBGM();
+		Sound.stopOpeningBGM();
+		Sound.loopGameBGMGradually();
 	}
 	private void manuallySetFirstPlayer() {
 		switch (currentLevel) {
@@ -155,12 +157,12 @@ public class SinglePlayerGameManager implements GameManager {
 			Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
 			ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 			if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
-				Sound.stopBackgroundAndShowWin();
+				Sound.playWinAndRestartOpeningBGM();
 				unlockNextLevelIfOnMaxLevel(openCoordinates);
 			} else if (winnerName != null) {
-				Sound.stopBackgroundAndShowLose();
+				Sound.playLoseAndRestartOpeningBGM();
 			} else if (winnerName == null && openCoordinates.isEmpty()) {
-				Sound.stopGameBGM();
+				Sound.silenceAndRestartOpeningBGM();
 			}
 		}
 	}

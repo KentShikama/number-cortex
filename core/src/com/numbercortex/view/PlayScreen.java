@@ -138,6 +138,7 @@ class PlayScreen extends GameScreen implements Playable {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Sound.pauseGameBGM();
+				Sound.loopOpeningBGMGradually();
 				if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
 					ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.singlePlayerSettingsScreen);
 				} else {
@@ -155,6 +156,7 @@ class PlayScreen extends GameScreen implements Playable {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Sound.pauseGameBGM();
+				Sound.loopOpeningBGMGradually();
 				ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.optionsScreen);
 			}
 		});
@@ -374,6 +376,7 @@ class PlayScreen extends GameScreen implements Playable {
 				Persistence persistence = Persistence.getInstance();
 				persistence.setInPlay(false);
 				Sound.stopGameBGM();
+				Sound.loopOpeningBGMGradually();
 				ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
 			}
 		});

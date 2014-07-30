@@ -91,7 +91,8 @@ public class TwoPlayerGameManager implements GameManager {
 		}
 		updateState(state);
 		if (Persistence.getInstance().isInPlay()) {
-			Sound.loopGameBGM();
+			Sound.stopOpeningBGM();
+			Sound.loopGameBGMGradually();
 		}
 	}
 
@@ -101,7 +102,8 @@ public class TwoPlayerGameManager implements GameManager {
 		persistence.setInPlay(true);
 		DragAndDropHandler.getInstance().resetPlacementCount();
 		registerPlayersAndStartGame();
-		Sound.loopGameBGM();
+		Sound.stopOpeningBGM();
+		Sound.loopGameBGMGradually();
 	}
 	private void registerPlayersAndStartGame() {
 		for (Player player : players) {
@@ -121,9 +123,9 @@ public class TwoPlayerGameManager implements GameManager {
 		ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
 		Persistence persistence = Persistence.getInstance();
 		if (winner != null && persistence.isInPlay()) {
-			Sound.stopBackgroundAndShowWin();
+			Sound.playWinAndRestartOpeningBGM();
 		} else if (isTieGame(winner, openCoordinates)) {
-			Sound.stopGameBGM();
+			Sound.silenceAndRestartOpeningBGM();
 		}
 	}
 	private boolean isTieGame(String winner, ArrayList<Integer> openCoordinates) {

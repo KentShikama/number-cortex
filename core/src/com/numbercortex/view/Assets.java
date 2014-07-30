@@ -19,7 +19,8 @@ class Assets {
 	static Skin dialogSkin;
 	static Skin settingsSkin;
 
-	static Music backgroundMusic;
+	static Music openingBGM;
+	static Music gameBGM;
 	static Sound clickSound;
 	static Sound missClickSound;
 	static Sound winSound;
@@ -42,7 +43,8 @@ class Assets {
 	private static final String SETTINGS_ATLAS = "settings/settings.atlas";
 	private static final String SETTINGS_SKIN = "settings/settings.json";
 
-	private static final String BACKGROUND_MUSIC = "audio/operation_clandestine.mp3";
+	private static final String OPENING_BACKGROUND_MUSIC = "audio/opening.mp3";
+	private static final String GAME_BACKGROUND_MUSIC = "audio/operation_clandestine.mp3";
 	private static final String CLICK_SOUND = "audio/click.wav";
 	private static final String MISS_CLICK_SOUND = "audio/miss.wav";
 	private static final String WIN_SOUND = "audio/win.mp3";
@@ -102,14 +104,16 @@ class Assets {
 	}
 
 	static void loadAudio() {
-		manager.load(BACKGROUND_MUSIC, Music.class);
+		manager.load(OPENING_BACKGROUND_MUSIC, Music.class);
+		manager.load(GAME_BACKGROUND_MUSIC, Music.class);
 		manager.load(CLICK_SOUND, Sound.class);
 		manager.load(MISS_CLICK_SOUND, Sound.class);
 		manager.load(WIN_SOUND, Sound.class);
 		manager.load(LOSE_SOUND, Sound.class);
 	}
 	static void assignAudio() {
-		backgroundMusic = manager.get(BACKGROUND_MUSIC, Music.class);
+		openingBGM = manager.get(OPENING_BACKGROUND_MUSIC, Music.class);
+		gameBGM = manager.get(GAME_BACKGROUND_MUSIC, Music.class);
 		clickSound = manager.get(CLICK_SOUND, Sound.class);
 		missClickSound = manager.get(MISS_CLICK_SOUND, Sound.class);
 		winSound = manager.get(WIN_SOUND, Sound.class);

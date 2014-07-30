@@ -141,6 +141,7 @@ public class Launch extends Game {
 		return screen;
 	}
 	private void recreateGameIfApplicable(Persistence persistence, Screen screen) {
+		Sound.loopOpeningBGM();
 		if (persistence.isInPlay() || screen instanceof PlayScreen) {
 			CortexState currentCortexState = persistence.getCurrentCortexState();
 			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
