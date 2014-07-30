@@ -16,8 +16,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'Number Cortex'
-        gdxVersion = '1.1.0'
-        roboVMVersion = '0.0.13'
+        gdxVersion = '1.2.1-SNAPSHOT'
+        roboVMVersion = '0.0.14'
     }
 
     repositories {
