@@ -48,7 +48,6 @@ public class Launch extends Game {
 		Assets.manager.finishLoading();
 		Assets.assignBackgroundScreen();
 		Assets.assignHomeScreen();
-		plainBackgroundStage = buildBackgroundStage();
 		numberBackgroundStage = buildBackgroundStage();
 		splashScreen = new SplashScreen(this);
 		setScreen(splashScreen);
@@ -72,7 +71,9 @@ public class Launch extends Game {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		addPlainBackground();
+		if (assigned) {
+			addPlainBackground();			
+		}
 		addNumberBackground();
 	}
 	private void addPlainBackground() {
@@ -112,6 +113,7 @@ public class Launch extends Game {
 
 	private void assignAssetsAndShowGameIfApplicable() {
 		if (!assigned) {
+			plainBackgroundStage = buildBackgroundStage();
 			Assets.assignSettingsScreen();
 			Assets.assignPlayScreen();
 			Assets.assignLevelsScreen();
