@@ -21,6 +21,10 @@ class TransitionScreen extends GameScreen {
 	TransitionScreen(Game game) {
 		super(game);
 	}
+	
+	void splashTransition(GameScreen nextScreen) {
+		transition(null, nextScreen, 1f);
+	}
 
 	void transition(Direction direction, GameScreen nextScreen) {
 		transition(direction, nextScreen, 0.4f);
@@ -54,6 +58,17 @@ class TransitionScreen extends GameScreen {
 		animateCurrentScreenAndSwitchScreens(direction, currentScreen, nextScreen, duration);
 	}
 	private void animateNextScreen(Direction direction, final GameScreen nextScreen, final float duration) {
+		if (direction == null) {
+			animateNextScreenWithoutSliding(nextScreen, duration);
+		} else {
+			animateNextScreenWithSliding(direction, nextScreen, duration);
+		}
+	}
+	private void animateNextScreenWithoutSliding(final GameScreen nextScreen, final float duration) {
+		SequenceAction fadeInAction = Actions.sequence(Actions.fadeOut(0.0001f), Actions.fadeIn(duration));
+		nextScreen.stage.addAction(fadeInAction);
+	}
+	private void animateNextScreenWithSliding(Direction direction, final GameScreen nextScreen, final float duration) {
 		if (direction == Direction.LEFT) {
 			nextScreen.stage.getRoot().setPosition(-nextScreen.stage.getWidth(), 0);
 		} else {
@@ -65,6 +80,17 @@ class TransitionScreen extends GameScreen {
 	}
 	private void animateCurrentScreenAndSwitchScreens(Direction direction, final GameScreen currentScreen,
 			final GameScreen nextScreen, final float duration) {
+		Action currentScreenAnimation;
+		if (direction == null) {
+			currentScreenAnimation = Actions.fadeOut(duration);
+		} else {
+			currentScreenAnimation = buildCurrentScreenAnimationWithSliding(direction, currentScreen, nextScreen, duration);
+		}
+		Action switchScreensAction = buildSwitchScreensAction(nextScreen);
+		currentScreen.stage.addAction(Actions.sequence(currentScreenAnimation, switchScreensAction));
+	}
+	private ParallelAction buildCurrentScreenAnimationWithSliding(Direction direction, final GameScreen currentScreen,
+			final GameScreen nextScreen, final float duration) {
 		MoveToAction moveCurrentScreenOut;
 		if (direction == Direction.LEFT) {
 			moveCurrentScreenOut = Actions.moveTo(currentScreen.stage.getWidth(), 0, duration, Interpolation.exp10Out);
@@ -73,41 +99,18 @@ class TransitionScreen extends GameScreen {
 		}
 		AlphaAction fadeOutAction = Actions.fadeOut((float) (duration / 1.5), Interpolation.exp10Out);
 		ParallelAction fadeAndMoveOutCurrentScreen = Actions.parallel(moveCurrentScreenOut, fadeOutAction);
+		return fadeAndMoveOutCurrentScreen;
+	}
+	private Action buildSwitchScreensAction(final GameScreen nextScreen) {
 		Action switchScreensAction = Actions.run(new Runnable() {
 			@Override
 			public void run() {
 				game.setScreen(nextScreen);
 			}
 		});
-		currentScreen.stage.addAction(Actions.sequence(fadeAndMoveOutCurrentScreen, switchScreensAction));
+		return switchScreensAction;
 	}
 	
-	void splashTransition(GameScreen nextScreen) {
-		GameScreen currentScreen = getCurrentScreen();
-		splashTransition(currentScreen, nextScreen, 1f);
-	}
-	private void splashTransition(final GameScreen currentScreen, final GameScreen nextScreen, final float duration) {
-		this.currentScreen = currentScreen;
-		this.nextScreen = nextScreen;
-
-		currentScreen.hide();
-		nextScreen.show();
-
-		game.setScreen(this);
-
-		SequenceAction fadeInAction = Actions.sequence(Actions.fadeOut(0.0001f), Actions.fadeIn(duration));
-		nextScreen.stage.addAction(fadeInAction);
-		
-		AlphaAction fadeOutAction = Actions.fadeOut(duration);
-		Action switchScreensAction = Actions.run(new Runnable() {
-			@Override
-			public void run() {
-				game.setScreen(nextScreen);
-			}
-		});
-		currentScreen.stage.addAction(Actions.sequence(fadeOutAction, switchScreensAction));
-	}
-
 	@Override
 	public void render(float delta) {
 		nextScreen.render(delta);
