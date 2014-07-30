@@ -33,10 +33,10 @@ class ScreenTracker {
 		transitionScreen = new TransitionScreen(game);
 	}
 
-	private static Map<String, Screen> screenMap;
-	static Screen getScreen(String name) {
+	private static Map<String, GameScreen> screenMap;
+	static GameScreen getScreen(String name) {
 		if (screenMap == null) {
-			screenMap = new HashMap<String, Screen>();
+			screenMap = new HashMap<String, GameScreen>();
 			screenMap.put(TitleScreen.TAG, titleScreen);
 			screenMap.put(MoreScreen.TAG, moreScreen);
 			screenMap.put(CreditsScreen.TAG, creditsScreen);
@@ -49,7 +49,7 @@ class ScreenTracker {
 		if (name.isEmpty()) {
 			return titleScreen;
 		} else {
-			Screen screen = screenMap.get(name);
+			GameScreen screen = screenMap.get(name);
 			return screen;
 		}
 	}

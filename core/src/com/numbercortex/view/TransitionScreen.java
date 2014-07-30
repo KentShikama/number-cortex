@@ -81,6 +81,32 @@ class TransitionScreen extends GameScreen {
 		});
 		currentScreen.stage.addAction(Actions.sequence(fadeAndMoveOutCurrentScreen, switchScreensAction));
 	}
+	
+	void splashTransition(GameScreen nextScreen) {
+		GameScreen currentScreen = getCurrentScreen();
+		splashTransition(currentScreen, nextScreen, 1f);
+	}
+	private void splashTransition(final GameScreen currentScreen, final GameScreen nextScreen, final float duration) {
+		this.currentScreen = currentScreen;
+		this.nextScreen = nextScreen;
+
+		currentScreen.hide();
+		nextScreen.show();
+
+		game.setScreen(this);
+
+		SequenceAction fadeInAction = Actions.sequence(Actions.fadeOut(0.0001f), Actions.fadeIn(duration));
+		nextScreen.stage.addAction(fadeInAction);
+		
+		AlphaAction fadeOutAction = Actions.fadeOut(duration);
+		Action switchScreensAction = Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				game.setScreen(nextScreen);
+			}
+		});
+		currentScreen.stage.addAction(Actions.sequence(fadeOutAction, switchScreensAction));
+	}
 
 	@Override
 	public void render(float delta) {

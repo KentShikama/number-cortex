@@ -35,12 +35,12 @@ class SplashScreen extends GameScreen {
 		stage.addActor(title);
 	}
 	
-	void animatedTitleTransition() {
+	void animatedTitleTransition(final HomeScreen screen) {
 		MoveToAction moveUp = Actions.moveTo(63, Launch.SCREEN_HEIGHT - 660, 1f);
 		Action switchToTitle = Actions.run(new Runnable() {
 			@Override
 			public void run() {
-				game.setScreen(ScreenTracker.titleScreen);
+				game.setScreen(screen);
 			}
 		});
 		title.addAction(Actions.sequence(moveUp, switchToTitle));

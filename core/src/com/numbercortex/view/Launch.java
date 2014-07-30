@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.numbercortex.CortexState;
 import com.numbercortex.ModeTracker;
@@ -123,25 +125,29 @@ public class Launch extends Game {
 		Persistence persistence = Persistence.getInstance().load();
 		ModeTracker.mode = buildMode(persistence);
 		ScreenTracker.initializeScreens(this);
-		Screen screen = buildCurrentScreen(persistence);
-		recreateGameIfApplicable(persistence, screen);
-		if (screen instanceof TitleScreen) {
-			splashScreen.animatedTitleTransition();
+		GameScreen screen = buildCurrentScreen(persistence);
+		recreateScreenState(persistence, screen);
+		if (screen instanceof HomeScreen) {
+			HomeScreen homeScreen = (HomeScreen) screen;
+			splashScreen.animatedTitleTransition(homeScreen);
 		} else {
-			setScreen(screen);
+			ScreenTracker.transitionScreen.splashTransition(screen);
 		}
 	}
 	private Mode buildMode(Persistence persistence) {
 		String currentModeString = persistence.getMode();
 		return ModeTracker.getMode(currentModeString);
 	}
-	private Screen buildCurrentScreen(Persistence persistence) {
+	private GameScreen buildCurrentScreen(Persistence persistence) {
 		String currentScreenString = persistence.getCurrentScreen();
-		Screen screen = ScreenTracker.getScreen(currentScreenString);
+		GameScreen screen = ScreenTracker.getScreen(currentScreenString);
 		return screen;
 	}
+	private void recreateScreenState(Persistence persistence, Screen screen) {
+		recreateGameIfApplicable(persistence, screen); 
+		recreateOpeningMusicIfApplicable(persistence, screen);
+	}
 	private void recreateGameIfApplicable(Persistence persistence, Screen screen) {
-		Sound.loopOpeningBGM();
 		if (persistence.isInPlay() || screen instanceof PlayScreen) {
 			CortexState currentCortexState = persistence.getCurrentCortexState();
 			if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
@@ -149,6 +155,16 @@ public class Launch extends Game {
 			} else {
 				TwoPlayerGameManager.createNewGameManager(ScreenTracker.playScreen, currentCortexState);
 			}
+		}
+	}
+	private void recreateOpeningMusicIfApplicable(Persistence persistence, Screen screen) {
+		if (!persistence.isInPlay() || !(screen instanceof PlayScreen)) {
+			Timer.schedule(new Task() {
+				@Override
+				public void run() {
+					Sound.loopOpeningBGM();
+				}
+			}, 1f);
 		}
 	}
 
