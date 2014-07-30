@@ -197,6 +197,11 @@ class OptionsScreen extends SettingsScreen {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				persistence.setMusic(musicCheckbox.isChecked());
+				if (musicCheckbox.isChecked()) {
+					Sound.loopOpeningBGM();
+				} else {
+					Sound.stopOpeningBGM();
+				}
 			}
 		});
 		return musicCheckbox;
