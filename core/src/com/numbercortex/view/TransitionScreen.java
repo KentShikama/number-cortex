@@ -106,6 +106,7 @@ class TransitionScreen extends GameScreen {
 			@Override
 			public void run() {
 				game.setScreen(nextScreen);
+				Assets.unloadSplash();
 			}
 		});
 		return switchScreensAction;

@@ -13,6 +13,7 @@ class Assets {
 	static AssetManager manager;
 
 	static Texture backgroundTexture;
+	static Skin splashSkin;
 	static Skin homeSkin;
 	static Skin levelsSkin;
 	static Skin gameSkin;
@@ -27,6 +28,9 @@ class Assets {
 	static Sound loseSound;
 
 	private static final String BACKGROUND_TEXTURE = "background/number_background.png";
+	
+	private static final String SPLASH_ATLAS = "splash/splash.atlas";
+	private static final String SPLASH_SKIN = "splash/splash.json";
 
 	private static final String HOME_ATLAS = "home/home.atlas";
 	private static final String HOME_SKIN = "home/home.json";
@@ -56,6 +60,21 @@ class Assets {
 
 	static void assignBackgroundScreen() {
 		backgroundTexture = manager.get(BACKGROUND_TEXTURE, Texture.class);
+	}
+	
+	static void loadSplash() {
+		manager.load(SPLASH_ATLAS, TextureAtlas.class);
+		manager.load(SPLASH_SKIN, Skin.class, new SkinLoader.SkinParameter(SPLASH_ATLAS));
+	}
+	static void assignSplashScreen() {
+		splashSkin = manager.get(SPLASH_SKIN, Skin.class);
+	}
+	static void unloadSplash() {
+		if (splashSkin != null) {
+			manager.unload(SPLASH_ATLAS);
+			manager.unload(SPLASH_SKIN);
+			splashSkin = null;	
+		}
 	}
 
 	static void loadHome() {

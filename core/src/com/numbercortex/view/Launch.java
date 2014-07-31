@@ -44,10 +44,10 @@ public class Launch extends Game {
 	private void loadAndAssignStartingAssets() {
 		Assets.manager = new AssetManager();
 		Assets.loadBackground();
-		Assets.loadHome();
+		Assets.loadSplash();
 		Assets.manager.finishLoading();
 		Assets.assignBackgroundScreen();
-		Assets.assignHomeScreen();
+		Assets.assignSplashScreen();
 		numberBackgroundStage = buildBackgroundStage();
 		splashScreen = new SplashScreen(this);
 		setScreen(splashScreen);
@@ -59,6 +59,7 @@ public class Launch extends Game {
 		return backgroundStage;
 	}
 	private void loadAssets() {
+		Assets.loadHome();
 		Assets.loadSettings();
 		Assets.loadGame();
 		Assets.loadLevels();
@@ -114,12 +115,15 @@ public class Launch extends Game {
 	private void assignAssetsAndShowGameIfApplicable() {
 		if (!assigned) {
 			plainBackgroundStage = buildBackgroundStage();
+			addPlainBackground();
+			Assets.assignHomeScreen();
 			Assets.assignSettingsScreen();
 			Assets.assignPlayScreen();
 			Assets.assignLevelsScreen();
 			Assets.assignDialogScreen();
 			Assets.assignAudio();
 			showGame();
+			splashScreen = null;
 			assigned = true;
 		}
 	}

@@ -28,7 +28,7 @@ class SplashScreen extends GameScreen {
 		buildTitle(stage);
 	}
 	private void buildTitle(Stage stage) {
-		TextureRegion titleTexture = Assets.homeSkin.getRegion(TITLE);
+		TextureRegion titleTexture = Assets.splashSkin.getRegion(TITLE);
 		title = new Image(titleTexture);
 		title.setBounds(63, Launch.SCREEN_HEIGHT - 776, titleTexture.getRegionWidth(),
 				titleTexture.getRegionHeight());
