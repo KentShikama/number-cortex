@@ -9,7 +9,7 @@ import com.numbercortex.logic.BoardUtilities;
 
 class LosingBrain implements Brain {
 
-	private String name = "Sam (AI)";
+	private String name = "Billy (AI)";
 	private BrainCalculator utility;
 
 	LosingBrain(GameSettings settings) {
