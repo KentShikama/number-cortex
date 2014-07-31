@@ -38,7 +38,7 @@ class NumberScroller {
 
 	private static NumberTextButton.NumberTextButtonStyle numberTextButtonStyle = buildButtonStyle();
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle() {
-		BitmapFont font = FontGenerator.getNumberScrollerFont();
+		BitmapFont font = Assets.numberScrollerFont;
 		Drawable numberRectangle = Assets.gameSkin.getDrawable(NUMBER_RECTANGLE_BACKGROUND);
 		NumberTextButton.NumberTextButtonStyle numberTextButtonStyle = new NumberTextButton.NumberTextButtonStyle();
 		numberTextButtonStyle.font = font;

@@ -23,7 +23,7 @@ class NumberCortexBoard {
 	private static NumberTextButton.NumberTextButtonStyle blueRectangleStyle = buildButtonStyle("blue_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle redRectangleStyle = buildButtonStyle("red_rectangle");
 	private static NumberTextButton.NumberTextButtonStyle buildButtonStyle(String textureName) {
-		BitmapFont font = FontGenerator.getBoardNumberFont();
+		BitmapFont font = Assets.boardNumberFont;
 		Drawable numberRectangle = Assets.gameSkin.getDrawable(textureName);
 		Drawable numberRectangleChecked = Assets.gameSkin.getDrawable(textureName + "_checked");
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();

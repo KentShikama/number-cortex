@@ -36,7 +36,7 @@ class MessageArea {
 
 	private static TextButtonStyle textButtonStyle = buildBorderlessTextButtonStyle();
 	private static TextButtonStyle buildBorderlessTextButtonStyle() {
-		BitmapFont font = FontGenerator.getGillSans57();
+		BitmapFont font = Assets.gillSans57;
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
@@ -46,7 +46,7 @@ class MessageArea {
 	private static final String TEXT_BUTTON_BORDER_TEXTURE_NAME = "white_button";
 	private static TextButton.TextButtonStyle borderedTextButtonStyle = buildBorderedTextButtonStyle();
 	private static TextButton.TextButtonStyle buildBorderedTextButtonStyle() {
-		BitmapFont font = FontGenerator.getGillSans57();
+		BitmapFont font = Assets.gillSans57;
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.font = font;
 		textButtonStyle.fontColor = Color.WHITE;
@@ -57,7 +57,7 @@ class MessageArea {
 	private static final String NEXT_NUMBER_TEXTURE_NAME = "next_number";
 	private static NumberTextButton.NumberTextButtonStyle nextNumberStyle = buildNextNumberStyle(NEXT_NUMBER_TEXTURE_NAME);
 	private static NumberTextButton.NumberTextButtonStyle buildNextNumberStyle(String textureName) {
-		BitmapFont font = FontGenerator.getBoardNumberFont();
+		BitmapFont font = Assets.boardNumberFont;
 		Drawable numberRectangle = Assets.gameSkin.getDrawable(textureName);
 		NumberTextButton.NumberTextButtonStyle buttonStyle = new NumberTextButton.NumberTextButtonStyle();
 		buttonStyle.font = font;
@@ -206,7 +206,7 @@ class MessageArea {
 		stage.addActor(nextNumberSquare);
 	}
 	private static Label buildNumberLabel() {
-		BitmapFont font = FontGenerator.getBoardNumberFont();
+		BitmapFont font = Assets.boardNumberFont;
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 		labelStyle.font = font;
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;

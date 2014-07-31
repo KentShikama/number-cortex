@@ -44,7 +44,7 @@ abstract class HomeScreen extends GameScreen {
 		}
 		private void addText(String buttonName, Table buttonTable) {
 			Label.LabelStyle labelStyle = new Label.LabelStyle();
-			labelStyle.font = FontGenerator.getGillSans40();
+			labelStyle.font = Assets.gillSans41;
 			labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 			Label buttonLabel = new Label(buttonName, labelStyle);
 			buttonTable.add(buttonLabel).center().pad(6);

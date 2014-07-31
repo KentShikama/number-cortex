@@ -59,14 +59,14 @@ class CreditsScreen extends GameScreen {
 	}
 	private Label buildTitle() {
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = FontGenerator.getGillSansLight140();
+		labelStyle.font = Assets.gillSansLight140;
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label title = new Label("Credits", labelStyle);
 		return title;
 	}
 	private Label buildContentBlockLabel(String contentBlock) {
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = FontGenerator.getGillSans57();
+		labelStyle.font = Assets.gillSans57;
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label label = new Label(contentBlock, labelStyle);
 		label.setAlignment(Align.center);

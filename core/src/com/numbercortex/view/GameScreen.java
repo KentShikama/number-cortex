@@ -54,7 +54,7 @@ class GameScreen implements Screen {
 		}
 		private Label addText(String text) {
 			Label.LabelStyle labelStyle = new Label.LabelStyle();
-			labelStyle.font = FontGenerator.getGillSans50();
+			labelStyle.font = Assets.gillSans50;
 			labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 			Label buttonLabel = new Label(text, labelStyle);
 			return buttonLabel;

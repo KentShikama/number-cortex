@@ -147,7 +147,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 	private Label buildLevelLabel() {
 		int level = gameSettings.getLevel();
 		Label.LabelStyle gillSansLightStyle = new Label.LabelStyle();
-		BitmapFont font = FontGenerator.getGillSansLight200();
+		BitmapFont font = Assets.gillSansLight200;
 		gillSansLightStyle.font = font;
 		gillSansLightStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label levelLabel = new Label("" + level, gillSansLightStyle);

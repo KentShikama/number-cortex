@@ -65,6 +65,7 @@ public class Launch extends Game {
 		Assets.loadLevels();
 		Assets.loadDialog();
 		Assets.loadAudio();
+		Assets.loadFonts();
 		assigned = false;
 	}
 
@@ -115,13 +116,13 @@ public class Launch extends Game {
 		if (!assigned) {
 			plainBackgroundStage = buildBackgroundStage();
 			addPlainBackground();
-			Assets.loadAndAssignFonts();
 			Assets.assignHomeScreen();
 			Assets.assignSettingsScreen();
 			Assets.assignPlayScreen();
 			Assets.assignLevelsScreen();
 			Assets.assignDialogScreen();
 			Assets.assignAudio();
+			Assets.assignFonts();
 			showGame();
 			splashScreen = null;
 			assigned = true;

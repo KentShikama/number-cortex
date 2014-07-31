@@ -32,7 +32,7 @@ abstract class SettingsScreen extends GameScreen {
 	static Label.LabelStyle labelStyle50 = buildLabelStyle50();
 	private static Label.LabelStyle buildLabelStyle50() {
 		Label.LabelStyle labelStyle50 = new Label.LabelStyle();
-		BitmapFont gillSans50Compact = FontGenerator.getGillSans50Compact();
+		BitmapFont gillSans50Compact = Assets.gillSans50Compact;
 		labelStyle50.font = gillSans50Compact;
 		labelStyle50.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle50;
@@ -41,7 +41,7 @@ abstract class SettingsScreen extends GameScreen {
 	static Label.LabelStyle labelStyle57 = buildLabelStyle57();
 	static Label.LabelStyle buildLabelStyle57() {
 		Label.LabelStyle labelStyle57 = new Label.LabelStyle();
-		BitmapFont gillSans57 = FontGenerator.getGillSans57();
+		BitmapFont gillSans57 = Assets.gillSans57;
 		labelStyle57.font = gillSans57;
 		labelStyle57.fontColor = Launch.BRIGHT_YELLOW;
 		return labelStyle57;
@@ -53,9 +53,9 @@ abstract class SettingsScreen extends GameScreen {
 		Drawable textFieldDrawable = new TextureRegionDrawable(textFieldTexture);
 		TextField.TextFieldStyle style = new TextField.TextFieldStyle();
 		style.background = textFieldDrawable;
-		style.font = FontGenerator.getGillSans57();
+		style.font = Assets.gillSans57;
 		style.fontColor = Launch.BRIGHT_YELLOW;
-		style.messageFont = FontGenerator.getGillSans57();
+		style.messageFont = Assets.gillSans57;
 		style.messageFontColor = new Color(Launch.SEA_BLUE).add(0.2f, 0.2f, 0.2f, 0);
 		style.background.setLeftWidth(style.background.getLeftWidth() + 15);
 		style.background.setRightWidth(style.background.getRightWidth() + 15);

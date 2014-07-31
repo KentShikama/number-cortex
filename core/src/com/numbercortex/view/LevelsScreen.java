@@ -28,7 +28,7 @@ class LevelsScreen extends GameScreen {
 
 	private static TextButton.TextButtonStyle levelButtonStyle = buildButtonStyle();
 	private static TextButton.TextButtonStyle buildButtonStyle() {
-		BitmapFont font = FontGenerator.getLevelNumberFont();
+		BitmapFont font = Assets.levelNumberFont;
 		Drawable numberRectangle = Assets.levelsSkin.getDrawable(UNLOCKED_LEVEL);
 		Drawable numberRectangleDisabled = Assets.levelsSkin.getDrawable(LOCKED_LEVEL);
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -111,7 +111,7 @@ class LevelsScreen extends GameScreen {
 	}
 	private void addTitle() {
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
-		labelStyle.font = FontGenerator.getGillSansLight140();
+		labelStyle.font = Assets.gillSansLight140;
 		labelStyle.fontColor = Launch.BRIGHT_YELLOW;
 		Label title = new Label("Levels", labelStyle);
 
