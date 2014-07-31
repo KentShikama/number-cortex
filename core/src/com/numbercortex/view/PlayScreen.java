@@ -6,7 +6,7 @@ import java.util.Map;
 
 import libgdx.NumberTextButton;
 
-import com.badlogic.gdx.Game;
+import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -72,7 +72,7 @@ class PlayScreen extends GameScreen implements Playable {
 		} else {
 			isShown = true;
 			setUpInputAndBackKey();
-			buildPlayScreenStage();
+			buildPlayScreenStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			resumeGame();
 		}
 	}
@@ -85,8 +85,8 @@ class PlayScreen extends GameScreen implements Playable {
 		Gdx.input.setCatchBackKey(true);
 		backKey = false;
 	}
-	private void buildPlayScreenStage() {
-		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+	private void buildPlayScreenStage(int width, int height) {
+		stage.getViewport().update(width, height, true);
 		stage.clear();
 		buildMessageArea(game);
 		buildBoard(settings, preferences);
@@ -344,6 +344,11 @@ class PlayScreen extends GameScreen implements Playable {
 		numberScroller.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
 	}
 
+	@Override
+	public void resize(int width, int height) {
+		buildPlayScreenStage(width, height);
+		resumeGame();
+	}
 	@Override
 	public void render(float delta) {
 		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);

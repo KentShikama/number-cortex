@@ -1,6 +1,6 @@
 package com.numbercortex.view;
 
-import com.badlogic.gdx.Game;
+import libgdx.Game;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;

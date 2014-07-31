@@ -1,6 +1,6 @@
 package com.numbercortex.view;
 
-import com.badlogic.gdx.Game;
+import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;

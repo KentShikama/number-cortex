@@ -2,7 +2,7 @@ package com.numbercortex.view;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Game;
+import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
