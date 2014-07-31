@@ -70,7 +70,7 @@ public class Persistence {
 		yourName = preferences.getString(YOUR_NAME, "Player");
 		doubleTap = preferences.getBoolean(DOUBLE_TAP, false);
 		sound = preferences.getBoolean(SOUND, true);
-		music = preferences.getBoolean(MUSIC, false);
+		music = preferences.getBoolean(MUSIC, true);
 	}
 	private void loadApplicationState() {
 		loadGeneralSettings();
