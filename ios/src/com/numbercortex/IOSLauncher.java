@@ -5,12 +5,14 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.numbercortex.Launch;
+import com.numbercortex.view.Launch;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
+        config.orientationPortrait = true;
+        config.orientationLandscape = false;
         return new IOSApplication(new Launch(), config);
     }
 

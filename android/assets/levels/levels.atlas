@@ -1,0 +1,41 @@
+
+levels.png
+size: 989,111
+format: RGBA8888
+filter: MipMapLinearNearest,Nearest
+repeat: none
+3x3
+  rotate: false
+  xy: 353, 14
+  size: 349, 97
+  orig: 349, 97
+  offset: 0, 0
+  index: -1
+4x4
+  rotate: false
+  xy: 2, 13
+  size: 349, 98
+  orig: 349, 98
+  offset: 0, 0
+  index: -1
+empty_rectangle
+  rotate: false
+  xy: 704, 11
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+levels_icon
+  rotate: false
+  xy: 908, 2
+  size: 81, 109
+  orig: 81, 109
+  offset: 0, 0
+  index: -1
+locked_rectangle
+  rotate: false
+  xy: 806, 11
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
