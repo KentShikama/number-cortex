@@ -36,7 +36,6 @@ public class Sound {
 						volume += 0.01f;
 					} else {
 						volume = 0.9f;
-						System.out.println("Just became");
 					}
 					Assets.openingBGM.setVolume(volume);
 				}
@@ -60,7 +59,6 @@ public class Sound {
 						volume += 0.01f;
 					} else {
 						volume = 0.9f;
-						System.out.println("Just became");
 					}
 					Assets.gameBGM.setVolume(volume);
 				}

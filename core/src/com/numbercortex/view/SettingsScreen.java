@@ -178,7 +178,6 @@ abstract class SettingsScreen extends GameScreen {
 		evenOddCheckbox.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				System.out.println("Changed");
 				gameSettings.setEvenOdd(evenOddCheckbox.isChecked());
 			}
 		});
