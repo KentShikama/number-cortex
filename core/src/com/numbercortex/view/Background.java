@@ -9,34 +9,34 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 class Background extends Actor {
 
-	private Color backgroundProperty;
-	private ShapeRenderer shapeRenderer;
-	private float worldWidth;
+    private Color backgroundProperty;
+    private ShapeRenderer shapeRenderer;
+    private float worldWidth;
 
-	private Texture backgroundTexture;
+    private Texture backgroundTexture;
 
-	Background(Color backgroundProperty, float worldWidth) {
-		this(backgroundProperty, null, worldWidth);
-	}
-	Background(Color backgroundProperty, Texture backgroundTexture, float worldWidth) {
-		this.backgroundProperty = backgroundProperty;
-		this.backgroundTexture = backgroundTexture;
-		this.worldWidth = worldWidth;
-		this.shapeRenderer = new ShapeRenderer();
-	}
+    Background(Color backgroundProperty, float worldWidth) {
+        this(backgroundProperty, null, worldWidth);
+    }
+    Background(Color backgroundProperty, Texture backgroundTexture, float worldWidth) {
+        this.backgroundProperty = backgroundProperty;
+        this.backgroundTexture = backgroundTexture;
+        this.worldWidth = worldWidth;
+        this.shapeRenderer = new ShapeRenderer();
+    }
 
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		batch.end();
-		shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(backgroundProperty);
-		shapeRenderer.rect(0, 0, worldWidth, Launch.SCREEN_HEIGHT);
-		shapeRenderer.end();
-		batch.begin();
-		if (backgroundTexture != null) {
-			batch.draw(backgroundTexture, 0, 0, worldWidth, (float) (worldWidth * 1.775));
-		}
-	}
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.end();
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeType.Filled);
+        shapeRenderer.setColor(backgroundProperty);
+        shapeRenderer.rect(0, 0, worldWidth, Launch.SCREEN_HEIGHT);
+        shapeRenderer.end();
+        batch.begin();
+        if (backgroundTexture != null) {
+            batch.draw(backgroundTexture, 0, 0, worldWidth, (float) (worldWidth * 1.775));
+        }
+    }
 
 }

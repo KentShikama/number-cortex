@@ -20,56 +20,66 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
-/** <p>
+/**
+ * <p>
  * An {@link ApplicationListener} that delegates to a {@link Screen}. This allows an application to easily have multiple screens.
  * </p>
  * <p>
- * Screens are not disposed automatically. You must handle whether you want to keep screens around or dispose of them when another
- * screen is set.
+ * Screens are not disposed automatically. You must handle whether you want to keep screens around or dispose of them when another screen is set.
  * 
  * Modified to not resize screen after switch
- * </p> */
+ * </p>
+ */
 public abstract class Game implements ApplicationListener {
-	private Screen screen;
+    private Screen screen;
 
-	@Override
-	public void dispose () {
-		if (screen != null) screen.hide();
-	}
+    @Override
+    public void dispose() {
+        if (screen != null)
+            screen.hide();
+    }
 
-	@Override
-	public void pause () {
-		if (screen != null) screen.pause();
-	}
+    @Override
+    public void pause() {
+        if (screen != null)
+            screen.pause();
+    }
 
-	@Override
-	public void resume () {
-		if (screen != null) screen.resume();
-	}
+    @Override
+    public void resume() {
+        if (screen != null)
+            screen.resume();
+    }
 
-	@Override
-	public void render () {
-		if (screen != null) screen.render(Gdx.graphics.getDeltaTime());
-	}
+    @Override
+    public void render() {
+        if (screen != null)
+            screen.render(Gdx.graphics.getDeltaTime());
+    }
 
-	@Override
-	public void resize (int width, int height) {
-		if (screen != null) screen.resize(width, height);
-	}
+    @Override
+    public void resize(int width, int height) {
+        if (screen != null)
+            screen.resize(width, height);
+    }
 
-	/** Sets the current screen. {@link Screen#hide()} is called on any old screen, and {@link Screen#show()} is called on the new
-	 * screen, if any.
-	 * @param screen may be {@code null} */
-	public void setScreen (Screen screen) {
-		if (this.screen != null) this.screen.hide();
-		this.screen = screen;
-		if (this.screen != null) {
-			this.screen.show();
-		}
-	}
+    /**
+     * Sets the current screen. {@link Screen#hide()} is called on any old screen, and {@link Screen#show()} is called on the new screen, if any.
+     * 
+     * @param screen
+     *            may be {@code null}
+     */
+    public void setScreen(Screen screen) {
+        if (this.screen != null)
+            this.screen.hide();
+        this.screen = screen;
+        if (this.screen != null) {
+            this.screen.show();
+        }
+    }
 
-	/** @return the currently active {@link Screen}. */
-	public Screen getScreen () {
-		return screen;
-	}
+    /** @return the currently active {@link Screen}. */
+    public Screen getScreen() {
+        return screen;
+    }
 }
