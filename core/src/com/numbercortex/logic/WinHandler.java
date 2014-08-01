@@ -197,14 +197,14 @@ public class WinHandler {
 			}
 		}
 		if (isMiddle(set[0]) == true) {
-			winningAttribute = "Middles - 5~12";
+			winningAttribute = "Middles - 5~13";
 		} else {
-			winningAttribute = "Edges - 1~4 & 13+";
+			winningAttribute = "Edges - 1~4 & 14~17";
 		}
 		return true;
 	}
 	private static boolean isMiddle(int i) {
-		if (i >= 5 && i <= 12) {
+		if (i >= 5 && i <= 13) {
 			return true;
 		} else {
 			return false;
