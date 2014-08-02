@@ -66,9 +66,10 @@ project(":ios") {
     apply plugin: "robovm"
 
     configurations { natives }
-
+    
     dependencies {
         compile project(":core")
+        compile fileTree(dir: 'libs', include: 'chartboost-1.0.0-SNAPSHOT.jar')
         compile "org.robovm:robovm-rt:${roboVMVersion}"
         compile "org.robovm:robovm-cocoatouch:${roboVMVersion}"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
