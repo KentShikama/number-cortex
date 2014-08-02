@@ -1,0 +1,104 @@
+
+game.png
+size: 1004,428
+format: RGBA8888
+filter: MipMapLinearNearest, Nearest
+repeat: none
+blue_rectangle
+  rotate: false
+  xy: 2, 164
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+blue_rectangle_checked
+  rotate: false
+  xy: 2, 2
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+exit
+  rotate: false
+  xy: 918, 344
+  size: 86, 84
+  orig: 86, 84
+  offset: 0, 0
+  index: -1
+green_rectangle
+  rotate: false
+  xy: 164, 164
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+green_rectangle_checked
+  rotate: false
+  xy: 164, 2
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+information
+  rotate: false
+  xy: 712, 240
+  size: 86, 84
+  orig: 86, 84
+  offset: 0, 0
+  index: -1
+left_arrow
+  rotate: false
+  xy: 712, 326
+  size: 101, 102
+  orig: 101, 102
+  offset: 0, 0
+  index: -1
+next_number
+  rotate: false
+  xy: 569, 287
+  size: 141, 141
+  orig: 141, 141
+  offset: 0, 0
+  index: -1
+number_rectangle_background
+  rotate: false
+  xy: 442, 326
+  size: 125, 102
+  orig: 125, 102
+  offset: 0, 0
+  index: -1
+options
+  rotate: false
+  xy: 800, 240
+  size: 86, 84
+  orig: 86, 84
+  offset: 0, 0
+  index: -1
+red_rectangle
+  rotate: false
+  xy: 326, 164
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+red_rectangle_checked
+  rotate: false
+  xy: 326, 2
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+right_arrow
+  rotate: false
+  xy: 815, 326
+  size: 101, 102
+  orig: 101, 102
+  offset: 0, 0
+  index: -1
+scroller_rectangle
+  rotate: false
+  xy: 2, 326
+  size: 438, 102
+  orig: 438, 102
+  offset: 0, 0
+  index: -1

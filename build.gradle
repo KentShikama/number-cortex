@@ -2,8 +2,10 @@ buildscript {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven { url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/' }
     }
     dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
         classpath 'com.android.tools.build:gradle:0.10+'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
     }
@@ -16,7 +18,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'Number Cortex'
-        gdxVersion = '1.2.0'
+        gdxVersion = '1.2.1-SNAPSHOT'
         roboVMVersion = '0.0.14'
     }
 
@@ -55,6 +57,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
+        compile fileTree(dir: 'libs', include: '*.jar')
     }
 }
 
@@ -63,9 +66,10 @@ project(":ios") {
     apply plugin: "robovm"
 
     configurations { natives }
-
+    
     dependencies {
         compile project(":core")
+        compile fileTree(dir: 'libs', include: 'chartboost-1.0.0-SNAPSHOT.jar')
         compile "org.robovm:robovm-rt:${roboVMVersion}"
         compile "org.robovm:robovm-cocoatouch:${roboVMVersion}"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
