@@ -2,61 +2,32 @@ package appleChartboost;
 
 import org.robovm.bindings.chartboost.Chartboost;
 import org.robovm.bindings.chartboost.ChartboostDelegate;
+import org.robovm.bindings.chartboost.ChartboostDelegateAdapter;
 import chartboost.ChartBoostListener;
 import chartboost.CrossPlatformChartboost;
 
-public class AppleChartboost implements CrossPlatformChartboost {
+public class AppleChartboost implements CrossPlatformChartboost{
 
     private ChartBoostListener listener;
     private Chartboost cb;
 
     public AppleChartboost(Chartboost cb) {
         this.cb = cb;
-        cb.setDelegate(new ChartboostDelegate() {
+        cb.setDelegate(new ChartboostDelegateAdapter() {
             @Override
             public void didDismissMoreApps() {
+                if (listener == null) {
+                    System.out.println("Null pointer at line 20");
+                }
                 listener.didDismissMoreApps();
             }
             @Override
             public void didFailToLoadMoreApps() {
                 String errorMessage = "Game recommendations are currently unavailable. Please retry at a later time.";
+                if (listener == null) {
+                    System.out.println("Null pointer at line 28 and error: " + errorMessage);
+                }
                 listener.didFailToLoadMoreApps(errorMessage);        
-            }
-            @Override
-            public void didCacheInterstitial(String arg0) {}
-            @Override
-            public void didCacheMoreApps() {}
-            @Override
-            public void didClickInterstitial(String arg0) {}
-            @Override
-            public void didClickMoreApps() {}
-            @Override
-            public void didCloseInterstitial(String arg0) {}
-            @Override
-            public void didCloseMoreApps() {}
-            @Override
-            public void didDismissInterstitial(String arg0) {}
-            @Override
-            public void didFailToLoadInterstitial(String arg0) {}
-            @Override
-            public boolean shouldDisplayInterstitial(String arg0) {
-                return false;
-            }
-            @Override
-            public boolean shouldDisplayLoadingViewForMoreApps() {
-                return false;
-            }
-            @Override
-            public boolean shouldDisplayMoreApps() {
-                return true;
-            }
-            @Override
-            public boolean shouldRequestInterstitial(String arg0) {
-                return false;
-            }
-            @Override
-            public boolean shouldRequestInterstitialsInFirstSession() {
-                return true;
             }
         });
     }
