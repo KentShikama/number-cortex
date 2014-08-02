@@ -41,5 +41,7 @@
     <framework>OpenAL</framework>
     <framework>AudioToolbox</framework>
     <framework>AVFoundation</framework>
+    <framework>CoreData</framework>
+  	<framework>CoreMedia</framework>
   </frameworks>
 </config>
