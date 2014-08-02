@@ -1,20 +1,5 @@
 package com.numbercortex.android;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.numbercortex.Launch;
-
-public class AndroidLauncher extends AndroidApplication {
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new Launch(), config);
-	}
-=======
 import android.app.Activity;
 import android.os.Bundle;
 import chartboost.AndroidChartboost;
@@ -63,5 +48,4 @@ public class AndroidLauncher extends AndroidApplication {
         this.cb.onBackPressed();
         super.onBackPressed();
     }   
->>>>>>> f50a74ab4ac341496d302bf0305548565adea149
 }

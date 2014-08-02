@@ -2,21 +2,8 @@ package com.numbercortex;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
-<<<<<<< HEAD
-
-import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
-import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.numbercortex.Launch;
-
-public class IOSLauncher extends IOSApplication.Delegate {
-    @Override
-    protected IOSApplication createApplication() {
-        IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new Launch(), config);
-=======
 import org.robovm.bindings.chartboost.Chartboost;
 import org.robovm.bindings.chartboost.ChartboostDelegate;
-
 import chartboost.AppleChartboost;
 import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
@@ -38,7 +25,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
         chartboost.setDelegate((ChartboostDelegate) crossPlatformChartboost.getChartBoostDelegate());
         chartboost.startSession();
         return new IOSApplication(new Launch(crossPlatformChartboost), config);
->>>>>>> f50a74ab4ac341496d302bf0305548565adea149
     }
 
     public static void main(String[] argv) {
