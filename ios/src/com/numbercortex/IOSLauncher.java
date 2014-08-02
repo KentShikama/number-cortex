@@ -4,7 +4,7 @@ import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.bindings.chartboost.Chartboost;
 import org.robovm.bindings.chartboost.ChartboostDelegate;
-import chartboost.AppleChartboost;
+import appleChartboost.AppleChartboost;
 import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
@@ -22,7 +22,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
         chartboost.setAppId("53dc9c641873da4ec7b5a2b8");
         chartboost.setAppSignature("ea716c2371dffac4ca1425817ef73df8ea17485b");
         CrossPlatformChartboost crossPlatformChartboost = new AppleChartboost(chartboost);
-        chartboost.setDelegate((ChartboostDelegate) crossPlatformChartboost.getChartBoostDelegate());
         chartboost.startSession();
         return new IOSApplication(new Launch(crossPlatformChartboost), config);
     }

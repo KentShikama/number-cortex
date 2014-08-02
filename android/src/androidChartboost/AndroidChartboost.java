@@ -1,7 +1,9 @@
-package chartboost;
+package androidChartboost;
 
 import android.app.Activity;
 import android.view.View;
+import chartboost.ChartBoostListener;
+import chartboost.CrossPlatformChartboost;
 import com.chartboost.sdk.Chartboost;
 import com.chartboost.sdk.ChartboostDelegate;
 import com.chartboost.sdk.Chartboost.CBAgeGateConfirmation;

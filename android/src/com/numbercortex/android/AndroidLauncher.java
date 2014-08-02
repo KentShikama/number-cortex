@@ -2,7 +2,7 @@ package com.numbercortex.android;
 
 import android.app.Activity;
 import android.os.Bundle;
-import chartboost.AndroidChartboost;
+import androidChartboost.AndroidChartboost;
 import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
