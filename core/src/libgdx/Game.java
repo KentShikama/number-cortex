@@ -70,12 +70,7 @@ public abstract class Game implements ApplicationListener {
      *            may be {@code null}
      */
     public void setScreen(Screen screen) {
-        if (this.screen != null)
-            this.screen.hide();
         this.screen = screen;
-        if (this.screen != null) {
-            this.screen.show();
-        }
     }
 
     /** @return the currently active {@link Screen}. */

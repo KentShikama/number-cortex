@@ -54,6 +54,7 @@ class SplashScreen extends GameScreen {
             @Override
             public void run() {
                 game.setScreen(screen);
+                screen.show();
             }
         });
         title.addAction(Actions.sequence(moveUp, switchToTitle));

@@ -51,6 +51,7 @@ public class Launch extends Game {
         numberBackgroundStage = buildBackgroundStage();
         splashScreen = new SplashScreen(this);
         setScreen(splashScreen);
+        splashScreen.show();
     }
     private Stage buildBackgroundStage() {
         ExtendViewport extendViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
