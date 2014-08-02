@@ -86,5 +86,9 @@ public class MoreGamesScreen extends GameScreen {
         });
         errorDialog.show(stage);
     }
+    
+    void setBackKeyToTrue() {
+        backKey = true;
+    }
 
 }

@@ -46,8 +46,8 @@ class MoreScreen extends HomeScreen {
                     }
                     @Override
                     public void didDismissMoreApps() {
-                        ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.moreScreen);
                         ScreenTracker.moreGamesScreen.rotateGear();
+                        ScreenTracker.moreGamesScreen.setBackKeyToTrue();
                     }
                     @Override
                     public void didFailToLoadMoreApps(String errorMessage) {
