@@ -1,6 +1,7 @@
 package com.numbercortex.view;
 
 import libgdx.Game;
+import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -34,6 +35,11 @@ public class Launch extends Game {
     private FPSLogger fps;
 
     private SplashScreen splashScreen;
+    private CrossPlatformChartboost chartboost;
+    
+    public Launch(CrossPlatformChartboost chartboost) {
+        this.chartboost = chartboost;
+    }
 
     @Override
     public void create() {
@@ -92,7 +98,7 @@ public class Launch extends Game {
 
     @Override
     public void render() {
-        fps.log();
+//      fps.log();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (Assets.manager.update()) {
             assignAssetsAndShowGameIfApplicable();
@@ -131,7 +137,7 @@ public class Launch extends Game {
     private void showGame() {
         Persistence persistence = Persistence.getInstance().load();
         ModeTracker.mode = buildMode(persistence);
-        ScreenTracker.initializeScreens(this);
+        ScreenTracker.initializeScreens(this, chartboost);
         GameScreen screen = buildCurrentScreen(persistence);
         recreateScreenState(persistence, screen);
         if (screen instanceof HomeScreen) {
