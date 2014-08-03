@@ -43,7 +43,11 @@ public class AndroidLauncher extends AndroidApplication {
     }
     @Override
     public void onBackPressed() {
-        this.cb.onBackPressed();
-        super.onBackPressed();
+        if (this.cb.onBackPressed()) {
+            return;
+        }
+        else {
+            super.onBackPressed();            
+        }
     }   
 }
