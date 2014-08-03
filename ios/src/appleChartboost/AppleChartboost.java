@@ -23,6 +23,10 @@ public class AppleChartboost implements CrossPlatformChartboost{
                 System.out.println(errorMessage);
                 listener.didFailToLoadMoreApps(errorMessage);        
             }
+            @Override
+            public boolean shouldDisplayLoadingViewForMoreApps() {
+                return false;
+            }
         });
     }
     
