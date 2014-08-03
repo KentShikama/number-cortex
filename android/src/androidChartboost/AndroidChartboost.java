@@ -1,7 +1,6 @@
 package androidChartboost;
 
 import android.app.Activity;
-import android.view.View;
 import chartboost.ChartBoostListener;
 import chartboost.CrossPlatformChartboost;
 import com.chartboost.sdk.Chartboost;
@@ -35,8 +34,7 @@ public class AndroidChartboost implements CrossPlatformChartboost {
         });
     }
 
-    @Override
-    public Object getChartBoostDelegate() {
+    public ChartboostDelegate getChartBoostDelegate() {
         return chartBoostDelegate;
     }
 

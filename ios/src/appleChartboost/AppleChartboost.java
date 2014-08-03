@@ -20,6 +20,7 @@ public class AppleChartboost implements CrossPlatformChartboost{
             @Override
             public void didFailToLoadMoreApps() {
                 String errorMessage = "Game recommendations are currently unavailable. Please retry at a later time.";
+                System.out.println(errorMessage);
                 listener.didFailToLoadMoreApps(errorMessage);        
             }
         });
@@ -27,15 +28,8 @@ public class AppleChartboost implements CrossPlatformChartboost{
     
     @Override
     public void showMoreApps() {
-        System.out.println("More apps about to be shown");
         listener.showMoreApps();
         cb.showMoreApps();
-        System.out.println("More apps shown");
-    }
-
-    @Override
-    public Object getChartBoostDelegate() {
-        return null;
     }
 
     @Override

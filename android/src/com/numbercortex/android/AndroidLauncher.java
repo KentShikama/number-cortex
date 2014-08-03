@@ -1,6 +1,5 @@
 package com.numbercortex.android;
 
-import android.app.Activity;
 import android.os.Bundle;
 import androidChartboost.AndroidChartboost;
 import chartboost.CrossPlatformChartboost;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.numbercortex.view.Launch;
 import com.chartboost.sdk.CBPreferences;
 import com.chartboost.sdk.Chartboost;
-import com.chartboost.sdk.ChartboostDelegate;
 
 public class AndroidLauncher extends AndroidApplication {
 
@@ -23,7 +21,7 @@ public class AndroidLauncher extends AndroidApplication {
         String appSignature = "2423da041b609b5625b427b94f514ecc10a515b1";
         CBPreferences.getInstance().setImpressionsUseActivities(true);
         CrossPlatformChartboost crossPlatformChartboost = new AndroidChartboost(cb, this);
-        this.cb.onCreate(this, appId, appSignature, (ChartboostDelegate) crossPlatformChartboost.getChartBoostDelegate());
+        this.cb.onCreate(this, appId, appSignature, ((AndroidChartboost) crossPlatformChartboost).getChartBoostDelegate());
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         initialize(new Launch(crossPlatformChartboost), config);
     }

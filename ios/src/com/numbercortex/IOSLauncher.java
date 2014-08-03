@@ -3,7 +3,6 @@ package com.numbercortex;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.bindings.chartboost.Chartboost;
-import org.robovm.bindings.chartboost.ChartboostDelegate;
 import appleChartboost.AppleChartboost;
 import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;

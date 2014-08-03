@@ -40,17 +40,18 @@ class MoreScreen extends HomeScreen {
                 ChartBoostListener listener = new ChartBoostListener() {
                     @Override
                     public void showMoreApps() {
-                        System.out.println("In show more apps in listener");
                         ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.moreGamesScreen);
                         ScreenTracker.moreGamesScreen.rotateGear();
                     }
                     @Override
                     public void didDismissMoreApps() {
+                        System.out.println("Dismissing more apps");
                         ScreenTracker.moreGamesScreen.rotateGear();
                         ScreenTracker.moreGamesScreen.setBackKeyToTrue();
                     }
                     @Override
                     public void didFailToLoadMoreApps(String errorMessage) {
+                        System.out.println("Showing error message");
                         ScreenTracker.moreGamesScreen.removeGear();
                         ScreenTracker.moreGamesScreen.showErrorMessage(errorMessage);
                     }    
