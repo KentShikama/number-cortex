@@ -83,8 +83,10 @@ class MoreScreen extends HomeScreen {
     }
     
     void showErrorMessage(String errorMessage) {
-        Dialog errorDialog = CortexDialog.createConfirmationDialog(errorMessage, null);
-        errorDialog.show(stage);
+        if (game.getScreen() instanceof MoreScreen) {
+            Dialog errorDialog = CortexDialog.createConfirmationDialog(errorMessage, null);
+            errorDialog.show(stage);
+        }
     }
     
     @Override
