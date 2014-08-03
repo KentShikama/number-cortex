@@ -10,7 +10,6 @@ class ScreenTracker {
 
     static TitleScreen titleScreen;
     static MoreScreen moreScreen;
-    static MoreGamesScreen moreGamesScreen;
     static CreditsScreen creditsScreen;
     static LevelsScreen levelsScreen;
     static SinglePlayerSettingsScreen singlePlayerSettingsScreen;
@@ -23,7 +22,6 @@ class ScreenTracker {
     static void initializeScreens(Launch game, CrossPlatformChartboost chartboost) {
         titleScreen = new TitleScreen(game);
         moreScreen = new MoreScreen(game, chartboost);
-        moreGamesScreen = new MoreGamesScreen(game);
         creditsScreen = new CreditsScreen(game);
         singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
         twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);
@@ -40,7 +38,6 @@ class ScreenTracker {
             screenMap = new HashMap<String, GameScreen>();
             screenMap.put(TitleScreen.TAG, titleScreen);
             screenMap.put(MoreScreen.TAG, moreScreen);
-            screenMap.put(MoreGamesScreen.TAG, moreGamesScreen);
             screenMap.put(CreditsScreen.TAG, creditsScreen);
             screenMap.put(LevelsScreen.TAG, levelsScreen);
             screenMap.put(SinglePlayerSettingsScreen.TAG, singlePlayerSettingsScreen);
@@ -62,7 +59,6 @@ class ScreenTracker {
         SettingsScreen.disposeAll();
         titleScreen = null;
         moreScreen = null;
-        moreGamesScreen = null;
         creditsScreen = null;
         singlePlayerSettingsScreen = null;
         twoPlayerSettingsScreen = null;

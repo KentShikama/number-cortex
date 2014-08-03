@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.TransitionScreen.Direction;
@@ -39,21 +40,12 @@ class MoreScreen extends HomeScreen {
             public void clicked(InputEvent event, float x, float y) {
                 ChartBoostListener listener = new ChartBoostListener() {
                     @Override
-                    public void showMoreApps() {
-                        ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.moreGamesScreen);
-                        ScreenTracker.moreGamesScreen.rotateGear();
-                    }
+                    public void showMoreApps() {}
                     @Override
-                    public void didDismissMoreApps() {
-                        System.out.println("Dismissing more apps");
-                        ScreenTracker.moreGamesScreen.rotateGear();
-                        ScreenTracker.moreGamesScreen.setBackKeyToTrue();
-                    }
+                    public void didDismissMoreApps() {}
                     @Override
                     public void didFailToLoadMoreApps(String errorMessage) {
-                        System.out.println("Showing error message");
-                        ScreenTracker.moreGamesScreen.removeGear();
-                        ScreenTracker.moreGamesScreen.showErrorMessage(errorMessage);
+                        showErrorMessage(errorMessage);
                     }    
                 };
                 chartboost.setListener(listener);
@@ -89,6 +81,12 @@ class MoreScreen extends HomeScreen {
             ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
         }
     }
+    
+    void showErrorMessage(String errorMessage) {
+        Dialog errorDialog = CortexDialog.createConfirmationDialog(errorMessage, null);
+        errorDialog.show(stage);
+    }
+    
     @Override
     public void pause() {
         Persistence persistence = Persistence.getInstance();
