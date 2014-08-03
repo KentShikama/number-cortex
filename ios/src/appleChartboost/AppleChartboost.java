@@ -14,7 +14,7 @@ public class AppleChartboost implements CrossPlatformChartboost {
 
     @Override
     public void showMoreApps() {
-        chartboost.showMoreApps();
+        chartboost.showInterstitial("After Screen");
     }
 
     @Override

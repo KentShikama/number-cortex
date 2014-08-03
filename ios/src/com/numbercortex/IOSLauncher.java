@@ -3,9 +3,7 @@ package com.numbercortex;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.bindings.chartboost.Chartboost;
-import org.robovm.bindings.chartboost.ChartboostDelegateAdapter;
 import appleChartboost.AppleChartboost;
-import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.numbercortex.view.Launch;
@@ -31,6 +29,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         chartboost.setAppSignature("ea716c2371dffac4ca1425817ef73df8ea17485b");
         chartboost.startSession();
         crossPlatformChartboost.setChartBoost(chartboost);
+        chartboost.cacheInterstitial("After Screen");
     }
 
     public static void main(String[] argv) {
