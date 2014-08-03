@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.TransitionScreen.Direction;
@@ -41,6 +40,7 @@ class MoreScreen extends HomeScreen {
                 ChartBoostListener listener = new ChartBoostListener() {
                     @Override
                     public void showMoreApps() {
+                        System.out.println("In show more apps in listener");
                         ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.moreGamesScreen);
                         ScreenTracker.moreGamesScreen.rotateGear();
                     }

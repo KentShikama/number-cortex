@@ -1,7 +1,6 @@
 package appleChartboost;
 
 import org.robovm.bindings.chartboost.Chartboost;
-import org.robovm.bindings.chartboost.ChartboostDelegate;
 import org.robovm.bindings.chartboost.ChartboostDelegateAdapter;
 import chartboost.ChartBoostListener;
 import chartboost.CrossPlatformChartboost;
@@ -16,17 +15,11 @@ public class AppleChartboost implements CrossPlatformChartboost{
         cb.setDelegate(new ChartboostDelegateAdapter() {
             @Override
             public void didDismissMoreApps() {
-                if (listener == null) {
-                    System.out.println("Null pointer at line 20");
-                }
                 listener.didDismissMoreApps();
             }
             @Override
             public void didFailToLoadMoreApps() {
                 String errorMessage = "Game recommendations are currently unavailable. Please retry at a later time.";
-                if (listener == null) {
-                    System.out.println("Null pointer at line 28 and error: " + errorMessage);
-                }
                 listener.didFailToLoadMoreApps(errorMessage);        
             }
         });
@@ -34,7 +27,10 @@ public class AppleChartboost implements CrossPlatformChartboost{
     
     @Override
     public void showMoreApps() {
+        System.out.println("More apps about to be shown");
+        listener.showMoreApps();
         cb.showMoreApps();
+        System.out.println("More apps shown");
     }
 
     @Override

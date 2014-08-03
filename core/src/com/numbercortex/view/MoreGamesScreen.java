@@ -81,7 +81,7 @@ public class MoreGamesScreen extends GameScreen {
     void showErrorMessage(String errorMessage) {
         Dialog errorDialog = CortexDialog.createConfirmationDialog(errorMessage, new ClickListenerWithSound() {
             public void clicked(InputEvent event, float x, float y) {
-                ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.moreScreen);
+                backKey = true;
             }
         });
         errorDialog.show(stage);
