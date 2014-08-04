@@ -1,5 +1,6 @@
 package com.numbercortex.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidChartboost.AndroidChartboost;
 import chartboost.CrossPlatformChartboost;
@@ -49,6 +50,12 @@ public class AndroidLauncher extends AndroidApplication {
               }
             }
           });
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
     }
 
     @Override
