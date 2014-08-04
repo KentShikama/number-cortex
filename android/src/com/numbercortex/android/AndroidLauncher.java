@@ -43,10 +43,6 @@ public class AndroidLauncher extends AndroidApplication {
                   public void onCompleted(GraphUser user, Response response) {
                     if (user != null) {
                         System.out.println("Connected");
-                        System.out.println("Connected");
-                        System.out.println("Connected");
-                        System.out.println("Connected");
-                        System.out.println("Connected");
                     }
                   }
                 }).executeAsync();
