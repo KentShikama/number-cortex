@@ -25,13 +25,7 @@ public class AndroidLauncher extends AndroidApplication {
 
     private Chartboost cb;
     private UiLifecycleHelper uiHelper;
-    // private StatusCallback statusCallback = new Session.StatusCallback() {
-    // @Override
-    // public void call(Session session, SessionState state, Exception exception) {
-    //
-    // }
-    // };
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
