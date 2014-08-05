@@ -18,7 +18,7 @@ class MoreScreen extends HomeScreen {
 
     private static final String MORE_GAMES_BUTTON = "More Games";
     private static final String RATE_GAME_BUTTON = "Rate Game";
-    private static final String WEBSITE_BUTTON = "Website";
+    private static final String HELP_BUTTON = "Help";
     private static final String CREDITS = "Credits";
 
     private CrossPlatformChartboost chartboost;
@@ -62,10 +62,10 @@ class MoreScreen extends HomeScreen {
         ClickListener websiteButtonListener = new ClickListenerWithSound() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.net.openURI("http://www.numbercortex.com");
+                Gdx.net.openURI("http://www.numbercortex.com/faq/");
             }
         };
-        HomeScreenButton websiteButton = new HomeScreenButton(WEBSITE_BUTTON, 2, websiteButtonListener);
+        HomeScreenButton websiteButton = new HomeScreenButton(HELP_BUTTON, 2, websiteButtonListener);
         HomeScreenButton creditsButton = new HomeScreenButton(CREDITS, 3, ScreenTracker.creditsScreen, null);
         stage.addActor(moreGamesButton);
         stage.addActor(rateGameButton);

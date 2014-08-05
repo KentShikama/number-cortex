@@ -1,6 +1,6 @@
 
 home.png
-size: 596,681
+size: 595,681
 format: RGBA8888
 filter: MipMapLinearNearest, Nearest
 repeat: none
@@ -18,6 +18,13 @@ credits_icon
   orig: 35, 35
   offset: 0, 0
   index: -1
+help_icon
+  rotate: false
+  xy: 304, 128
+  size: 40, 35
+  orig: 40, 35
+  offset: 0, 0
+  index: -1
 left_arrow
   rotate: false
   xy: 525, 631
@@ -27,7 +34,7 @@ left_arrow
   index: -1
 line_extension
   rotate: false
-  xy: 556, 604
+  xy: 556, 603
   size: 3, 40
   orig: 3, 40
   offset: 0, 0
@@ -55,14 +62,14 @@ number_cortex_title
   index: -1
 options_icon
   rotate: false
-  xy: 304, 91
+  xy: 304, 92
   size: 35, 34
   orig: 35, 34
   offset: 0, 0
   index: -1
 pass_&_play_icon
   rotate: false
-  xy: 304, 127
+  xy: 556, 645
   size: 39, 36
   orig: 39, 36
   offset: 0, 0
@@ -76,15 +83,8 @@ play_icon
   index: -1
 rate_game_icon
   rotate: false
-  xy: 345, 130
+  xy: 346, 130
   size: 34, 33
   orig: 34, 33
-  offset: 0, 0
-  index: -1
-website_icon
-  rotate: false
-  xy: 556, 646
-  size: 40, 35
-  orig: 40, 35
   offset: 0, 0
   index: -1
