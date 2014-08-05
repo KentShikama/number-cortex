@@ -31,5 +31,21 @@ class GameMessages {
         }
         return null;
     }
+    
+    static String[] getShareMessage(int currentLevel) {
+        switch (currentLevel) {
+            case 5:
+                return new String[] {"Level 5 cleared! Would you like to share this achievement on Facebook?", "Level 5 Cleared!", ""};
+            case 8:
+                return new String[] {"Level 8 cleared! Would you like to share this achievement on Facebook?", "Level 8 Cleared!", ""};
+            case 12:
+                return new String[] {"Level 12 cleared! Would you like to share this achievement on Facebook?", "Level 12 Cleared!", ""};
+            case 16:
+                return new String[] {"Level 16 cleared! Would you like to share this achievement on Facebook?", "Level 16 Cleared!", ""};
+            case 18:
+                return new String[] {"Level 18 cleared! Would you like to share this achievement on Facebook?", "Level 18 Cleared!", ""};
+        }
+        return null;
+    }
 
 }

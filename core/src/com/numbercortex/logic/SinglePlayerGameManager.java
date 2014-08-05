@@ -176,9 +176,13 @@ public class SinglePlayerGameManager implements GameManager {
     private void unlockNextLevelIfOnMaxLevel(ArrayList<Integer> openCoordinates) {
         int maxLevel = preferences.getMaxLevel();
         if (currentLevel == maxLevel && currentLevel != 18) {
-            String message = GameMessages.getUnlockMessage(currentLevel);
-            if (message != null) {
-                screen.showConfirmationDialog(5.1f, message); // Delay depends on winning animation
+            String unlockMessage = GameMessages.getUnlockMessage(currentLevel);
+            if (unlockMessage != null) {
+                screen.showConfirmationDialog(5.05f, unlockMessage); // Delay depends on winning animation
+            }
+            String[] shareMessage = GameMessages.getShareMessage(currentLevel);
+            if (shareMessage != null) {
+                screen.showShareDialog(5.1f, shareMessage[0], shareMessage[1], "Interested in puzzle games? Challenge yourself with the new two player board game, Number Cortex.");
             }
             int raisedMaxLevel = ++maxLevel;
             preferences.setMaxLevel(raisedMaxLevel);

@@ -32,6 +32,7 @@ import com.numbercortex.logic.Player;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 import com.numbercortex.view.TransitionScreen.Direction;
+import facebook.CrossPlatformFacebook;
 
 class PlayScreen extends GameScreen implements Playable {
 
@@ -51,8 +52,11 @@ class PlayScreen extends GameScreen implements Playable {
 
     private boolean isShown;
 
-    PlayScreen(Game game) {
+    private CrossPlatformFacebook facebook;
+
+    PlayScreen(Game game, CrossPlatformFacebook facebook) {
         super(game);
+        this.facebook = facebook;
         ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
         stage = new Stage(fitViewport);
     }
@@ -305,6 +309,26 @@ class PlayScreen extends GameScreen implements Playable {
             }
         };
         stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
+    }
+    
+    @Override
+    public void showShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
+        DelayAction delayAction = Actions.delay(delay);
+        Action showShareDialogAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                ClickListenerWithSound shareListener = new ClickListenerWithSound() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        facebook.post(facebookPostTitle, facebookPostDescription);
+                    }
+                };
+                Dialog shareDialog = CortexDialog.createShareDialog(dialogMessage, shareListener);
+                shareDialog.show(stage);
+                return true;
+            }
+        };
+        stage.addAction(Actions.sequence(delayAction, showShareDialogAction));
     }
 
     @Override

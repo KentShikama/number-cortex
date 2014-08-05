@@ -18,6 +18,7 @@ import com.numbercortex.ModeTracker.Mode;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
+import facebook.CrossPlatformFacebook;
 
 public class Launch extends Game {
 
@@ -36,9 +37,11 @@ public class Launch extends Game {
 
     private SplashScreen splashScreen;
     private CrossPlatformChartboost chartboost;
+    private CrossPlatformFacebook facebook;
     
-    public Launch(CrossPlatformChartboost chartboost) {
+    public Launch(CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook) {
         this.chartboost = chartboost;
+        this.facebook = facebook;
     }
 
     @Override
@@ -137,7 +140,7 @@ public class Launch extends Game {
     private void showGame() {
         Persistence persistence = Persistence.getInstance().load();
         ModeTracker.mode = buildMode(persistence);
-        ScreenTracker.initializeScreens(this, chartboost);
+        ScreenTracker.initializeScreens(this, chartboost, facebook);
         GameScreen screen = buildCurrentScreen(persistence);
         recreateScreenState(persistence, screen);
         if (screen instanceof HomeScreen) {

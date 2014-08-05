@@ -3,6 +3,7 @@ package com.numbercortex.view;
 import java.util.HashMap;
 import java.util.Map;
 import chartboost.CrossPlatformChartboost;
+import facebook.CrossPlatformFacebook;
 
 class ScreenTracker {
 
@@ -19,14 +20,14 @@ class ScreenTracker {
 
     static TransitionScreen transitionScreen;
 
-    static void initializeScreens(Launch game, CrossPlatformChartboost chartboost) {
+    static void initializeScreens(Launch game, CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook) {
         titleScreen = new TitleScreen(game);
         moreScreen = new MoreScreen(game, chartboost);
         creditsScreen = new CreditsScreen(game);
         singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
         twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);
         levelsScreen = new LevelsScreen(game);
-        playScreen = new PlayScreen(game);
+        playScreen = new PlayScreen(game, facebook);
         optionsScreen = new OptionsScreen(game);
 
         transitionScreen = new TransitionScreen(game);

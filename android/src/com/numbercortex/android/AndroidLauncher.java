@@ -3,6 +3,7 @@ package com.numbercortex.android;
 import android.content.Intent;
 import android.os.Bundle;
 import androidChartboost.AndroidChartboost;
+import androidFacebook.AndroidFacebook;
 import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -20,6 +21,7 @@ import com.facebook.model.GraphUser;
 import com.facebook.model.OpenGraphAction;
 import com.facebook.model.OpenGraphObject;
 import com.facebook.widget.FacebookDialog;
+import facebook.CrossPlatformFacebook;
 
 public class AndroidLauncher extends AndroidApplication {
 
@@ -29,28 +31,18 @@ public class AndroidLauncher extends AndroidApplication {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         this.cb = Chartboost.sharedChartboost();
         String appId = "53db59161873da6e205eaf25";
         String appSignature = "2423da041b609b5625b427b94f514ecc10a515b1";
         CBPreferences.getInstance().setImpressionsUseActivities(true);
         CrossPlatformChartboost crossPlatformChartboost = new AndroidChartboost(cb, this);
         this.cb.onCreate(this, appId, appSignature, ((AndroidChartboost) crossPlatformChartboost).getChartBoostDelegate());
-        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        initialize(new Launch(crossPlatformChartboost), config);
-
+        
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);
-
-        if (FacebookDialog.canPresentShareDialog(getApplicationContext(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
-            FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
-            .setLink("http://www.numbercortex.com")
-            .setPicture("http://www.numbercortex.com/images/number_cortex_mobile_banner.jpg")
-            .setDescription("Interested in puzzle games? Challenge yourself with the new two player board game, Number Cortex.")
-            .setCaption(" ").setName("Level 8 Cleared!").build();
-            uiHelper.trackPendingDialogCall(shareDialog.present());
-        } else {
-            // Publish the post using the Feed Dialog
-        }
+        CrossPlatformFacebook crossPlatformFacebook = new AndroidFacebook(this, uiHelper);
+        initialize(new Launch(crossPlatformChartboost, crossPlatformFacebook), config);
     }
 
     @Override
