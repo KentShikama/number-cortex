@@ -61,3 +61,5 @@ build/
 
 ## OS Specific
 .DS_Store
+facebook-android-sdk-3.16/facebook/gen/com/facebook/android/BuildConfig.java
+facebook-android-sdk-3.16/facebook/gen/com/facebook/android/R.java
