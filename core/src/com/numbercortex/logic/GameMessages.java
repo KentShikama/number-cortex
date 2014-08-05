@@ -34,8 +34,8 @@ class GameMessages {
     
     static String[] getShareMessage(int currentLevel) {
         switch (currentLevel) {
-            case 0:
-                return new String[] {"Level 1 cleared! Would you like to share this achievement on Facebook?", "Level 1 Cleared!", ""};
+//            case 0:
+//                return new String[] {"Level 1 cleared! Would you like to share this achievement on Facebook?", "Level 1 Cleared!", ""};
             case 5:
                 return new String[] {"Level 5 cleared! Would you like to share this achievement on Facebook?", "Level 5 Cleared!", ""};
             case 8:
