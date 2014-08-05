@@ -18,7 +18,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         config.orientationPortrait = true;
         config.orientationLandscape = false;
         crossPlatformChartboost = new AppleChartboost();
-        return new IOSApplication(new Launch(crossPlatformChartboost), config);
+        return new IOSApplication(new Launch(crossPlatformChartboost, null), config);
     }
     
     @Override

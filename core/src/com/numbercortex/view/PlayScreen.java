@@ -318,6 +318,9 @@ class PlayScreen extends GameScreen implements Playable {
 
     @Override
     public void generateShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
+        if (facebook == null) {
+            System.out.println("Facebook sharing is not supported on this device");
+        }
         DelayAction delayAction = Actions.delay(delay);
         Action showShareDialogAction = new Action() {
             @Override

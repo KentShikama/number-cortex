@@ -10,13 +10,6 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Number Cortex";
-	        CrossPlatformChartboost chartboost = new CrossPlatformChartboost() {
-	            @Override
-	            public void showMoreApps() {}
-	            @Override
-	            public void setListener(ChartBoostListener listener) {}        
-	        };
-	        
-		new LwjglApplication(new Launch(chartboost), config);
+		new LwjglApplication(new Launch(null, null), config);
 	}
 }

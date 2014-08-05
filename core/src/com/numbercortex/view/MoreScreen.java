@@ -35,23 +35,28 @@ class MoreScreen extends HomeScreen {
     }
     @Override
     void buildButtons(final Stage stage) {
-        ClickListener moreGamesButtonListener = new ClickListenerWithSound() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ChartBoostListener listener = new ChartBoostListener() {
-                    @Override
-                    public void showMoreApps() {}
-                    @Override
-                    public void didDismissMoreApps() {}
-                    @Override
-                    public void didFailToLoadMoreApps(String errorMessage) {
-                        showErrorMessage(errorMessage);
-                    }    
-                };
-                chartboost.setListener(listener);
-                chartboost.showMoreApps();
-            }
-        };
+        ClickListener moreGamesButtonListener = null;
+        if (chartboost == null) {
+            System.out.println("Chartboost is not supported on this device");
+        } else {
+            moreGamesButtonListener = new ClickListenerWithSound() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    ChartBoostListener listener = new ChartBoostListener() {
+                        @Override
+                        public void showMoreApps() {}
+                        @Override
+                        public void didDismissMoreApps() {}
+                        @Override
+                        public void didFailToLoadMoreApps(String errorMessage) {
+                            showErrorMessage(errorMessage);
+                        }    
+                    };
+                    chartboost.setListener(listener);
+                    chartboost.showMoreApps();
+                }
+            };
+        }
         HomeScreenButton moreGamesButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, moreGamesButtonListener);
         HomeScreenButton rateGameButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, null);
         ClickListener websiteButtonListener = new ClickListenerWithSound() {
