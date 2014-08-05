@@ -20,6 +20,7 @@ public class AndroidChartboost implements CrossPlatformChartboost {
         this.activity = activity;
     }
 
+    @Override
     public void setListener(ChartBoostListener listener) {
         this.listener = listener;
     }
@@ -28,6 +29,7 @@ public class AndroidChartboost implements CrossPlatformChartboost {
     public void showMoreApps() {
         this.listener.showMoreApps();
         activity.runOnUiThread(new Runnable() {
+            @Override
             public void run() {
                 cb.showMoreApps();
             }

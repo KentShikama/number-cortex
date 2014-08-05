@@ -59,6 +59,7 @@ public class AndroidFacebook implements CrossPlatformFacebook {
         };
     }
 
+    @Override
     public void setListener(FacebookCallbackListener listener) {
         this.listener = listener;
     }

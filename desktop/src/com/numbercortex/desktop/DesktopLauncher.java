@@ -2,8 +2,6 @@ package com.numbercortex.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import chartboost.ChartBoostListener;
-import chartboost.CrossPlatformChartboost;
 import com.numbercortex.view.Launch;
 
 public class DesktopLauncher {

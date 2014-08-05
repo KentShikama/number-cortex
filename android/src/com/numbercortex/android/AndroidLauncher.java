@@ -10,17 +10,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.numbercortex.view.Launch;
 import com.chartboost.sdk.CBPreferences;
 import com.chartboost.sdk.Chartboost;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.Session.StatusCallback;
-import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphObject;
-import com.facebook.model.GraphUser;
-import com.facebook.model.OpenGraphAction;
-import com.facebook.model.OpenGraphObject;
-import com.facebook.widget.FacebookDialog;
 import facebook.CrossPlatformFacebook;
 
 public class AndroidLauncher extends AndroidApplication {
