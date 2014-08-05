@@ -325,6 +325,7 @@ class PlayScreen extends GameScreen implements Playable {
                 ClickListenerWithSound shareListener = new ClickListenerWithSound() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        facebookShareDialogIsShowing = false;
                         FacebookCallbackListener listener = new FacebookCallbackListener() {
                             @Override
                             public void showErrorDialog(String errorMessage) {
