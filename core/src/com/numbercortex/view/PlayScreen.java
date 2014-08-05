@@ -33,6 +33,7 @@ import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 import com.numbercortex.view.TransitionScreen.Direction;
 import facebook.CrossPlatformFacebook;
+import facebook.FacebookCallbackListener;
 
 class PlayScreen extends GameScreen implements Playable {
 
@@ -53,6 +54,8 @@ class PlayScreen extends GameScreen implements Playable {
     private boolean isShown;
 
     private CrossPlatformFacebook facebook;
+    private Dialog facebookShareDialog;
+    private boolean facebookShareDialogIsShowing;    
 
     PlayScreen(Game game, CrossPlatformFacebook facebook) {
         super(game);
@@ -85,6 +88,8 @@ class PlayScreen extends GameScreen implements Playable {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
         backKey = false;
+        facebookShareDialogIsShowing = false;
+        facebookShareDialog = null;
     }
     private void buildPlayScreenStage(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -310,9 +315,9 @@ class PlayScreen extends GameScreen implements Playable {
         };
         stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
     }
-    
+
     @Override
-    public void showShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
+    public void generateShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
         DelayAction delayAction = Actions.delay(delay);
         Action showShareDialogAction = new Action() {
             @Override
@@ -320,15 +325,46 @@ class PlayScreen extends GameScreen implements Playable {
                 ClickListenerWithSound shareListener = new ClickListenerWithSound() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        FacebookCallbackListener listener = new FacebookCallbackListener() {
+                            @Override
+                            public void showErrorDialog(String errorMessage) {
+                                generateFacebookErrorDialog(errorMessage, facebookPostTitle, facebookPostDescription);
+                            }
+                        };
+                        facebook.setListener(listener);
                         facebook.post(facebookPostTitle, facebookPostDescription);
                     }
                 };
-                Dialog shareDialog = CortexDialog.createShareDialog(dialogMessage, shareListener);
-                shareDialog.show(stage);
+                facebookShareDialogIsShowing = true;
+                facebookShareDialog = CortexDialog.createShareDialog(dialogMessage, shareListener);
                 return true;
             }
         };
         stage.addAction(Actions.sequence(delayAction, showShareDialogAction));
+    }
+    private void generateFacebookErrorDialog(String errorMessage, final String facebookPostTitle, final String facebookPostDescription) {
+        ClickListenerWithSound cancelListener = new ClickListenerWithSound() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                facebookShareDialogIsShowing = false;
+            }
+        };
+        ClickListenerWithSound shareListener = new ClickListenerWithSound() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                facebookShareDialogIsShowing = false;
+                FacebookCallbackListener listener = new FacebookCallbackListener() {
+                    @Override
+                    public void showErrorDialog(String errorMessage) {
+                        generateFacebookErrorDialog(errorMessage, facebookPostTitle, facebookPostDescription);
+                    }
+                };
+                facebook.setListener(listener);
+                facebook.post(facebookPostTitle, facebookPostDescription);
+            }
+        };
+        facebookShareDialogIsShowing = true;
+        facebookShareDialog = CortexDialog.createShareDialog(errorMessage, cancelListener, shareListener);
     }
 
     @Override
@@ -369,9 +405,15 @@ class PlayScreen extends GameScreen implements Playable {
     @Override
     public void render(float delta) {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-        handleBackKey();
         stage.act(delta);
         stage.draw();
+        showFacebookShareDialogIfApplicable();
+        handleBackKey();
+    }
+    private void showFacebookShareDialogIfApplicable() {
+        if (facebookShareDialogIsShowing && facebookShareDialog.getStage() == null) {
+            facebookShareDialog.show(stage);
+        }
     }
     private void handleBackKey() {
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {

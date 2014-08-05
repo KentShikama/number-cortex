@@ -69,6 +69,15 @@ class CortexDialog extends Dialog {
         addButton("Share", shareListener, dialog);
         return dialog;
     }
+    
+    static Dialog createShareDialog(String dialogMessage, ClickListenerWithSound cancelListener, ClickListenerWithSound shareListener) {
+        Window.WindowStyle windowStyle = buildWindowStyle();
+        CortexDialog dialog = new CortexDialog("", windowStyle);
+        addContentLabel(dialogMessage, dialog);
+        addButton("Cancel", cancelListener, dialog);
+        addButton("Share", shareListener, dialog);
+        return dialog;
+    }
 
     static Dialog createQuitCancelDialog(ClickListenerWithSound quitListener) {
         Window.WindowStyle windowStyle = buildWindowStyle();

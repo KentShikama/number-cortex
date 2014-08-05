@@ -182,7 +182,7 @@ public class SinglePlayerGameManager implements GameManager {
             }
             String[] shareMessage = GameMessages.getShareMessage(currentLevel);
             if (shareMessage != null) {
-                screen.showShareDialog(5.1f, shareMessage[0], shareMessage[1], "Interested in puzzle games? Challenge yourself with the new two player board game, Number Cortex.");
+                screen.generateShareDialog(5.1f, shareMessage[0], shareMessage[1], "Interested in puzzle games? Challenge yourself with the new two player board game, Number Cortex.");
             }
             int raisedMaxLevel = ++maxLevel;
             preferences.setMaxLevel(raisedMaxLevel);

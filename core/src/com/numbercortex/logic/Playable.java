@@ -11,7 +11,7 @@ public interface Playable {
 
     void showConfirmationDialog(String... dialogMessages);
     void showConfirmationDialog(float delay, final String... dialogMessages);
-    void showShareDialog(float delay, String dialogMessage, String facebookPostTitle, String facebookPostDescription);
+    void generateShareDialog(float delay, String dialogMessage, String facebookPostTitle, String facebookPostDescription);
 
     void flashChosenNumber(int chosenNumber);
     void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction);

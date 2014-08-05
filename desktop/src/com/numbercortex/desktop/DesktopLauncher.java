@@ -16,6 +16,7 @@ public class DesktopLauncher {
 	            @Override
 	            public void setListener(ChartBoostListener listener) {}        
 	        };
+	        
 		new LwjglApplication(new Launch(chartboost), config);
 	}
 }

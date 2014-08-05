@@ -27,6 +27,7 @@ public class AndroidLauncher extends AndroidApplication {
 
     private Chartboost cb;
     private UiLifecycleHelper uiHelper;
+    private CrossPlatformFacebook crossPlatformFacebook;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +42,14 @@ public class AndroidLauncher extends AndroidApplication {
         
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);
-        CrossPlatformFacebook crossPlatformFacebook = new AndroidFacebook(this, uiHelper);
+        crossPlatformFacebook = new AndroidFacebook(this, uiHelper);
         initialize(new Launch(crossPlatformChartboost, crossPlatformFacebook), config);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
-            @Override
-            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-                System.out.println(String.format("Error: %s", error.toString()));
-            }
-            @Override
-            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-                System.out.println("Success!");
-            }
-        });
+        uiHelper.onActivityResult(requestCode, resultCode, data, ((AndroidFacebook) crossPlatformFacebook).getFacebookCallback());
     }
     @Override
     protected void onResume() {
