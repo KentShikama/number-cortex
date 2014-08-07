@@ -42,20 +42,21 @@ class PlayScreen extends GameScreen implements Playable {
     private Image informationButton;
     private Image optionsButton;
 
-    private DragAndDropHandler handler = DragAndDropHandler.getInstance();
-
     private boolean isShown;
 
     private PlayScreenDialogDelegate dialogDelegate;
     private PlayScreenBuildDelegate buildDelegate;
+    private PlayScreenUpdateDelegate updateDelegate;
     private EndingSequenceDelegate endingSequenceDelegate;
 
     PlayScreen(Game game, CrossPlatformFacebook facebook) {
         super(game);
         ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
         stage = new Stage(fitViewport);
-        dialogDelegate = new PlayScreenDialogDelegate(facebook);
+        buildDelegate = new PlayScreenBuildDelegate(stage, board, numberScroller, messageArea, exitButton, informationButton, optionsButton);
+        updateDelegate = new PlayScreenUpdateDelegate(board, numberScroller, messageArea);
         endingSequenceDelegate = new EndingSequenceDelegate(board, numberScroller, messageArea, exitButton, informationButton, optionsButton);
+        dialogDelegate = new PlayScreenDialogDelegate(facebook);
     }
 
     @Override
@@ -94,13 +95,9 @@ class PlayScreen extends GameScreen implements Playable {
         Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
         ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
         if (winner == null && !openCoordinates.isEmpty()) {
-            updateCurrentPlayer(currentPlayer);
-            updateChosenNumber(state);
-            updateMessageArea(state);
-            updateBoardMap(state);
-            updateNumberScroller(state);
+            updateDelegate.updateAll(currentPlayer, state);
         } else {
-            updateBoardMap(state);
+            updateDelegate.updateBoardMap(state);
             if (Persistence.getInstance().isInPlay()) {
                 endingSequenceDelegate.animateEndingSequence(state, currentPlayer);
                 Persistence.getInstance().setInPlay(false);
@@ -108,46 +105,6 @@ class PlayScreen extends GameScreen implements Playable {
                 endingSequenceDelegate.recreateEndingInstantly(state, currentPlayer);
             }
         }
-    }
-
-    private void updateCurrentPlayer(Player currentPlayer) {
-        if (currentPlayer instanceof InteractableSendable) {
-            InteractableSendable sendable = (InteractableSendable) currentPlayer;
-            numberScroller.setSendable(sendable);
-            handler.setSendable(sendable);
-        } else {
-            numberScroller.setSendable(null);
-            handler.setSendable(null);
-        }
-    }
-    private void updateChosenNumber(CortexState state) {
-        int chosenNumber = state.getChosenNumber();
-        if (chosenNumber != -1) {
-            handler.setChosenNumber(chosenNumber);
-        }
-    }
-    private void updateMessageArea(CortexState state) {
-        String message = state.getMessage();
-        int chosenNumber = state.getChosenNumber();
-        if (chosenNumber != -1) {
-            messageArea.updateMessageWithNextNumber(message, chosenNumber);
-        } else {
-            messageArea.updateMessage(message);
-        }
-    }
-    private void updateBoardMap(CortexState state) {
-        Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
-        for (Map.Entry<Integer, Integer> entry : boardMap.entrySet()) {
-            int coordinate = entry.getKey();
-            int number = entry.getValue();
-            if (number != -1) {
-                board.updateCell(coordinate, number);
-            }
-        }
-    }
-    private void updateNumberScroller(CortexState state) {
-        ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-        numberScroller.update(availableNumbers);
     }
 
     @Override
@@ -168,7 +125,7 @@ class PlayScreen extends GameScreen implements Playable {
     public void flashChosenNumber(int chosenNumber) {
         messageArea.flashChosenNumber(chosenNumber);
     }
-
+    
     @Override
     public void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction) {
         NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
@@ -188,7 +145,6 @@ class PlayScreen extends GameScreen implements Playable {
         MoveToAction moveToAction = Actions.moveTo(dragToPositionX - nextNumberLabelX, dragToPositionY - nextNumberLabelY, 0.7f);
         return moveToAction;
     }
-
     @Override
     public void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction) {
         numberScroller.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
@@ -216,7 +172,7 @@ class PlayScreen extends GameScreen implements Playable {
         }
     }
     private void handleScreenSwitch() {
-        boolean dialogAlreadyExists = checkIfDialogAlreadyExists();
+        boolean dialogAlreadyExists = checkIfDialogAlreadyIsShownOnStage();
         final Persistence persistence = Persistence.getInstance();
         if (!persistence.isInPlay()) {
             ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
@@ -225,7 +181,7 @@ class PlayScreen extends GameScreen implements Playable {
             dialog.show(stage);
         }
     }
-    private boolean checkIfDialogAlreadyExists() {
+    private boolean checkIfDialogAlreadyIsShownOnStage() {
         boolean dialogAlreadyExists = false;
         for (Actor actor : stage.getActors()) {
             if (actor instanceof Dialog) {
@@ -234,6 +190,7 @@ class PlayScreen extends GameScreen implements Playable {
         }
         return dialogAlreadyExists;
     }
+    
     @Override
     public void pause() {
         Persistence persistence = Persistence.getInstance();
@@ -252,6 +209,7 @@ class PlayScreen extends GameScreen implements Playable {
         }
         return gameManager;
     }
+    
     @Override
     public void dispose() {
         MessageArea.dispose();
