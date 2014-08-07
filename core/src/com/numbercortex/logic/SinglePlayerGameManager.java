@@ -144,7 +144,7 @@ public class SinglePlayerGameManager implements GameManager {
             int turnCount = BoardUtilities.getTurnNumber(state);
             String[] messages = GameMessages.getTutorialMessage(turnCount);
             if (messages != null) {
-                screen.showConfirmationDialog(messages);
+                screen.showTutorialDialogs(messages);
             }
         }
     }

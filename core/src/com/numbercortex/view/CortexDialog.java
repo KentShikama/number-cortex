@@ -42,7 +42,7 @@ class CortexDialog extends Dialog {
 
     static Dialog createConfirmationDialogs(final Stage stage, String... dialogMessages) {
         if (dialogMessages.length == 1) {
-            return createConfirmationDialog(dialogMessages[0], null).show(stage);
+            return createConfirmationDialog(dialogMessages[0]).show(stage);
         } else {
             final String[] remainingDialogMessages = Arrays.copyOfRange(dialogMessages, 1, dialogMessages.length);
             return createConfirmationDialog(dialogMessages[0], new ClickListenerWithSound() {
@@ -53,7 +53,10 @@ class CortexDialog extends Dialog {
             }).show(stage);
         }
     }
-    static Dialog createConfirmationDialog(String dialogMessage, ClickListenerWithSound onConfirmListener) {
+    static Dialog createConfirmationDialog(String dialogMessage) {
+        return createConfirmationDialog(dialogMessage, null);
+    }
+    private static Dialog createConfirmationDialog(String dialogMessage, ClickListenerWithSound onConfirmListener) {
         Window.WindowStyle windowStyle = buildWindowStyle();
         CortexDialog dialog = new CortexDialog("", windowStyle);
         addContentLabel(dialogMessage, dialog);

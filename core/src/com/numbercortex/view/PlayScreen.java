@@ -298,17 +298,17 @@ class PlayScreen extends GameScreen implements Playable {
     }
 
     @Override
-    public void showConfirmationDialog(String... dialogMessages) {
+    public void showTutorialDialogs(String... dialogMessages) {
         Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
         confirmationDialogs.show(stage);
     }
     @Override
-    public void showConfirmationDialog(float delay, final String... dialogMessages) {
+    public void showConfirmationDialog(float delay, final String dialogMessages) {
         DelayAction delayAction = Actions.delay(delay);
         Action showConfirmationDialogAction = new Action() {
             @Override
             public boolean act(float delta) {
-                Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
+                Dialog confirmationDialogs = CortexDialog.createConfirmationDialog(dialogMessages);
                 confirmationDialogs.show(stage);
                 return true;
             }
