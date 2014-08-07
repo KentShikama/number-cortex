@@ -43,9 +43,9 @@ public class IOSLauncher extends IOSApplication.Delegate {
         }
         return crossPlatformFacebook;
     }
-    
+
     @Override
-    public void didBecomeActive (UIApplication application) {
+    public void didBecomeActive(UIApplication application) {
         super.didBecomeActive(application);
         chartboost = Chartboost.sharedChartboost();
         chartboost.setAppId("53dc9c641873da4ec7b5a2b8");
@@ -55,17 +55,17 @@ public class IOSLauncher extends IOSApplication.Delegate {
         chartboost.cacheInterstitial("After Screen");
         facebookManager.didBecomeActive(application);
     }
-    
+
     @Override
-    public boolean openURL (UIApplication application, NSURL url, String sourceApplication, NSObject annotation) {
+    public boolean openURL(UIApplication application, NSURL url, String sourceApplication, NSObject annotation) {
         return facebookManager.openURL(application, url, sourceApplication, annotation);
     }
 
     @Override
-    public void willTerminate (UIApplication application) {
+    public void willTerminate(UIApplication application) {
         facebookManager.willTerminate(application);
     }
-    
+
     public static void main(String[] argv) {
         NSAutoreleasePool pool = new NSAutoreleasePool();
         UIApplication.main(argv, null, IOSLauncher.class);

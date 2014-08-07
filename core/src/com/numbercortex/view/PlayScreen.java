@@ -56,7 +56,7 @@ class PlayScreen extends GameScreen implements Playable {
     private CrossPlatformFacebook facebook;
     private Dialog facebookShareDialog;
     private boolean facebookShareDialogIsShowing;
-    
+
     private Dialog confirmationDialog;
     private boolean confirmationDialogIsShowing;
 
@@ -309,7 +309,6 @@ class PlayScreen extends GameScreen implements Playable {
     public void generateConfirmationDialog(float delay, final String dialogMessages) {
         DelayAction delayAction = Actions.delay(delay);
         Action showConfirmationDialogAction = new Action() {
-
             @Override
             public boolean act(float delta) {
                 confirmationDialogIsShowing = true;
@@ -438,7 +437,7 @@ class PlayScreen extends GameScreen implements Playable {
     }
     private void showConfirmationDialogIfApplicable() {
         if (!facebookShareDialogIsShowing && confirmationDialogIsShowing && confirmationDialog.getStage() == null) {
-            confirmationDialog.show(stage);      
+            confirmationDialog.show(stage);
         }
     }
     private void handleBackKey() {

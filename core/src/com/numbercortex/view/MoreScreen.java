@@ -50,7 +50,7 @@ class MoreScreen extends HomeScreen {
                         @Override
                         public void didFailToLoadMoreApps(String errorMessage) {
                             showErrorMessage(errorMessage);
-                        }    
+                        }
                     };
                     chartboost.setListener(listener);
                     chartboost.showMoreApps();
@@ -86,14 +86,14 @@ class MoreScreen extends HomeScreen {
             ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
         }
     }
-    
+
     void showErrorMessage(String errorMessage) {
         if (game.getScreen() instanceof MoreScreen) {
             Dialog errorDialog = CortexDialog.createConfirmationDialog(errorMessage);
             errorDialog.show(stage);
         }
     }
-    
+
     @Override
     public void pause() {
         Persistence persistence = Persistence.getInstance();

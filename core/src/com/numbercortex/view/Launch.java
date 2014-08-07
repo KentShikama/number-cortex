@@ -38,7 +38,7 @@ public class Launch extends Game {
     private SplashScreen splashScreen;
     private CrossPlatformChartboost chartboost;
     private CrossPlatformFacebook facebook;
-    
+
     public Launch(CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook) {
         this.chartboost = chartboost;
         this.facebook = facebook;
@@ -101,7 +101,7 @@ public class Launch extends Game {
 
     @Override
     public void render() {
-//      fps.log();
+        // fps.log();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (Assets.manager.update()) {
             assignAssetsAndShowGameIfApplicable();

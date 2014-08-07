@@ -63,7 +63,7 @@ class CortexDialog extends Dialog {
         addButton("OK", onConfirmListener, dialog);
         return dialog;
     }
-    
+
     static Dialog createShareDialog(String dialogMessage, ClickListenerWithSound cancelListener, ClickListenerWithSound shareListener) {
         Window.WindowStyle windowStyle = buildWindowStyle();
         CortexDialog dialog = new CortexDialog("", windowStyle);

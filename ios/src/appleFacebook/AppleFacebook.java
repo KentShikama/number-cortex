@@ -37,6 +37,6 @@ public class AppleFacebook implements CrossPlatformFacebook {
                 }
             }
         };
-        FBDialogs.presentShareDialog(params, null, handler);    
+        FBDialogs.presentShareDialog(params, null, handler);
     }
 }

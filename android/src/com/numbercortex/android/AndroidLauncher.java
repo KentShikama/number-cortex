@@ -18,7 +18,7 @@ public class AndroidLauncher extends AndroidApplication {
     private Chartboost cb;
     private UiLifecycleHelper uiHelper;
     private CrossPlatformFacebook crossPlatformFacebook;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,7 @@ public class AndroidLauncher extends AndroidApplication {
         CBPreferences.getInstance().setImpressionsUseActivities(true);
         CrossPlatformChartboost crossPlatformChartboost = new AndroidChartboost(cb, this);
         this.cb.onCreate(this, appId, appSignature, ((AndroidChartboost) crossPlatformChartboost).getChartBoostDelegate());
-        
+
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);
         crossPlatformFacebook = new AndroidFacebook(this, uiHelper);
