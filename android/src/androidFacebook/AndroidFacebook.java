@@ -70,7 +70,7 @@ public class AndroidFacebook implements CrossPlatformFacebook {
         final String pictureLink = "http://www.numbercortex.com/images/number_cortex_mobile_banner.jpg";
         final String caption = " ";
         if (FacebookDialog.canPresentShareDialog(androidLauncher.getApplicationContext(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
-            FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(androidLauncher).setLink(link).setPicture(pictureLink).setDescription(description).setCaption(" ").setName(title).build();
+            FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(androidLauncher).setLink(link).setPicture(pictureLink).setDescription(description).setCaption(caption).setName(title).build();
             uiHelper.trackPendingDialogCall(shareDialog.present());
         } else {
             if (Session.getActiveSession() != null && Session.getActiveSession().isOpened()) {

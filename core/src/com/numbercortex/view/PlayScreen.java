@@ -320,31 +320,32 @@ class PlayScreen extends GameScreen implements Playable {
     public void generateShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
         if (facebook == null) {
             System.out.println("Facebook sharing is not supported on this device");
+        } else {
+            DelayAction delayAction = Actions.delay(delay);
+            Action showShareDialogAction = new Action() {
+                @Override
+                public boolean act(float delta) {
+                    ClickListenerWithSound shareListener = new ClickListenerWithSound() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            facebookShareDialogIsShowing = false;
+                            FacebookCallbackListener listener = new FacebookCallbackListener() {
+                                @Override
+                                public void showErrorDialog(String errorMessage) {
+                                    generateFacebookErrorDialog(errorMessage, facebookPostTitle, facebookPostDescription);
+                                }
+                            };
+                            facebook.setListener(listener);
+                            facebook.post(facebookPostTitle, facebookPostDescription);
+                        }
+                    };
+                    facebookShareDialogIsShowing = true;
+                    facebookShareDialog = CortexDialog.createShareDialog(dialogMessage, shareListener);
+                    return true;
+                }
+            };
+            stage.addAction(Actions.sequence(delayAction, showShareDialogAction));
         }
-        DelayAction delayAction = Actions.delay(delay);
-        Action showShareDialogAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-                ClickListenerWithSound shareListener = new ClickListenerWithSound() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        facebookShareDialogIsShowing = false;
-                        FacebookCallbackListener listener = new FacebookCallbackListener() {
-                            @Override
-                            public void showErrorDialog(String errorMessage) {
-                                generateFacebookErrorDialog(errorMessage, facebookPostTitle, facebookPostDescription);
-                            }
-                        };
-                        facebook.setListener(listener);
-                        facebook.post(facebookPostTitle, facebookPostDescription);
-                    }
-                };
-                facebookShareDialogIsShowing = true;
-                facebookShareDialog = CortexDialog.createShareDialog(dialogMessage, shareListener);
-                return true;
-            }
-        };
-        stage.addAction(Actions.sequence(delayAction, showShareDialogAction));
     }
     private void generateFacebookErrorDialog(String errorMessage, final String facebookPostTitle, final String facebookPostDescription) {
         ClickListenerWithSound cancelListener = new ClickListenerWithSound() {
