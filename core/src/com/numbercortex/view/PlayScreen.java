@@ -33,7 +33,6 @@ import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.logic.TwoPlayerGameManager;
 import com.numbercortex.view.TransitionScreen.Direction;
 import facebook.CrossPlatformFacebook;
-import facebook.FacebookCallbackListener;
 
 class PlayScreen extends GameScreen implements Playable {
 
@@ -42,14 +41,14 @@ class PlayScreen extends GameScreen implements Playable {
     private NumberCortexBoard board;
     private NumberScroller numberScroller;
     private MessageArea messageArea;
+    private Image exitButton;
+    private Image informationButton;
+    private Image optionsButton;
+    
     private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 
     private GameSettings settings;
     private Persistence preferences;
-
-    private Image exitButton;
-    private Image informationButton;
-    private Image optionsButton;
 
     private boolean isShown;
 
