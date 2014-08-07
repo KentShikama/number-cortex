@@ -53,18 +53,13 @@ class PlayScreen extends GameScreen implements Playable {
 
     private boolean isShown;
 
-    private CrossPlatformFacebook facebook;
-    private Dialog facebookShareDialog;
-    private boolean facebookShareDialogIsShowing;
-
-    private Dialog confirmationDialog;
-    private boolean confirmationDialogIsShowing;
+    private PlayScreenDialogDelegate dialogDelegate;
 
     PlayScreen(Game game, CrossPlatformFacebook facebook) {
         super(game);
-        this.facebook = facebook;
         ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
         stage = new Stage(fitViewport);
+        dialogDelegate = new PlayScreenDialogDelegate(facebook);
     }
 
     @Override
@@ -91,8 +86,6 @@ class PlayScreen extends GameScreen implements Playable {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
         backKey = false;
-        facebookShareDialogIsShowing = false;
-        facebookShareDialog = null;
     }
     private void buildPlayScreenStage(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -307,83 +300,11 @@ class PlayScreen extends GameScreen implements Playable {
     }
     @Override
     public void generateConfirmationDialog(float delay, final String dialogMessages) {
-        DelayAction delayAction = Actions.delay(delay);
-        Action showConfirmationDialogAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-                confirmationDialogIsShowing = true;
-                ClickListenerWithSound confirmationListener = new ClickListenerWithSound() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        confirmationDialogIsShowing = false;
-                    }
-                };
-                confirmationDialog = CortexDialog.createConfirmationDialog(dialogMessages, confirmationListener);
-                return true;
-            }
-        };
-        stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
+        dialogDelegate.generateConfirmationDialog(stage, delay, dialogMessages);
     }
     @Override
     public void generateShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
-        if (facebook == null) {
-            System.out.println("Facebook sharing is not supported on this device");
-        } else {
-            DelayAction delayAction = Actions.delay(delay);
-            Action showShareDialogAction = new Action() {
-                @Override
-                public boolean act(float delta) {
-                    ClickListenerWithSound cancelListener = new ClickListenerWithSound() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            facebookShareDialogIsShowing = false;
-                        }
-                    };
-                    ClickListenerWithSound shareListener = new ClickListenerWithSound() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            facebookShareDialogIsShowing = false;
-                            FacebookCallbackListener listener = new FacebookCallbackListener() {
-                                @Override
-                                public void showErrorDialog(String errorMessage) {
-                                    generateFacebookErrorDialog(errorMessage, facebookPostTitle, facebookPostDescription);
-                                }
-                            };
-                            facebook.setListener(listener);
-                            facebook.post(facebookPostTitle, facebookPostDescription);
-                        }
-                    };
-                    facebookShareDialogIsShowing = true;
-                    facebookShareDialog = CortexDialog.createShareDialog(dialogMessage, cancelListener, shareListener);
-                    return true;
-                }
-            };
-            stage.addAction(Actions.sequence(delayAction, showShareDialogAction));
-        }
-    }
-    private void generateFacebookErrorDialog(String errorMessage, final String facebookPostTitle, final String facebookPostDescription) {
-        ClickListenerWithSound cancelListener = new ClickListenerWithSound() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                facebookShareDialogIsShowing = false;
-            }
-        };
-        ClickListenerWithSound shareListener = new ClickListenerWithSound() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                facebookShareDialogIsShowing = false;
-                FacebookCallbackListener listener = new FacebookCallbackListener() {
-                    @Override
-                    public void showErrorDialog(String errorMessage) {
-                        generateFacebookErrorDialog(errorMessage, facebookPostTitle, facebookPostDescription);
-                    }
-                };
-                facebook.setListener(listener);
-                facebook.post(facebookPostTitle, facebookPostDescription);
-            }
-        };
-        facebookShareDialogIsShowing = true;
-        facebookShareDialog = CortexDialog.createShareDialog(errorMessage, cancelListener, shareListener);
+        dialogDelegate.generateShareDialogWithDelayIfApplicable(stage, delay, dialogMessage, facebookPostTitle, facebookPostDescription);
     }
 
     @Override
@@ -426,19 +347,8 @@ class PlayScreen extends GameScreen implements Playable {
         stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         stage.act(delta);
         stage.draw();
-        showFacebookShareDialogIfApplicable();
-        showConfirmationDialogIfApplicable();
+        dialogDelegate.draw(stage);
         handleBackKey();
-    }
-    private void showFacebookShareDialogIfApplicable() {
-        if (facebookShareDialogIsShowing && facebookShareDialog.getStage() == null) {
-            facebookShareDialog.show(stage);
-        }
-    }
-    private void showConfirmationDialogIfApplicable() {
-        if (!facebookShareDialogIsShowing && confirmationDialogIsShowing && confirmationDialog.getStage() == null) {
-            confirmationDialog.show(stage);
-        }
     }
     private void handleBackKey() {
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
