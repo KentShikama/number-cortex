@@ -2,26 +2,15 @@ package com.numbercortex.view;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.numbercortex.CortexState;
 import com.numbercortex.logic.Player;
 
 class EndingSequenceDelegate {
-
-    private NumberCortexBoard board;
-    private NumberScroller numberScroller;
-    private MessageArea messageArea;
-    private Image exitButton;
-    private Image informationButton;
-    private Image optionsButton;
-
-    EndingSequenceDelegate(NumberCortexBoard board, NumberScroller numberScroller, MessageArea messageArea, Image exitButton, Image informationButton, Image optionsButton) {
-        this.messageArea = messageArea;
-        this.board = board;
-        this.numberScroller = numberScroller;
-        this.exitButton = exitButton;
-        this.informationButton = informationButton;
-        this.optionsButton = optionsButton;
+    
+    private PlayScreenControls controls;
+    
+    EndingSequenceDelegate(PlayScreenControls controls) {
+        this.controls = controls;
     }
 
     void animateEndingSequence(CortexState state, Player currentPlayer) {
@@ -37,12 +26,12 @@ class EndingSequenceDelegate {
             winner = null;
         }
         currentAnimationTime += moveDownBoardAndRemoveOtherElements(currentAnimationTime);
-        messageArea.showEndingMessageSequenceWithAnimation(winner, winningAttribute, currentAnimationTime);
+        controls.getMessageArea().showEndingMessageSequenceWithAnimation(winner, winningAttribute, currentAnimationTime);
     }
     private float handleShowingOfWinningCoordinates(CortexState state) {
         int[] winningValues = state.getWinningValues();
         Map<Integer, Integer> winningMap = buildWinningMap(state, winningValues);
-        return board.showWinningCoordinates(winningMap);
+        return controls.getBoard().showWinningCoordinates(winningMap);
     }
     private Map<Integer, Integer> buildWinningMap(CortexState state, int[] winningValues) {
         Map<Integer, Integer> winningMap = new HashMap<Integer, Integer>();
@@ -57,18 +46,18 @@ class EndingSequenceDelegate {
         return winningMap;
     }
     private float moveDownBoardAndRemoveOtherElements(float delay) {
-        board.bringCellsDownWithAnimation(delay);
+        controls.getBoard().bringCellsDownWithAnimation(delay);
         removeOtherElementsWithAnimation(delay);
         return 1f;
     }
     private void removeOtherElementsWithAnimation(float delay) {
-        numberScroller.removeScrollerWithAnimation(delay);
-        exitButton.clearListeners();
-        informationButton.clearListeners();
-        optionsButton.clearListeners();
-        AnimationUtilities.delayFadeAndRemoveActor(exitButton, delay);
-        AnimationUtilities.delayFadeAndRemoveActor(informationButton, delay);
-        AnimationUtilities.delayFadeAndRemoveActor(optionsButton, delay);
+        controls.getNumberScroller().removeScrollerWithAnimation(delay);
+        controls.getExitButton().clearListeners();
+        controls.getInformationButton().clearListeners();
+        controls.getOptionsButton().clearListeners();
+        AnimationUtilities.delayFadeAndRemoveActor(controls.getExitButton(), delay);
+        AnimationUtilities.delayFadeAndRemoveActor(controls.getInformationButton(), delay);
+        AnimationUtilities.delayFadeAndRemoveActor(controls.getOptionsButton(), delay);
     }
 
     void recreateEndingInstantly(CortexState state, Player currentPlayer) {
@@ -80,13 +69,13 @@ class EndingSequenceDelegate {
         } else {
             winner = null;
         }
-        messageArea.showEndingMessageSequence(winner);
+        controls.getMessageArea().showEndingMessageSequence(winner);
     }
     private void moveDownBoardAndRemoveOtherElements() {
-        board.bringCellsDown();
-        numberScroller.removeScroller();
-        exitButton.remove();
-        informationButton.remove();
-        optionsButton.remove();
+        controls.getBoard().bringCellsDown();
+        controls.getNumberScroller().removeScroller();
+        controls.getExitButton().remove();
+        controls.getInformationButton().remove();
+        controls.getOptionsButton().remove();
     }
 }

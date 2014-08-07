@@ -13,26 +13,16 @@ import com.numbercortex.view.TransitionScreen.Direction;
 class PlayScreenBuildDelegate {
 
     private Stage stage;
-    private NumberCortexBoard board;
-    private NumberScroller numberScroller;
-    private MessageArea messageArea;
-    private Image exitButton;
-    private Image informationButton;
-    private Image optionsButton;
+    private PlayScreenControls controls;
 
     private GameSettings settings;
     private Persistence preferences;
 
     private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 
-    PlayScreenBuildDelegate(Stage stage, NumberCortexBoard board, NumberScroller numberScroller, MessageArea messageArea, Image exitButton, Image informationButton, Image optionsButton) {
+    PlayScreenBuildDelegate(Stage stage, PlayScreenControls controls) {
         this.stage = stage;
-        this.messageArea = messageArea;
-        this.board = board;
-        this.numberScroller = numberScroller;
-        this.exitButton = exitButton;
-        this.informationButton = informationButton;
-        this.optionsButton = optionsButton;
+        this.controls = controls;
     }
 
     void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences) {
@@ -47,20 +37,23 @@ class PlayScreenBuildDelegate {
         buildBoard(settings, preferences);
         buildNumberScroller();
         buildBottomButtons();
-        board.clearBoard();
+        controls.getBoard().clearBoard();
     }
     private void buildMessageArea() {
-        messageArea = MessageArea.createMessageArea(stage);
+        MessageArea messageArea = MessageArea.createMessageArea(stage);
         handler.notifyMessageAreaConstrucion(messageArea);
+        controls.setMessageArea(messageArea);
     }
     private void buildBoard(GameSettings settings, Persistence preferences) {
         boolean isBlue = preferences.isBlue();
         int numberOfRows = settings.getNumberOfRows();
-        board = NumberCortexBoard.createNumberCortexBoard(stage, isBlue, numberOfRows);
+        NumberCortexBoard board = NumberCortexBoard.createNumberCortexBoard(stage, isBlue, numberOfRows);
         handler.notifyBoardConstruction(board);
+        controls.setBoard(board);
     }
     private void buildNumberScroller() {
-        numberScroller = NumberScroller.createNumberScroller(stage);
+        NumberScroller numberScroller = NumberScroller.createNumberScroller(stage);
+        controls.setNumberScroller(numberScroller);
     }
     private void buildBottomButtons() {
         TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
@@ -73,7 +66,7 @@ class PlayScreenBuildDelegate {
         buildHelpButton(optionsRectangleTexture, offsetFromOriginalWidth);
     }
     private void bulidExitButton(TextureRegion exitRectangleTexture, float offsetFromOriginalWidth) {
-        exitButton = new Image(exitRectangleTexture);
+        Image exitButton = new Image(exitRectangleTexture);
         exitButton.setBounds(44 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(), exitRectangleTexture.getRegionHeight());
         exitButton.addListener(new ClickListenerWithSound() {
             @Override
@@ -83,9 +76,10 @@ class PlayScreenBuildDelegate {
             }
         });
         stage.addActor(exitButton);
+        controls.setExitButton(exitButton);
     }
     private void buildInformationButton(TextureRegion informationRectangleTexture, float offsetFromOriginalWidth) {
-        informationButton = new Image(informationRectangleTexture);
+        Image informationButton = new Image(informationRectangleTexture);
         informationButton.setBounds(434 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, informationRectangleTexture.getRegionWidth(), informationRectangleTexture.getRegionHeight());
         informationButton.addListener(new ClickListenerWithSound() {
             @Override
@@ -100,9 +94,10 @@ class PlayScreenBuildDelegate {
             }
         });
         stage.addActor(informationButton);
+        controls.setInformationButton(informationButton);
     }
     private void buildHelpButton(TextureRegion optionsRectangleTexture, float offsetFromOriginalWidth) {
-        optionsButton = new Image(optionsRectangleTexture);
+        Image optionsButton = new Image(optionsRectangleTexture);
         optionsButton.setBounds(543 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, optionsRectangleTexture.getRegionWidth(), optionsRectangleTexture.getRegionHeight());
         optionsButton.addListener(new ClickListenerWithSound() {
             @Override
@@ -113,5 +108,6 @@ class PlayScreenBuildDelegate {
             }
         });
         stage.addActor(optionsButton);
+        controls.setOptionsButton(optionsButton);
     }
 }

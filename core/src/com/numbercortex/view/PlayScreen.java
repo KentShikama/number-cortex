@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.numbercortex.CortexState;
@@ -34,27 +33,23 @@ class PlayScreen extends GameScreen implements Playable {
 
     static final String TAG = "Play Screen";
 
-    private NumberCortexBoard board;
-    private NumberScroller numberScroller;
-    private MessageArea messageArea;
-    private Image exitButton;
-    private Image informationButton;
-    private Image optionsButton;
-
     private boolean isShown;
+    
+    private PlayScreenControls playScreenElements;
 
-    private PlayScreenDialogDelegate dialogDelegate;
     private PlayScreenBuildDelegate buildDelegate;
     private PlayScreenUpdateDelegate updateDelegate;
     private EndingSequenceDelegate endingSequenceDelegate;
+    private PlayScreenDialogDelegate dialogDelegate;
 
     PlayScreen(Game game, CrossPlatformFacebook facebook) {
         super(game);
         ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
         stage = new Stage(fitViewport);
-        buildDelegate = new PlayScreenBuildDelegate(stage, board, numberScroller, messageArea, exitButton, informationButton, optionsButton);
-        updateDelegate = new PlayScreenUpdateDelegate(board, numberScroller, messageArea);
-        endingSequenceDelegate = new EndingSequenceDelegate(board, numberScroller, messageArea, exitButton, informationButton, optionsButton);
+        playScreenElements = new PlayScreenControls();
+        buildDelegate = new PlayScreenBuildDelegate(stage, playScreenElements);
+        updateDelegate = new PlayScreenUpdateDelegate(playScreenElements);
+        endingSequenceDelegate = new EndingSequenceDelegate(playScreenElements);
         dialogDelegate = new PlayScreenDialogDelegate(facebook);
     }
 
@@ -122,12 +117,12 @@ class PlayScreen extends GameScreen implements Playable {
 
     @Override
     public void flashChosenNumber(int chosenNumber) {
-        messageArea.flashChosenNumber(chosenNumber);
+        playScreenElements.getMessageArea().flashChosenNumber(chosenNumber);
     }
 
     @Override
     public void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction) {
-        NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
+        NumberTextButton nextNumberCell = playScreenElements.getMessageArea().getNextNumberSquare();
         MoveToAction moveToAction = buildMoveToAction(coordinate, nextNumberCell);
         DelayAction delayAction = Actions.delay(0.5f);
         SequenceAction placeNumberAction = Actions.sequence(delayAction, moveToAction, completePlaceNumberAction);
@@ -135,6 +130,7 @@ class PlayScreen extends GameScreen implements Playable {
         nextNumberLabel.addAction(placeNumberAction);
     }
     private MoveToAction buildMoveToAction(int coordinate, NumberTextButton nextNumberCell) {
+        NumberCortexBoard board = playScreenElements.getBoard();
         int numberOfRows = board.getNumberOfRows();
         int offset = numberOfRows == 3 ? 36 : 10;
         float nextNumberLabelX = nextNumberCell.getX() - offset;
@@ -146,7 +142,7 @@ class PlayScreen extends GameScreen implements Playable {
     }
     @Override
     public void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction) {
-        numberScroller.chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
+        playScreenElements.getNumberScroller().chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
     }
 
     @Override

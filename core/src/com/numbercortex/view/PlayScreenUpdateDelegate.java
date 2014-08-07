@@ -8,15 +8,11 @@ import com.numbercortex.logic.Player;
 
 class PlayScreenUpdateDelegate {
 
-    private NumberCortexBoard board;
-    private NumberScroller numberScroller;
-    private MessageArea messageArea;
+    private PlayScreenControls controls;
     private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 
-    PlayScreenUpdateDelegate(NumberCortexBoard board, NumberScroller numberScroller, MessageArea messageArea) {
-        this.messageArea = messageArea;
-        this.board = board;
-        this.numberScroller = numberScroller;
+    PlayScreenUpdateDelegate(PlayScreenControls controls) {
+        this.controls = controls;
     }
 
     void updateAll(Player currentPlayer, CortexState state) {
@@ -32,7 +28,7 @@ class PlayScreenUpdateDelegate {
             int coordinate = entry.getKey();
             int number = entry.getValue();
             if (number != -1) {
-                board.updateCell(coordinate, number);
+                controls.getBoard().updateCell(coordinate, number);
             }
         }
     }
@@ -40,10 +36,10 @@ class PlayScreenUpdateDelegate {
     private void updateCurrentPlayer(Player currentPlayer) {
         if (currentPlayer instanceof InteractableSendable) {
             InteractableSendable sendable = (InteractableSendable) currentPlayer;
-            numberScroller.setSendable(sendable);
+            controls.getNumberScroller().setSendable(sendable);
             handler.setSendable(sendable);
         } else {
-            numberScroller.setSendable(null);
+            controls.getNumberScroller().setSendable(null);
             handler.setSendable(null);
         }
     }
@@ -57,13 +53,13 @@ class PlayScreenUpdateDelegate {
         String message = state.getMessage();
         int chosenNumber = state.getChosenNumber();
         if (chosenNumber != -1) {
-            messageArea.updateMessageWithNextNumber(message, chosenNumber);
+            controls.getMessageArea().updateMessageWithNextNumber(message, chosenNumber);
         } else {
-            messageArea.updateMessage(message);
+            controls.getMessageArea().updateMessage(message);
         }
     }
     private void updateNumberScroller(CortexState state) {
         ArrayList<Integer> availableNumbers = state.getAvailableNumbers();
-        numberScroller.update(availableNumbers);
+        controls.getNumberScroller().update(availableNumbers);
     }
 }
