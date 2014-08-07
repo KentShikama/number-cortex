@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.numbercortex.Persistence;
+import com.numbercortex.view.TransitionScreen.Direction;
 
 class CortexDialog extends Dialog {
 
@@ -73,7 +75,20 @@ class CortexDialog extends Dialog {
         return dialog;
     }
 
-    static Dialog createQuitCancelDialog(ClickListenerWithSound quitListener) {
+    static Dialog createGameQuitCancelDialog() {
+        Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListenerWithSound() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Persistence persistence = Persistence.getInstance();
+                persistence.setInPlay(false);
+                Sound.stopGameBGM();
+                Sound.loopOpeningBGMGradually();
+                ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
+            }
+        });
+        return dialog;
+    }
+    private static Dialog createQuitCancelDialog(ClickListenerWithSound quitListener) {
         Window.WindowStyle windowStyle = buildWindowStyle();
         CortexDialog dialog = new CortexDialog("", windowStyle);
         addContentLabel("Are you sure you want to quit? The current game data will be lost.", dialog);

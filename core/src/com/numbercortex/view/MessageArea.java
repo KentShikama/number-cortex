@@ -81,7 +81,7 @@ class MessageArea {
 
     private MessageArea() {}
 
-    static MessageArea createMessageArea(Stage stage, Game game) {
+    static MessageArea createMessageArea(Stage stage) {
         float worldWidth = stage.getViewport().getWorldWidth();
         MessageArea instance = Singleton.INSTANCE;
         instance.stage = stage;
@@ -89,9 +89,9 @@ class MessageArea {
         instance.messageLabelShort = buildMessageLabelShort(worldWidth);
         instance.nextNumberSquare = buildNextNumberSquare(worldWidth);
         instance.buttonTable = buildButtonTable(worldWidth);
-        instance.menuButton = buildMenuButton(game);
-        instance.playButton = buildPlayButton(game);
-        instance.continueButton = buildContinueButton(game);
+        instance.menuButton = buildMenuButton();
+        instance.playButton = buildPlayButton();
+        instance.continueButton = buildContinueButton();
         return instance;
     }
     private static TextButton buildMessageLabelLong(float worldWidth) {
@@ -132,7 +132,7 @@ class MessageArea {
         buttonTable.setBounds(paddingFromEdge, Launch.SCREEN_HEIGHT - 370, worldWidth - paddingFromEdge * 2, 145);
         return buttonTable;
     }
-    private static TextButton buildMenuButton(final Game game) {
+    private static TextButton buildMenuButton() {
         if (borderedTextButtonStyle == null) {
             borderedTextButtonStyle = buildBorderedTextButtonStyle();
         }
@@ -145,7 +145,7 @@ class MessageArea {
         });
         return menuButton;
     }
-    private static TextButton buildPlayButton(final Game game) {
+    private static TextButton buildPlayButton() {
         if (borderedTextButtonStyle == null) {
             borderedTextButtonStyle = buildBorderedTextButtonStyle();
         }
@@ -162,7 +162,7 @@ class MessageArea {
         });
         return playButton;
     }
-    private static TextButton buildContinueButton(final Game game) {
+    private static TextButton buildContinueButton() {
         if (borderedTextButtonStyle == null) {
             borderedTextButtonStyle = buildBorderedTextButtonStyle();
         }

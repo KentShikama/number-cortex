@@ -1,13 +1,11 @@
 package com.numbercortex.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import libgdx.NumberTextButton;
 import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -47,12 +45,10 @@ class PlayScreen extends GameScreen implements Playable {
     
     private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 
-    private GameSettings settings;
-    private Persistence preferences;
-
     private boolean isShown;
 
     private PlayScreenDialogDelegate dialogDelegate;
+    private PlayScreenBuildDelegate buildDelegate;
     private EndingSequenceDelegate endingSequenceDelegate;
 
     PlayScreen(Game game, CrossPlatformFacebook facebook) {
@@ -65,9 +61,9 @@ class PlayScreen extends GameScreen implements Playable {
 
     @Override
     public void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences) {
-        this.settings = settings;
-        this.preferences = preferences;
+        buildDelegate.setGameSettingsAndPreferences(settings, preferences);
     }
+    
     @Override
     public void show() {
         if (isShown) {
@@ -75,7 +71,7 @@ class PlayScreen extends GameScreen implements Playable {
         } else {
             isShown = true;
             setUpInputAndBackKey();
-            buildPlayScreenStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            buildDelegate.buildPlayScreenStage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             resumeGame();
         }
     }
@@ -87,80 +83,6 @@ class PlayScreen extends GameScreen implements Playable {
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
         backKey = false;
-    }
-    private void buildPlayScreenStage(int width, int height) {
-        stage.getViewport().update(width, height, true);
-        stage.clear();
-        buildMessageArea(game);
-        buildBoard(settings, preferences);
-        buildNumberScroller();
-        buildBottomButtons();
-        board.clearBoard();
-    }
-    private void buildMessageArea(Game game) {
-        messageArea = MessageArea.createMessageArea(stage, game);
-        handler.notifyMessageAreaConstrucion(messageArea);
-    }
-    private void buildBoard(GameSettings settings, Persistence preferences) {
-        boolean isBlue = preferences.isBlue();
-        int numberOfRows = settings.getNumberOfRows();
-        board = NumberCortexBoard.createNumberCortexBoard(stage, isBlue, numberOfRows);
-        handler.notifyBoardConstruction(board);
-    }
-    private void buildNumberScroller() {
-        numberScroller = NumberScroller.createNumberScroller(stage);
-    }
-    private void buildBottomButtons() {
-        TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
-        TextureRegion informationRectangleTexture = Assets.gameSkin.getRegion("information");
-        TextureRegion optionsRectangleTexture = Assets.gameSkin.getRegion("options");
-        float worldWidth = stage.getViewport().getWorldWidth();
-        float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
-        bulidExitButton(exitRectangleTexture, offsetFromOriginalWidth);
-        buildInformationButton(informationRectangleTexture, offsetFromOriginalWidth);
-        buildHelpButton(optionsRectangleTexture, offsetFromOriginalWidth);
-    }
-    private void bulidExitButton(TextureRegion exitRectangleTexture, float offsetFromOriginalWidth) {
-        exitButton = new Image(exitRectangleTexture);
-        exitButton.setBounds(44 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(), exitRectangleTexture.getRegionHeight());
-        exitButton.addListener(new ClickListenerWithSound() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Dialog dialog = buildQuitCancelDialog();
-                dialog.show(stage);
-            }
-        });
-        stage.addActor(exitButton);
-    }
-    private void buildInformationButton(TextureRegion informationRectangleTexture, float offsetFromOriginalWidth) {
-        informationButton = new Image(informationRectangleTexture);
-        informationButton.setBounds(434 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, informationRectangleTexture.getRegionWidth(), informationRectangleTexture.getRegionHeight());
-        informationButton.addListener(new ClickListenerWithSound() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Sound.pauseGameBGM();
-                Sound.loopOpeningBGMGradually();
-                if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
-                    ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.singlePlayerSettingsScreen);
-                } else {
-                    ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.twoPlayerSettingsScreen);
-                }
-            }
-        });
-        stage.addActor(informationButton);
-    }
-    private void buildHelpButton(TextureRegion optionsRectangleTexture, float offsetFromOriginalWidth) {
-        optionsButton = new Image(optionsRectangleTexture);
-        optionsButton.setBounds(543 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, optionsRectangleTexture.getRegionWidth(), optionsRectangleTexture.getRegionHeight());
-        optionsButton.addListener(new ClickListenerWithSound() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Sound.pauseGameBGM();
-                Sound.loopOpeningBGMGradually();
-                ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.optionsScreen);
-            }
-        });
-        stage.addActor(optionsButton);
     }
     private void resumeGame() {
         GameManager gameManager = getGameManagerInstance();
@@ -275,7 +197,7 @@ class PlayScreen extends GameScreen implements Playable {
 
     @Override
     public void resize(int width, int height) {
-        buildPlayScreenStage(width, height);
+        buildDelegate.buildPlayScreenStage(width, height);
         resumeGame();
     }
     @Override
@@ -300,22 +222,9 @@ class PlayScreen extends GameScreen implements Playable {
         if (!persistence.isInPlay()) {
             ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
         } else if (!dialogAlreadyExists) {
-            Dialog dialog = buildQuitCancelDialog();
+            Dialog dialog = CortexDialog.createGameQuitCancelDialog();
             dialog.show(stage);
         }
-    }
-    private Dialog buildQuitCancelDialog() {
-        Dialog dialog = CortexDialog.createQuitCancelDialog(new ClickListenerWithSound() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Persistence persistence = Persistence.getInstance();
-                persistence.setInPlay(false);
-                Sound.stopGameBGM();
-                Sound.loopOpeningBGMGradually();
-                ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.titleScreen);
-            }
-        });
-        return dialog;
     }
     private boolean checkIfDialogAlreadyExists() {
         boolean dialogAlreadyExists = false;
