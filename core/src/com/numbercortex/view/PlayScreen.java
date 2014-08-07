@@ -55,7 +55,10 @@ class PlayScreen extends GameScreen implements Playable {
 
     private CrossPlatformFacebook facebook;
     private Dialog facebookShareDialog;
-    private boolean facebookShareDialogIsShowing;    
+    private boolean facebookShareDialogIsShowing;
+    
+    private Dialog confirmationDialog;
+    private boolean confirmationDialogIsShowing;
 
     PlayScreen(Game game, CrossPlatformFacebook facebook) {
         super(game);
@@ -299,23 +302,29 @@ class PlayScreen extends GameScreen implements Playable {
 
     @Override
     public void showTutorialDialogs(String... dialogMessages) {
-        Dialog confirmationDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
-        confirmationDialogs.show(stage);
+        Dialog tutorialDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
+        tutorialDialogs.show(stage);
     }
     @Override
-    public void showConfirmationDialog(float delay, final String dialogMessages) {
+    public void generateConfirmationDialog(float delay, final String dialogMessages) {
         DelayAction delayAction = Actions.delay(delay);
         Action showConfirmationDialogAction = new Action() {
+
             @Override
             public boolean act(float delta) {
-                Dialog confirmationDialogs = CortexDialog.createConfirmationDialog(dialogMessages);
-                confirmationDialogs.show(stage);
+                confirmationDialogIsShowing = true;
+                ClickListenerWithSound confirmationListener = new ClickListenerWithSound() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        confirmationDialogIsShowing = false;
+                    }
+                };
+                confirmationDialog = CortexDialog.createConfirmationDialog(dialogMessages, confirmationListener);
                 return true;
             }
         };
         stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
     }
-
     @Override
     public void generateShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
         if (facebook == null) {
@@ -325,6 +334,12 @@ class PlayScreen extends GameScreen implements Playable {
             Action showShareDialogAction = new Action() {
                 @Override
                 public boolean act(float delta) {
+                    ClickListenerWithSound cancelListener = new ClickListenerWithSound() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            facebookShareDialogIsShowing = false;
+                        }
+                    };
                     ClickListenerWithSound shareListener = new ClickListenerWithSound() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
@@ -340,7 +355,7 @@ class PlayScreen extends GameScreen implements Playable {
                         }
                     };
                     facebookShareDialogIsShowing = true;
-                    facebookShareDialog = CortexDialog.createShareDialog(dialogMessage, shareListener);
+                    facebookShareDialog = CortexDialog.createShareDialog(dialogMessage, cancelListener, shareListener);
                     return true;
                 }
             };
@@ -413,11 +428,17 @@ class PlayScreen extends GameScreen implements Playable {
         stage.act(delta);
         stage.draw();
         showFacebookShareDialogIfApplicable();
+        showConfirmationDialogIfApplicable();
         handleBackKey();
     }
     private void showFacebookShareDialogIfApplicable() {
         if (facebookShareDialogIsShowing && facebookShareDialog.getStage() == null) {
             facebookShareDialog.show(stage);
+        }
+    }
+    private void showConfirmationDialogIfApplicable() {
+        if (!facebookShareDialogIsShowing && confirmationDialogIsShowing && confirmationDialog.getStage() == null) {
+            confirmationDialog.show(stage);      
         }
     }
     private void handleBackKey() {

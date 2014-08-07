@@ -178,7 +178,7 @@ public class SinglePlayerGameManager implements GameManager {
         if (currentLevel == maxLevel && currentLevel != 18) {
             String unlockMessage = GameMessages.getUnlockMessage(currentLevel);
             if (unlockMessage != null) {
-                screen.showConfirmationDialog(5.05f, unlockMessage); // Delay depends on winning animation
+                screen.generateConfirmationDialog(5.05f, unlockMessage); // Delay depends on winning animation
             }
             String[] shareMessage = GameMessages.getShareMessage(currentLevel);
             if (shareMessage != null) {

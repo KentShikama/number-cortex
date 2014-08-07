@@ -10,7 +10,7 @@ public interface Playable {
     void updateState(CortexState state, Player player);
 
     void showTutorialDialogs(String... dialogMessages);
-    void showConfirmationDialog(float delay, String dialogMessages);
+    void generateConfirmationDialog(float delay, String dialogMessages);
     void generateShareDialog(float delay, String dialogMessage, String facebookPostTitle, String facebookPostDescription);
 
     void flashChosenNumber(int chosenNumber);

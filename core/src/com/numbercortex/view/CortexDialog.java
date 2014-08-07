@@ -56,20 +56,11 @@ class CortexDialog extends Dialog {
     static Dialog createConfirmationDialog(String dialogMessage) {
         return createConfirmationDialog(dialogMessage, null);
     }
-    private static Dialog createConfirmationDialog(String dialogMessage, ClickListenerWithSound onConfirmListener) {
+    static Dialog createConfirmationDialog(String dialogMessage, ClickListenerWithSound onConfirmListener) {
         Window.WindowStyle windowStyle = buildWindowStyle();
         CortexDialog dialog = new CortexDialog("", windowStyle);
         addContentLabel(dialogMessage, dialog);
         addButton("OK", onConfirmListener, dialog);
-        return dialog;
-    }
-    
-    static Dialog createShareDialog(String dialogMessage, ClickListenerWithSound shareListener) {
-        Window.WindowStyle windowStyle = buildWindowStyle();
-        CortexDialog dialog = new CortexDialog("", windowStyle);
-        addContentLabel(dialogMessage, dialog);
-        addButton("Cancel", null, dialog);
-        addButton("Share", shareListener, dialog);
         return dialog;
     }
     
