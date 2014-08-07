@@ -7,14 +7,14 @@ import com.numbercortex.CortexState;
 import com.numbercortex.logic.Player;
 
 class EndingSequenceDelegate {
-    
+
     private NumberCortexBoard board;
     private NumberScroller numberScroller;
     private MessageArea messageArea;
     private Image exitButton;
     private Image informationButton;
     private Image optionsButton;
-    
+
     EndingSequenceDelegate(NumberCortexBoard board, NumberScroller numberScroller, MessageArea messageArea, Image exitButton, Image informationButton, Image optionsButton) {
         this.messageArea = messageArea;
         this.board = board;
@@ -23,7 +23,7 @@ class EndingSequenceDelegate {
         this.informationButton = informationButton;
         this.optionsButton = optionsButton;
     }
-    
+
     void animateEndingSequence(CortexState state, Player currentPlayer) {
         String winningAttribute = state.getWinningAttribute();
         float currentAnimationTime = 0f;
@@ -70,7 +70,7 @@ class EndingSequenceDelegate {
         AnimationUtilities.delayFadeAndRemoveActor(informationButton, delay);
         AnimationUtilities.delayFadeAndRemoveActor(optionsButton, delay);
     }
-    
+
     void recreateEndingInstantly(CortexState state, Player currentPlayer) {
         String winningAttribute = state.getWinningAttribute();
         moveDownBoardAndRemoveOtherElements();

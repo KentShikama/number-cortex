@@ -11,7 +11,7 @@ import com.numbercortex.Persistence;
 import com.numbercortex.view.TransitionScreen.Direction;
 
 class PlayScreenBuildDelegate {
-    
+
     private Stage stage;
     private NumberCortexBoard board;
     private NumberScroller numberScroller;
@@ -19,12 +19,12 @@ class PlayScreenBuildDelegate {
     private Image exitButton;
     private Image informationButton;
     private Image optionsButton;
-    
+
     private GameSettings settings;
     private Persistence preferences;
-    
+
     private DragAndDropHandler handler = DragAndDropHandler.getInstance();
-    
+
     PlayScreenBuildDelegate(Stage stage, NumberCortexBoard board, NumberScroller numberScroller, MessageArea messageArea, Image exitButton, Image informationButton, Image optionsButton) {
         this.stage = stage;
         this.messageArea = messageArea;
@@ -34,12 +34,12 @@ class PlayScreenBuildDelegate {
         this.informationButton = informationButton;
         this.optionsButton = optionsButton;
     }
-    
+
     void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences) {
         this.settings = settings;
         this.preferences = preferences;
     }
-    
+
     void buildPlayScreenStage(int width, int height) {
         stage.getViewport().update(width, height, true);
         stage.clear();

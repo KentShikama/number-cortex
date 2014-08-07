@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
@@ -42,7 +41,7 @@ class PlayScreen extends GameScreen implements Playable {
     private Image exitButton;
     private Image informationButton;
     private Image optionsButton;
-    
+
     private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 
     private boolean isShown;
@@ -63,7 +62,7 @@ class PlayScreen extends GameScreen implements Playable {
     public void setGameSettingsAndPreferences(GameSettings settings, Persistence preferences) {
         buildDelegate.setGameSettingsAndPreferences(settings, preferences);
     }
-    
+
     @Override
     public void show() {
         if (isShown) {
