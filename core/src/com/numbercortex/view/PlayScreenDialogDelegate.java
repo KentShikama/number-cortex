@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import facebook.CrossPlatformFacebook;
 import facebook.FacebookCallbackListener;
 
-public class PlayScreenDialogDelegate {
+class PlayScreenDialogDelegate {
 
     private boolean facebookShareDialogIsShowing;
     private Dialog facebookShareDialog;
@@ -19,7 +19,7 @@ public class PlayScreenDialogDelegate {
 
     private CrossPlatformFacebook facebook;
 
-    public PlayScreenDialogDelegate(CrossPlatformFacebook facebook) {
+    PlayScreenDialogDelegate(CrossPlatformFacebook facebook) {
         this.facebook = facebook;
     }
 
@@ -32,7 +32,7 @@ public class PlayScreenDialogDelegate {
         }
     }
 
-    public void generateConfirmationDialog(Stage stage, float delay, final String dialogMessages) {
+    void generateConfirmationDialog(Stage stage, float delay, final String dialogMessages) {
         DelayAction delayAction = Actions.delay(delay);
         Action showConfirmationDialogAction = buildShowConfirmationDialogAction(dialogMessages);
         stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
@@ -59,7 +59,7 @@ public class PlayScreenDialogDelegate {
         return okListener;
     }
 
-    public void generateShareDialogWithDelayIfApplicable(Stage stage, float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
+    void generateShareDialogWithDelayIfApplicable(Stage stage, float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
         if (facebook == null) {
             System.out.println("Facebook sharing is not supported on this device");
         } else {
