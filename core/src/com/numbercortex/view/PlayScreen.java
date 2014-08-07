@@ -23,7 +23,6 @@ import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
 import com.numbercortex.logic.BoardUtilities;
 import com.numbercortex.logic.GameManager;
-import com.numbercortex.logic.InteractableSendable;
 import com.numbercortex.logic.Playable;
 import com.numbercortex.logic.Player;
 import com.numbercortex.logic.SinglePlayerGameManager;
@@ -125,7 +124,7 @@ class PlayScreen extends GameScreen implements Playable {
     public void flashChosenNumber(int chosenNumber) {
         messageArea.flashChosenNumber(chosenNumber);
     }
-    
+
     @Override
     public void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction) {
         NumberTextButton nextNumberCell = messageArea.getNextNumberSquare();
@@ -190,7 +189,7 @@ class PlayScreen extends GameScreen implements Playable {
         }
         return dialogAlreadyExists;
     }
-    
+
     @Override
     public void pause() {
         Persistence persistence = Persistence.getInstance();
@@ -209,7 +208,7 @@ class PlayScreen extends GameScreen implements Playable {
         }
         return gameManager;
     }
-    
+
     @Override
     public void dispose() {
         MessageArea.dispose();

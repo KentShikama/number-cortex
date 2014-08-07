@@ -24,7 +24,7 @@ class PlayScreenUpdateDelegate {
         updateChosenNumber(state);
         updateMessageArea(state);
         updateBoardMap(state);
-        updateNumberScroller(state);        
+        updateNumberScroller(state);
     }
     void updateBoardMap(CortexState state) {
         Map<Integer, Integer> boardMap = state.getCoordinateNumberMap();
