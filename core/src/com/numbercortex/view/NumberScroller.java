@@ -149,7 +149,7 @@ class NumberScroller {
         }
     }
 
-    void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction) {
+    void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction, Action signifyEndAction) {
         NumberTextButton nextNumberCell = (NumberTextButton) numberScroller.findActor(String.valueOf(nextNumber));
         int nextNumberCellPosition = numberTable.getCell(nextNumberCell).getColumn();
         int nextNumberCellCoordinate = nextNumberCellPosition * 125;
@@ -157,7 +157,7 @@ class NumberScroller {
         numberScroller.setScrollX(nextNumberCellCoordinate - numberScrollerCenterCoordinate + 63);
 
         DelayAction delayAction = new DelayAction(1.2f);
-        SequenceAction sequence = Actions.sequence(delayAction, completeChooseNumberAction);
+        SequenceAction sequence = Actions.sequence(delayAction, completeChooseNumberAction, signifyEndAction);
         numberScroller.addAction(sequence);
     }
 

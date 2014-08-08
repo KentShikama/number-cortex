@@ -42,19 +42,6 @@ class CortexDialog extends Dialog {
     @Override
     protected void result(Object object) {}
 
-    static Dialog createConfirmationDialogs(final Stage stage, String... dialogMessages) {
-        if (dialogMessages.length == 1) {
-            return createConfirmationDialog(dialogMessages[0]).show(stage);
-        } else {
-            final String[] remainingDialogMessages = Arrays.copyOfRange(dialogMessages, 1, dialogMessages.length);
-            return createConfirmationDialog(dialogMessages[0], new ClickListenerWithSound() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    createConfirmationDialogs(stage, remainingDialogMessages);
-                }
-            }).show(stage);
-        }
-    }
     static Dialog createConfirmationDialog(String dialogMessage) {
         return createConfirmationDialog(dialogMessage, null);
     }

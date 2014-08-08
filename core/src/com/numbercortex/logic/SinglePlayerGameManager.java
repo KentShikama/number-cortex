@@ -144,7 +144,7 @@ public class SinglePlayerGameManager implements GameManager {
             int turnCount = BoardUtilities.getTurnNumber(state);
             String[] messages = GameMessages.getTutorialMessage(turnCount);
             if (messages != null) {
-                screen.showTutorialDialogs(messages);
+                screen.generateConfirmationDialogs(messages);
             }
         }
     }
@@ -178,11 +178,11 @@ public class SinglePlayerGameManager implements GameManager {
         if (currentLevel == maxLevel && currentLevel != 18) {
             String unlockMessage = GameMessages.getUnlockMessage(currentLevel);
             if (unlockMessage != null) {
-                screen.generateConfirmationDialog(5.05f, unlockMessage); // Delay depends on winning animation
+                screen.generateConfirmationDialogs(unlockMessage);
             }
             String[] shareMessage = GameMessages.getShareMessage(currentLevel);
             if (shareMessage != null) {
-                screen.generateShareDialog(5.1f, shareMessage[0], shareMessage[1], "Interested in puzzle games? Challenge yourself with the new two player board game, Number Cortex.");
+                screen.generateShareDialog(shareMessage[0], shareMessage[1], "Interested in puzzle games? Challenge yourself with the new two player board game, Number Cortex.");
             }
             int raisedMaxLevel = ++maxLevel;
             preferences.setMaxLevel(raisedMaxLevel);

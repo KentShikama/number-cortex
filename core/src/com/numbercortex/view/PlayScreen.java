@@ -90,10 +90,12 @@ class PlayScreen extends GameScreen implements Playable {
         ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
         if (winner == null && !openCoordinates.isEmpty()) {
             updateDelegate.updateAll(currentPlayer, state);
+            dialogDelegate.setInMiddleOfAction(false);
         } else {
             updateDelegate.updateBoardMap(state);
             if (Persistence.getInstance().isInPlay()) {
-                endingSequenceDelegate.animateEndingSequence(state, currentPlayer);
+                Action signifyEndAction = buildSignifyEndAction();
+                endingSequenceDelegate.animateEndingSequence(state, currentPlayer, signifyEndAction);
                 Persistence.getInstance().setInPlay(false);
             } else {
                 endingSequenceDelegate.recreateEndingInstantly(state, currentPlayer);
@@ -102,17 +104,14 @@ class PlayScreen extends GameScreen implements Playable {
     }
 
     @Override
-    public void showTutorialDialogs(String... dialogMessages) {
-        Dialog tutorialDialogs = CortexDialog.createConfirmationDialogs(stage, dialogMessages);
-        tutorialDialogs.show(stage);
+    public void generateConfirmationDialogs(final String... dialogMessages) {
+        dialogDelegate.setInMiddleOfAction(true);
+        dialogDelegate.generateConfirmationDialogs(stage, dialogMessages);
     }
     @Override
-    public void generateConfirmationDialog(float delay, final String dialogMessages) {
-        dialogDelegate.generateConfirmationDialog(stage, delay, dialogMessages);
-    }
-    @Override
-    public void generateShareDialog(float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
-        dialogDelegate.generateShareDialogWithDelayIfApplicable(stage, delay, dialogMessage, facebookPostTitle, facebookPostDescription);
+    public void generateShareDialog(final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
+        dialogDelegate.setInMiddleOfAction(true);
+        dialogDelegate.generateShareDialogIfApplicable(dialogMessage, facebookPostTitle, facebookPostDescription);
     }
 
     @Override
@@ -142,7 +141,17 @@ class PlayScreen extends GameScreen implements Playable {
     }
     @Override
     public void chooseNumberWithAnimation(int nextNumber, Action completeChooseNumberAction) {
-        playScreenElements.getNumberScroller().chooseNumberWithAnimation(nextNumber, completeChooseNumberAction);
+        Action signifyEndAction = buildSignifyEndAction();
+        playScreenElements.getNumberScroller().chooseNumberWithAnimation(nextNumber, completeChooseNumberAction, signifyEndAction);
+    }
+    private Action buildSignifyEndAction() {
+        Action signifyEndAction = Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                dialogDelegate.setInMiddleOfAction(false);
+            }           
+        });
+        return signifyEndAction;
     }
 
     @Override

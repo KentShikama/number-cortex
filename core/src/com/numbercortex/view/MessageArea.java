@@ -248,11 +248,11 @@ class MessageArea {
         Action showNextOptions = buildShowNextOptionsAction(winner);
         stage.addAction(showNextOptions);
     }
-    void showEndingMessageSequenceWithAnimation(final Player winner, final String winningAttribute, float delay) {
+    void showEndingMessageSequenceWithAnimation(final Player winner, final String winningAttribute, float delay, Action signifyEndAction) {
         Action showWinner = buildShowWinnerAction(winner, winningAttribute);
         DelayAction delayAction = Actions.delay(delay);
         Action showNextOptions = buildShowNextOptionsAction(winner);
-        stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions));
+        stage.addAction(Actions.sequence(showWinner, delayAction, showNextOptions, signifyEndAction));
     }
     private Action buildShowWinnerAction(final Player winner, final String winningAttribute) {
         Action showWinner = new Action() {

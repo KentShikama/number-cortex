@@ -1,10 +1,8 @@
 package com.numbercortex.view;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+import java.util.Arrays;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import facebook.CrossPlatformFacebook;
 import facebook.FacebookCallbackListener;
@@ -17,6 +15,8 @@ class PlayScreenDialogDelegate {
     private boolean confirmationDialogIsShowing;
     private Dialog confirmationDialog;
 
+    private boolean inMiddleOfAction;
+    
     private CrossPlatformFacebook facebook;
 
     PlayScreenDialogDelegate(CrossPlatformFacebook facebook) {
@@ -24,30 +24,20 @@ class PlayScreenDialogDelegate {
     }
 
     void draw(Stage stage) {
-        if (facebookShareDialogIsShowing && facebookShareDialog.getStage() == null) {
-            facebookShareDialog.show(stage);
-        }
-        if (!facebookShareDialogIsShowing && confirmationDialogIsShowing && confirmationDialog.getStage() == null) {
-            confirmationDialog.show(stage);
+        if (!inMiddleOfAction) {
+            if (facebookShareDialogIsShowing && facebookShareDialog.getStage() == null) {
+                facebookShareDialog.show(stage);
+            }
+            if (!facebookShareDialogIsShowing && confirmationDialogIsShowing && confirmationDialog.getStage() == null) {
+                confirmationDialog.show(stage);
+            }   
         }
     }
 
-    void generateConfirmationDialog(Stage stage, float delay, final String dialogMessages) {
-        DelayAction delayAction = Actions.delay(delay);
-        Action showConfirmationDialogAction = buildShowConfirmationDialogAction(dialogMessages);
-        stage.addAction(Actions.sequence(delayAction, showConfirmationDialogAction));
-    }
-    private Action buildShowConfirmationDialogAction(final String dialogMessages) {
-        Action showConfirmationDialogAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-                confirmationDialogIsShowing = true;
-                ClickListenerWithSound okayListener = buildConfirmationOKListener();
-                confirmationDialog = CortexDialog.createConfirmationDialog(dialogMessages, okayListener);
-                return true;
-            }
-        };
-        return showConfirmationDialogAction;
+    void generateConfirmationDialogs(Stage stage, final String... dialogMessages) {
+        confirmationDialogIsShowing = true;
+        ClickListenerWithSound okayListener = buildConfirmationOKListener();
+        confirmationDialog = createConfirmationDialogs(okayListener, dialogMessages);
     }
     private ClickListenerWithSound buildConfirmationOKListener() {
         ClickListenerWithSound okListener = new ClickListenerWithSound() {
@@ -58,20 +48,25 @@ class PlayScreenDialogDelegate {
         };
         return okListener;
     }
+    private Dialog createConfirmationDialogs(final ClickListenerWithSound okayListener, String... dialogMessages) {
+        if (dialogMessages.length == 1) {
+            return CortexDialog.createConfirmationDialog(dialogMessages[0], okayListener);
+        } else {
+            final String[] remainingDialogMessages = Arrays.copyOfRange(dialogMessages, 1, dialogMessages.length);
+            return CortexDialog.createConfirmationDialog(dialogMessages[0], new ClickListenerWithSound() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    confirmationDialog = createConfirmationDialogs(okayListener, remainingDialogMessages);
+                }
+            });
+        }
+    }
 
-    void generateShareDialogWithDelayIfApplicable(Stage stage, float delay, final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
+    void generateShareDialogIfApplicable(final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
         if (facebook == null) {
             System.out.println("Facebook sharing is not supported on this device");
         } else {
-            DelayAction delayAction = Actions.delay(delay);
-            Action showShareDialogAction = new Action() {
-                @Override
-                public boolean act(float delta) {
-                    generateFacebookShareDialog(dialogMessage, facebookPostTitle, facebookPostDescription);
-                    return true;
-                }
-            };
-            stage.addAction(Actions.sequence(delayAction, showShareDialogAction));
+            generateFacebookShareDialog(dialogMessage, facebookPostTitle, facebookPostDescription);
         }
     }
     private void generateFacebookShareDialog(String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
@@ -109,5 +104,9 @@ class PlayScreenDialogDelegate {
             }
         };
         return listener;
+    }
+    
+    void setInMiddleOfAction(boolean inMiddleOfAction) {
+        this.inMiddleOfAction = inMiddleOfAction;
     }
 }

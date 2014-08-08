@@ -2,6 +2,7 @@ package com.numbercortex.view;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.numbercortex.CortexState;
 import com.numbercortex.logic.Player;
 
@@ -13,7 +14,7 @@ class EndingSequenceDelegate {
         this.controls = controls;
     }
 
-    void animateEndingSequence(CortexState state, Player currentPlayer) {
+    void animateEndingSequence(CortexState state, Player currentPlayer, Action signifyEndAction) {
         String winningAttribute = state.getWinningAttribute();
         float currentAnimationTime = 0f;
         Player winner;
@@ -26,7 +27,7 @@ class EndingSequenceDelegate {
             winner = null;
         }
         currentAnimationTime += moveDownBoardAndRemoveOtherElements(currentAnimationTime);
-        controls.getMessageArea().showEndingMessageSequenceWithAnimation(winner, winningAttribute, currentAnimationTime);
+        controls.getMessageArea().showEndingMessageSequenceWithAnimation(winner, winningAttribute, currentAnimationTime, signifyEndAction);
     }
     private float handleShowingOfWinningCoordinates(CortexState state) {
         int[] winningValues = state.getWinningValues();
