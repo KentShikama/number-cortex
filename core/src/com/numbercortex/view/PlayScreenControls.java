@@ -3,14 +3,14 @@ package com.numbercortex.view;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 class PlayScreenControls {
-    
+
     private NumberCortexBoard board;
     private NumberScroller numberScroller;
     private MessageArea messageArea;
     private Image exitButton;
     private Image informationButton;
     private Image optionsButton;
-    
+
     NumberCortexBoard getBoard() {
         return board;
     }

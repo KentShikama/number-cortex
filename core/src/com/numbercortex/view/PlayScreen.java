@@ -34,7 +34,7 @@ class PlayScreen extends GameScreen implements Playable {
     static final String TAG = "Play Screen";
 
     private boolean isShown;
-    
+
     private PlayScreenControls playScreenElements;
 
     private PlayScreenBuildDelegate buildDelegate;
@@ -149,7 +149,7 @@ class PlayScreen extends GameScreen implements Playable {
             @Override
             public void run() {
                 dialogDelegate.setInMiddleOfAction(false);
-            }           
+            }
         });
         return signifyEndAction;
     }

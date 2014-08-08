@@ -7,9 +7,9 @@ import com.numbercortex.CortexState;
 import com.numbercortex.logic.Player;
 
 class EndingSequenceDelegate {
-    
+
     private PlayScreenControls controls;
-    
+
     EndingSequenceDelegate(PlayScreenControls controls) {
         this.controls = controls;
     }

@@ -16,7 +16,7 @@ class PlayScreenDialogDelegate {
     private Dialog confirmationDialog;
 
     private boolean inMiddleOfAction;
-    
+
     private CrossPlatformFacebook facebook;
 
     PlayScreenDialogDelegate(CrossPlatformFacebook facebook) {
@@ -30,7 +30,7 @@ class PlayScreenDialogDelegate {
             }
             if (!facebookShareDialogIsShowing && confirmationDialogIsShowing && confirmationDialog.getStage() == null) {
                 confirmationDialog.show(stage);
-            }   
+            }
         }
     }
 
@@ -105,7 +105,7 @@ class PlayScreenDialogDelegate {
         };
         return listener;
     }
-    
+
     void setInMiddleOfAction(boolean inMiddleOfAction) {
         this.inMiddleOfAction = inMiddleOfAction;
     }
