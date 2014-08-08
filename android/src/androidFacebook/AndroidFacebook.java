@@ -73,23 +73,28 @@ public class AndroidFacebook implements CrossPlatformFacebook {
             FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(androidLauncher).setLink(link).setPicture(pictureLink).setDescription(description).setCaption(caption).setName(title).build();
             uiHelper.trackPendingDialogCall(shareDialog.present());
         } else {
-            if (Session.getActiveSession() != null && Session.getActiveSession().isOpened()) {
-                showFeedDialog(title, description, link, pictureLink, caption);
-            } else {
-                Session.openActiveSession(androidLauncher, true, new StatusCallback() {
-                    @Override
-                    public void call(Session session, SessionState state, Exception exception) {
-                        if (state.isOpened()) {
-                            showFeedDialog(title, description, link, pictureLink, caption);
-                        }
-                        if (exception != null) {
-                            String errorMessage = String.format("We were unable to connect to Facebook. Please check your network settings and try again.");
-                            listener.showErrorDialog(errorMessage);
-                            System.out.println(errorMessage);
-                        }
+            androidLauncher.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (Session.getActiveSession() != null && Session.getActiveSession().isOpened()) {
+                        showFeedDialog(title, description, link, pictureLink, caption);
+                    } else {
+                        Session.openActiveSession(androidLauncher, true, new StatusCallback() {
+                            @Override
+                            public void call(Session session, SessionState state, Exception exception) {
+                                if (state.isOpened()) {
+                                    showFeedDialog(title, description, link, pictureLink, caption);
+                                }
+                                if (exception != null) {
+                                    String errorMessage = String.format("We were unable to connect to Facebook. Please check your network settings and try again.");
+                                    listener.showErrorDialog(errorMessage);
+                                    System.out.println(errorMessage);
+                                }
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
         }
     }
     private void showFeedDialog(final String title, final String description, final String link, final String pictureLink, final String caption) {
