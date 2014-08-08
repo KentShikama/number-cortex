@@ -30,6 +30,7 @@ class HumanPlayer implements Player, InteractableSendable {
 
     @Override
     public void chooseNumber(String player, int nextNumber) {
+        Persistence.getInstance().setMoves(Persistence.getInstance().getMoves() + 1);
         DragAndDropHandler.getInstance().resetPlacementCount();
         int chosenNumber = state.getChosenNumber();
         if (chosenNumber == -1 && !nextCoordinateChosen) {

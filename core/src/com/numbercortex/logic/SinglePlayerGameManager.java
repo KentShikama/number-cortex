@@ -149,7 +149,8 @@ public class SinglePlayerGameManager implements GameManager {
         }
     }
     private void handleGameEndState(CortexState state) {
-        if (Persistence.getInstance().isInPlay()) {
+        Persistence persistence = Persistence.getInstance();
+        if (persistence.isInPlay()) {
             String winnerName = state.getWinner();
             Player winner = getPlayerWithName(winnerName);
             Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
@@ -159,8 +160,11 @@ public class SinglePlayerGameManager implements GameManager {
                 unlockNextLevelIfOnMaxLevel(openCoordinates);
             } else if (winnerName != null) {
                 Sound.playLoseAndRestartOpeningBGM();
+                persistence.setLosses(persistence.getLosses() + 1);
+                persistence.setLossesInARow(persistence.getLossesInARow() + 1);
             } else if (winnerName == null && openCoordinates.isEmpty()) {
                 Sound.silenceAndRestartOpeningBGM();
+                persistence.setTies(persistence.getTies() + 1);
             }
         }
     }
