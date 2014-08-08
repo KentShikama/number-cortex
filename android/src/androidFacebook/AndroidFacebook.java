@@ -66,16 +66,16 @@ public class AndroidFacebook implements CrossPlatformFacebook {
 
     @Override
     public void post(final String title, final String description) {
-        final String link = "http://www.numbercortex.com";
-        final String pictureLink = "http://www.numbercortex.com/images/number_cortex_mobile_banner.jpg";
-        final String caption = " ";
-        if (FacebookDialog.canPresentShareDialog(androidLauncher.getApplicationContext(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
-            FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(androidLauncher).setLink(link).setPicture(pictureLink).setDescription(description).setCaption(caption).setName(title).build();
-            uiHelper.trackPendingDialogCall(shareDialog.present());
-        } else {
-            androidLauncher.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+        androidLauncher.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final String link = "http://www.numbercortex.com";
+                final String pictureLink = "http://www.numbercortex.com/images/number_cortex_mobile_banner.jpg";
+                final String caption = " ";
+                if (FacebookDialog.canPresentShareDialog(androidLauncher.getApplicationContext(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+                    FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(androidLauncher).setLink(link).setPicture(pictureLink).setDescription(description).setCaption(caption).setName(title).build();
+                    uiHelper.trackPendingDialogCall(shareDialog.present());
+                } else {
                     if (Session.getActiveSession() != null && Session.getActiveSession().isOpened()) {
                         showFeedDialog(title, description, link, pictureLink, caption);
                     } else {
@@ -93,9 +93,10 @@ public class AndroidFacebook implements CrossPlatformFacebook {
                             }
                         });
                     }
+
                 }
-            });
-        }
+            }
+        });
     }
     private void showFeedDialog(final String title, final String description, final String link, final String pictureLink, final String caption) {
         Bundle params = new Bundle();
