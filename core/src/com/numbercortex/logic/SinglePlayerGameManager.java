@@ -158,6 +158,7 @@ public class SinglePlayerGameManager implements GameManager {
             if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
                 Sound.playWinAndRestartOpeningBGM();
                 unlockNextLevelIfOnMaxLevel(openCoordinates);
+                persistence.setLossesInARow(0);
             } else if (winnerName != null) {
                 Sound.playLoseAndRestartOpeningBGM();
                 persistence.setLosses(persistence.getLosses() + 1);
