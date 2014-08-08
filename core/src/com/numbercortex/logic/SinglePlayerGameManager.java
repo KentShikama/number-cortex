@@ -197,6 +197,9 @@ public class SinglePlayerGameManager implements GameManager {
                 if (lossesInARow == 0) {
                     facebookDescription = "On the first try, the level was cleared by a set of " + winningAttribute.toLowerCase() + ".";
                 }
+                if (currentLevel == 18) {
+                    facebookDescription = facebookDescription.replace("level", "last level");
+                }
                 screen.generateShareDialog(shareMessage[0], shareMessage[1], facebookDescription);
             }
             preferences.setLossesInARowAtMaxLevel(0);
