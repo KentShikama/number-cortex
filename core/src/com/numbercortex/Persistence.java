@@ -28,6 +28,11 @@ public class Persistence {
     private static final String PLAYER_ONE_NAME = "player_one_name";
     private static final String PLAYER_TWO_NAME = "player_two_name";
     private static final String TWO_PLAYER_GAME_SETTINGS = "twoPlayerGameSettings";
+    
+    private static final String LOSSES = "losses";
+    private static final String TIES = "ties";
+    private static final String MOVES = "moves";
+    private static final String LOSSES_IN_A_ROW = "losses_in_a_row";
 
     private boolean blue;
     private String yourName;
@@ -46,6 +51,11 @@ public class Persistence {
     private String playerOneName;
     private String playerTwoName;
     private GameSettings twoPlayerGameSettings;
+    
+    private int losses;
+    private int ties;
+    private int moves;
+    private int lossesInARow;
 
     private Preferences preferences;
     private static final String PREFERENCES_NAME = "preferences";
@@ -60,9 +70,16 @@ public class Persistence {
 
     public Persistence load() {
         preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
+        loadStats();
         loadCusomizationPreferences();
         loadApplicationState();
         return Singleton.instance;
+    }
+    private void loadStats() {
+        losses = preferences.getInteger(LOSSES, 0);
+        ties = preferences.getInteger(TIES, 0);
+        moves = preferences.getInteger(MOVES, 0);
+        lossesInARow = preferences.getInteger(LOSSES_IN_A_ROW, 0);
     }
     private void loadCusomizationPreferences() {
         blue = preferences.getBoolean(BACKGROUND_COLOR, true);
@@ -151,9 +168,16 @@ public class Persistence {
     }
 
     public void save() {
+        saveStats();
         saveCustomizationPreferences();
         saveApplicationState();
         preferences.flush();
+    }
+    private void saveStats() {
+        preferences.putInteger(LOSSES, losses);
+        preferences.putInteger(TIES, ties);
+        preferences.putInteger(MOVES, moves);
+        preferences.putInteger(LOSSES_IN_A_ROW, lossesInARow);
     }
     private void saveCustomizationPreferences() {
         preferences.putBoolean(BACKGROUND_COLOR, blue);
@@ -293,5 +317,33 @@ public class Persistence {
     }
     public void setTwoPlayerGameSettings(GameSettings twoPlayerGameSettings) {
         this.twoPlayerGameSettings = twoPlayerGameSettings;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public int getTies() {
+        return ties;
+    }
+    public void setTies(int ties) {
+        this.ties = ties;
+    }
+
+    public int getMoves() {
+        return moves;
+    }
+    public void setMoves(int moves) {
+        this.moves = moves;
+    }
+
+    public int getLossesInARow() {
+        return lossesInARow;
+    }
+    public void setLossesInARow(int lossesInARow) {
+        this.lossesInARow = lossesInARow;
     }
 }
