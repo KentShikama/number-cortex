@@ -193,13 +193,7 @@ public class SinglePlayerGameManager implements GameManager {
         if (currentLevel == maxLevel) {
             String[] shareMessage = GameMessages.getClearShareMessage(currentLevel);
             if (shareMessage != null) {
-                String facebookDescription = "After " + lossesInARow + " losses, the level was cleared by a set of " + winningAttribute.toLowerCase() + ".";
-                if (lossesInARow == 0) {
-                    facebookDescription = "On the first try, the level was cleared by a set of " + winningAttribute.toLowerCase() + ".";
-                }
-                if (currentLevel == 18) {
-                    facebookDescription = facebookDescription.replace("level", "last level");
-                }
+                String facebookDescription = buildFacebookDescription(lossesInARow, winningAttribute);
                 screen.generateShareDialog(shareMessage[0], shareMessage[1], facebookDescription);
             }
             preferences.setLossesInARowAtMaxLevel(0);
@@ -217,6 +211,16 @@ public class SinglePlayerGameManager implements GameManager {
             // In case the player loses and clicks play again, force player to move on to level 1
             preferences.setCurrentLevel(1);
         }
+    }
+    private String buildFacebookDescription(int lossesInARow, String winningAttribute) {
+        String facebookDescription = "After " + lossesInARow + " losses, the level was cleared by a set of " + winningAttribute.toLowerCase() + ".";
+        if (lossesInARow == 0) {
+            facebookDescription = "On the first try, the level was cleared by a set of " + winningAttribute.toLowerCase() + ".";
+        }
+        if (currentLevel == 18) {
+            facebookDescription = facebookDescription.replace("level", "last level");
+        }
+        return facebookDescription;
     }
     private void updateCurrentPlayerState(CortexState state) {
         this.currentPlayer = state.getCurrentPlayer();
