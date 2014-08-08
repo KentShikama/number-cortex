@@ -31,21 +31,47 @@ class GameMessages {
         }
         return null;
     }
+    
+    static final String SHARE_MESSAGE_ENDING = "Would you like to share this achievement on Facebook?";
 
-    static String[] getShareMessage(int currentLevel) {
+    static String[] getClearShareMessage(int currentLevel) {
         switch (currentLevel) {
-            case 0:
-                return new String[] { "Level 1 cleared! Would you like to share this achievement on Facebook?", "Level 1 Cleared!", "" };
+//            case 0:
+//                return new String[] { "Level 1 cleared! " + SHARE_MESSAGE_ENDING, "Level 1 Cleared!" };
             case 5:
-                return new String[] { "Level 5 cleared! Would you like to share this achievement on Facebook?", "Level 5 Cleared!", "" };
+                return new String[] { "Level 5 cleared! " + SHARE_MESSAGE_ENDING, "Level 5 Cleared!" };
             case 8:
-                return new String[] { "Level 8 cleared! Would you like to share this achievement on Facebook?", "Level 8 Cleared!", "" };
+                return new String[] { "Level 8 cleared! " + SHARE_MESSAGE_ENDING, "Level 8 Cleared!" };
             case 12:
-                return new String[] { "Level 12 cleared! Would you like to share this achievement on Facebook?", "Level 12 Cleared!", "" };
+                return new String[] { "Level 12 cleared! " + SHARE_MESSAGE_ENDING, "Level 12 Cleared!" };
             case 16:
-                return new String[] { "Level 16 cleared! Would you like to share this achievement on Facebook?", "Level 16 Cleared!", "" };
+                return new String[] { "Level 16 cleared! " + SHARE_MESSAGE_ENDING, "Level 16 Cleared!" };
             case 18:
-                return new String[] { "Level 18 cleared! Would you like to share this achievement on Facebook?", "Level 18 Cleared!", "" };
+                return new String[] { "Level 18 cleared! " + SHARE_MESSAGE_ENDING, "Level 18 Cleared!" };
+        }
+        return null;
+    }
+    
+    static String[] getTieShareMessage(int tieCount) {
+        switch (tieCount) {
+            case 1:
+                return new String[] { "First tie! " + SHARE_MESSAGE_ENDING, "First Tie!", "Close but not quite." };
+            case 3:
+                return new String[] { "Third tie! " + SHARE_MESSAGE_ENDING, "Third Tie!", "The fact that you are tying this often signifies that you are on the right track." };
+            case 8:
+                return new String[] { "Eighth tie! " + SHARE_MESSAGE_ENDING, "Tie Master!", "Only the most patient of players can get this far." };
+        }
+        return null;
+    }
+    
+    static String[] getLossShareMessage(int tieCount) {
+        switch (tieCount) {
+            case 7:
+                return new String[] { "Seventh loss! " + SHARE_MESSAGE_ENDING, "7 losses!", "The line between those who quit and those who continue." };
+            case 30:
+                return new String[] { "30th loss! " + SHARE_MESSAGE_ENDING, "The Posseser of Resilience!", "Arguably the greatest virtue. Despite your 30 losses, you have refused to give up." };
+            case 100:
+                return new String[] { "100th loss! " + SHARE_MESSAGE_ENDING, "100 losses!", "Arguably the greatest achievement one can earn in Number Cortex." };
         }
         return null;
     }

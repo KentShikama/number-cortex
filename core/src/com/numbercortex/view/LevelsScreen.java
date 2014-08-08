@@ -68,9 +68,6 @@ class LevelsScreen extends GameScreen {
                 TextButton button = (TextButton) event.getListenerActor();
                 if (!button.isDisabled()) {
                     Persistence persistence = Persistence.getInstance();
-                    if (persistence.getCurrentLevel() != level) {
-                        persistence.setLossesInARow(0);
-                    }
                     persistence.setCurrentLevel(level);
                     ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.singlePlayerSettingsScreen);
                 }

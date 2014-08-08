@@ -149,23 +149,33 @@ public class SinglePlayerGameManager implements GameManager {
         }
     }
     private void handleGameEndState(CortexState state) {
-        Persistence persistence = Persistence.getInstance();
-        if (persistence.isInPlay()) {
+        if (preferences.isInPlay()) {
             String winnerName = state.getWinner();
             Player winner = getPlayerWithName(winnerName);
             Map<Integer, Integer> coordinateNumberMap = state.getCoordinateNumberMap();
             ArrayList<Integer> openCoordinates = BoardUtilities.getOpenCoordinates(coordinateNumberMap);
             if (playerWinsGame(winner) || tutorialEnds(winnerName, openCoordinates)) {
                 Sound.playWinAndRestartOpeningBGM();
-                unlockNextLevelIfOnMaxLevel(openCoordinates);
-                persistence.setLossesInARow(0);
+                String winningAttribute = state.getWinningAttribute();
+                unlockNextLevelIfOnMaxLevel(openCoordinates, preferences.getLossesInARowAtMaxLevel(), winningAttribute);
             } else if (winnerName != null) {
                 Sound.playLoseAndRestartOpeningBGM();
-                persistence.setLosses(persistence.getLosses() + 1);
-                persistence.setLossesInARow(persistence.getLossesInARow() + 1);
+                preferences.setLosses(preferences.getLosses() + 1);
+                String[] shareMessage = GameMessages.getLossShareMessage(preferences.getLosses());
+                if (shareMessage != null) {
+                    screen.generateShareDialog(shareMessage[0], shareMessage[1], shareMessage[2]);
+                }
+                int maxLevel = preferences.getMaxLevel();
+                if (currentLevel == maxLevel) {
+                    preferences.setLossesInARowAtMaxLevel(preferences.getLossesInARowAtMaxLevel() + 1); 
+                }
             } else if (winnerName == null && openCoordinates.isEmpty()) {
                 Sound.silenceAndRestartOpeningBGM();
-                persistence.setTies(persistence.getTies() + 1);
+                preferences.setTies(preferences.getTies() + 1);
+                String[] shareMessage = GameMessages.getTieShareMessage(preferences.getTies());
+                if (shareMessage != null) {
+                    screen.generateShareDialog(shareMessage[0], shareMessage[1], shareMessage[2]);
+                }
             }
         }
     }
@@ -178,20 +188,27 @@ public class SinglePlayerGameManager implements GameManager {
     private boolean gameIsOver(String winner, ArrayList<Integer> openCoordinates) {
         return winner != null || openCoordinates.isEmpty();
     }
-    private void unlockNextLevelIfOnMaxLevel(ArrayList<Integer> openCoordinates) {
+    private void unlockNextLevelIfOnMaxLevel(ArrayList<Integer> openCoordinates, int lossesInARow, String winningAttribute) {
         int maxLevel = preferences.getMaxLevel();
-        if (currentLevel == maxLevel && currentLevel != 18) {
-            String unlockMessage = GameMessages.getUnlockMessage(currentLevel);
-            if (unlockMessage != null) {
-                screen.generateConfirmationDialogs(unlockMessage);
-            }
-            String[] shareMessage = GameMessages.getShareMessage(currentLevel);
+        if (currentLevel == maxLevel) {
+            String[] shareMessage = GameMessages.getClearShareMessage(currentLevel);
             if (shareMessage != null) {
-                screen.generateShareDialog(shareMessage[0], shareMessage[1], "Interested in puzzle games? Challenge yourself with the new two player board game, Number Cortex.");
+                String facebookDescription = "After " + lossesInARow + " losses, the level was cleared by a set of " + winningAttribute.toLowerCase() + ".";
+                if (lossesInARow == 0) {
+                    facebookDescription = "On the first try, the level was cleared by a set of " + winningAttribute.toLowerCase() + ".";
+                }
+                screen.generateShareDialog(shareMessage[0], shareMessage[1], facebookDescription);
             }
-            int raisedMaxLevel = ++maxLevel;
-            preferences.setMaxLevel(raisedMaxLevel);
-            Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
+            preferences.setLossesInARowAtMaxLevel(0);
+            if (currentLevel != 18) {
+                String unlockMessage = GameMessages.getUnlockMessage(currentLevel);
+                if (unlockMessage != null) {
+                    screen.generateConfirmationDialogs(unlockMessage);
+                }
+                int raisedMaxLevel = ++maxLevel;
+                preferences.setMaxLevel(raisedMaxLevel);
+                Gdx.app.log(TAG, "Level up " + raisedMaxLevel);
+            }
         }
         if (currentLevel == 0 && openCoordinates.isEmpty()) {
             // In case the player loses and clicks play again, force player to move on to level 1

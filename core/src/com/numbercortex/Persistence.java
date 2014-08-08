@@ -32,7 +32,7 @@ public class Persistence {
     private static final String LOSSES = "losses";
     private static final String TIES = "ties";
     private static final String MOVES = "moves";
-    private static final String LOSSES_IN_A_ROW = "losses_in_a_row";
+    private static final String LOSSES_IN_A_ROW_AT_MAX_LEVEL = "losses_in_a_row_at_max_level";
 
     private boolean blue;
     private String yourName;
@@ -55,7 +55,7 @@ public class Persistence {
     private int losses;
     private int ties;
     private int moves;
-    private int lossesInARow;
+    private int lossesInARowAtMaxLevel;
 
     private Preferences preferences;
     private static final String PREFERENCES_NAME = "preferences";
@@ -79,7 +79,7 @@ public class Persistence {
         losses = preferences.getInteger(LOSSES, 0);
         ties = preferences.getInteger(TIES, 0);
         moves = preferences.getInteger(MOVES, 0);
-        lossesInARow = preferences.getInteger(LOSSES_IN_A_ROW, 0);
+        lossesInARowAtMaxLevel = preferences.getInteger(LOSSES_IN_A_ROW_AT_MAX_LEVEL, 0);
     }
     private void loadCusomizationPreferences() {
         blue = preferences.getBoolean(BACKGROUND_COLOR, true);
@@ -177,7 +177,7 @@ public class Persistence {
         preferences.putInteger(LOSSES, losses);
         preferences.putInteger(TIES, ties);
         preferences.putInteger(MOVES, moves);
-        preferences.putInteger(LOSSES_IN_A_ROW, lossesInARow);
+        preferences.putInteger(LOSSES_IN_A_ROW_AT_MAX_LEVEL, lossesInARowAtMaxLevel);
     }
     private void saveCustomizationPreferences() {
         preferences.putBoolean(BACKGROUND_COLOR, blue);
@@ -340,10 +340,10 @@ public class Persistence {
         this.moves = moves;
     }
 
-    public int getLossesInARow() {
-        return lossesInARow;
+    public int getLossesInARowAtMaxLevel() {
+        return lossesInARowAtMaxLevel;
     }
-    public void setLossesInARow(int lossesInARow) {
-        this.lossesInARow = lossesInARow;
+    public void setLossesInARowAtMaxLevel(int lossesInARowAtMaxLevel) {
+        this.lossesInARowAtMaxLevel = lossesInARowAtMaxLevel;
     }
 }
