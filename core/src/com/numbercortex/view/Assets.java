@@ -228,6 +228,8 @@ class Assets {
         gillSans50.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
         gillSans50Compact.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
         gillSans41.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        gillSansLight140.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        gillSansLight200.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
     }
 
     static void loadAudio() {
