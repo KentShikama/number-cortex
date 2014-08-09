@@ -1,10 +1,15 @@
 package com.numbercortex.view;
 
+import libgdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.numbercortex.GameSettings;
 import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
@@ -12,6 +17,7 @@ import com.numbercortex.view.TransitionScreen.Direction;
 
 class PlayScreenBuildDelegate {
 
+    private Game game;
     private Stage stage;
     private PlayScreenControls controls;
 
@@ -20,7 +26,8 @@ class PlayScreenBuildDelegate {
 
     private DragAndDropHandler handler = DragAndDropHandler.getInstance();
 
-    PlayScreenBuildDelegate(Stage stage, PlayScreenControls controls) {
+    PlayScreenBuildDelegate(Game game, Stage stage, PlayScreenControls controls) {
+        this.game = game;
         this.stage = stage;
         this.controls = controls;
     }
@@ -63,7 +70,7 @@ class PlayScreenBuildDelegate {
         float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
         bulidExitButton(exitRectangleTexture, offsetFromOriginalWidth);
         buildInformationButton(informationRectangleTexture, offsetFromOriginalWidth);
-        buildHelpButton(optionsRectangleTexture, offsetFromOriginalWidth);
+        buildOptionsButton(optionsRectangleTexture, offsetFromOriginalWidth);
     }
     private void bulidExitButton(TextureRegion exitRectangleTexture, float offsetFromOriginalWidth) {
         Image exitButton = new Image(exitRectangleTexture);
@@ -96,7 +103,7 @@ class PlayScreenBuildDelegate {
         stage.addActor(informationButton);
         controls.setInformationButton(informationButton);
     }
-    private void buildHelpButton(TextureRegion optionsRectangleTexture, float offsetFromOriginalWidth) {
+    private void buildOptionsButton(TextureRegion optionsRectangleTexture, float offsetFromOriginalWidth) {
         Image optionsButton = new Image(optionsRectangleTexture);
         optionsButton.setBounds(543 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, optionsRectangleTexture.getRegionWidth(), optionsRectangleTexture.getRegionHeight());
         optionsButton.addListener(new ClickListenerWithSound() {
@@ -105,6 +112,15 @@ class PlayScreenBuildDelegate {
                 Sound.pauseGameBGM();
                 Sound.loopOpeningBGMGradually();
                 ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.optionsScreen);
+            }
+        });
+        optionsButton.addListener(new ActorGestureListener() {
+            public boolean longPress(Actor actor, float x, float y) {
+                System.out.println("Switching background color...");
+                Persistence persistence = Persistence.getInstance();
+                persistence.setBlue(!persistence.isBlue());
+                game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                return true;          
             }
         });
         stage.addActor(optionsButton);

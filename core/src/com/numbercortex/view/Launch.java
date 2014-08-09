@@ -89,7 +89,8 @@ public class Launch extends Game {
     private void addPlainBackground() {
         plainBackgroundStage.clear();
         float worldWidth = plainBackgroundStage.getViewport().getWorldWidth();
-        Background plainBackground = new Background(Launch.SEA_BLUE, worldWidth);
+        Color backgroundColor = Persistence.getInstance().isBlue() ? Launch.SEA_BLUE : Launch.RETRO_RED;
+        Background plainBackground = new Background(backgroundColor, worldWidth);
         plainBackgroundStage.addActor(plainBackground);
     }
     private void addNumberBackground() {

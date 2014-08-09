@@ -47,7 +47,7 @@ class PlayScreen extends GameScreen implements Playable {
         ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
         stage = new Stage(fitViewport);
         playScreenElements = new PlayScreenControls();
-        buildDelegate = new PlayScreenBuildDelegate(stage, playScreenElements);
+        buildDelegate = new PlayScreenBuildDelegate(game, stage, playScreenElements);
         updateDelegate = new PlayScreenUpdateDelegate(playScreenElements);
         endingSequenceDelegate = new EndingSequenceDelegate(playScreenElements);
         dialogDelegate = new PlayScreenDialogDelegate(facebook);
