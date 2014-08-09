@@ -72,6 +72,14 @@ class PlayScreen extends GameScreen implements Playable {
     @Override
     public void hide() {
         isShown = false;
+        enhanceTransitionsByRemovingBackground();
+    }
+    private void enhanceTransitionsByRemovingBackground() {
+        for (Actor actor : stage.getActors()) {
+            if (actor instanceof Background) {
+                actor.remove();
+            }
+        }
     }
     private void setUpInputAndBackKey() {
         Gdx.input.setInputProcessor(stage);

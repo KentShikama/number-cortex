@@ -31,7 +31,6 @@ public class Launch extends Game {
     static final Color BRIGHT_YELLOW = new Color(250f / 255, 235f / 255, 102f / 255, 1);
 
     private Stage numberBackgroundStage;
-    private Stage plainBackgroundStage;
     private boolean assigned;
     private FPSLogger fps;
 
@@ -81,17 +80,7 @@ public class Launch extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        if (assigned) {
-            addPlainBackground();
-        }
         addNumberBackground();
-    }
-    private void addPlainBackground() {
-        plainBackgroundStage.clear();
-        float worldWidth = plainBackgroundStage.getViewport().getWorldWidth();
-        Color backgroundColor = Persistence.getInstance().isBlue() ? Launch.SEA_BLUE : Launch.RETRO_RED;
-        Background plainBackground = new Background(backgroundColor, worldWidth);
-        plainBackgroundStage.addActor(plainBackground);
     }
     private void addNumberBackground() {
         numberBackgroundStage.clear();
@@ -107,25 +96,20 @@ public class Launch extends Game {
         if (Assets.manager.update()) {
             assignAssetsAndShowGameIfApplicable();
         }
-        renderBackground();
+        if (!(this.getScreen() instanceof PlayScreen)) {
+            renderNumberBackground();       
+        }
         super.render();
     }
-    private void renderBackground() {
+    private void renderNumberBackground() {
         int screenWidth = Gdx.graphics.getWidth();
         int screenHeight = Gdx.graphics.getHeight();
-        if (this.getScreen() instanceof PlayScreen) {
-            plainBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
-            plainBackgroundStage.draw();
-        } else {
-            numberBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
-            numberBackgroundStage.draw();
-        }
+        numberBackgroundStage.getViewport().update(screenWidth, screenHeight, true);
+        numberBackgroundStage.draw();
     }
 
     private void assignAssetsAndShowGameIfApplicable() {
         if (!assigned) {
-            plainBackgroundStage = buildBackgroundStage();
-            addPlainBackground();
             Assets.assignHomeScreen();
             Assets.assignSettingsScreen();
             Assets.assignPlayScreen();

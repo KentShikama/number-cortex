@@ -3,6 +3,7 @@ package com.numbercortex.view;
 import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -40,6 +41,12 @@ class PlayScreenBuildDelegate {
     void buildPlayScreenStage(int width, int height) {
         stage.getViewport().update(width, height, true);
         stage.clear();
+        
+        float worldWidth = stage.getViewport().getWorldWidth();
+        Color backgroundColor = Persistence.getInstance().isBlue() ? Launch.SEA_BLUE : Launch.RETRO_RED;
+        Background plainBackground = new Background(backgroundColor, worldWidth);
+        stage.addActor(plainBackground);
+        
         buildMessageArea();
         buildBoard(settings, preferences);
         buildNumberScroller();
