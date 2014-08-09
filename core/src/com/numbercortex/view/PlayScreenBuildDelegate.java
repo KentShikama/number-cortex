@@ -123,7 +123,6 @@ class PlayScreenBuildDelegate {
         });
         optionsButton.addListener(new ActorGestureListener() {
             public boolean longPress(Actor actor, float x, float y) {
-                System.out.println("Switching background color...");
                 Persistence persistence = Persistence.getInstance();
                 persistence.setBlue(!persistence.isBlue());
                 game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

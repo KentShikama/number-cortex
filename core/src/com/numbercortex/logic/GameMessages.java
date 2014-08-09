@@ -28,6 +28,8 @@ class GameMessages {
                 return "Board size increase! You must now make a 4-in-a-row of numbers of the same attribute in order to win.";
             case 13:
                 return "Four squares unlocked! You may now make a 4-in-a-row by placing a set of winning numbers in a 2 x 2 square.";
+            case 18:
+                return "Red background unlocked! Long press the options button below to toggle the game screen background color.";
         }
         return null;
     }
