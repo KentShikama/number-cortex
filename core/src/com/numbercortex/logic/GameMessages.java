@@ -4,7 +4,7 @@ class GameMessages {
 
     static String[] getTutorialMessage(int turnCount) {
         if (turnCount == 0) {
-            return new String[] { "Welcome! Number Cortex is a game where you take turns with your opponent placing numbers (1 ~ 17, excluding 9) on the board.", "Number Cortex is unique because you get to choose which number your opponent will play next.",
+            return new String[] { "Welcome to Number Cortex's interactive tutorial!", "In Number Cortex, you take turns with your opponent placing numbers on the board (1 ~ 17, excluding 9).", "Number Cortex is unique because you get to choose which number your opponent will play next.",
                     "TAP your opponent's next number from the scroller below." };
         } else if (turnCount == 3) {
             return new String[] { "Your opponent (AI) has just chosen a number for you (top right).", "DRAG AND DROP\nthe chosen number onto the board." };
