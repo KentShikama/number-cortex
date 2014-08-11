@@ -3,6 +3,8 @@ package com.numbercortex.view;
 import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,31 +22,46 @@ import com.numbercortex.view.TransitionScreen.Direction;
 
 abstract class HomeScreen extends GameScreen {
     class HomeScreenButton extends Group {
+        private static final float DISALBED_OPACITY = 0.4f;
         HomeScreenButton(String buttonName, int index, Screen screen, ModeTracker.Mode mode) {
             this(buttonName, index, new DefaultHomeScreenListener(screen, mode));
         }
         HomeScreenButton(String buttonName, int index, ClickListener listener) {
+            this(buttonName, index, listener, false);
+        }
+        HomeScreenButton(String buttonName, int index, ClickListener listener, boolean isDisabled) {
             TextureRegion buttonBoxTexture = Assets.homeSkin.getRegion("button_box");
-            addContent(buttonName, index, buttonBoxTexture);
+            addContent(buttonName, index, buttonBoxTexture, isDisabled);
             addArmature(listener, index, buttonBoxTexture);
         }
-        private void addContent(String buttonName, int index, TextureRegion buttonBoxTexture) {
+        private void addContent(String buttonName, int index, TextureRegion buttonBoxTexture, boolean isDisabled) {
             Table buttonTable = new Table();
-            addIcon(buttonName, buttonTable);
-            addText(buttonName, buttonTable);
+            addIcon(buttonName, buttonTable, isDisabled);
+            addText(buttonName, buttonTable, isDisabled);
             buttonTable.setBounds(175, Launch.SCREEN_HEIGHT - (FIRST_BUTTON_CENTER_OFFSET_Y + index * 80), buttonBoxTexture.getRegionWidth(), buttonBoxTexture.getRegionHeight());
             this.addActor(buttonTable);
         }
-        private void addIcon(String buttonName, Table buttonTable) {
+        private void addIcon(String buttonName, Table buttonTable, final boolean isDisabled) {
             String buttonIconName = buttonName.toLowerCase().replace(" ", "_") + "_icon";
             TextureRegion buttonIconTexture = Assets.homeSkin.getRegion(buttonIconName);
-            Image buttonIcon = new Image(buttonIconTexture);
+            Image buttonIcon = new Image(buttonIconTexture) {
+                public void draw(Batch batch, float parentAlpha) {
+                    if (isDisabled) {
+                        parentAlpha = DISALBED_OPACITY;
+                    }
+                    super.draw(batch, parentAlpha);
+                }
+            };
             buttonTable.add(buttonIcon).right().pad(6);
         }
-        private void addText(String buttonName, Table buttonTable) {
+        private void addText(String buttonName, Table buttonTable, boolean isDisabled) {
             Label.LabelStyle labelStyle = new Label.LabelStyle();
             labelStyle.font = Assets.gillSans41;
-            labelStyle.fontColor = Launch.BRIGHT_YELLOW;
+            if (isDisabled) {
+                labelStyle.fontColor = new Color(Launch.BRIGHT_YELLOW).sub(0, 0, 0, (1 - DISALBED_OPACITY));
+            } else {
+                labelStyle.fontColor = Launch.BRIGHT_YELLOW;
+            }
             Label buttonLabel = new Label(buttonName, labelStyle);
             buttonTable.add(buttonLabel).center().pad(6);
         }

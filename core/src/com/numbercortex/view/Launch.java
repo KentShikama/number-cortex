@@ -1,5 +1,6 @@
 package com.numbercortex.view;
 
+import iap.CrossPlatformIAP;
 import libgdx.Game;
 import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.Gdx;
@@ -37,10 +38,12 @@ public class Launch extends Game {
     private SplashScreen splashScreen;
     private CrossPlatformChartboost chartboost;
     private CrossPlatformFacebook facebook;
+    private CrossPlatformIAP IAP;
 
-    public Launch(CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook) {
+    public Launch(CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook, CrossPlatformIAP IAP) {
         this.chartboost = chartboost;
         this.facebook = facebook;
+        this.IAP = IAP;
     }
 
     @Override
@@ -125,7 +128,7 @@ public class Launch extends Game {
     private void showGame() {
         Persistence persistence = Persistence.getInstance().load();
         ModeTracker.mode = buildMode(persistence);
-        ScreenTracker.initializeScreens(this, chartboost, facebook);
+        ScreenTracker.initializeScreens(this, chartboost, facebook, IAP);
         GameScreen screen = buildCurrentScreen(persistence);
         recreateScreenState(persistence, screen);
         if (screen instanceof HomeScreen) {

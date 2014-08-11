@@ -1,20 +1,27 @@
 
 dialog.png
-size: 553,657
+size: 795,635
 format: RGBA8888
 filter: Linear, Nearest
 repeat: none
 pop_up
   rotate: false
-  xy: 2, 108
+  xy: 2, 86
   size: 551, 549
   orig: 551, 549
   offset: 0, 0
   index: -1
 white_button
   rotate: false
-  xy: 2, 2
+  xy: 555, 531
   size: 240, 104
   orig: 240, 104
+  offset: 0, 0
+  index: -1
+white_button_long
+  rotate: false
+  xy: 2, 2
+  size: 386, 82
+  orig: 386, 82
   offset: 0, 0
   index: -1

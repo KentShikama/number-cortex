@@ -28,7 +28,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         crossPlatformChartboost = new AppleChartboost();
         facebookManager = FacebookManager.getInstance();
         CrossPlatformFacebook crossPlatformFacebook = buildAppleFacebook();
-        return new IOSApplication(new Launch(crossPlatformChartboost, crossPlatformFacebook), config);
+        return new IOSApplication(new Launch(crossPlatformChartboost, crossPlatformFacebook, null), config);
     }
 
     private CrossPlatformFacebook buildAppleFacebook() {

@@ -32,6 +32,16 @@ class CortexDialog extends Dialog {
         textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button");
         return textButtonStyle;
     }
+    
+    private static TextButton.TextButtonStyle longTextButtonStyle = buildLongTextButtonStyle();
+    private static TextButton.TextButtonStyle buildLongTextButtonStyle() {
+        BitmapFont font = Assets.gillSans50;
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = font;
+        textButtonStyle.fontColor = Color.WHITE;
+        textButtonStyle.up = Assets.dialogSkin.getDrawable("white_button_long");
+        return textButtonStyle;
+    }
 
     private CortexDialog(String title, WindowStyle windowStyle) {
         super(title, windowStyle);
@@ -81,6 +91,18 @@ class CortexDialog extends Dialog {
         addButton("Cancel", null, dialog);
         return dialog;
     }
+    
+    static Dialog createPurchaseRedeemCancelDialog(ClickListenerWithSound purchaseListener, ClickListenerWithSound redeemListener) {
+        Window.WindowStyle windowStyle = buildWindowStyle();
+        CortexDialog dialog = new CortexDialog("", windowStyle);
+        addContentLabel("Do you wish to play against a friend? Unlock this premium upgrade!", dialog);
+        dialog.getContentTable().pad(44);
+        addButtonLong("Purchase", purchaseListener, dialog);
+        addButtonLong("Redeem", redeemListener, dialog);
+        addButtonLong("Cancel", null, dialog);
+        dialog.getButtonTable().padBottom(40);
+        return dialog;
+    }
 
     private static Window.WindowStyle buildWindowStyle() {
         Window.WindowStyle windowStyle = new Window.WindowStyle();
@@ -112,9 +134,24 @@ class CortexDialog extends Dialog {
         buttonTable.add(button).height(94).padRight(14).padBottom(42).padTop(20);
         dialog.setObject(button, buttonText);
     }
+    private static void addButtonLong(String buttonText, ClickListenerWithSound listener, CortexDialog dialog) {
+        Table buttonTable = dialog.getButtonTable();
+        if (longTextButtonStyle == null) {
+            longTextButtonStyle = buildLongTextButtonStyle();
+        }
+        TextButton button = new TextButton(buttonText, longTextButtonStyle);
+        if (listener != null) {
+            button.addListener(listener);
+        } else {
+            button.addListener(new ClickListenerWithSound());
+        }
+        buttonTable.add(button).width(386).pad(4).row();
+        dialog.setObject(button, buttonText);
+    }
 
     static void dispose() {
         labelStyle = null;
         textButtonStyle = null;
+        longTextButtonStyle = null;
     }
 }
