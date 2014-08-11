@@ -77,7 +77,7 @@ class TitleScreen extends HomeScreen {
                         @Override
                         public void success() {
                             LogicConstructor.writeCorrectCode();
-                            game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                            ScreenTracker.titleScreen.show();
                         }
                         @Override
                         public void failure(String errorMessage) {
@@ -98,7 +98,7 @@ class TitleScreen extends HomeScreen {
                         @Override
                         public void success() {
                             LogicConstructor.writeCorrectCode();
-                            game.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                            ScreenTracker.titleScreen.show();
                         }
                         @Override
                         public void failure(String errorMessage) {
