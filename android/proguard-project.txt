@@ -21,11 +21,16 @@
 
 -verbose
 
--dontwarn android.support.**
--dontwarn com.badlogic.gdx.backends.android.AndroidFragmentApplication
--dontwarn com.badlogic.gdx.utils.GdxBuild
--dontwarn com.badlogic.gdx.physics.box2d.utils.Box2DBuild
--dontwarn com.badlogic.gdx.jnigen.BuildTarget*
+-skipnonpubliclibraryclasses
+-dontshrink
+-optimizations class/marking/*,!method/removal/*,method/*
+-keeppackagenames **
+-adaptclassstrings com.numbercortex.Persistence,com.numbercortex.GameSettings*,com.numbercortex.CortexState*
+-adaptresourcefilenames **.properties,**.json
+-adaptresourcefilecontents **.properties,META-INF/MANIFEST.MF,**.json
+-dontpreverify
+-dontnote
+-dontwarn
 
 -keepclassmembers class com.badlogic.gdx.backends.android.AndroidInput* {
    <init>(com.badlogic.gdx.Application, android.content.Context, java.lang.Object, com.badlogic.gdx.backends.android.AndroidApplicationConfiguration);
@@ -39,4 +44,98 @@
    void    postSolve(long, long);
    boolean reportFixture(long);
    float   reportRayFixture(long, float, float, float, float, float);
+}
+
+-keep class * extends java.util.ListResourceBundle {
+    protected Object[][] getContents();
+}
+
+# Keep SafeParcelable value, needed for reflection. This is required to support backwards
+# compatibility of some classes.
+-keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
+    public static final *** NULL;
+}
+
+# Keep the names of classes/members we need for client functionality.
+-keepnames @com.google.android.gms.common.annotation.KeepName class *
+-keepclassmembernames class * {
+    @com.google.android.gms.common.annotation.KeepName *;
+}
+
+# Needed for Parcelable/SafeParcelable Creators to not get stripped
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+-keepattributes Signature
+-keep class com.facebook.model.** { *; }
+
+-keepnames class * implements java.io.Serializable
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+-keep,allowshrinking class org.** {
+    <fields>;
+    <methods>;
+}
+
+-keep,allowshrinking class com.badlogic.** {
+    <fields>;
+    <methods>;
+}
+
+-keep,allowshrinking class com.numbercortex.GameSettings* {
+    <fields>;
+    <methods>;
+}
+
+-keep,allowshrinking class com.numbercortex.Persistence {
+    <fields>;
+    <methods>;
+}
+
+-keep,allowshrinking class com.numbercortex.CortexState* {
+    <fields>;
+    <methods>;
+}
+
+# Keep - Applications. Keep all application classes, along with their 'main'
+# methods.
+-keepclasseswithmembers public class * {
+    public static void main(java.lang.String[]);
+}
+
+# Also keep - Enumerations. Keep the special static methods that are required in
+# enumeration classes.
+-keepclassmembers enum  * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Also keep - Database drivers. Keep all implementations of java.sql.Driver.
+-keep class * extends java.sql.Driver
+
+# Also keep - Swing UI L&F. Keep all extensions of javax.swing.plaf.ComponentUI,
+# along with the special 'createUI' method.
+-keep class * extends javax.swing.plaf.ComponentUI {
+    public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
+}
+
+# Keep names - Native method names. Keep all native class/method names.
+-keepclasseswithmembers,allowshrinking class * {
+    native <methods>;
+}
+
+# Keep names - _class method names. Keep all .class method names. This may be
+# useful for libraries that will be obfuscated again with different obfuscators.
+-keepclassmembers,allowshrinking class * {
+    java.lang.Class class$(java.lang.String);
+    java.lang.Class class$(java.lang.String,boolean);
 }
