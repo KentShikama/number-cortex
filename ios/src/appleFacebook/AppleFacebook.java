@@ -22,7 +22,7 @@ public class AppleFacebook implements CrossPlatformFacebook {
     @Override
     public void post(String title, String description) {
         final String link = "http://www.numbercortex.com";
-        final String pictureLink = "http://www.numbercortex.com/images/number_cortex_mobile_banner.jpg";
+        final String pictureLink = getPictureLink();
         FBShareDialogParams params = new FBShareDialogParams();
         params.setName(title);
         params.setCaption(description);
@@ -38,5 +38,15 @@ public class AppleFacebook implements CrossPlatformFacebook {
             }
         };
         FBDialogs.presentShareDialog(params, null, handler);
+    }
+    private String getPictureLink() {
+        int number = (int) (Math.random() * 7);
+        String pictureLink;
+        if (number == 0) {
+            pictureLink = "http://www.numbercortex.com/facebook_images/number_cortex_0.png";
+        } else {
+            pictureLink = "http://www.numbercortex.com/facebook_images/number_cortex_" + number + ".jpg";
+        }
+        return pictureLink;
     }
 }

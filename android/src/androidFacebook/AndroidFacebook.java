@@ -70,7 +70,7 @@ public class AndroidFacebook implements CrossPlatformFacebook {
             @Override
             public void run() {
                 final String link = "http://www.numbercortex.com";
-                final String pictureLink = "http://www.numbercortex.com/images/number_cortex_mobile_banner.jpg";
+                final String pictureLink = getPictureLink();
                 final String caption = " ";
                 if (FacebookDialog.canPresentShareDialog(androidLauncher.getApplicationContext(), FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
                     FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(androidLauncher).setLink(link).setPicture(pictureLink).setDescription(description).setCaption(caption).setName(title).build();
@@ -97,6 +97,16 @@ public class AndroidFacebook implements CrossPlatformFacebook {
                 }
             }
         });
+    }
+    private String getPictureLink() {
+        int number = (int) (Math.random() * 7);
+        String pictureLink;
+        if (number == 0) {
+            pictureLink = "http://www.numbercortex.com/facebook_images/number_cortex_0.png";
+        } else {
+            pictureLink = "http://www.numbercortex.com/facebook_images/number_cortex_" + number + ".jpg";
+        }
+        return pictureLink;
     }
     private void showFeedDialog(final String title, final String description, final String link, final String pictureLink, final String caption) {
         Bundle params = new Bundle();
