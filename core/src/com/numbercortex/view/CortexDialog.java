@@ -98,7 +98,7 @@ class CortexDialog extends Dialog {
         addContentLabel("Do you wish to play against a friend? Unlock this premium upgrade!", dialog);
         dialog.getContentTable().pad(44);
         addButtonLong("Purchase", purchaseListener, dialog);
-        addButtonLong("Redeem", redeemListener, dialog);
+        addButtonLong("Restore", redeemListener, dialog);
         addButtonLong("Cancel", null, dialog);
         dialog.getButtonTable().padBottom(40);
         return dialog;
