@@ -39,7 +39,7 @@ class MoreScreen extends HomeScreen {
     void buildButtons(final Stage stage) {
         HomeScreenButton moreGamesButton = buildMoreGamesButton();
         HomeScreenButton rateGameButton = buildRateGameButton();
-        HomeScreenButton websiteButton = buildWebsiteButtonListener();
+        HomeScreenButton websiteButton = buildWebsiteButton();
         HomeScreenButton creditsButton = new HomeScreenButton(CREDITS, 3, ScreenTracker.creditsScreen, null);
         stage.addActor(moreGamesButton);
         stage.addActor(rateGameButton);
@@ -87,7 +87,7 @@ class MoreScreen extends HomeScreen {
         HomeScreenButton rateGameButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, rateGameButtonListener);
         return rateGameButton;
     }
-    private HomeScreenButton buildWebsiteButtonListener() {
+    private HomeScreenButton buildWebsiteButton() {
         ClickListener websiteButtonListener = new ClickListenerWithSound() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
