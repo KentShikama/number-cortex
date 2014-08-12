@@ -131,7 +131,7 @@ public class Launch extends Game {
     private void showGame() {
         Persistence persistence = Persistence.getInstance().load();
         ModeTracker.mode = buildMode(persistence);
-        ScreenTracker.initializeScreens(this, chartboost, facebook, IAP);
+        ScreenTracker.initializeScreens(this, appLink, chartboost, facebook, IAP);
         GameScreen screen = buildCurrentScreen(persistence);
         recreateScreenState(persistence, screen);
         if (screen instanceof HomeScreen) {

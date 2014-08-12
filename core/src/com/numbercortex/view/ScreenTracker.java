@@ -21,9 +21,9 @@ class ScreenTracker {
 
     static TransitionScreen transitionScreen;
 
-    static void initializeScreens(Launch game, CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook, CrossPlatformIAP IAP) {
+    static void initializeScreens(Launch game, String appLink, CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook, CrossPlatformIAP IAP) {
         titleScreen = new TitleScreen(game, IAP);
-        moreScreen = new MoreScreen(game, chartboost);
+        moreScreen = new MoreScreen(game, appLink, chartboost);
         creditsScreen = new CreditsScreen(game);
         singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
         twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);

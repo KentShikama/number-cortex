@@ -21,10 +21,12 @@ class MoreScreen extends HomeScreen {
     private static final String HELP_BUTTON = "Help";
     private static final String CREDITS = "Credits";
 
+    private String appLink;
     private CrossPlatformChartboost chartboost;
 
-    MoreScreen(Game game, CrossPlatformChartboost chartboost) {
+    MoreScreen(Game game, String appLink, CrossPlatformChartboost chartboost) {
         super(game);
+        this.appLink = appLink;
         this.chartboost = chartboost;
     }
 
@@ -35,6 +37,16 @@ class MoreScreen extends HomeScreen {
     }
     @Override
     void buildButtons(final Stage stage) {
+        HomeScreenButton moreGamesButton = buildMoreGamesButton();
+        HomeScreenButton rateGameButton = buildRateGameButton();
+        HomeScreenButton websiteButton = buildWebsiteButtonListener();
+        HomeScreenButton creditsButton = new HomeScreenButton(CREDITS, 3, ScreenTracker.creditsScreen, null);
+        stage.addActor(moreGamesButton);
+        stage.addActor(rateGameButton);
+        stage.addActor(websiteButton);
+        stage.addActor(creditsButton);
+    }
+    private HomeScreenButton buildMoreGamesButton() {
         ClickListener moreGamesButtonListener = null;
         if (chartboost == null) {
             System.out.println("Chartboost is not supported on this device");
@@ -58,7 +70,24 @@ class MoreScreen extends HomeScreen {
             };
         }
         HomeScreenButton moreGamesButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, moreGamesButtonListener);
-        HomeScreenButton rateGameButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, null);
+        return moreGamesButton;
+    }
+    private HomeScreenButton buildRateGameButton() {
+        ClickListener rateGameButtonListener;
+        if (appLink == null) {
+            rateGameButtonListener = null;
+        } else {
+            rateGameButtonListener = new ClickListenerWithSound() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.net.openURI(appLink);
+                }
+            };
+        }
+        HomeScreenButton rateGameButton = new HomeScreenButton(RATE_GAME_BUTTON, 1, rateGameButtonListener);
+        return rateGameButton;
+    }
+    private HomeScreenButton buildWebsiteButtonListener() {
         ClickListener websiteButtonListener = new ClickListenerWithSound() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -66,11 +95,7 @@ class MoreScreen extends HomeScreen {
             }
         };
         HomeScreenButton websiteButton = new HomeScreenButton(HELP_BUTTON, 2, websiteButtonListener);
-        HomeScreenButton creditsButton = new HomeScreenButton(CREDITS, 3, ScreenTracker.creditsScreen, null);
-        stage.addActor(moreGamesButton);
-        stage.addActor(rateGameButton);
-        stage.addActor(websiteButton);
-        stage.addActor(creditsButton);
+        return websiteButton;
     }
     @Override
     void buildBottomNavigation(Stage stage) {
