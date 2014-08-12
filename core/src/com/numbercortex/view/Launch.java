@@ -36,11 +36,14 @@ public class Launch extends Game {
     private FPSLogger fps;
 
     private SplashScreen splashScreen;
+    
+    private String appLink;
     private CrossPlatformChartboost chartboost;
     private CrossPlatformFacebook facebook;
     private CrossPlatformIAP IAP;
 
-    public Launch(CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook, CrossPlatformIAP IAP) {
+    public Launch(String appLink, CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook, CrossPlatformIAP IAP) {
+        this.appLink = appLink;
         this.chartboost = chartboost;
         this.facebook = facebook;
         this.IAP = IAP;

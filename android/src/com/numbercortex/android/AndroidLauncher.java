@@ -26,6 +26,8 @@ public class AndroidLauncher extends AndroidApplication {
 
     String licenseKey = buildLicenseKey();
     
+    String appLink = "market://details?id=com.numbercortex.android";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,7 @@ public class AndroidLauncher extends AndroidApplication {
                System.out.println("Successfully connected.");
             }
          });
-        initialize(new Launch(crossPlatformChartboost, crossPlatformFacebook, crossPlatformIAP), config);
+        initialize(new Launch(appLink, crossPlatformChartboost, crossPlatformFacebook, crossPlatformIAP), config);
     }
     
     private String buildLicenseKey() {

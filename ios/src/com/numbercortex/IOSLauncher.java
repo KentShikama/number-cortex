@@ -16,6 +16,8 @@ import com.numbercortex.view.Launch;
 import facebook.CrossPlatformFacebook;
 
 public class IOSLauncher extends IOSApplication.Delegate {
+    
+    private String appLink = null;
     private Chartboost chartboost;
     private AppleChartboost crossPlatformChartboost;
     private FacebookManager facebookManager;
@@ -28,7 +30,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         crossPlatformChartboost = new AppleChartboost();
         facebookManager = FacebookManager.getInstance();
         CrossPlatformFacebook crossPlatformFacebook = buildAppleFacebook();
-        return new IOSApplication(new Launch(crossPlatformChartboost, crossPlatformFacebook, null), config);
+        return new IOSApplication(new Launch(appLink, crossPlatformChartboost, crossPlatformFacebook, null), config);
     }
 
     private CrossPlatformFacebook buildAppleFacebook() {
