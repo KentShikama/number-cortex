@@ -6,7 +6,7 @@ import com.numbercortex.view.Launch;
 
 public class DesktopLauncher {
 
-    static String appLink = "market://details?id=com.numbercortex.android";
+    static String appLink = "http://play.google.com/store/apps/details?id=com.numbercortex.android";
 
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
