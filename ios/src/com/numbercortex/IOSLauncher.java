@@ -19,7 +19,7 @@ import facebook.CrossPlatformFacebook;
 
 public class IOSLauncher extends IOSApplication.Delegate {
 
-    private String appLink = "itms-apps://itunes.apple.com/app/id908897517";
+    private String appLink;
     private Chartboost chartboost;
     private AppleChartboost crossPlatformChartboost;
     private FacebookManager facebookManager;
@@ -29,6 +29,8 @@ public class IOSLauncher extends IOSApplication.Delegate {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         config.orientationPortrait = true;
         config.orientationLandscape = false;
+        
+        appLink = "http://itunes.apple.com/app/id908897517";
 
         crossPlatformChartboost = new AppleChartboost();
 
