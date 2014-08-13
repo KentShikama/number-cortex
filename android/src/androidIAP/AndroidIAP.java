@@ -1,5 +1,7 @@
-package iap;
+package androidIAP;
 
+import iap.CrossPlatformIAP;
+import iap.IAPListener;
 import com.numbercortex.android.AndroidLauncher;
 import util.IabHelper;
 import util.IabResult;

@@ -1,6 +1,5 @@
 package com.numbercortex.android;
 
-import iap.AndroidIAP;
 import iap.CrossPlatformIAP;
 import util.IabHelper;
 import util.IabResult;
@@ -8,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidChartboost.AndroidChartboost;
 import androidFacebook.AndroidFacebook;
+import androidIAP.AndroidIAP;
 import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -55,6 +55,7 @@ public class AndroidLauncher extends AndroidApplication {
                System.out.println("Successfully connected.");
             }
          });
+        
         initialize(new Launch(appLink, crossPlatformChartboost, crossPlatformFacebook, crossPlatformIAP), config);
     }
     
