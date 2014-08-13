@@ -24,6 +24,8 @@
 		<string>${app.build}</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true />
+		<key>MinimumOSVersion</key>
+		<string>6.0</string>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false />
 		<key>UIStatusBarHidden</key>
