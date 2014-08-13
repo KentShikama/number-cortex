@@ -49,7 +49,7 @@ class GameMessages {
             case 16:
                 return new String[] { "Level 16 cleared! " + SHARE_MESSAGE_ENDING, "Level 16 Cleared!" };
             case 18:
-                return new String[] { "Level 18 cleared! " + SHARE_MESSAGE_ENDING, "Entire Game Cleared!" };
+                return new String[] { "Game cleared! " + SHARE_MESSAGE_ENDING, "Entire Game Cleared!" };
         }
         return null;
     }
