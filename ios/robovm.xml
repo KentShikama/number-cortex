@@ -43,8 +43,8 @@
     <framework>AVFoundation</framework>
     <framework>CoreData</framework>
     <framework>CoreMedia</framework>
-	<framework>FacebookSDK</framework>
-	<framework>CoreLocation</framework>
-	<framework>Foundation</framework>
+    <framework>FacebookSDK</framework>
+    <framework>CoreLocation</framework>
+    <framework>Foundation</framework>
   </frameworks>
 </config>
