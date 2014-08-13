@@ -1,5 +1,6 @@
 package com.numbercortex;
 
+import iap.CrossPlatformIAP;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSURL;
@@ -10,13 +11,14 @@ import org.robovm.bindings.facebook.dialogs.FBShareDialogParams;
 import org.robovm.bindings.facebook.manager.FacebookManager;
 import appleChartboost.AppleChartboost;
 import appleFacebook.AppleFacebook;
+import appleIAP.AppleIAP;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.numbercortex.view.Launch;
 import facebook.CrossPlatformFacebook;
 
 public class IOSLauncher extends IOSApplication.Delegate {
-    
+
     private String appLink = "itms-apps://itunes.apple.com/app/id908897517";
     private Chartboost chartboost;
     private AppleChartboost crossPlatformChartboost;
@@ -27,10 +29,15 @@ public class IOSLauncher extends IOSApplication.Delegate {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         config.orientationPortrait = true;
         config.orientationLandscape = false;
+
         crossPlatformChartboost = new AppleChartboost();
+
         facebookManager = FacebookManager.getInstance();
         CrossPlatformFacebook crossPlatformFacebook = buildAppleFacebook();
-        return new IOSApplication(new Launch(appLink, crossPlatformChartboost, crossPlatformFacebook, null), config);
+
+        CrossPlatformIAP crossPlatformIAP = new AppleIAP();
+
+        return new IOSApplication(new Launch(appLink, crossPlatformChartboost, crossPlatformFacebook, crossPlatformIAP), config);
     }
 
     private CrossPlatformFacebook buildAppleFacebook() {
