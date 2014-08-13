@@ -45,7 +45,7 @@ public class AndroidIAP implements CrossPlatformIAP {
                 IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
                     public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
                         if (result.isFailure()) {
-                            String errorMessage = "Error purchasing: " + result;
+                            String errorMessage = "Error purchasing: " + result.getMessage();
                             listener.failure(errorMessage);
                         } else if (purchase.getSku().equals(TWO_PLAYER_MODE)) {
                             listener.success();
