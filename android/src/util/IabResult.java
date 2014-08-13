@@ -33,7 +33,7 @@ public class IabResult {
             mMessage = IabHelper.getResponseDesc(response);
         }
         else {
-            mMessage = message + " (response: " + IabHelper.getResponseDesc(response) + ")";
+            mMessage = message;
         }
     }
     public int getResponse() { return mResponse; }
