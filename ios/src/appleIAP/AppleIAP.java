@@ -1,6 +1,5 @@
 package appleIAP;
 
-import java.util.HashMap;
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.storekit.SKPaymentTransaction;
@@ -16,7 +15,6 @@ public class AppleIAP implements CrossPlatformIAP {
     private IAPListener listener;
     
     private InAppPurchaseManager iapManager;
-    private HashMap<String, SKProduct> appStoreProducts;
     
     protected static final String TWO_PLAYER_MODE = "two_player_mode";
 
@@ -24,9 +22,9 @@ public class AppleIAP implements CrossPlatformIAP {
         iapManager = new InAppPurchaseManager(new InAppPurchaseListener() {
             @Override
             public void productsReceived(SKProduct[] products) {
-                appStoreProducts = new HashMap<String, SKProduct>();
-                for (int i = 0; i < products.length; i++) {
-                    appStoreProducts.put(products[i].getProductIdentifier().toString(), products[i]);
+                SKProduct twoPlayerUnlockProduct = products[0];
+                if (iapManager.canMakePayments()) {
+                    iapManager.purchaseProduct(twoPlayerUnlockProduct);
                 }
             }
             @Override
@@ -70,9 +68,6 @@ public class AppleIAP implements CrossPlatformIAP {
     @Override
     public void purchase() {
         iapManager.requestProducts(TWO_PLAYER_MODE);
-        if (iapManager.canMakePayments() && appStoreProducts != null) {
-            iapManager.purchaseProduct(appStoreProducts.get(TWO_PLAYER_MODE));
-        }
     }
     @Override
     public void restore() {
