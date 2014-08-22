@@ -63,3 +63,8 @@ build/
 .DS_Store
 facebook-android-sdk-3.16/facebook/gen/com/facebook/android/BuildConfig.java
 facebook-android-sdk-3.16/facebook/gen/com/facebook/android/R.java
+.nb-gradle/private/cache/android-9d3b58494dfc323f071adc8589e94853
+.nb-gradle/private/cache/core-ae20cee98ae962b39919c99c9fa7e1c8
+.nb-gradle/private/cache/desktop-e1fc414efb00462ad25041a21e45e696
+.nb-gradle/private/cache/ios-497e5762daaef1ed807080cf7f38565b
+.nb-gradle/private/cache/Number Cortex-d41d8cd98f00b204e9800998ecf8427e
