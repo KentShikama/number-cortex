@@ -6,15 +6,9 @@ import chartboost.CrossPlatformChartboost;
 
 public class AppleChartboost implements CrossPlatformChartboost {
 
-    private Chartboost chartboost;
-
-    public void setChartBoost(Chartboost chartboost) {
-        this.chartboost = chartboost;
-    }
-
     @Override
     public void showMoreApps() {
-        chartboost.showInterstitial("After Screen");
+        Chartboost.showInterstitial("After Screen");
     }
 
     @Override

@@ -8,6 +8,7 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
         classpath 'com.android.tools.build:gradle:0.10+'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
+        classpath 'org.robovm:robovm-gradle-plugin:1.0.0-beta-01'
     }
 }
 
@@ -18,8 +19,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'Number Cortex'
-        gdxVersion = '1.2.1-SNAPSHOT'
-        roboVMVersion = '0.0.14'
+        gdxVersion = '1.4.1'
+        roboVMVersion = '1.0.0-beta-01'
     }
 
     repositories {

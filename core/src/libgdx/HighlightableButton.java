@@ -167,7 +167,7 @@ public class HighlightableButton extends Table implements Disableable {
             offsetX = style.unpressedOffsetX;
             offsetY = style.unpressedOffsetY;
         }
-        setBackground(background, false);
+        setBackground(background);
 
         Array<Actor> children = getChildren();
         for (int i = 0; i < children.size; i++) {
