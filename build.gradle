@@ -2,10 +2,12 @@ buildscript {
     repositories {
         mavenCentral()
         mavenLocal()
-        maven { url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/' }
+        maven { 
+            url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/'
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
     }
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
         classpath 'com.android.tools.build:gradle:0.10+'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.10'
         classpath 'org.robovm:robovm-gradle-plugin:1.0.0-beta-01'
@@ -19,8 +21,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'Number Cortex'
-        gdxVersion = '1.4.1'
-        roboVMVersion = '1.0.0-beta-01'
+        gdxVersion = '1.5.1-SNAPSHOT'
+        roboVMVersion = '1.0.0-SNAPSHOT'
     }
 
     repositories {

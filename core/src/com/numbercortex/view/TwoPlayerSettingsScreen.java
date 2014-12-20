@@ -38,7 +38,7 @@ class TwoPlayerSettingsScreen extends SettingsScreen {
             this.addActor(choiceTwoLabel);
             this.addActor(choiceOneCheckbox);
             this.addActor(choiceTwoCheckbox);
-            ButtonGroup group = new ButtonGroup(choiceOneCheckbox, choiceTwoCheckbox);
+            ButtonGroup<Button> group = new ButtonGroup<Button>(choiceOneCheckbox, choiceTwoCheckbox);
             for (final Button button : group.getButtons()) {
                 button.addListener(new ClickListenerWithSound() {
                     @Override
