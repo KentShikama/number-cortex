@@ -46,11 +46,10 @@ class PlayScreenBuildDelegate {
         Color backgroundColor = Persistence.getInstance().isBlue() ? Launch.SEA_BLUE : Launch.RETRO_RED;
         Background plainBackground = new Background(backgroundColor, worldWidth);
         stage.addActor(plainBackground);
-        
         buildMessageArea();
         buildBoard(settings, preferences);
         buildNumberScroller();
-        buildBottomButtons();
+        buildBottomButtons(settings);
         controls.getBoard().clearBoard();
     }
     private void buildMessageArea() {
@@ -69,18 +68,23 @@ class PlayScreenBuildDelegate {
         NumberScroller numberScroller = NumberScroller.createNumberScroller(stage);
         controls.setNumberScroller(numberScroller);
     }
-    private void buildBottomButtons() {
-        TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
-        TextureRegion restartRectangleTexture = Assets.gameSkin.getRegion("restart");
-        TextureRegion informationRectangleTexture = Assets.gameSkin.getRegion("information");
-        TextureRegion optionsRectangleTexture = Assets.gameSkin.getRegion("options");
+    private void buildBottomButtons(GameSettings settings) {
         float worldWidth = stage.getViewport().getWorldWidth();
         float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
+        TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
         bulidExitButton(exitRectangleTexture, offsetFromOriginalWidth);
-		buildRestartButton(restartRectangleTexture, offsetFromOriginalWidth);
-        buildInformationButton(informationRectangleTexture, offsetFromOriginalWidth);
-        buildOptionsButton(optionsRectangleTexture, offsetFromOriginalWidth);
+        if (!isTutorialLevel(settings)) {
+            TextureRegion restartRectangleTexture = Assets.gameSkin.getRegion("restart");
+            TextureRegion informationRectangleTexture = Assets.gameSkin.getRegion("information");
+            TextureRegion optionsRectangleTexture = Assets.gameSkin.getRegion("options");
+    		buildRestartButton(restartRectangleTexture, offsetFromOriginalWidth);
+            buildInformationButton(informationRectangleTexture, offsetFromOriginalWidth);
+            buildOptionsButton(optionsRectangleTexture, offsetFromOriginalWidth);	
+        }
     }
+	private boolean isTutorialLevel(GameSettings settings) {
+		return settings.getLevel() == 0 && ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER;
+	}
     private void bulidExitButton(TextureRegion exitRectangleTexture, float offsetFromOriginalWidth) {
         Image exitButton = new Image(exitRectangleTexture);
         exitButton.setBounds(44 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, exitRectangleTexture.getRegionWidth(), exitRectangleTexture.getRegionHeight());

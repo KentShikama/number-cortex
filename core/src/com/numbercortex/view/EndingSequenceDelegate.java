@@ -54,14 +54,19 @@ class EndingSequenceDelegate {
     private void removeOtherElementsWithAnimation(float delay) {
         controls.getNumberScroller().removeScrollerWithAnimation(delay);
         controls.getExitButton().clearListeners();
-        controls.getRestartButton().clearListeners();
-        controls.getInformationButton().clearListeners();
-        controls.getOptionsButton().clearListeners();
         AnimationUtilities.delayFadeAndRemoveActor(controls.getExitButton(), delay);
-        AnimationUtilities.delayFadeAndRemoveActor(controls.getRestartButton(), delay);
-        AnimationUtilities.delayFadeAndRemoveActor(controls.getInformationButton(), delay);
-        AnimationUtilities.delayFadeAndRemoveActor(controls.getOptionsButton(), delay);
+        if (!isTutorialLevelEnd()) {
+        	controls.getRestartButton().clearListeners();
+        	controls.getInformationButton().clearListeners();
+        	controls.getOptionsButton().clearListeners();
+        	AnimationUtilities.delayFadeAndRemoveActor(controls.getRestartButton(), delay);
+        	AnimationUtilities.delayFadeAndRemoveActor(controls.getInformationButton(), delay);
+        	AnimationUtilities.delayFadeAndRemoveActor(controls.getOptionsButton(), delay);
+        }
     }
+	private boolean isTutorialLevelEnd() {
+		return controls.getRestartButton() == null && controls.getInformationButton() == null && controls.getOptionsButton() == null;
+	}
 
     void recreateEndingInstantly(CortexState state, Player currentPlayer) {
         String winningAttribute = state.getWinningAttribute();
