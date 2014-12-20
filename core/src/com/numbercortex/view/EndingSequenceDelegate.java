@@ -54,9 +54,11 @@ class EndingSequenceDelegate {
     private void removeOtherElementsWithAnimation(float delay) {
         controls.getNumberScroller().removeScrollerWithAnimation(delay);
         controls.getExitButton().clearListeners();
+        controls.getRestartButton().clearListeners();
         controls.getInformationButton().clearListeners();
         controls.getOptionsButton().clearListeners();
         AnimationUtilities.delayFadeAndRemoveActor(controls.getExitButton(), delay);
+        AnimationUtilities.delayFadeAndRemoveActor(controls.getRestartButton(), delay);
         AnimationUtilities.delayFadeAndRemoveActor(controls.getInformationButton(), delay);
         AnimationUtilities.delayFadeAndRemoveActor(controls.getOptionsButton(), delay);
     }
@@ -76,6 +78,7 @@ class EndingSequenceDelegate {
         controls.getBoard().bringCellsDown();
         controls.getNumberScroller().removeScroller();
         controls.getExitButton().remove();
+        controls.getRestartButton().remove();
         controls.getInformationButton().remove();
         controls.getOptionsButton().remove();
     }

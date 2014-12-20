@@ -71,11 +71,13 @@ class PlayScreenBuildDelegate {
     }
     private void buildBottomButtons() {
         TextureRegion exitRectangleTexture = Assets.gameSkin.getRegion("exit");
+        TextureRegion restartRectangleTexture = Assets.gameSkin.getRegion("restart");
         TextureRegion informationRectangleTexture = Assets.gameSkin.getRegion("information");
         TextureRegion optionsRectangleTexture = Assets.gameSkin.getRegion("options");
         float worldWidth = stage.getViewport().getWorldWidth();
         float offsetFromOriginalWidth = (worldWidth - Launch.SCREEN_WIDTH) / 2;
         bulidExitButton(exitRectangleTexture, offsetFromOriginalWidth);
+		buildRestartButton(restartRectangleTexture, offsetFromOriginalWidth);
         buildInformationButton(informationRectangleTexture, offsetFromOriginalWidth);
         buildOptionsButton(optionsRectangleTexture, offsetFromOriginalWidth);
     }
@@ -91,6 +93,19 @@ class PlayScreenBuildDelegate {
         });
         stage.addActor(exitButton);
         controls.setExitButton(exitButton);
+    }
+    private void buildRestartButton(TextureRegion restartRectangleTexture, float offsetFromOriginalWidth) {
+        Image restartButton = new Image(restartRectangleTexture);
+        restartButton.setBounds(325 + offsetFromOriginalWidth, Launch.SCREEN_HEIGHT - 1136, restartRectangleTexture.getRegionWidth(), restartRectangleTexture.getRegionHeight());
+        restartButton.addListener(new ClickListenerWithSound() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Dialog dialog = CortexDialog.createRestartCancelDialog();
+                dialog.show(stage);
+            }
+        });
+        stage.addActor(restartButton);
+        controls.setRestartButton(restartButton);
     }
     private void buildInformationButton(TextureRegion informationRectangleTexture, float offsetFromOriginalWidth) {
         Image informationButton = new Image(informationRectangleTexture);

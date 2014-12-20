@@ -8,6 +8,7 @@ class PlayScreenControls {
     private NumberScroller numberScroller;
     private MessageArea messageArea;
     private Image exitButton;
+    private Image restartButton;
     private Image informationButton;
     private Image optionsButton;
 
@@ -34,6 +35,12 @@ class PlayScreenControls {
     }
     void setExitButton(Image exitButton) {
         this.exitButton = exitButton;
+    }
+    Image getRestartButton() {
+    	return restartButton;
+    }
+    void setRestartButton(Image restartButton) {
+    	this.restartButton = restartButton;
     }
     Image getInformationButton() {
         return informationButton;

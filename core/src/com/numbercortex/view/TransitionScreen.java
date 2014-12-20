@@ -25,7 +25,7 @@ class TransitionScreen extends GameScreen {
     void splashTransition(GameScreen nextScreen) {
         transition(null, nextScreen, 1f);
     }
-
+    
     void transition(Direction direction, GameScreen nextScreen) {
         transition(direction, nextScreen, 0.4f);
     }

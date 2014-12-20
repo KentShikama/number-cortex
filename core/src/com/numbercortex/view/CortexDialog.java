@@ -9,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.numbercortex.ModeTracker;
 import com.numbercortex.Persistence;
+import com.numbercortex.logic.GameManager;
+import com.numbercortex.logic.SinglePlayerGameManager;
+import com.numbercortex.logic.TwoPlayerGameManager;
 import com.numbercortex.view.TransitionScreen.Direction;
 
 class CortexDialog extends Dialog {
@@ -67,6 +71,38 @@ class CortexDialog extends Dialog {
         addContentLabel(dialogMessage, dialog);
         addButton("Cancel", cancelListener, dialog);
         addButton("Share", shareListener, dialog);
+        return dialog;
+    }
+    
+    static Dialog createRestartCancelDialog() {
+        Dialog dialog = CortexDialog.createRestartCancelDialog(new ClickListenerWithSound() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Persistence persistence = Persistence.getInstance();
+                persistence.setInPlay(false);
+                Sound.stopGameBGM();
+                Sound.loopOpeningBGMGradually();
+                restartGame();
+            }
+			private void restartGame() {
+				GameManager manager;
+                if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+                    manager = SinglePlayerGameManager.createNewGameManager(ScreenTracker.playScreen, null);
+                } else {
+                	manager = TwoPlayerGameManager.createNewGameManager(ScreenTracker.playScreen, null);
+                }
+                ScreenTracker.transitionScreen.transition(null, ScreenTracker.playScreen);
+                manager.startNewGame();
+			}
+        });
+        return dialog;
+    }
+    private static Dialog createRestartCancelDialog(ClickListenerWithSound restartListener) {
+        Window.WindowStyle windowStyle = buildWindowStyle();
+        CortexDialog dialog = new CortexDialog("", windowStyle);
+        addContentLabel("Are you sure you want to restart the current game?", dialog);
+        addButton("Restart", restartListener, dialog);
+        addButton("Cancel", null, dialog);
         return dialog;
     }
 
