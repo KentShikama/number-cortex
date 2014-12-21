@@ -61,7 +61,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         String APP_ID = "53dc9c641873da4ec7b5a2b8";
         String APP_SIGNATURE = "ea716c2371dffac4ca1425817ef73df8ea17485b";
         Chartboost.start(APP_ID, APP_SIGNATURE, new ChartboostDelegateAdapter() {});
-        Chartboost.cacheInterstitial("After Screen");
+        Chartboost.cacheMoreApps("After Screen");
         FacebookManager.getInstance().handleDidBecomeActive(application);
     }
 
