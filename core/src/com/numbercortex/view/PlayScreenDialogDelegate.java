@@ -83,7 +83,7 @@ class PlayScreenDialogDelegate {
     private void generateRateDialog(String appLink) {
         ClickListenerWithSound cancelListener = buildRateCancelListener();
         ClickListenerWithSound rateListener = buildRateRateListener(appLink);
-        rateDialogIsShowing = false;
+        rateDialogIsShowing = true;
         rateDialog = CortexDialog.createRateDialog(cancelListener, rateListener);
 	}
     private ClickListenerWithSound buildRateCancelListener() {
