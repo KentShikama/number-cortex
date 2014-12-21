@@ -68,3 +68,7 @@ facebook-android-sdk-3.16/facebook/gen/com/facebook/android/R.java
 .nb-gradle/private/cache/desktop-e1fc414efb00462ad25041a21e45e696
 .nb-gradle/private/cache/ios-497e5762daaef1ed807080cf7f38565b
 .nb-gradle/private/cache/Number Cortex-d41d8cd98f00b204e9800998ecf8427e
+android/proguard/dump.txt
+android/proguard/mapping.txt
+android/proguard/seeds.txt
+facebook-android-sdk-3.21.1/facebook/lint.xml
