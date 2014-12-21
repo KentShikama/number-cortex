@@ -74,6 +74,16 @@ class CortexDialog extends Dialog {
         return dialog;
     }
     
+    static Dialog createRateDialog(ClickListenerWithSound cancelListener, ClickListenerWithSound rateListener) {
+        Window.WindowStyle windowStyle = buildWindowStyle();
+        CortexDialog dialog = new CortexDialog("", windowStyle);
+        String rateMessage = "It would immensely help if you could take a moment to rate this app.";
+        addContentLabel(rateMessage, dialog);
+        addButton("Cancel", cancelListener, dialog);
+        addButton("Rate", rateListener, dialog);
+        return dialog;
+    }
+    
     static Dialog createRestartCancelDialog() {
         Dialog dialog = CortexDialog.createRestartCancelDialog(new ClickListenerWithSound() {
             @Override

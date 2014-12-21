@@ -28,7 +28,7 @@ class ScreenTracker {
         singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
         twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);
         levelsScreen = new LevelsScreen(game);
-        playScreen = new PlayScreen(game, facebook);
+        playScreen = new PlayScreen(game, appLink, facebook);
         optionsScreen = new OptionsScreen(game);
 
         transitionScreen = new TransitionScreen(game);

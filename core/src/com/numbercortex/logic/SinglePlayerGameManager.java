@@ -196,6 +196,9 @@ public class SinglePlayerGameManager implements GameManager {
                 String facebookDescription = buildFacebookDescription(lossesInARow, winningAttribute);
                 screen.generateShareDialog(shareMessage[0], shareMessage[1], facebookDescription);
             }
+            if (currentLevel == 14) {
+            	screen.generateRateDialog();
+            }
             preferences.setLossesInARowAtMaxLevel(0);
             if (currentLevel != 18) {
                 String unlockMessage = GameMessages.getUnlockMessage(currentLevel);

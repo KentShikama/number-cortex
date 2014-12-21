@@ -42,7 +42,7 @@ class PlayScreen extends GameScreen implements Playable {
     private EndingSequenceDelegate endingSequenceDelegate;
     private PlayScreenDialogDelegate dialogDelegate;
 
-    PlayScreen(Game game, CrossPlatformFacebook facebook) {
+    PlayScreen(Game game, String appLink, CrossPlatformFacebook facebook) {
         super(game);
         ExtendViewport fitViewport = new ExtendViewport(Launch.SCREEN_WIDTH, Launch.SCREEN_HEIGHT, (float) (Launch.SCREEN_HEIGHT / 1.2), Launch.SCREEN_HEIGHT);
         stage = new Stage(fitViewport);
@@ -50,7 +50,7 @@ class PlayScreen extends GameScreen implements Playable {
         buildDelegate = new PlayScreenBuildDelegate(game, stage, playScreenElements);
         updateDelegate = new PlayScreenUpdateDelegate(playScreenElements);
         endingSequenceDelegate = new EndingSequenceDelegate(playScreenElements);
-        dialogDelegate = new PlayScreenDialogDelegate(facebook);
+        dialogDelegate = new PlayScreenDialogDelegate(appLink, facebook);
     }
 
     @Override
@@ -120,6 +120,11 @@ class PlayScreen extends GameScreen implements Playable {
     public void generateShareDialog(final String dialogMessage, final String facebookPostTitle, final String facebookPostDescription) {
         dialogDelegate.setInMiddleOfAction(true);
         dialogDelegate.generateShareDialogIfApplicable(dialogMessage, facebookPostTitle, facebookPostDescription);
+    }
+    @Override
+    public void generateRateDialog() {
+    	dialogDelegate.setInMiddleOfAction(true);
+    	dialogDelegate.generateRateDialogIfApplicable();
     }
 
     @Override

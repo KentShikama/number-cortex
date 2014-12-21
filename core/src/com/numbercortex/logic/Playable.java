@@ -11,6 +11,7 @@ public interface Playable {
 
     void generateConfirmationDialogs(String... dialogMessages);
     void generateShareDialog(String dialogMessage, String facebookPostTitle, String facebookPostDescription);
+    void generateRateDialog();
 
     void flashChosenNumber(int chosenNumber);
     void placeNumberWithAnimation(int coordinate, Action completePlaceNumberAction);
