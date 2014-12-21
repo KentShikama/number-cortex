@@ -111,7 +111,8 @@ class TitleScreen extends HomeScreen {
     void buildButtons(Stage stage) {
         HomeScreenButton playButton = new HomeScreenButton(PLAY_BUTTON, 0, ScreenTracker.levelsScreen, ModeTracker.Mode.SINGLE_PLAYER);
         boolean isDisabled = getWhetherTwoPlayerIsDisabled();
-        HomeScreenButton passAndPlayButton = new HomeScreenButton(PASS_AND_PLAY_BUTTON, 1, new TwoPlayerButtonListener(isDisabled), isDisabled);
+        // Pass in isDisabled to require two player IAP
+        HomeScreenButton passAndPlayButton = new HomeScreenButton(PASS_AND_PLAY_BUTTON, 1, new TwoPlayerButtonListener(false), false);
         HomeScreenButton optionsButton = new HomeScreenButton(OPTIONS, 2, ScreenTracker.optionsScreen, null);
         HomeScreenButton moreButton = new HomeScreenButton(MORE, 3, ScreenTracker.moreScreen, null);
         stage.addActor(playButton);
