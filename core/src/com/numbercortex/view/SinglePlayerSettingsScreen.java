@@ -3,10 +3,8 @@ package com.numbercortex.view;
 import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettingsLoader;
 import com.numbercortex.ModeTracker;
@@ -28,35 +25,6 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
 
     static final String TAG = "Single Player Settings Screen";
 
-    private class DifficultyGroup extends SettingGroup {
-        private DifficultyGroup(Label label, final StarGroup starGroup, final GroupState groupState) {
-            super(groupState);
-            SnapshotArray<Actor> starButtons = starGroup.getChildren();
-            for (Actor starButton : starButtons) {
-                starButton.addListener(new ClickListenerWithSound() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        if (groupState == GroupState.CLICKABLE) {
-                            starGroup.toggleRating();
-                            gameSettings.setDifficulty(starGroup.rating);
-                        }
-                    }
-                });
-            }
-            this.addActor(label);
-            this.addActor(starGroup);
-        }
-        @Override
-        public void draw(Batch batch, float parentAlpha) {
-            if (groupState == GroupState.TRANSPARENT) {
-                parentAlpha = 0.5f;
-            }
-            SnapshotArray<Actor> children = this.getChildren();
-            for (Actor child : children) {
-                child.draw(batch, parentAlpha);
-            }
-        }
-    }
     private class StarGroup extends Group {
         private int rating;
         private StarGroup(int startPositionX, int startPositionY, int rating) {
@@ -78,7 +46,7 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
                 toggleRating();
             }
         }
-        public void toggleRating() {
+        private void toggleRating() {
             updateRating();
             updateButtons();
         }
@@ -159,8 +127,8 @@ class SinglePlayerSettingsScreen extends SettingsScreen {
         Label difficultyLabel = buildDifficultyLabel();
         int difficultyRating = gameSettings.getDifficulty();
         StarGroup starGroup = new StarGroup(158, Launch.SCREEN_HEIGHT - 490, difficultyRating);
-        DifficultyGroup difficultyGroup = new DifficultyGroup(difficultyLabel, starGroup, GroupState.VISIBLE);
-        stage.addActor(difficultyGroup);
+        stage.addActor(difficultyLabel);
+        stage.addActor(starGroup);
     }
     private Label buildDifficultyLabel() {
         Label difficultyLabel = new Label("Difficulty", labelStyle57);

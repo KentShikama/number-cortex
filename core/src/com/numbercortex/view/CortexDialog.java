@@ -87,11 +87,13 @@ class CortexDialog extends Dialog {
 			private void restartGame() {
 				GameManager manager;
                 if (ModeTracker.mode == ModeTracker.Mode.SINGLE_PLAYER) {
+                    ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.singlePlayerSettingsScreen);
                     manager = SinglePlayerGameManager.createNewGameManager(ScreenTracker.playScreen, null);
                 } else {
+                    ScreenTracker.transitionScreen.transition(Direction.LEFT, ScreenTracker.twoPlayerSettingsScreen);
                 	manager = TwoPlayerGameManager.createNewGameManager(ScreenTracker.playScreen, null);
                 }
-                ScreenTracker.transitionScreen.transition(null, ScreenTracker.playScreen);
+                ScreenTracker.transitionScreen.transition(Direction.RIGHT, ScreenTracker.playScreen);
                 manager.startNewGame();
 			}
         });
