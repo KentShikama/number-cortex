@@ -72,3 +72,5 @@ android/proguard/dump.txt
 android/proguard/mapping.txt
 android/proguard/seeds.txt
 facebook-android-sdk-3.21.1/facebook/lint.xml
+
+*.jar
