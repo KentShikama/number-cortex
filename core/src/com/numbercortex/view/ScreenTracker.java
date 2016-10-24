@@ -1,9 +1,8 @@
 package com.numbercortex.view;
 
-import iap.CrossPlatformIAP;
 import java.util.HashMap;
 import java.util.Map;
-import chartboost.CrossPlatformChartboost;
+
 import facebook.CrossPlatformFacebook;
 
 class ScreenTracker {
@@ -21,9 +20,9 @@ class ScreenTracker {
 
     static TransitionScreen transitionScreen;
 
-    static void initializeScreens(Launch game, String appLink, CrossPlatformChartboost chartboost, CrossPlatformFacebook facebook, CrossPlatformIAP IAP) {
-        titleScreen = new TitleScreen(game, IAP);
-        moreScreen = new MoreScreen(game, appLink, chartboost);
+    static void initializeScreens(Launch game, String appLink, CrossPlatformFacebook facebook) {
+        titleScreen = new TitleScreen(game);
+        moreScreen = new MoreScreen(game, appLink);
         creditsScreen = new CreditsScreen(game);
         singlePlayerSettingsScreen = new SinglePlayerSettingsScreen(game);
         twoPlayerSettingsScreen = new TwoPlayerSettingsScreen(game);

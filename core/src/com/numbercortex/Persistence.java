@@ -42,7 +42,6 @@ public class Persistence {
     private boolean doubleTap;
     private boolean sound;
     private boolean music;
-    private String twoPlayerCode;
 
     private String currentScreen;
     private String mode;
@@ -91,7 +90,6 @@ public class Persistence {
         doubleTap = preferences.getBoolean(DOUBLE_TAP, false);
         sound = preferences.getBoolean(SOUND, true);
         music = preferences.getBoolean(MUSIC, true);
-        twoPlayerCode = preferences.getString(TWO_PLAYER_CODE, "27");
     }
     private void loadApplicationState() {
         loadGeneralSettings();
@@ -190,7 +188,6 @@ public class Persistence {
         preferences.putBoolean(DOUBLE_TAP, doubleTap);
         preferences.putBoolean(SOUND, sound);
         preferences.putBoolean(MUSIC, music);
-        preferences.putString(TWO_PLAYER_CODE, twoPlayerCode);
     }
     private void saveApplicationState() {
         saveGeneralSettings();
@@ -260,13 +257,6 @@ public class Persistence {
     }
     public void setMusic(boolean music) {
         this.music = music;
-    }
-    
-    public String getTwoPlayerCode() {
-        return twoPlayerCode;
-    }
-    public void setTwoPlayerCode(String twoPlayerCode) {
-        this.twoPlayerCode = twoPlayerCode;
     }
 
     public int getCurrentLevel() {

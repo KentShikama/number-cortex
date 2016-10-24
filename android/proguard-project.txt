@@ -20,7 +20,6 @@
 #}
 
 -libraryjars /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar
--libraryjars '/Users/kent/Documents/Number Cortex/android/libs/chartboost.jar'
 
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses

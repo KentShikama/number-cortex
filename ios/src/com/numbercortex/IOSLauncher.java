@@ -1,20 +1,14 @@
 package com.numbercortex;
 
-import iap.CrossPlatformIAP;
-
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.foundation.NSPropertyList;
 import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.uikit.UIApplication;
-import org.robovm.bindings.chartboost.Chartboost;
-import org.robovm.bindings.chartboost.ChartboostDelegateAdapter;
 import org.robovm.bindings.facebook.dialogs.FBDialogs;
 import org.robovm.bindings.facebook.dialogs.FBShareDialogParams;
 import org.robovm.bindings.facebook.manager.FacebookManager;
 
-import appleChartboost.AppleChartboost;
 import appleFacebook.AppleFacebook;
-import appleIAP.AppleIAP;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
@@ -25,8 +19,6 @@ import facebook.CrossPlatformFacebook;
 public class IOSLauncher extends IOSApplication.Delegate {
 
     private String appLink;
-    private AppleChartboost crossPlatformChartboost;
-
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
@@ -35,11 +27,8 @@ public class IOSLauncher extends IOSApplication.Delegate {
         
         appLink = "http://itunes.apple.com/app/id908897517";
 
-        crossPlatformChartboost = new AppleChartboost();
         CrossPlatformFacebook crossPlatformFacebook = buildAppleFacebook();
-        CrossPlatformIAP crossPlatformIAP = new AppleIAP();
-
-        return new IOSApplication(new Launch(appLink, crossPlatformChartboost, crossPlatformFacebook, crossPlatformIAP), config);
+        return new IOSApplication(new Launch(appLink, crossPlatformFacebook), config);
     }
 
     private CrossPlatformFacebook buildAppleFacebook() {
@@ -58,10 +47,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     public void didBecomeActive(UIApplication application) {
         super.didBecomeActive(application);
-        String APP_ID = "53dc9c641873da4ec7b5a2b8";
-        String APP_SIGNATURE = "ea716c2371dffac4ca1425817ef73df8ea17485b";
-        Chartboost.start(APP_ID, APP_SIGNATURE, new ChartboostDelegateAdapter() {});
-        Chartboost.cacheMoreApps("After Screen");
         FacebookManager.getInstance().handleDidBecomeActive(application);
     }
 

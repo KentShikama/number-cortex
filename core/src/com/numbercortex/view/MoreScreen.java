@@ -1,8 +1,5 @@
 package com.numbercortex.view;
 
-import libgdx.Game;
-import chartboost.ChartBoostListener;
-import chartboost.CrossPlatformChartboost;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.TransitionScreen.Direction;
+
+import libgdx.Game;
 
 class MoreScreen extends HomeScreen {
 
@@ -22,12 +21,10 @@ class MoreScreen extends HomeScreen {
     private static final String CREDITS = "Credits";
 
     private String appLink;
-    private CrossPlatformChartboost chartboost;
 
-    MoreScreen(Game game, String appLink, CrossPlatformChartboost chartboost) {
+    MoreScreen(Game game, String appLink) {
         super(game);
         this.appLink = appLink;
-        this.chartboost = chartboost;
     }
 
     @Override
@@ -47,28 +44,12 @@ class MoreScreen extends HomeScreen {
         stage.addActor(creditsButton);
     }
     private HomeScreenButton buildMoreGamesButton() {
-        ClickListener moreGamesButtonListener = null;
-        if (chartboost == null) {
-            System.out.println("Chartboost is not supported on this device");
-        } else {
-            moreGamesButtonListener = new ClickListenerWithSound() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    ChartBoostListener listener = new ChartBoostListener() {
-                        @Override
-                        public void showMoreApps() {}
-                        @Override
-                        public void didDismissMoreApps() {}
-                        @Override
-                        public void didFailToLoadMoreApps(String errorMessage) {
-                            showErrorMessage(errorMessage);
-                        }
-                    };
-                    chartboost.setListener(listener);
-                    chartboost.showMoreApps();
-                }
-            };
-        }
+        ClickListener moreGamesButtonListener = new ClickListenerWithSound() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.net.openURI("http://www.numbercortex.com/");
+            }
+        };
         HomeScreenButton moreGamesButton = new HomeScreenButton(MORE_GAMES_BUTTON, 0, moreGamesButtonListener);
         return moreGamesButton;
     }
