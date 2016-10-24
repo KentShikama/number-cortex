@@ -18,8 +18,7 @@ android {
     }
     buildTypes {
        release {
-           minifyEnabled true
-           proguardFile 'proguard-project.txt'
+           minifyEnabled false
        }
    	}
 }
