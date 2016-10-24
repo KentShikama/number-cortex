@@ -1,16 +1,18 @@
 package com.numbercortex.view;
 
-import java.util.ArrayList;
-import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.numbercortex.Persistence;
 import com.numbercortex.view.TransitionScreen.Direction;
+
+import java.util.ArrayList;
+
+import libgdx.Game;
 
 class CreditsScreen extends GameScreen {
 

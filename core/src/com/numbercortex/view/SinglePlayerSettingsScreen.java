@@ -1,6 +1,5 @@
 package com.numbercortex.view;
 
-import libgdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,10 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.numbercortex.CortexState;
 import com.numbercortex.GameSettingsLoader;
 import com.numbercortex.ModeTracker;
@@ -20,6 +19,8 @@ import com.numbercortex.Persistence;
 import com.numbercortex.logic.GameManager;
 import com.numbercortex.logic.SinglePlayerGameManager;
 import com.numbercortex.view.TransitionScreen.Direction;
+
+import libgdx.Game;
 
 class SinglePlayerSettingsScreen extends SettingsScreen {
 
